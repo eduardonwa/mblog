@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('meta_description');
             $table->string('status')->default('draft');
             $table->boolean('featured')->default(false);
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories');
             // visitas
             // tags
             $table->timestamps();

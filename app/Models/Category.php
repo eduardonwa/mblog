@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
+    protected $fillable = [
+        'name',
+        'icon',
+    ];
+
     public function post(): HasMany
     {
         return $this->hasMany(Post::class, 'category_id');
