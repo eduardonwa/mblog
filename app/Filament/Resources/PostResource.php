@@ -61,25 +61,25 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('thumbnail')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('thumbnail')
+                Tables\Columns\TextColumn::make('status')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('featured')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('language')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('meta_title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('meta_description')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('featured')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -94,6 +94,7 @@ class PostResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
