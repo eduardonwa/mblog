@@ -15,7 +15,6 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
-        
         @filamentScripts
         @inertia
     </body>

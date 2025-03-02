@@ -71,6 +71,7 @@ class PostResource extends Resource
                                             ->columnStart(1)
                                             ->required(),
                                         Toggle::make('featured'),
+                                        TextInput::make('language'),
                                     ]),
                                 Tab::make('Meta')
                                     ->schema([
