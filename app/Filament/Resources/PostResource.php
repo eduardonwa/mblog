@@ -40,10 +40,21 @@ class PostResource extends Resource
                     ->schema([
                         Section::make("Content")
                             ->schema([
+                                TextInput::make('title')
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                    ->maxLength(255)
+                                    ->columnStart(1)
+                                    ->required(),
                                 TipTapEditor::make('body')
+                                    ->extraInputAttributes(['style' => 'min-height: 50vh;'])
                                     ->required(),
                             ]),
-                    ])->columnSpan(8),
+                    ])->columnSpan([
+                        'default' => 1,
+                        'sm' => 12,
+                        'md' => 8,
+                    ]),
 
                 Grid::make(1)
                     ->schema([
@@ -51,12 +62,6 @@ class PostResource extends Resource
                             ->tabs([
                                 Tab::make('Info')
                                     ->schema([
-                                        TextInput::make('title')
-                                            ->live(onBlur: true)
-                                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                                            ->maxLength(255)
-                                            ->columnStart(1)
-                                            ->required(),
                                         TextInput::make('slug')
                                             ->maxLength(255)
                                             ->columnStart(1)
@@ -88,7 +93,12 @@ class PostResource extends Resource
                                             ]),
                                     ]),
                             ]),
-                    ])->columnSpan(4),
+                    ])->columnSpan([
+                        'default' => 1,
+                        'sm' => 12,
+                        'md' => 8,
+                        'lg' => 4,
+                    ])
             ])->columns(12);
     }
 
