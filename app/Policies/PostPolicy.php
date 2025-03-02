@@ -29,7 +29,8 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole('author'); // solo el 'author' puede crear posts
+        // Solo el admin o los autores pueden crear posts
+        return $user->hasRole('admin') || $user->hasRole('author');
     }
 
     /**
@@ -37,7 +38,8 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id; // solo el 'author' puede editar su post
+        // El admin puede editar cualquier post, o el autor puede editar su propio post
+        return $user->hasRole('admin') || $user->id === $post->user_id;
     }
 
     /**
@@ -45,7 +47,8 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id; // solo el 'author' puede borrar su post
+        // El admin puede borrar cualquier post, o el autor puede borrar su propio post
+        return $user->hasRole('admin') || $user->id === $post->user_id;
     }
 
     /**
