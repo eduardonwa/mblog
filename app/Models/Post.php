@@ -23,11 +23,13 @@ class Post extends Model
         'status',
         'featured',
         'category_id',
+        'user_id'
     ];
 
+    // relacion de "author"
     public function author(): BelongsTo
     {
-        return $this->belongsTo(Author::class, 'author_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category(): BelongsTo
@@ -38,5 +40,10 @@ class Post extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function getFormattedDate()
+    {
+        return $this->created_at->format('F jS Y');
     }
 }
