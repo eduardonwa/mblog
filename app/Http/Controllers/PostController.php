@@ -6,7 +6,6 @@ use App\Models\Post;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -46,7 +45,9 @@ class PostController extends Controller
             ->where('status', 'published')
             ->paginate(20);
 
-        return view('post.index', compact('posts'));
+        return Inertia::render('post/index', [
+            'posts' => $posts,
+        ]);
     }
 
     public function postByTag($slug)

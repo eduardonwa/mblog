@@ -1,6 +1,24 @@
+<script setup>
+  import { Head, Link } from '@inertiajs/vue3';
+  import Layout from '@/layouts/SiteLayout.vue';
+  import LikeButton from '@/components/LikeButton.vue';
+
+  const props = defineProps({
+    post: Object,
+    meta: Object,
+  });
+
+  const formattedDate = (date) => {
+    if (!date) return 'Somewhere in Time';
+    const diffInWeeks = (new Date() - new Date(date)) / (1000 * 60 * 60 * 24 * 7);
+    return diffInWeeks >= 1 
+      ? new Date(date).toLocaleDateString() 
+      : new Date(date).toRelativeTime();
+  };
+</script>
+
 <template>
-  <Layout>
-    <!-- Meta tags (se pueden manejar con Inertia Head) -->
+  <SiteLayout>
     <Head>
       <title>{{ meta.title }}</title>
       <meta name="description" :content="meta.description">
@@ -67,24 +85,5 @@
         <div v-html="post.body"></div>
       </section>
     </section>
-  </Layout>
+  </SiteLayout>
 </template>
-
-<script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import Layout from '@/layouts/SiteLayout.vue';
-import LikeButton from '@/components/LikeButton.vue';
-
-const props = defineProps({
-  post: Object,
-  meta: Object,
-});
-
-const formattedDate = (date) => {
-  if (!date) return 'Somewhere in Time';
-  const diffInWeeks = (new Date() - new Date(date)) / (1000 * 60 * 60 * 24 * 7);
-  return diffInWeeks >= 1 
-    ? new Date(date).toLocaleDateString() 
-    : new Date(date).toRelativeTime();
-};
-</script>
