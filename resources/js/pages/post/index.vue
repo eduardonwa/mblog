@@ -1,5 +1,6 @@
 <script setup>
   import Layout from '@/layouts/SiteLayout.vue';
+  import { Link } from '@inertiajs/vue3';
 
   const props = defineProps({
     posts: Object,
@@ -8,14 +9,20 @@
 
 <template>
     <SiteLayout>
-
         <div v-if="posts.data.length">
             <div v-for="post in posts.data" :key="post.id">
-                <h1>{{ posts.title }}</h1>
+                <Link :href="route('post.show', post.slug)">
+                    <h1>{{ post.title }}</h1>
+                </Link>
+
                 <p>author: {{ post.author.name }}</p>
-                <p>category: {{ post.category.name }}</p>
+
+                <Link :href="route('category.show', post.category.slug)">
+                    <p>category: {{ post.category.name }}</p>
+                </Link>
             </div>
         </div>
+        
         <div v-else>
             no posts =(
         </div>

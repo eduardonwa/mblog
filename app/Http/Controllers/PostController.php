@@ -57,7 +57,9 @@ class PostController extends Controller
             ->where('status', 'published')
             ->paginate(8);
     
-        return view('tags', compact('posts', 'slug'));
+        return Inertia::render('tags', [
+            'posts' => $posts
+        ]);
     }
 
     public function postByCategory($slug)
