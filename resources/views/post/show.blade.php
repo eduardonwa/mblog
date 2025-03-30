@@ -8,7 +8,10 @@
 
     <section>
         <header>
-            <span>categoria: {{ $post->category->name }}</span>
+            <a href="{{ route('category.show', $post->category->slug) }}">
+                {{ $post->category->name }}
+            </a>
+            
             @if ($post->featured == true)
                 <h3 class="bg-pink-500 text-white p-4">
                     FEATURED

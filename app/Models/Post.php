@@ -16,7 +16,6 @@ class Post extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, HasTags;
 
-    // relacion de "author"
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

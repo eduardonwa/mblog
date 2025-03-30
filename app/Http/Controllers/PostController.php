@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -35,5 +36,17 @@ class PostController extends Controller
             ->paginate(8);
 
         return view('tags', compact('posts', 'slug'));
+    }
+
+    public function postByCategory($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+        
+        $posts = Post::where('category_id', $category->id)
+            ->where('status', 'published')
+            ->orderBy('created_at', 'desc')
+            ->paginate(8);
+
+        return view('categories', compact('posts', 'category'));
     }
 }

@@ -9,12 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Author extends Model
 {
-    protected $fillable = [
-        'name',
-        'bio',
-        'photo',
-    ];
-    
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'post_id');
