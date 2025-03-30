@@ -1,8 +1,8 @@
 <script setup>
-  import Layout from '@/layouts/SiteLayout.vue';
-  import { Link } from '@inertiajs/vue3';
+    import Layout from '@/layouts/SiteLayout.vue';
+    import { Link } from '@inertiajs/vue3';
 
-  const props = defineProps({
+    const props = defineProps({
         posts: Object,
     });
 </script>

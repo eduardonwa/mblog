@@ -57,7 +57,7 @@ class PostController extends Controller
             ->where('status', 'published')
             ->paginate(8);
     
-        return Inertia::render('tags', [
+        return Inertia::render('post/tags', [
             'posts' => $posts
         ]);
     }
@@ -71,6 +71,9 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(8);
 
-        return view('categories', compact('posts', 'category'));
+        return Inertia::render('post/categories', [
+            'posts' => $posts,
+            'category' => $category
+        ]);
     }
 }
