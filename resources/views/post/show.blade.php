@@ -26,7 +26,7 @@
         </header>
 
         <article>
-            <img src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->title }}">
+            <img src="{{ $post->getFirstMediaUrl('thumbnails', 'lg_thumb') }}" alt="{{ $post->title }}">
         </article>
 
         <article>

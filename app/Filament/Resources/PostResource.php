@@ -18,6 +18,8 @@ use Filament\Forms\Components\Section;
 use FilamentTiptapEditor\TiptapEditor;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,6 +27,8 @@ use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PostResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PostResource\RelationManagers;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class PostResource extends Resource
 {
@@ -75,8 +79,11 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Meta')
                                     ->schema([
-                                        FileUpload::make('thumbnail')
+                                        SpatieMediaLibraryFileUpload::make('thumbnail')
+                                            ->collection('thumbnails')
                                             ->columnSpanFull()
+                                            ->image()
+                                            ->maxSize(3000)
                                             ->required(),
                                         TextInput::make('meta_title')
                                             ->required(),
@@ -85,7 +92,7 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        DateTimePicker::make('published_at'),
+                                        DateTimePicker::make('created_at'),
                                         Radio::make('status')
                                             ->options([
                                                 'draft' => 'Draft',
@@ -107,26 +114,24 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('thumbnail')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('featured')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('category.name')
+                SpatieMediaLibraryImageColumn::make('thumbnail'),
+                IconColumn::make('featured')
+                    ->boolean()
+                    ->sortable(),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('status')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('language')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
