@@ -12,12 +12,14 @@
         "filament/filament": "^3.2",
         "filament/forms": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "filament/spatie-laravel-tags-plugin": "^3.2",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "pboivin/filament-peek": "^2.0",
         "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-permission": "^6.15",
+        "spatie/laravel-tags": "^4.10",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {

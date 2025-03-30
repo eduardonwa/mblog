@@ -14,6 +14,11 @@
                     FEATURED
                 </h3>
             @endif
+
+            @foreach ($post->tags as $tag)
+                <a href="{{ route('tag.show', $tag->slug) }}">#{{ $tag->name }}</a>
+            @endforeach
+
             <h1>{{ $post->title }}</h1>
             <p>by {{ $post->author?->name ?? 'Rattlehead' }}</p>
             <p>

@@ -25,6 +25,7 @@ use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PostResource\Pages;
+use Filament\Forms\Components\SpatieTagsInput;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PostResource\RelationManagers;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
@@ -76,6 +77,8 @@ class PostResource extends Resource
                                             ->required(),
                                         Toggle::make('featured'),
                                         TextInput::make('language'),
+                                        SpatieTagsInput::make('tags')
+                                            ->separator(','),
                                     ]),
                                 Tab::make('Meta')
                                     ->schema([
@@ -114,7 +117,9 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                SpatieMediaLibraryImageColumn::make('thumbnail'),
+                SpatieMediaLibraryImageColumn::make('thumbnail')
+                    ->collection('thumbnails')
+                    ->size(60),
                 IconColumn::make('featured')
                     ->boolean()
                     ->sortable(),

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Category;
+use Spatie\Tags\HasTags;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, HasTags;
 
     // relacion de "author"
     public function author(): BelongsTo
