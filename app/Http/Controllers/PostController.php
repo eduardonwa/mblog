@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -55,7 +57,7 @@ class PostController extends Controller
         $posts = Post::withAnyTags([$slug])
             ->with('tags:id,name,slug')
             ->where('status', 'published')
-            ->paginate(8);
+            ->paginate(20);
     
         return Inertia::render('post/tags', [
             'posts' => $posts
@@ -66,14 +68,31 @@ class PostController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
         
-        $posts = Post::where('category_id', $category->id)
+        $posts = Post::with('category')
+            ->where('category_id', $category->id)
             ->where('status', 'published')
             ->orderBy('created_at', 'desc')
-            ->paginate(8);
+            ->paginate(20);
 
         return Inertia::render('post/categories', [
             'posts' => $posts,
             'category' => $category
+        ]);
+    }
+
+    public function postByAuthor(User $user)
+    {
+        $posts = Post::with(['category', 'tags', 'author'])
+            ->where('user_id', $user->id)
+            ->where('status', 'published')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        Log::debug("Posts encontrados: ".$posts->count());
+
+        return Inertia::render('post/author', [
+            'posts' => $posts,
+            'author' => $user,
         ]);
     }
 }

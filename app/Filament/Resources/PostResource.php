@@ -120,9 +120,6 @@ class PostResource extends Resource
                 SpatieMediaLibraryImageColumn::make('thumbnail')
                     ->collection('thumbnails')
                     ->size(60),
-                IconColumn::make('featured')
-                    ->boolean()
-                    ->sortable(),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
@@ -131,6 +128,9 @@ class PostResource extends Resource
                     ->sortable(),
                 TextColumn::make('category.name')
                     ->numeric()
+                    ->sortable(),
+                IconColumn::make('featured')
+                    ->boolean()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

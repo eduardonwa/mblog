@@ -20,7 +20,7 @@
                 
                 <!-- List tags for each post -->
                 <div v-if="post.tags.length" class="flex gap-2 mt-2">
-                    <span v-for="tag in post.tags" :key="tag.id" class="text-sm bg-gray-100 px-2 py-1 rounded">
+                    <span v-for="tag in post.tags" :key="tag.id" class="text-sm bg-gray-500 px-2 py-1 rounded">
                         {{ tag.name.en }}
                     </span>
                 </div>

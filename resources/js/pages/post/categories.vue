@@ -25,14 +25,14 @@ const props = defineProps({
                 
                 <!-- Mostrar categoría del post (si está cargada) -->
                 <div v-if="post.category" class="">
-                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">
+                    <span class="text-sm bg-gray-500 px-2 py-1 rounded">
                         Categoría: {{ post.category.name }}
                     </span>
                 </div>
             </div>
         </div>
         <div v-else>
-            No posts
+            no posts =(
         </div>
 
         <!-- Paginación -->

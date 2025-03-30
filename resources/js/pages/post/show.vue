@@ -53,7 +53,7 @@
             v-for="tag in post.tags" 
             :key="tag.id"
             :href="route('tag.show', tag.slug.en)"
-            class="text-sm bg-gray-200 px-2 py-1 rounded-full"
+            class="text-sm bg-gray-500 px-2 py-1 rounded-full"
           >
             #{{ tag.name.en }}
           </Link>
@@ -61,7 +61,11 @@
 
         <!-- Título y autor -->
         <h1 class="text-3xl font-bold mt-4">{{ post.title }}</h1>
-        <p class="text-gray-600">by {{ post.author?.name || 'Rattlehead' }}</p>
+        
+        <Link :href="route('author.posts', post.author.name)">
+          <p class="text-gray-600">by {{ post.author?.name || 'Rattlehead' }}</p>
+        </Link>
+
         <p class="text-sm text-gray-500">
           {{ formattedDate(post.created_at) }}
         </p>
