@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('featured')->default(false);
             $table->foreignId('category_id')->constrained('categories');
             // visitas
-            // tags
+            // likes
             $table->timestamps();
         });
     }

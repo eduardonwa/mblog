@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Like;
 use App\Models\Category;
 use Spatie\Tags\HasTags;
 use Spatie\Image\Enums\Fit;
@@ -34,6 +35,21 @@ class Post extends Model implements HasMedia
     public function getFormattedDate()
     {
         return $this->created_at->format('F jS Y');
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->count();
     }
 
     public function registerMediaCollections(): void
