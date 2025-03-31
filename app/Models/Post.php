@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Like;
 use App\Models\Category;
 use Spatie\Tags\HasTags;
@@ -17,9 +18,11 @@ class Post extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, HasTags;
 
+    protected $appends = ['smart_date'];
+    
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function category(): BelongsTo
@@ -32,9 +35,15 @@ class Post extends Model implements HasMedia
         return 'slug';
     }
 
-    public function getFormattedDate()
+    public function getSmartDateAttribute()
     {
-        return $this->created_at->format('F jS Y');
+        $createdAt = $this->created_at;
+           
+        if ($createdAt > now()->subDays(7)) {
+            return $createdAt->diffForHumans();
+        }
+        
+        return $createdAt->isoFormat('D MMMM YYYY');
     }
 
     public function likes()

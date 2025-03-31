@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             ->create()
             ->each(function ($post) use ($users) {
                 $post->update([
-                    'user_id' => $users->random()->id,
+                    'author_id' => $users->random()->id,
                     'category_id' => Category::inRandomOrder()->first()->id,
                 ]);
         });

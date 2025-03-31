@@ -7,14 +7,6 @@
     post: Object,
     meta: Object,
   });
-
-  const formattedDate = (date) => {
-    if (!date) return 'Somewhere in Time';
-    const diffInWeeks = (new Date() - new Date(date)) / (1000 * 60 * 60 * 24 * 7);
-    return diffInWeeks >= 1 
-      ? new Date(date).toLocaleDateString() 
-      : new Date(date).toRelativeTime();
-  };
 </script>
 
 <template>
@@ -66,9 +58,7 @@
           <p class="text-gray-600">by {{ post.author?.name || 'Rattlehead' }}</p>
         </Link>
 
-        <p class="text-sm text-gray-500">
-          {{ formattedDate(post.created_at) }}
-        </p>
+        <p>{{ post.smart_date }}</p>
       </header>
 
       <!-- Imagen y extracto -->

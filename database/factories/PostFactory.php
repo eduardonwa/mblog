@@ -37,7 +37,7 @@ class PostFactory extends Factory
             'meta_description' => implode(' ', fake()->sentences(2)),
             'status' => fake()->boolean() ? 'published' : 'draft',
             'featured' => fake()->boolean(),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'author_id' => User::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
