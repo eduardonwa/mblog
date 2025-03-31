@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
@@ -13,9 +14,10 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])
-    ->middleware(['auth'])
-    ->name('posts.like');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+    Route::delete('/posts/{post}/like', [PostController::class, 'unlike'])->name('posts.unlike');
+});
 
 Route::get('posts', [PostController::class, 'index'])->name('post.index');
 Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show');

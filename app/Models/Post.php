@@ -8,6 +8,7 @@ use App\Models\Category;
 use Spatie\Tags\HasTags;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -51,14 +52,14 @@ class Post extends Model implements HasMedia
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function isLikedBy(User $user)
-    {
-        return $this->likes()->where('user_id', $user->id)->exists();
-    }
-
-    public function getLikesCountAttribute()
+    public function likesCount()
     {
         return $this->likes()->count();
+    }
+
+    public function isLikedByUser()
+    {
+        return $this->likes()->where('user_id', Auth::id())->exists();
     }
 
     public function registerMediaCollections(): void

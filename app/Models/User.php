@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
+use App\Models\Like;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -63,6 +64,16 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'author_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class)->withTimestamps();
+    }
+
+    public function likedPosts()
+    {
+        return $this->morphedByMany(Post::class, 'likeable', 'likes');
     }
 
     public function getRouteKeyName()

@@ -1,6 +1,6 @@
 <script setup>
   import { Head, Link } from '@inertiajs/vue3';
-  import Layout from '@/layouts/SiteLayout.vue';
+  import SiteLayout from '@/layouts/SiteLayout.vue';
   import LikeButton from '@/components/LikeButton.vue';
 
   const props = defineProps({
@@ -33,11 +33,11 @@
         </h3>
 
         <!-- Likes (componente reutilizable) -->
-        <LikeButton 
-          :post-id="post.id" 
-          :initial-liked="post.is_liked_by_user"
-          :initial-likes-count="post.likes_count"
-        />
+        <LikeButton :post="{
+            id: post.id,
+            is_liked_by_user: post.is_liked_by_user,
+            likes_count: post.likes_count
+        }" />
 
         <!-- Tags -->
         <div v-if="post.tags?.length" class="flex gap-2 mt-4">

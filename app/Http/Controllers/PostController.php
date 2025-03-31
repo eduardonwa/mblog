@@ -25,9 +25,8 @@ class PostController extends Controller
         ->where('status', 'published')
         ->firstOrFail();
     
-        $post->is_liked_by_user = Auth::check() 
-            ? $post->likes()->where('user_id', Auth::id())->exists()
-            : false;
+        $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
+        $post->setAttribute('likes_count', $post->likesCount());
 
         $post->thumbnail_url = $post->getFirstMediaUrl('thumbnails', 'lg_thumb');
     
@@ -83,7 +82,7 @@ class PostController extends Controller
     public function postByAuthor(User $user)
     {
         $posts = Post::with(['category', 'tags', 'author'])
-            ->where('user_id', $user->id)
+            ->where('author_id', $user->id)
             ->where('status', 'published')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -94,5 +93,99 @@ class PostController extends Controller
             'posts' => $posts,
             'author' => $user,
         ]);
+    }
+  
+    public function like($postId)
+    {
+        // Debug inicial
+        Log::debug('Inicio like', [
+            'post_id' => $postId,
+            'user_id' => auth()->id(),
+            'ip' => request()->ip()
+        ]);
+    
+        try {
+            $post = Post::findOrFail($postId);
+            
+            // Verifica si ya existe el like
+            $existingLike = $post->likes()
+                ->where('user_id', auth()->id())
+                ->first();
+    
+            if ($existingLike) {
+                Log::debug('Like ya existente', ['like_id' => $existingLike->id]);
+                return back();
+            }
+    
+            // Crea el like
+            $like = $post->likes()->create([
+                'user_id' => auth()->id()
+            ]);
+    
+            Log::debug('Like creado', [
+                'like_id' => $like->id,
+                'total_likes' => $post->likes()->count()
+            ]);
+    
+            // Respuesta compatible con Inertia
+            return redirect()->back()->with([
+                'flash' => [
+                    'message' => 'Like agregado',
+                    'type' => 'success'
+                ],
+                'likes_count' => $post->likes()->count()
+            ]);
+    
+        } catch (\Exception $e) {
+            Log::error('Error en like', [
+                'error' => $e->getMessage(),
+                'post_id' => $postId,
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->withErrors([
+                'message' => 'Error al procesar el like'
+            ]);
+        }
+    }
+
+    public function unlike($postId)
+    {
+        Log::debug('Inicio unlike', [
+            'post_id' => $postId,
+            'user_id' => Auth::id()
+        ]);
+
+        try {
+            $post = Post::findOrFail($postId);
+            
+            $deleted = $post->likes()
+                ->where('user_id', Auth::id())
+                ->delete();
+
+            Log::debug('Unlike realizado', [
+                'deleted_rows' => $deleted,
+                'remaining_likes' => $post->likes()->count()
+            ]);
+
+            return redirect()->back()->with([
+                'flash' => [
+                    'message' => 'Like removido',
+                    'type' => 'success'
+                ],
+                'likes_count' => $post->likes()->count()
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error en unlike', [
+                'error' => $e->getMessage(),
+                'post_id' => $postId,
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->withErrors([
+                'message' => 'Error al remover el like'
+            ]);
+        }
     }
 }
