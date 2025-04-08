@@ -1,3 +1,50 @@
+<script setup lang="js">
+  import { router } from '@inertiajs/vue3';
+
+  const props = defineProps({
+      post: {
+          type: Object,
+          required: true,
+          default: () => ({
+              id: null,
+              is_liked_by_user: false,
+              likes_count: 0
+          })
+      }
+  });
+
+  const emit = defineEmits(['update:post']);
+
+  const toggleLike = () => {
+      const url = props.post.is_liked_by_user 
+          ? route('posts.unlike', props.post.id)
+          : route('posts.like', props.post.id);
+      
+      const method = props.post.is_liked_by_user ? 'delete' : 'post';
+      
+      router[method](url, {}, {
+          preserveScroll: true,
+          preserveState: true,
+          onSuccess: () => {
+              // Creamos un nuevo objeto post con los valores actualizados
+              const updatedPost = {
+                  ...props.post,
+                  is_liked_by_user: !props.post.is_liked_by_user,
+                  likes_count: props.post.is_liked_by_user 
+                      ? props.post.likes_count - 1 
+                      : props.post.likes_count + 1
+              };
+              
+              // Emitimos el evento de actualización
+              emit('update:post', updatedPost);
+          },
+          onError: (errors) => {
+              console.error('Error en like:', errors);
+          }
+      });
+  };
+</script>
+
 <template>
   <button
     @click="toggleLike"
@@ -13,50 +60,3 @@
     <span class="ml-1">{{ post.likes_count }}</span>
   </button>
 </template>
-
-<script setup>
-import { router } from '@inertiajs/vue3';
-
-const props = defineProps({
-    post: {
-        type: Object,
-        required: true,
-        default: () => ({
-            id: null,
-            is_liked_by_user: false,
-            likes_count: 0
-        })
-    }
-});
-
-const emit = defineEmits(['update:post']);
-
-const toggleLike = () => {
-    const url = props.post.is_liked_by_user 
-        ? route('posts.unlike', props.post.id)
-        : route('posts.like', props.post.id);
-    
-    const method = props.post.is_liked_by_user ? 'delete' : 'post';
-    
-    router[method](url, {}, {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: () => {
-            // Creamos un nuevo objeto post con los valores actualizados
-            const updatedPost = {
-                ...props.post,
-                is_liked_by_user: !props.post.is_liked_by_user,
-                likes_count: props.post.is_liked_by_user 
-                    ? props.post.likes_count - 1 
-                    : props.post.likes_count + 1
-            };
-            
-            // Emitimos el evento de actualización
-            emit('update:post', updatedPost);
-        },
-        onError: (errors) => {
-            console.error('Error en like:', errors);
-        }
-    });
-};
-</script>

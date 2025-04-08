@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="js">
     import SiteLayout from '@/layouts/SiteLayout.vue';
     import { Link } from '@inertiajs/vue3';
 
-    const props = defineProps({
+    const { posts } = defineProps({
         posts: Object,
     });
 </script>
@@ -33,14 +33,14 @@
 
         <!-- pagination -->
          <div v-if="posts.links">
-            <template v-for="link in posts.links">
+            <template v-for="(link, index) in posts.links" :key="index">
                 <Link
                     v-if="link.url"
                     :href="link.url"
                     :class="{'bg-blue-500 text-white': link.active}"
-                    v-html="link.label"
+                    :innerHTML="link.label"
                 />
-                <span v-else v-html="link.label" />
+                <span v-else :innerHTML="link.label" />
             </template>
 
          </div>

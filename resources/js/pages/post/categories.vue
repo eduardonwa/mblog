@@ -1,11 +1,11 @@
-<script setup>
-import { Link } from '@inertiajs/vue3';
-import SiteLayout from '@/layouts/SiteLayout.vue';
+<script setup lang="js">
+    import { Link } from '@inertiajs/vue3';
+    import SiteLayout from '@/layouts/SiteLayout.vue';
 
-const props = defineProps({
-    posts: Object,
-    category: Object
-});
+    const { posts, category } = defineProps({
+        posts: Object,
+        category: Object
+    });
 </script>
 
 <template>
@@ -37,14 +37,14 @@ const props = defineProps({
 
         <!-- Paginación -->
         <div v-if="posts.links">
-            <template v-for="link in posts.links">
+            <template v-for="(link, index) in posts.links" :key="index">
                 <Link
                     v-if="link.url"
                     :href="link.url"
                     :class="{'bg-blue-500 text-white': link.active}"
-                    v-html="link.label"
+                    :innerHTML="link.label"
                 />
-                <span v-else v-html="link.label" />
+                <span v-else :innerHTML="link.label" />
             </template>
         </div>
     </SiteLayout>

@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="js">
     import { Link } from '@inertiajs/vue3';
     import SiteLayout from '@/layouts/SiteLayout.vue';
 
-    const props = defineProps({
+    const { posts, author } = defineProps({
         posts: Object,
         author: Object
     });

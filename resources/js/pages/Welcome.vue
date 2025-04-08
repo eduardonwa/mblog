@@ -9,7 +9,8 @@ import SiteLayout from '@/layouts/SiteLayout.vue';
     
     <div>
       <h1>¡Bienvenido a mi sitio!</h1>
-
+      <h2>Hola Dios</h2>
     </div>
+    
   </SiteLayout>
 </template>

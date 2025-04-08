@@ -1,12 +1,15 @@
-<script setup>
+<script setup lang="js">
   import { Head, Link } from '@inertiajs/vue3';
   import SiteLayout from '@/layouts/SiteLayout.vue';
   import LikeButton from '@/components/LikeButton.vue';
 
-  const props = defineProps({
-    post: Object,
-    meta: Object,
+  const { post, meta } = defineProps({
+      post: Object,
+      meta: Object,
   });
+
+  // Solución para evitar mutar props directamente
+  const localPost = ref({...post});
 </script>
 
 <template>
@@ -33,8 +36,8 @@
 
         <!-- Likes (componente reutilizable) -->
         <LikeButton 
-            :post="post" 
-            @update:post="updatedPost => post = updatedPost" 
+            :post="localPost" 
+            @update:post="updatedPost => localPost = updatedPost" 
         />
 
         <!-- Tags -->
