@@ -10,18 +10,14 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $staffPosts = Post::with('category', 'author')
-            ->where('status', 'published')
-            ->staffPosts()
-            ->latest()
-            ->take(8)
-            ->get();
-
-        $leaderboard = Post::mostLiked(5)->get();
+        $staffPosts = Post::staffPosts()->get();
+        $leaderboard = Post::mostLiked()->get();
+        $recent = Post::recent()->get();
 
         return Inertia::render('Welcome', [
             'staffPosts' => $staffPosts,
-            'leaderboard' => $leaderboard->filter(fn($post) => $post->likes_count > 0)
+            'leaderboard' => $leaderboard->filter(fn($post) => $post->likes_count > 0),
+            'recent'=> $recent,
         ]);
     }
 }

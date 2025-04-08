@@ -37,13 +37,6 @@ class Post extends Model implements HasMedia
         return 'slug';
     }
 
-    public function scopeStaffPosts(Builder $query): Builder
-    {
-        return $query->whereHas('author', function($q) {
-            $q->role('is_staff');
-        });
-    }
-
     public function getSmartDateAttribute()
     {
         $createdAt = $this->created_at;
@@ -60,14 +53,6 @@ class Post extends Model implements HasMedia
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function scopeMostLiked($query, $limit = 5)
-    {
-        return $query->with(['author', 'likes'])
-            ->withCount('likes')
-            ->orderByDesc('likes_count')
-            ->take($limit);
-    }
-
     public function likesCount()
     {
         return $this->likes()->count();
@@ -76,6 +61,35 @@ class Post extends Model implements HasMedia
     public function isLikedByUser()
     {
         return $this->likes()->where('user_id', Auth::id())->exists();
+    }
+
+    public function scopeStaffPosts($query, $limit = 8)
+    {
+        return $query->with(['category', 'author'])
+            ->where('status', 'published')
+            ->whereHas('author', function($q) {
+                $q->role('is_staff');
+            })
+            ->latest()
+            ->take($limit);
+    }
+    
+    public function scopeRecent($query, $limit = 10)
+    {
+        return $query->with('author')
+            ->whereDoesntHave('author', function($q) {
+                $q->role('is_staff');
+            })
+            ->latest()
+            ->take($limit);
+    }
+
+    public function scopeMostLiked($query, $limit = 5)
+    {
+        return $query->with(['author', 'likes'])
+            ->withCount('likes')
+            ->orderByDesc('likes_count')
+            ->take($limit);
     }
 
     public function registerMediaCollections(): void
