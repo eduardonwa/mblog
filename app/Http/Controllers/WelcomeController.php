@@ -13,10 +13,15 @@ class WelcomeController extends Controller
         $staffPosts = Post::with('category', 'author')
             ->where('status', 'published')
             ->staffPosts()
-            ->paginate(5);
+            ->latest()
+            ->take(8)
+            ->get();
+
+        $leaderboard = Post::mostLiked(5)->get();
 
         return Inertia::render('Welcome', [
             'staffPosts' => $staffPosts,
+            'leaderboard' => $leaderboard->filter(fn($post) => $post->likes_count > 0)
         ]);
     }
 }

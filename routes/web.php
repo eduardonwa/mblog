@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
 });
 
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('posts', [PostController::class, 'index'])->name('post.index');
 Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');

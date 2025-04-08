@@ -60,6 +60,14 @@ class Post extends Model implements HasMedia
         return $this->morphMany(Like::class, 'likeable');
     }
 
+    public function scopeMostLiked($query, $limit = 5)
+    {
+        return $query->with(['author', 'likes'])
+            ->withCount('likes')
+            ->orderByDesc('likes_count')
+            ->take($limit);
+    }
+
     public function likesCount()
     {
         return $this->likes()->count();

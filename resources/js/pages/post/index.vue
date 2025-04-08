@@ -18,9 +18,9 @@ const { posts } = defineProps({
                 </h2>
                 
                 <!-- List tags for each post -->
-                <div v-if="post.tags.length">
+                <div v-if="post.tags?.length">
                     <span v-for="tag in post.tags" :key="tag.id">
-                        {{ tag.name.en }}
+                        {{ tag?.name.en }}
                     </span>
                 </div>
             </div>

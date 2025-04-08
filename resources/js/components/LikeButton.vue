@@ -5,43 +5,45 @@
       post: {
           type: Object,
           required: true,
-          default: () => ({
-              id: null,
-              is_liked_by_user: false,
-              likes_count: 0
-          })
       }
   });
 
   const emit = defineEmits(['update:post']);
 
-  const toggleLike = () => {
-      const url = props.post.is_liked_by_user 
-          ? route('posts.unlike', props.post.id)
-          : route('posts.like', props.post.id);
-      
-      const method = props.post.is_liked_by_user ? 'delete' : 'post';
-      
-      router[method](url, {}, {
-          preserveScroll: true,
-          preserveState: true,
-          onSuccess: () => {
-              // Creamos un nuevo objeto post con los valores actualizados
-              const updatedPost = {
-                  ...props.post,
-                  is_liked_by_user: !props.post.is_liked_by_user,
-                  likes_count: props.post.is_liked_by_user 
-                      ? props.post.likes_count - 1 
-                      : props.post.likes_count + 1
-              };
-              
-              // Emitimos el evento de actualización
-              emit('update:post', updatedPost);
-          },
-          onError: (errors) => {
-              console.error('Error en like:', errors);
-          }
-      });
+  const toggleLike = async () => {
+    const wasLiked = props.post.is_liked_by_user;
+    
+    // Optimistic update
+    emit('update:post', {
+        ...props.post,
+        is_liked_by_user: !wasLiked,
+        likes_count: wasLiked 
+            ? props.post.likes_count - 1 
+            : props.post.likes_count + 1
+    });
+
+    try {
+        const method = wasLiked ? 'delete' : 'post';
+        const url = wasLiked 
+            ? route('posts.unlike', props.post.id)
+            : route('posts.like', props.post.id);
+        
+        await router[method](url, {}, {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Reemplaza el reload con una actualización manual
+                router.visit(route('post.show', props.post.slug), {
+                    only: ['post'],
+                    preserveState: true,
+                    replace: true
+                });
+            }
+        });
+    } catch (error) {
+        // Revertir cambios
+        emit('update:post', props.post);
+        console.error('Error:', error);
+    }
   };
 </script>
 
