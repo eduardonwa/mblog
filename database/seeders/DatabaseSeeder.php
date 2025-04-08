@@ -29,7 +29,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $adminUser->assignRole($adminRole, $staffRole);
+        $staffUser = User::factory()->create([
+            'name' => 'staff_user',
+            'email' => 'staff@mail.com',
+            'password' => bcrypt('password123')
+        ]);
+
+        $adminUser->assignRole($adminRole);
+        $staffUser->assignRole($staffRole);
 
         User::factory()
             ->count(5)
