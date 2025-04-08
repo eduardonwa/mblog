@@ -10,8 +10,8 @@ const { posts } = defineProps({
 <template>
     <SiteLayout>
         <!-- los tags de un post -->
-        <div v-if="posts.data.length">
-            <div v-for="post in posts.data" :key="post.id">
+        <div v-if="posts?.data.length">
+            <div v-for="post in posts?.data" :key="post.id">
                 <h2>
                     <Link :href="route('post.show', post.slug)">
                         {{ post.title }}
@@ -32,8 +32,8 @@ const { posts } = defineProps({
         </div>
 
         <!-- pagination -->
-         <div v-if="posts.links">
-            <template v-for="(link, index) in posts.links" :key="index">
+         <div v-if="posts?.links">
+            <template v-for="(link, index) in posts?.links" :key="index">
                 <Link
                     v-if="link.url"
                     :href="link.url"

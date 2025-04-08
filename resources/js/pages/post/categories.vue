@@ -11,11 +11,11 @@
 <template>
     <SiteLayout>
         <!-- Título de la categoría -->
-        <h1>Post category for: {{ category.name }}</h1>
+        <h1>Post category for: {{ category?.name }}</h1>
 
         <!-- Lista de posts -->
-        <div v-if="posts.data.length">
-            <div v-for="post in posts.data" :key="post.id">
+        <div v-if="posts?.data.length">
+            <div v-for="post in posts?.data" :key="post.id">
                 <!-- Título del post -->
                 <h2>
                     <Link :href="route('post.show', post.slug)">
@@ -36,8 +36,8 @@
         </div>
 
         <!-- Paginación -->
-        <div v-if="posts.links">
-            <template v-for="(link, index) in posts.links" :key="index">
+        <div v-if="posts?.links">
+            <template v-for="(link, index) in posts?.links" :key="index">
                 <Link
                     v-if="link.url"
                     :href="link.url"

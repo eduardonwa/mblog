@@ -2,6 +2,7 @@
   import { Head, Link } from '@inertiajs/vue3';
   import SiteLayout from '@/layouts/SiteLayout.vue';
   import LikeButton from '@/components/LikeButton.vue';
+  import { ref } from 'vue'
 
   const { post, meta } = defineProps({
       post: Object,
@@ -15,22 +16,22 @@
 <template>
   <SiteLayout>
     <Head>
-      <title>{{ meta.title }}</title>
-      <meta name="description" :content="meta.description">
-      <meta name="author" :content="meta.author">
+      <title>{{ meta?.title }}</title>
+      <meta name="description" :content="meta?.description">
+      <meta name="author" :content="meta?.author">
     </Head>
 
     <section>
       <header>
         <!-- Categoría -->
         <Link 
-          :href="route('category.show', post.category.slug)" 
+          :href="route('category.show', post?.category.slug)" 
         >
-          {{ post.category.name }}
+          {{ post?.category.name }}
         </Link>
 
         <!-- Featured -->
-        <h3 v-if="post.featured">
+        <h3 v-if="post?.featured">
           FEATURED
         </h3>
 
@@ -41,9 +42,9 @@
         />
 
         <!-- Tags -->
-        <div v-if="post.tags?.length">
+        <div v-if="post?.tags?.length">
           <Link 
-            v-for="tag in post.tags" 
+            v-for="tag in post?.tags" 
             :key="tag.id"
             :href="route('tag.show', tag.slug.en)"
           >
@@ -52,30 +53,30 @@
         </div>
 
         <!-- Título y autor -->
-        <h1>{{ post.title }}</h1>
+        <h1>{{ post?.title }}</h1>
         
-        <Link :href="route('author.posts', post.author.name)">
-          <p>by {{ post.author?.name || 'Rattlehead' }}</p>
+        <Link :href="route('author.posts', post?.author.name)">
+          <p>by {{ post?.author?.name || 'Rattlehead' }}</p>
         </Link>
 
-        <p>{{ post.smart_date }}</p>
+        <p>{{ post?.smart_date }}</p>
       </header>
 
       <!-- Imagen y extracto -->
       <article>
         <img 
-          :src="post.thumbnail_url"
-          :alt="post.title"
+          :src="post?.thumbnail_url"
+          :alt="post?.title"
         >
         <span>
-          {{ post.language }}
+          {{ post?.language }}
         </span>
-        <p>{{ post.extract }}</p>
+        <p>{{ post?.extract }}</p>
       </article>
 
       <!-- Contenido principal -->
       <section>
-        <div v-html="post.body"></div>
+        <div v-html="post?.body"></div>
       </section>
     </section>
   </SiteLayout>

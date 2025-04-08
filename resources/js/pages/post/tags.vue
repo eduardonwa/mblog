@@ -10,7 +10,7 @@
 <template>
     <SiteLayout>
         <!-- los tags de un post -->
-        <div v-if="posts.data.length">
+        <div v-if="posts?.data.length">
             <div v-for="post in posts.data" :key="post.id">
                 <h2>
                     <Link :href="route('post.show', post.slug)">
@@ -32,7 +32,7 @@
         </div>
 
         <!-- pagination -->
-         <div v-if="posts.links">
+         <div v-if="posts?.links">
             <template v-for="(link, index) in posts.links" :key="index">
                 <Link
                     v-if="link.url"

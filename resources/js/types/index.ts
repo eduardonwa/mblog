@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-vue-next';
 import type { PageProps } from '@inertiajs/core';
+import './types/inertia'
 
 export interface Auth {
     user: User;
