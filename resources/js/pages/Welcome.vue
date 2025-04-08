@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import SiteLayout from '@/layouts/SiteLayout.vue';
+  import { Head } from '@inertiajs/vue3';
+  import SiteLayout from '@/layouts/SiteLayout.vue';
+  import { Link } from '@inertiajs/vue3';
+
+  const { posts } = defineProps({
+      posts: Object,
+  });
 </script>
 
 <template>
   <SiteLayout>
     <Head title="Welcome" />
     
-    <div>
-      <h1>¡Bienvenido a mi sitio!</h1>
-      <h2>Hola Dios</h2>
-    </div>
+    
     
   </SiteLayout>
 </template>
