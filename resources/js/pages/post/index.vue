@@ -1,5 +1,5 @@
 <script setup>
-  import Layout from '@/layouts/SiteLayout.vue';
+  import SiteLayout from '@/layouts/SiteLayout.vue';
   import { Link } from '@inertiajs/vue3';
 
   const props = defineProps({
@@ -32,7 +32,6 @@
                 v-for="link in posts.links"
                 :key="link.label"
                 :href="link.url"
-                class="px-3 py-1 mx-1 border rounded"
                 :class="{'bg-blue-500 text-white': link.active}"
             >
                 {{ link.label }}

@@ -11,13 +11,13 @@ const props = defineProps({
 <template>
     <SiteLayout>
         <!-- Título de la categoría -->
-        <h1 class="text-2xl font-bold mb-6">Post category for: {{ category.name }}</h1>
+        <h1>Post category for: {{ category.name }}</h1>
 
         <!-- Lista de posts -->
         <div v-if="posts.data.length">
-            <div v-for="post in posts.data" :key="post.id" class="mb-8">
+            <div v-for="post in posts.data" :key="post.id">
                 <!-- Título del post -->
-                <h2 class="text-red-500 text-xl">
+                <h2>
                     <Link :href="route('post.show', post.slug)">
                         {{ post.title }}
                     </Link>
@@ -25,7 +25,7 @@ const props = defineProps({
                 
                 <!-- Mostrar categoría del post (si está cargada) -->
                 <div v-if="post.category" class="">
-                    <span class="text-sm bg-gray-500 px-2 py-1 rounded">
+                    <span>
                         Categoría: {{ post.category.name }}
                     </span>
                 </div>
@@ -36,16 +36,15 @@ const props = defineProps({
         </div>
 
         <!-- Paginación -->
-        <div v-if="posts.links" class="mt-8">
+        <div v-if="posts.links">
             <template v-for="link in posts.links">
                 <Link
                     v-if="link.url"
                     :href="link.url"
-                    class="px-3 py-1 mr-2 border rounded"
                     :class="{'bg-blue-500 text-white': link.active}"
                     v-html="link.label"
                 />
-                <span v-else class="px-3 py-1 mr-2 text-gray-400" v-html="link.label" />
+                <span v-else v-html="link.label" />
             </template>
         </div>
     </SiteLayout>

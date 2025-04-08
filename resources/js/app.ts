@@ -1,4 +1,4 @@
-import '../css/app.css';
+import '../styles/main.scss';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -6,7 +6,6 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';
-import LikeButton from './components/LikeButton.vue';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {

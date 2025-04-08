@@ -16,7 +16,6 @@
 
 <script setup>
 import { router } from '@inertiajs/vue3';
-import { computed } from 'vue';
 
 const props = defineProps({
     post: {
@@ -30,6 +29,8 @@ const props = defineProps({
     }
 });
 
+const emit = defineEmits(['update:post']);
+
 const toggleLike = () => {
     const url = props.post.is_liked_by_user 
         ? route('posts.unlike', props.post.id)
@@ -41,9 +42,17 @@ const toggleLike = () => {
         preserveScroll: true,
         preserveState: true,
         onSuccess: () => {
-            // Actualización optimista del estado
-            props.post.is_liked_by_user = !props.post.is_liked_by_user;
-            props.post.likes_count += props.post.is_liked_by_user ? 1 : -1;
+            // Creamos un nuevo objeto post con los valores actualizados
+            const updatedPost = {
+                ...props.post,
+                is_liked_by_user: !props.post.is_liked_by_user,
+                likes_count: props.post.is_liked_by_user 
+                    ? props.post.likes_count - 1 
+                    : props.post.likes_count + 1
+            };
+            
+            // Emitimos el evento de actualización
+            emit('update:post', updatedPost);
         },
         onError: (errors) => {
             console.error('Error en like:', errors);

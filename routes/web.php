@@ -16,7 +16,7 @@ Route::get('dashboard', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
-    Route::delete('/posts/{post}/like', [PostController::class, 'unlike'])->name('posts.unlike');
+    Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
 });
 
 Route::get('posts', [PostController::class, 'index'])->name('post.index');
