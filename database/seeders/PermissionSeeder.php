@@ -15,15 +15,17 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         // crear roles
-        $authorRole = Role::create(['name' => 'author']);
         $adminRole = Role::create(['name' => 'admin']);
+        $staffRole = Role::create(['name' => 'is_staff']);
+        $authorRole = Role::create(['name' => 'author']);
 
         // crear permisos
         $createPost = Permission::create(['name' => 'create_posts']);
         $editPost = Permission::create(['name' => 'edit_posts']);
         $deletePost = Permission::create(['name' => 'delete_posts']);
         // asignar permisos a roles
-        $authorRole->givePermissionTo([$createPost, $editPost, $deletePost]);
         $adminRole->givePermissionTo([$createPost, $editPost, $deletePost]);
+        $staffRole->givePermissionTo([$createPost, $editPost, $deletePost]);
+        $authorRole->givePermissionTo([$createPost, $editPost, $deletePost]);
     }
 }

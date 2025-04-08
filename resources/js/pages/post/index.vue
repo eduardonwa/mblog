@@ -9,7 +9,6 @@ const { posts } = defineProps({
 
 <template>
     <SiteLayout>
-        <!-- los tags de un post -->
         <div v-if="posts?.data.length">
             <div v-for="post in posts?.data" :key="post.id">
                 <h2>

@@ -10,6 +10,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,6 +35,13 @@ class Post extends Model implements HasMedia
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function scopeStaffPosts(Builder $query): Builder
+    {
+        return $query->whereHas('author', function($q) {
+            $q->role('is_staff');
+        });
     }
 
     public function getSmartDateAttribute()

@@ -30,7 +30,7 @@ class PostPolicy
     public function create(User $user): bool
     {
         // Solo el admin o los autores pueden crear posts
-        return $user->hasRole('admin') || $user->hasRole('author');
+        return $user->hasAnyRole(['admin', 'is_staff', 'author']);
     }
 
     /**
@@ -38,8 +38,22 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        // El admin puede editar cualquier post, o el autor puede editar su propio post
-        return $user->hasRole('admin') || $user->id === $post->user_id;
+        // Admin puede editar cualquier post
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+        
+        // Staff solo puede editar sus propios posts
+        if ($user->hasRole('is_staff')) {
+            return $user->id === $post->author_id;
+        }
+        
+        // Autores regulares solo sus posts
+        if ($user->hasRole('author')) {
+            return $user->id === $post->author_id;
+        }
+
+        return false;
     }
 
     /**
@@ -48,7 +62,11 @@ class PostPolicy
     public function delete(User $user, Post $post): bool
     {
         // El admin puede borrar cualquier post, o el autor puede borrar su propio post
-        return $user->hasRole('admin') || $user->id === $post->user_id;
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
+        return $user->id === $post->author_id && $user->hasAnyRole(['is_staff', 'author']);
     }
 
     /**
@@ -56,7 +74,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return false;
+        return $user->hasRole('admin');
     }
 
     /**
@@ -64,6 +82,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return false;
+        return $user->hasRole('admin');
     }
 }

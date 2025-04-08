@@ -3,8 +3,8 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\WelcomeController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -19,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
 });
 
+Route::get('/', [WelcomeController::class, 'index']);
 Route::get('posts', [PostController::class, 'index'])->name('post.index');
 Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         
         $adminRole = Role::where('name', 'admin')->first();
+        $staffRole = Role::where('name', 'is_staff')->first();
         $authorRole = Role::where('name', 'author')->first();
 
         $adminUser = User::factory()->create([
@@ -28,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $adminUser->assignRole($adminRole);
+        $adminUser->assignRole($adminRole, $staffRole);
 
         User::factory()
             ->count(5)
