@@ -1,5 +1,5 @@
-<script setup lang="js">
-import { Head, Link } from '@inertiajs/vue3'; // ¡Asegúrate de importar Link!
+<script setup lang="ts">
+  import { Head, Link } from '@inertiajs/vue3'; // ¡Asegúrate de importar Link!
 </script>
 
 <template>
