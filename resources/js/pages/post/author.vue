@@ -28,7 +28,7 @@
                     v-if="link.url"
                     :href="link.url"
                     :class="{ 'bg-blue-500 text-white': link.active }"
-                    v-html="link.label"
+                    :innerHTML="link.label"
                 />
             </div>
         </div>
