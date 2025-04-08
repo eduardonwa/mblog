@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="js">
 import { Head, Link } from '@inertiajs/vue3'; // ¡Asegúrate de importar Link!
 </script>
 

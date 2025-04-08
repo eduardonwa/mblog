@@ -1,4 +1,4 @@
-<script setup lang="js">
+<script setup lang="ts">
     import SiteLayout from '@/layouts/SiteLayout.vue';
     import { Link } from '@inertiajs/vue3';
 
