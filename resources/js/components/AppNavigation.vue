@@ -1,6 +1,8 @@
 <script setup>
-    import { ref } from 'vue';
-    import { Link } from '@inertiajs/vue3';
+    import { ref, computed } from 'vue';
+    import { Link, usePage } from '@inertiajs/vue3';
+
+    const currentRoute = computed(() => usePage().url); // Ej: '/category1'
 
     const isMenuOpen = ref(false);
 
@@ -18,7 +20,6 @@
 <template>
     <header class="header">
       <nav class="nav">
-        <!-- Ícono menú móvil (izquierda) -->
         <button
             @click="openMenu"
             class="nav__toggle"
@@ -32,18 +33,14 @@
             </svg>
         </button>
   
-        <!-- Logo en móvil -->
         <Link href="/" class="nav__logo-mobile">sickofmetal</Link>
   
-        <!-- Join/Dashboard (derecha en móvil) -->
         <div class="nav__auth">
           <Link v-if="$page.props.auth.user" :href="route('dashboard')">Dashboard</Link>
           <Link v-else :href="route('register')">Join</Link>
         </div>
   
-        <!-- Menú desplegable (única instancia) -->
         <div :class="{ 'active': isMenuOpen }" class="nav__menu">
-            <!-- boton de cierre -->
             <button @click="closeMenu" class="nav-close">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="25" viewBox="0 0 10 20">
                     <path d="M.747,8.5a.742.742,0,0,1-.53-.22.754.754,0,0,1,0-1.06l7-7a.75.75,0,0,1,1.06,1.06l-7,7A.742.742,0,0,1,.747,8.5Z" fill="#292d32"/>
@@ -51,14 +48,23 @@
                 </svg>
             </button>
 
-            <!-- Categorías izquierda (desktop) -->
             <div class="nav__categories nav__categories--left">
-                <Link href="#">Category 1</Link>
+                <Link
+                    href="/posts"
+                    :class="{ 'active-link': currentRoute === '/posts' }"
+                >
+                    Category 1
+                </Link>
                 <Link href="#">Category 2</Link>
             </div>
 
-            <!-- Logo desktop (centro) -->
-            <Link href="/" class="nav__logo-desktop">sickofmetal</Link>
+            <Link
+                href="/"
+                class="nav__logo-desktop"
+                :class="{ 'active-link': currentRoute === '/' }"
+            >
+                sickofmetal
+            </Link>
 
             <!-- Categorías derecha (desktop) -->
             <div class="nav__categories nav__categories--right">
