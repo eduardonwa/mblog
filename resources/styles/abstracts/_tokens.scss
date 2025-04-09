@@ -43,7 +43,7 @@ $body-background-color: $color-background-default;
 $link-color: $color-text-interactive-default;
 $link-color-hover: $color-text-interactive-hover;
 
-$heading-font-family: $font-family-accent;
+$heading-font-family: $font-family-base;
 $heading-color-default: $color-neutral-900;
 $heading-font-weight: $font-weight-bold;
 $heading-letter-spacing: $letter-spacing-loose;
@@ -79,6 +79,7 @@ $site-header-jusitifcation-large-screens: space-between;
 $site-header-alignment: center;
 
 //navigation
+$navigation-font-family-heading: $font-family-display;
 $navigation-color: $site-header-color;
 $navigation-color-hover: $color-primary-300;
 $navigation-font-size: $font-size-400;
@@ -92,7 +93,7 @@ $footer-background-color: $color-primary-300;
 $footer-text-color: $color-primary-900;
 $footer-link-color: $color-neutral-100;
 $footer-link-color-hover: $color-primary-200;
-$footer-link-font-family: $font-family-accent;
+$footer-link-font-family: $font-family-base;
 $footer-link-text-decoration: none;
 
 // buttons

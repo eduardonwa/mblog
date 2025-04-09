@@ -1,8 +1,16 @@
-$-ff-sans: system-ui, sans-serif;
-$-ff-serif: serif;
+$-ff-sans: "Inter-Regular", sans-serif;
+$-ff-sans-light: "Inter-Light", sans-serif;
+$-ff-sans-medium: "Inter-Medium", sans-serif;
+$-ff-sans-semi-bold: "Inter-Semibold", sans-serif;
+$-ff-sans-bold: "Inter-Bold", sans-serif;
+$-ff-display: "Sora-ExtraBold";
 
 $font-family-base: $-ff-sans;
-$font-family-accent: $-ff-sans;
+$font-family-light: $-ff-sans-light;
+$font-family-medium: $-ff-sans-medium;
+$font-family-semi-bold: $-ff-sans-semi-bold;
+$font-family-bold: $-ff-sans-bold;
+$font-family-display: $-ff-display;
 
 $font-sizes: (
   "small": (

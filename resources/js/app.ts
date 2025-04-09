@@ -6,6 +6,7 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';
+import AppNavigation from './components/AppNavigation.vue';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -29,6 +30,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .component('AppNavigation', AppNavigation)
             .mount(el);
     },
     progress: {

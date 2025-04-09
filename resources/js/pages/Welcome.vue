@@ -46,6 +46,5 @@
       </div>
     </div>
 
-    <h1>Hola Dios</h1>
   </SiteLayout>
 </template>

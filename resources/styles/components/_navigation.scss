@@ -1,17 +1,149 @@
 @use "../abstracts" as *;
 
 .nav {
-  --flex-column-gap: #{$navigation-gap};
-  list-style: none;
-  font-family: $navigation-font-family;
-  font-weight: $navigation-font-weight;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  height: var(--nav-height, 60px);
 
-  a {
-    color: $navigation-color;
-    text-decoration: $navigation-link-text-decoration;
-
-    &:is(:hover, :focus) {
-      color: $navigation-color-hover;
+  &__toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    
+    @include mq(medium) {
+      display: none;
     }
   }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__logo-mobile {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    
+    @include mq(medium) {
+      display: none;
+    }
+  }
+
+  &__auth {
+    @include mq(medium) {
+      order: 4;
+    }
+  }
+
+  &__menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    
+    &.active {
+      left: 0;
+    }
+    
+    @include mq(medium) {
+      position: static;
+      width: 100%;
+      height: auto;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      background: transparent;
+      gap: 0;
+    }
+
+    @media (max-width: #{map-get($breakpoints, medium) - 1px}) {
+      flex-direction: column;
+      gap: 1rem;
+      
+      .nav__logo-desktop {
+        display: block; // Mostrar logo en móvil
+        order: 1; // Primera posición
+        margin-bottom: 1rem;
+      }
+
+      .nav__categories--left,
+      .nav__categories--right {
+        order: 2; // Debajo del logo
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 0 !important;
+      }
+    }
+  }
+
+  &__categories {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    order: 2;
+    
+    @include mq(medium) {
+      flex-direction: row;
+      gap: 1rem;
+      
+      &--left {
+        order: 1;
+        margin-right: 16px;
+      }
+      
+      &--right {
+        order: 3;
+        margin-left: 16px;
+      }
+    }
+  }
+
+  &__logo-desktop {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    order: 2;
+    
+    @include mq(medium) {
+      display: block;
+      order: 1;
+      margin: 0;
+    }
+  }
+}
+
+.nav-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+
+  @include mq(medium) {
+    display: none;
+  }
+}
+// Asegurar que el body no haga scroll cuando el menú está abierto
+body.menu-open {
+  overflow: hidden;
 }

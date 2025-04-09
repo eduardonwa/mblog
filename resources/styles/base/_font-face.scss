@@ -13,14 +13,6 @@
        url("/public/fonts/inter-light.woff") format("woff");
 }
 @font-face {
-  font-family: "Inter-Light-Italic";
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-  src: url("/public/fonts/inter-light-italic.woff2") format("woff2"),
-       url("/public/fonts/inter-light-italic.woff") format("woff");
-}
-@font-face {
   font-family: "Inter-Medium";
   font-weight: 500;
   font-display: swap;
