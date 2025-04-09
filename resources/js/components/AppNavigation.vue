@@ -26,9 +26,9 @@
             :class="{ 'hidden': isMenuOpen }"    
         >
             <svg class="nav__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path id="Vector" d="M18.75,1.5H.75A.755.755,0,0,1,0,.75.755.755,0,0,1,.75,0h18a.755.755,0,0,1,.75.75A.755.755,0,0,1,18.75,1.5Z" transform="translate(2.25 6.25)" fill="#292d32"/>
-                <path id="Vector-2" data-name="Vector" d="M18.75,1.5H.75A.755.755,0,0,1,0,.75.755.755,0,0,1,.75,0h18a.755.755,0,0,1,.75.75A.755.755,0,0,1,18.75,1.5Z" transform="translate(2.25 11.25)" fill="#292d32"/>
-                <path id="Vector-3" data-name="Vector" d="M18.75,1.5H.75A.755.755,0,0,1,0,.75.755.755,0,0,1,.75,0h18a.755.755,0,0,1,.75.75A.755.755,0,0,1,18.75,1.5Z" transform="translate(2.25 16.25)" fill="#292d32"/>
+                <path id="Vector" d="M18.75,1.5H.75A.755.755,0,0,1,0,.75.755.755,0,0,1,.75,0h18a.755.755,0,0,1,.75.75A.755.755,0,0,1,18.75,1.5Z" transform="translate(2.25 6.25)" fill="#F4F5FA"/>
+                <path id="Vector-2" data-name="Vector" d="M18.75,1.5H.75A.755.755,0,0,1,0,.75.755.755,0,0,1,.75,0h18a.755.755,0,0,1,.75.75A.755.755,0,0,1,18.75,1.5Z" transform="translate(2.25 11.25)" fill="#F4F5FA"/>
+                <path id="Vector-3" data-name="Vector" d="M18.75,1.5H.75A.755.755,0,0,1,0,.75.755.755,0,0,1,.75,0h18a.755.755,0,0,1,.75.75A.755.755,0,0,1,18.75,1.5Z" transform="translate(2.25 16.25)" fill="#F4F5FA"/>
                 <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" fill="none" opacity="0"/>
             </svg>
         </button>
@@ -42,9 +42,9 @@
   
         <div :class="{ 'active': isMenuOpen }" class="nav__menu">
             <button @click="closeMenu" class="nav-close">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="25" viewBox="0 0 10 20">
-                    <path d="M.747,8.5a.742.742,0,0,1-.53-.22.754.754,0,0,1,0-1.06l7-7a.75.75,0,0,1,1.06,1.06l-7,7A.742.742,0,0,1,.747,8.5Z" fill="#292d32"/>
-                    <path d="M7.747,8.5a.742.742,0,0,1-.53-.22l-7-7A.75.75,0,0,1,1.277.218l7,7a.754.754,0,0,1,0,1.06A.742.742,0,0,1,7.747,8.5Z" fill="#292d32"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="25" viewBox="0 0 10 15">
+                    <path d="M.747,8.5a.742.742,0,0,1-.53-.22.754.754,0,0,1,0-1.06l7-7a.75.75,0,0,1,1.06,1.06l-7,7A.742.742,0,0,1,.747,8.5Z" fill="#F4F5FA"/>
+                    <path d="M7.747,8.5a.742.742,0,0,1-.53-.22l-7-7A.75.75,0,0,1,1.277.218l7,7a.754.754,0,0,1,0,1.06A.742.742,0,0,1,7.747,8.5Z" fill="#F4F5FA"/>
                 </svg>
             </button>
 

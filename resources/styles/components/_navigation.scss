@@ -9,7 +9,6 @@
   height: var(--nav-height, 60px);
   background-color: $color-primary-600;
   border-bottom: 1px solid $color-primary-400;
-  filter: drop-shadow(4px 4px 8px $color-primary-700);
 
   &__toggle {
     background: none;
@@ -17,7 +16,7 @@
     cursor: pointer;
     padding: 0.5rem;
     
-    @include mq(medium) {
+    @include mq(large) {
       display: none;
     }
   }
@@ -40,7 +39,7 @@
       color: $color-primary-100;
     }
     
-    @include mq(medium) {
+    @include mq(large) {
       display: none;
     }
   }
@@ -48,7 +47,7 @@
   &__auth {
     padding-inline-end: $size-2;
 
-    @include mq(medium) {
+    @include mq(large) {
       order: 4;
     }
   }
@@ -60,6 +59,14 @@
     width: 100%;
     height: 100vh;
     background-color: $color-primary-600;
+
+    background: linear-gradient(
+      to bottom right,
+      rgba(87, 88, 158, .8) 0%,
+      rgba(104, 94, 183, 0.8) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: left 0.3s ease;
     z-index: 1000;
     padding: 2rem 1rem;
@@ -71,7 +78,7 @@
       left: 0;
     }
     
-    @include mq(medium) {
+    @include mq(large) {
       position: static;
       width: 100%;
       height: auto;
@@ -83,7 +90,7 @@
       gap: 0;
     }
 
-    @media (max-width: #{map.get($breakpoints, medium) - 1px}) {
+    @media (max-width: #{map.get($breakpoints, large) - 1px}) {
       flex-direction: column;
       gap: 1rem;
       
@@ -117,7 +124,7 @@
       transition: all 0.3s cubic-bezier(0.4, 0.2, 1);
     }
     
-    @include mq(medium) {
+    @include mq(large) {
       flex-direction: row;
       gap: 1rem;
       transition-property: background-color, border-color, transform;
@@ -174,7 +181,7 @@
       color: $color-primary-100;
     }
     
-    @include mq(medium) {
+    @include mq(large) {
       order: 1;
       margin: 0;
       border: 1px solid transparent;
@@ -199,6 +206,10 @@
         transform: translateY(1px);
         animation: marioMetalEffect 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         will-change: filter, transform;
+
+        &:hover {
+          background-color: $color-primary-900;
+        }
       }
     }
   }
@@ -235,7 +246,7 @@
   cursor: pointer;
   padding: 0.5rem;
 
-  @include mq(medium) {
+  @include mq(large) {
     display: none;
   }
 }
