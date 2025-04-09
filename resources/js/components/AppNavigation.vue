@@ -32,7 +32,7 @@
             </svg>
         </button>
   
-        <!-- Logo (centrado en móvil) -->
+        <!-- Logo en móvil -->
         <Link href="/" class="nav__logo-mobile">sickofmetal</Link>
   
         <!-- Join/Dashboard (derecha en móvil) -->
@@ -44,14 +44,10 @@
         <!-- Menú desplegable (única instancia) -->
         <div :class="{ 'active': isMenuOpen }" class="nav__menu">
             <!-- boton de cierre -->
-            <button
-                @click="closeMenu"
-                class="nav-close"
-                :class="{ 'md:hidden': true }"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="8.495" height="8.497" viewBox="0 0 8.495 8.497">
-                <path d="M.747,8.5a.742.742,0,0,1-.53-.22.754.754,0,0,1,0-1.06l7-7a.75.75,0,0,1,1.06,1.06l-7,7A.742.742,0,0,1,.747,8.5Z" fill="#292d32"/>
-                <path d="M7.747,8.5a.742.742,0,0,1-.53-.22l-7-7A.75.75,0,0,1,1.277.218l7,7a.754.754,0,0,1,0,1.06A.742.742,0,0,1,7.747,8.5Z" fill="#292d32"/>
+            <button @click="closeMenu" class="nav-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="25" viewBox="0 0 10 20">
+                    <path d="M.747,8.5a.742.742,0,0,1-.53-.22.754.754,0,0,1,0-1.06l7-7a.75.75,0,0,1,1.06,1.06l-7,7A.742.742,0,0,1,.747,8.5Z" fill="#292d32"/>
+                    <path d="M7.747,8.5a.742.742,0,0,1-.53-.22l-7-7A.75.75,0,0,1,1.277.218l7,7a.754.754,0,0,1,0,1.06A.742.742,0,0,1,7.747,8.5Z" fill="#292d32"/>
                 </svg>
             </button>
 

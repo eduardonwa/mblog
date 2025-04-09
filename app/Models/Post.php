@@ -80,6 +80,7 @@ class Post extends Model implements HasMedia
             ->whereDoesntHave('author', function($q) {
                 $q->role('is_staff');
             })
+            ->where('status', 'published')
             ->latest()
             ->take($limit);
     }

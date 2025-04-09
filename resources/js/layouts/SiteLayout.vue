@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import NavigationMenu from '@/components/ui/navigation-menu/NavigationMenu.vue';
-import { Head, Link } from '@inertiajs/vue3'; // ¡Asegúrate de importar Link!
+  import { Head } from '@inertiajs/vue3';
 </script>
 
 <template>
@@ -11,9 +10,8 @@ import { Head, Link } from '@inertiajs/vue3'; // ¡Asegúrate de importar Link!
       <meta name="description" content="Descripción general del sitio">
       <meta name="csrf-token" :content="$page.props.csrf_token">
       <link rel="icon" href="/favicon.ico">
-      <!-- Agrega las fuentes de Inter aquí para que estén disponibles globalmente -->
-      <link rel="preconnect" href="https://rsms.me/" />
-      <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+      <!-- <link rel="preconnect" href="https://rsms.me/" />
+      <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
     </Head>
 
     <AppNavigation />
