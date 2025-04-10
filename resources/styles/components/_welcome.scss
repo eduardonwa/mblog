@@ -117,10 +117,40 @@
     }
 }
 
-// nuevo layout para escritorio
+// layout para escritorio, breakpoint "medium"
 @include mq(medium) {
     .welcome-grid {
         display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: min-content 1fr;
+        padding: 36px 24px;
+    }
+
+    .newest-staff-post {
+        grid-column: 2;
+        grid-row: 1;    
+    }
+
+    .secondary-posts {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .community-posts {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .leaderboard {
+        grid-row: 2;
+        grid-column: 1;
+    }
+}
+
+
+// layout para escritorio, breakpoint "large"
+@include mq(large) {
+    .welcome-grid {
         grid-template-columns: 1fr 2fr 1fr;
         grid-template-rows: min-content min-content 1fr;
         max-width: 1308px;
@@ -217,32 +247,46 @@
     &__info {
         display: flex;
         align-items: center;
-        gap: $size-4;
         margin-block-start: $size-3;
+        gap: $size-1;;
 
         &__title {
             line-height: 1.6;
             color: $color-primary-100;
+            font-size: $font-size-500;
+            margin-top: .3rem;
+        }
+
+        &__author {
+            font-size: $font-size-300;
+            color: $color-primary-300;
         }
 
         &__likes {
             border: 1px solid $color-primary-400;
-            padding: $size-4;
+            padding: $size-3;
             color: $color-primary-300;
             border-radius: .3rem;
-
-            @include mq(medium) {
-                padding-block: $size-2;
-            }
         }
     }
+
     @include mq(medium) {
+        padding: 0;
+    }
+
+    @include mq(large) {
+        padding: $size-3;
+
         h2 {
-            padding-left: .5rem;
+            padding-left: $size-3;
         }
 
         &__info {
-            padding: $size-2;
+            padding: $size-3;
+
+            &__title {
+                font-size: $font-size-400;
+            }
         }
     }
 }
@@ -251,7 +295,7 @@
     @include post-styles(
         $img-height: 200px,
         $img-width: 100%,
-        $title-font-size: $font-size-500,
+        $title-font-size: $font-size-700,
         $extract-padding-block: 0,
     );
 }
@@ -273,11 +317,7 @@
             a {
                 text-decoration: none;
                 color: $color-primary-100;
-                font-size: $font-size-400;
-
-                @include mq(medium) {
-                    font-size: $font-size-300;
-                }
+                font-size: $font-size-600;
             }
         }
 
@@ -288,32 +328,6 @@
 
             div {
                 display: none;
-
-                @include mq(medium) {
-                    display: flex;
-                    align-items: center;
-                    gap: .4rem;
-
-                    svg {
-                        path {
-                            stroke: $color-primary-400;
-                        }
-        
-                        @include mq(medium) {
-                            height: 18px;
-                        }
-                    }
-        
-                    span {
-                        display: hidden;
-                        
-                        @include mq(medium) {
-                            display: flex;
-                            align-items: center;
-                            gap: .3rem;
-                        }
-                    }
-                }
             }
 
             .author {
@@ -324,12 +338,59 @@
     }
 
     @include mq(medium) {
+        padding: 0;
+        
+        &__wrapper {
+            &__post-title {
+                a {
+                    font-size: $font-size-500;
+                }
+            }
+
+            &__post-details {
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: .4rem;
+                    font-size: $font-size-300;
+                    color: $color-primary-300;
+
+                    svg {
+                        path {
+                            stroke: $color-primary-400;
+                        }
+
+                        @include mq(medium) {
+                            height: 18px;
+                        }
+                    }
+
+                    span {
+                        display: hidden;
+                    }
+                }
+
+                .author {
+                    font-size: $font-size-300;
+                }
+            }
+        }
+    }
+
+    @include mq(large) {
+        padding: $size-6;
+
         h2 {
-            padding-left: .5rem;
+            padding-left: $size-3;
         }
 
         &__wrapper {
-            padding: $size-2;
+            padding: $size-3;
+            &__post-title {
+                a {
+                    font-size: $font-size-400;
+                }
+            }
         }
     }
 }
