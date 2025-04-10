@@ -63,12 +63,28 @@ class Post extends Model implements HasMedia
         return $this->likes()->where('user_id', Auth::id())->exists();
     }
 
-    public function scopeStaffPosts($query, $limit = 8)
+    public function scopeStaffPosts($query, $limit = 10)
     {
         return $query->with(['category', 'author'])
             ->where('status', 'published')
             ->whereHas('author', function($q) {
-                $q->role('is_staff');
+                $q->whereHas('roles', function($q) {
+                    $q->whereIn('name', ['is_staff', 'admin']); // incluye admin y staff
+                });
+            })
+            ->skip(3)
+            ->latest()
+            ->take($limit);
+    }
+
+    public function scopeNewestStaffPosts($query, $limit = 3)
+    {
+        return $query->with(['category', 'author'])
+            ->where('status', 'published')
+            ->whereHas('author', function($q) {
+                $q->whereHas('roles', function($q) {
+                    $q->whereIn('name', ['is_staff', 'admin']); // incluye admin y staff
+                });
             })
             ->latest()
             ->take($limit);
@@ -78,7 +94,9 @@ class Post extends Model implements HasMedia
     {
         return $query->with('author')
             ->whereDoesntHave('author', function($q) {
-                $q->role('is_staff');
+                $q->whereHas('roles', function($q) {
+                    $q->whereIn('name', ['is_staff', 'admin']); // Excluye admin y staff
+                });
             })
             ->where('status', 'published')
             ->latest()
@@ -89,6 +107,9 @@ class Post extends Model implements HasMedia
     {
         return $query->with(['author', 'likes'])
             ->withCount('likes')
+            ->whereDoesntHave('author.roles', function($q) {
+                $q->whereIn('name', ['is_staff', 'admin']); // Excluye admin y staff
+            })
             ->orderByDesc('likes_count')
             ->take($limit);
     }
