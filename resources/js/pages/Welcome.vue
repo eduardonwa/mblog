@@ -14,10 +14,11 @@
   <SiteLayout>
     <Head title="Welcome" />
 
-    <div class="welcome-grid">
+    <div class="welcome-grid ! mx-auto">
       <!-- 1. Primer post más reciente del staff -->
-      <Link style="text-decoration: none;" :href="route('post.show', newestStaffPosts?.[0].slug)">
-        <div v-if="newestStaffPosts?.length > 0" class="newest-staff-post">
+      
+      <div v-if="newestStaffPosts?.length > 0" class="newest-staff-post">
+        <Link style="text-decoration: none;" :href="route('post.show', newestStaffPosts?.[0].slug)">
           <picture>
             <source media="(min-width: 768px)" :srcset="newestStaffPosts?.[0]?.thumbnail_urls?.lg">
             <source media="(max-width: 767px)" :srcset="newestStaffPosts?.[0]?.thumbnail_urls?.md">
@@ -57,8 +58,8 @@
               <p>{{ newestStaffPosts?.[0].author?.name || 'Rattlehead' }}</p>
             </Link>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
   
       <!-- 2. Leaderboard -->
       <div v-if="leaderboard?.length" class="leaderboard margin-block-8">
@@ -70,9 +71,11 @@
       </div>
   
       <!-- 3. Los siguientes 2 posts más recientes del staff -->
-      <div v-if="newestStaffPosts?.length > 1" class="secondary-posts margin-block-8">
-        <div v-for="(post, index) in newestStaffPosts?.slice(1, 3)" :key="post.id">
-            <Link class="flow" style="text-decoration: none;" :href="route('post.show', post.slug)">
+      <section v-if="newestStaffPosts?.length > 1" class="secondary-posts margin-block-8">
+        <article v-for="(post, index) in newestStaffPosts?.slice(1, 3)" :key="post.id">
+          
+          <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
+            
               <picture>
                 <source media="(min-width: 768px)" :srcset="post.thumbnail_urls?.md">
                 <source media="(max-width: 767px)" :srcset="post.thumbnail_urls?.sm">
@@ -85,7 +88,7 @@
       
               <h2> {{ post.title }} </h2>
       
-              <p class="extract">{{ post?.extract }}</p>
+              <p class="extract margin-block-3">{{ post?.extract }}</p>
       
               <div class="post-info">
                 <!-- upvotes -->
@@ -113,9 +116,11 @@
                   <p>{{ newestStaffPosts?.[0].author?.name || 'Rattlehead' }}</p>
                 </Link>
               </div>
+
           </Link>
-        </div>
-      </div>
+          
+        </article>
+      </section>
   
       <!-- 4. Posts recientes de la comunidad -->
       <div v-if="recent?.length" class="community-posts | flow">
