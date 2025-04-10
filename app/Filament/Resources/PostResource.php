@@ -77,6 +77,9 @@ class PostResource extends Resource
                                             ->columnStart(1)
                                             ->required(),
                                         Toggle::make('featured'),
+                                        TextArea::make('extract')
+                                            ->helperText('Limited to 255 characters allowed')
+                                            ->maxLength(255),
                                         Select::make('language')
                                             ->options(config('languages'))
                                             ->searchable(),

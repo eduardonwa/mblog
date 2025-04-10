@@ -20,7 +20,10 @@ class Post extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, HasTags;
 
-    protected $appends = ['smart_date'];
+    protected $appends = [
+        'smart_date',
+        'thumbnail_urls'
+    ];
     
     public function author(): BelongsTo
     {
@@ -80,6 +83,7 @@ class Post extends Model implements HasMedia
     public function scopeNewestStaffPosts($query, $limit = 3)
     {
         return $query->with(['category', 'author'])
+            ->withCount('likes')
             ->where('status', 'published')
             ->whereHas('author', function($q) {
                 $q->whereHas('roles', function($q) {
@@ -139,5 +143,14 @@ class Post extends Model implements HasMedia
             ->fit(Fit::Contain, 1080, 1080)
             ->format('webp')
             ->nonQueued(); 
+    }
+
+    public function getThumbnailUrlsAttribute()
+    {
+        return [
+            'lg' => $this->getFirstMediaUrl('thumbnails', 'lg_thumb'),
+            'md' => $this->getFirstMediaUrl('thumbnails', 'md_thumb'), 
+            'sm' => $this->getFirstMediaUrl('thumbnails', 'sm_thumb')
+        ];
     }
 }
