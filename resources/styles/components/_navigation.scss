@@ -141,7 +141,6 @@
         &:hover {
           color: $color-primary-100;
           background-color: $color-primary-800;
-          border: 1px solid $color-primary-400;
           transform: translateY(-2px); // Efecto levitación
           transition-duration: 0.2s
         }
@@ -193,7 +192,6 @@
       
       &:hover {
         color: $color-primary-100;
-        border: 1px solid $color-primary-400;
         background-color: $color-primary-800;
         transform: translateY(-2px);
       }

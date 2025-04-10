@@ -13,7 +13,7 @@ class WelcomeController extends Controller
             'staffPosts' => Post::staffPosts(limit: 10)->get(), // últimos 10 posts del staff
             'newestStaffPosts' => Post::with('media')->newestStaffPosts(limit: 3)->get(), // ultimos 3 del staff
             'leaderboard' => Post::mostLiked()->get()->filter(fn($post) => $post->likes_count > 0), // mas votados de la comunidad
-            'recent' => Post::recent()->get() // ultimos 10 de la comunidad
+            'recent' => Post::recent()->get(), // ultimos 10 de la comunidad
         ]);
     }
 }

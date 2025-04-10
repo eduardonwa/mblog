@@ -22,6 +22,7 @@ class Post extends Model implements HasMedia
 
     protected $appends = [
         'smart_date',
+        'short_date',
         'thumbnail_urls'
     ];
     
@@ -40,7 +41,7 @@ class Post extends Model implements HasMedia
         return 'slug';
     }
 
-    public function getSmartDateAttribute()
+/*     public function getSmartDateAttribute()
     {
         $createdAt = $this->created_at;
            
@@ -49,6 +50,44 @@ class Post extends Model implements HasMedia
         }
         
         return $createdAt->isoFormat('D MMMM YYYY');
+    } */
+    public function getSmartDateAttribute()
+    {
+        return $this->formatDate(false);
+    }
+    
+    public function getShortDateAttribute()
+    {
+        return $this->formatDate(true);
+    }
+    
+    protected function formatDate($short)
+    {
+        $createdAt = $this->created_at;
+        $now = now();
+    
+        if ($createdAt > $now->subDays(7)) {
+            if ($short) {
+                if ($createdAt > $now->subMinute()) {
+                    return 'Now';
+                }
+                
+                if ($createdAt > $now->subHour()) {
+                    $minutes = $createdAt->diffInMinutes();
+                    return $minutes < 60 ? $minutes.'m' : floor($minutes/60).'h';
+                }
+                
+                if ($createdAt > $now->subDay()) {  // Cambiado de subDays() a subDay()
+                    return $createdAt->diffInHours().'h';
+                }
+                
+                return $createdAt->diffInDays().'d';
+            }
+            return $createdAt->diffForHumans();
+        }
+        
+        // Corrección del typo: isFormat → isoFormat
+        return $short ? $createdAt->isoFormat('D MMM') : $createdAt->isoFormat('D MMMM YYYY');
     }
 
     public function likes()

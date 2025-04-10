@@ -1,7 +1,7 @@
 @use '../abstracts/' as *;
 
 @mixin post-styles(
-    $img-height: 100%,
+    $img-height: 300px,
     $img-width: 100%,
     $title-font-size: $font-size-700,
     $extract-padding-block: $size-4,
@@ -22,6 +22,7 @@
             height: 100%;
             width: 100%;
             object-fit: cover;
+            object-position: center;
         }
     }
 
@@ -48,9 +49,14 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            font-size: $font-size-300;
     
             &__upvotes, &__comments {
                 display: flex;
+
+                svg {
+                    height: 18px;
+                }
             }
         }
     }
@@ -61,12 +67,52 @@
         }
         h2 {
             order: 2;
+            padding-block: $size-2;
         }
         .extract {
             order: 3;
+            padding: 0;
         }
         .post-info {
             order: 4;
+            padding-block: $size-4;
+            justify-content: flex-start;
+            gap: $size-4;
+
+            a {
+                text-decoration: none;
+                color: $color-primary-300;
+                padding: .5rem;
+                transition: all 0.2s ease-in-out;
+
+                &:hover {
+                    color: $color-accent-100;
+                    background-color: $color-primary-800;
+                    border-radius: .3rem;
+                }
+            }
+
+            &__upvotes, &__comments {
+                gap: $size-1;
+                padding: .5rem;
+                transition: all 0.2s ease-in-out;
+
+                svg path {
+                    fill: currentColor;
+                    transition: fill 0.2s ease-in-out;
+                }
+
+                span {
+                    transition: color 0.2s ease-in-out;
+                }
+
+                &:hover {
+                    background-color: $color-primary-800;
+                    border-radius: .3rem;
+                    color: $color-accent-300;
+                }
+
+            }
         }
     }
 }
@@ -76,7 +122,7 @@
     .welcome-grid {
         display: grid;
         grid-template-columns: 1fr 2fr 1fr;
-        grid-template-rows: auto auto auto;
+        grid-template-rows: min-content min-content 1fr;
         max-width: 1308px;
         padding: 36px 24px;
     }
@@ -84,24 +130,74 @@
     .newest-staff-post {
         grid-column: 2;
         grid-row: 1;
-    }
-    
-    .leaderboard {
-        grid-column: 3;
-        grid-row: 1 / span 2; // Ocupa 2 filas
+        transition: all 0.1s ease-in-out;
+        
+        &:hover {
+            background-color: $color-primary-900;
+            border-radius: .2rem;
+        }
     }
     
     .secondary-posts {
         grid-column: 2;
         grid-row: 2;
+
+        article {
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                background-color: $color-primary-900;
+                border-radius: .2rem;
+            }
+        }
     }
     
-    .community-posts {
-        grid-column: 2 / -1; // Ocupa todas las columnas
-        grid-row: 3;
-    }
+    .leaderboard {
+        grid-column: 3;
+        grid-row: 1 / 2;
+        font-size: $font-size-300;
 
-    // orden reestablecido para post styles?
+        &__info {
+            transition: all 0.1s ease-in-out;
+            
+            &:hover {
+                background-color: $color-primary-900;
+                border-radius: .3rem;
+            }
+        }
+    }
+      
+    .community-posts {
+        grid-column: 3;
+        grid-row: 2 / 3;
+
+        &__wrapper {
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                background-color: $color-primary-900;
+                border-radius: .3rem;
+            }
+
+            &__post-details {
+                text-decoration: none;
+                color: $color-primary-300;
+                transition: all 0.2s ease-in-out;
+                font-size: $font-size-300;
+
+                .author {
+                    padding: .4rem;
+                    transition: all 0.2s ease-in-out;
+
+                    &:hover {
+                        color: $color-accent-100;
+                        background-color: $color-primary-800;
+                        border-radius: .3rem;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // aqui usar el orden de las etiquetas html
@@ -114,6 +210,7 @@
 
     h2 {
         font-size: $font-size-300;
+        color: $color-accent-200;
         font-family: $font-family-semi-bold;
     }
 
@@ -121,12 +218,11 @@
         display: flex;
         align-items: center;
         gap: $size-4;
-        padding: $size-2;
         margin-block-start: $size-3;
 
         &__title {
             line-height: 1.6;
-            color: $color-primary-300;
+            color: $color-primary-100;
         }
 
         &__likes {
@@ -134,6 +230,19 @@
             padding: $size-4;
             color: $color-primary-300;
             border-radius: .3rem;
+
+            @include mq(medium) {
+                padding-block: $size-2;
+            }
+        }
+    }
+    @include mq(medium) {
+        h2 {
+            padding-left: .5rem;
+        }
+
+        &__info {
+            padding: $size-2;
         }
     }
 }
@@ -150,20 +259,77 @@
 .community-posts {
     padding: $size-6;
 
+    h2 {
+        font-size: $font-size-300;
+        font-family: $font-family-semi-bold;
+        color: $color-accent-200;
+    }
+
     &__wrapper {
+
         &__post-title {
             padding-block-end: $size-3;
+
             a {
                 text-decoration: none;
                 color: $color-primary-100;
-                font-family: $font-family-medium;
-                font-size: $font-size-500;
+                font-size: $font-size-400;
+
+                @include mq(medium) {
+                    font-size: $font-size-300;
+                }
             }
         }
+
+        &__post-details {
+            display: flex;
+            justify-content: flex-start;
+            gap: .5rem;
+
+            div {
+                display: none;
+
+                @include mq(medium) {
+                    display: flex;
+                    align-items: center;
+                    gap: .4rem;
+
+                    svg {
+                        path {
+                            stroke: $color-primary-400;
+                        }
         
-        &__author {
-            text-decoration: none;
-            color: $color-primary-100;
+                        @include mq(medium) {
+                            height: 18px;
+                        }
+                    }
+        
+                    span {
+                        display: hidden;
+                        
+                        @include mq(medium) {
+                            display: flex;
+                            align-items: center;
+                            gap: .3rem;
+                        }
+                    }
+                }
+            }
+
+            .author {
+                text-decoration: none;
+                color: $color-primary-300;
+            }
+        }
+    }
+
+    @include mq(medium) {
+        h2 {
+            padding-left: .5rem;
+        }
+
+        &__wrapper {
+            padding: $size-2;
         }
     }
 }
