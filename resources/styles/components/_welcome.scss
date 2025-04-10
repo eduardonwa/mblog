@@ -42,42 +42,35 @@
 
     .post-info {
         display: none;
-
-        @include mq(medium) {
-            order: 4;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            font-size: $font-size-300;
-    
-            &__upvotes, &__comments {
-                display: flex;
-
-                svg {
-                    height: 18px;
-                }
-            }
-        }
     }
 
     @include mq(medium) {
+        padding: 0;
+
         picture {
             order: 1;
         }
+
         h2 {
             order: 2;
             padding-block: $size-2;
         }
+
         .extract {
             order: 3;
             padding: 0;
         }
+
         .post-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             order: 4;
             padding-block: $size-4;
             justify-content: flex-start;
             gap: $size-4;
+            width: 100%;
+            font-size: $font-size-300;
 
             a {
                 text-decoration: none;
@@ -93,6 +86,7 @@
             }
 
             &__upvotes, &__comments {
+                display: flex;
                 gap: $size-1;
                 padding: .5rem;
                 transition: all 0.2s ease-in-out;
@@ -100,6 +94,7 @@
                 svg path {
                     fill: currentColor;
                     transition: fill 0.2s ease-in-out;
+                    height: 18px;
                 }
 
                 span {
@@ -111,9 +106,12 @@
                     border-radius: .3rem;
                     color: $color-accent-300;
                 }
-
             }
         }
+    }
+
+    @include mq(large) {
+        padding: $size-6;
     }
 }
 
@@ -124,6 +122,7 @@
         grid-template-columns: 1fr 2fr;
         grid-template-rows: min-content 1fr;
         padding: 36px 24px;
+        gap: 24px;
     }
 
     .newest-staff-post {
@@ -146,7 +145,6 @@
         grid-column: 1;
     }
 }
-
 
 // layout para escritorio, breakpoint "large"
 @include mq(large) {
@@ -171,14 +169,10 @@
     .secondary-posts {
         grid-column: 2;
         grid-row: 2;
+        display: flex;
 
-        article {
-            transition: all 0.1s ease-in-out;
-
-            &:hover {
-                background-color: $color-primary-900;
-                border-radius: .2rem;
-            }
+        > * {
+            flex: 1;
         }
     }
     
@@ -298,6 +292,73 @@
         $title-font-size: $font-size-700,
         $extract-padding-block: 0,
     );
+
+    @include mq(medium) {
+        picture {
+            margin-block-start: $size-6;
+        }
+
+        .post-info {
+            padding-block: 0;
+
+            &__upvotes {
+                span {
+                    &::after {
+                        content: ' upvotes';
+                    }
+                }
+            }
+
+            &__comments {
+                span {
+                    &::after {
+                        content: ' comments';
+                    }
+                }
+            }
+        }
+    }
+
+    @include mq(large) {
+        transition: all 0.1s ease-in-out;
+
+        .extract {
+            margin: 0;
+        }
+
+        .post-info {
+            padding-block: 0;
+
+            &__upvotes, &__comments {
+                display: flex;
+            }
+
+            &__upvotes {
+                span {
+                    &::after {
+                        content: '';
+                    }
+                }
+            }
+
+            &__comments {
+                span {
+                    &::after {
+                        content: '';
+                    }
+                }
+            }
+        }
+
+        &:hover {
+            background-color: $color-primary-900;
+            border-radius: .2rem;
+        }
+        
+        h2 {
+            font-size: $font-size-600;
+        }
+    }
 }
 
 .community-posts {
@@ -343,7 +404,7 @@
         &__wrapper {
             &__post-title {
                 a {
-                    font-size: $font-size-500;
+                    font-size: 24px;
                 }
             }
 
