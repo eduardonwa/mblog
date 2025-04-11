@@ -2,28 +2,42 @@
   import { Head, Link } from '@inertiajs/vue3';
   import SiteLayout from '@/layouts/SiteLayout.vue';
   import LikeButton from '@/components/LikeButton.vue';
-  import { ref } from 'vue'
+  import { ref, onMounted } from 'vue'
 
   const { post, meta } = defineProps({
       post: Object,
       meta: Object,
   });
 
-  // Solución para evitar mutar props directamente
   const localPost = ref({...post});
   const openLightbox = ref(false);
+  const likeButtonRef = ref(null);
+  const isSticky = ref(false);
+
+  onMounted(() => {
+      const observer = new IntersectionObserver(
+          ([entry]) => {
+              isSticky.value = !entry.isIntersecting;
+          },
+          { threshold: 0.1 }
+      );
+
+      const trigger = document.querySelector('.like-button-trigger');
+      if (trigger) {
+          observer.observe(trigger);
+      }
+  });
 </script>
 
 <template>
   <SiteLayout>
-
     <Head>
       <title>{{ meta?.title }}</title>
       <meta name="description" :content="meta?.description">
       <meta name="author" :content="meta?.author">
     </Head>
 
-    <section class="blog-post | container">
+    <section class="blog-post | container" data-type="blog-post">
       <header class="post-header">
         <div class="post-header__meta-group">
           <!-- titulo y extracto -->
@@ -46,12 +60,6 @@
           </div>
         </div>
 
-        <!-- Likes -->
-        <LikeButton 
-            :post="localPost" 
-            @update:post="updatedPost => localPost = updatedPost" 
-        />
-
         <!-- Tags -->
         <div v-if="post?.tags?.length">
           <Link 
@@ -66,7 +74,7 @@
 
       <!-- Imagen y extracto -->
       <article class="blog-post__subheader">
-        <section class="image">
+        <section>
           <picture class="image" @click="openLightbox = true">
               <source media="(min-width: 1536px)" :srcset="post?.thumbnail_urls?.max">
               <source media="(min-width: 1280px)" :srcset="post?.thumbnail_urls?.lg">
@@ -94,15 +102,20 @@
       </article>
 
       <!-- Contenido principal -->
-      <section class="blog-post__body | container flow" data-type="blog-post">
+      <section class="blog-post__body | flow">
         <div v-html="post?.body"></div>
       </section>
 
+      <div class="like-button-trigger"></div>
     </section>
 
+    <div
+      ref="likeButtonRef"
+      :class="['show-like-btn-wrapper', { 'is-sticky': isSticky }]">
+      <LikeButton
+          :post="localPost" 
+          @update:post="updatedPost => localPost = updatedPost" 
+      />
+    </div>
   </SiteLayout>
 </template>
-
-<style scoped>
-
-</style>

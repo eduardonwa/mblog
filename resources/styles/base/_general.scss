@@ -16,3 +16,11 @@ a {
 a:is(:hover, :focus) {
   color: $link-color-hover;
 }
+
+
+hr {
+  margin-block: $size-4;
+  border: 0;
+  border-bottom: 1px dashed $color-accent-400;
+  background: $color-accent-900;
+}

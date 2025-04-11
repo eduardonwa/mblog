@@ -61,23 +61,23 @@
       </section>
   
       <!-- 2. Leaderboard -->
-      <section v-if="leaderboard?.length" class="leaderboard margin-block-8">
+      <section v-if="leaderboard?.length" class="leaderboard flow">
         <h2 class="uppercase">leaderboard</h2>
-        <article class="leaderboard__info" v-for="post in leaderboard" :key="post.id">
-          
+        <hr>
+        <article class="leaderboard__info" v-for="post in leaderboard" :key="post.id">      
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <h3 class="leaderboard__info__title">{{ post.title }}</h3>
             <span class="leaderboard__info__author">{{ post.author?.name }}</span>          
           </Link>
           <span class="leaderboard__info__likes">{{ post.likes_count }}</span>
-
         </article>
       </section>
   
       <!-- 3. Los siguientes 2 posts más recientes del staff -->
-      <section v-if="newestStaffPosts?.length > 1" class="secondary-posts margin-block-8">
+      <section v-if="newestStaffPosts?.length > 1" class="secondary-posts">
         <article v-for="(post, index) in newestStaffPosts?.slice(1, 3)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
+            <hr>
             <picture>
                 <source media="(min-width: 768px)" :srcset="post.thumbnail_urls?.max">
                 <source media="(max-width: 767px)" :srcset="post.thumbnail_urls?.lg">
@@ -89,7 +89,6 @@
             </picture>
               <h2> {{ post.title }} </h2>
               <p class="extract margin-block-3">{{ post?.extract }}</p>
-
               <div class="post-info">
                 <!-- upvotes -->
                 <div class="post-info__upvotes">
@@ -122,29 +121,28 @@
       <!-- 4. Posts recientes de la comunidad -->
       <section v-if="recent?.length" class="community-posts | flow">
         <h2 class="uppercase">community posts</h2>
+        <hr>
         <article class="community-posts__wrapper" v-for="post in recent" :key="post.id">
-          <h3 class="community-posts__wrapper__post-title">
-            <Link :href="route('post.show', post.slug)">
-              {{ post.title }}
-            </Link>
-          </h3>
-          <div class="community-posts__wrapper__post-details">
-
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="21.5" height="21.5" viewBox="0 0 21.5 21.5">
-                <path id="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(0.75 0.75)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-                <path id="Vector-2" data-name="Vector" d="M4.08,7.67.98,5.82A2.215,2.215,0,0,1,0,4.1V0" transform="translate(10.38 6.26)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-              </svg>
-  
-              <span>
-                {{ post?.short_date }}
-              </span>
+          <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
+            <h3 class="community-posts__wrapper__post-title">
+                {{ post.title }}
+            </h3>
+            <div class="community-posts__wrapper__post-details">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="21.5" height="21.5" viewBox="0 0 21.5 21.5">
+                  <path id="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(0.75 0.75)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+                  <path id="Vector-2" data-name="Vector" d="M4.08,7.67.98,5.82A2.215,2.215,0,0,1,0,4.1V0" transform="translate(10.38 6.26)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+                </svg>
+    
+                <span>
+                  {{ post?.short_date }}
+                </span>
+              </div>
+              <Link class="author" :href="route('author.posts', post.author.name)">
+                {{ post.author?.name }}
+              </Link>
             </div>
-  
-            <Link class="author" :href="route('author.posts', post.author.name)">
-              {{ post.author?.name }}
-            </Link>
-          </div>
+          </Link>
         </article>
       </section>
 

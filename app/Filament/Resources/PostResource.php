@@ -94,7 +94,12 @@ class PostResource extends Resource
                                             ->collection('thumbnails')
                                             ->columnSpanFull()
                                             ->image()
-                                            ->maxSize(3000)
+                                            ->maxSize(5000)
+                                            ->rules([
+                                                'image',
+                                                'mimes:png,jpg,jpeg,webp',
+                                                'max:5000'
+                                            ])
                                             ->required(),
                                         TextInput::make('meta_title')
                                             ->required(),
