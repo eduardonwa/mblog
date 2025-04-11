@@ -10,7 +10,7 @@
     flex-direction: column;
     color: $color-primary-300;
     padding: $size-6;
-    
+
     picture {
         order: 3;
         display: block;
@@ -46,6 +46,12 @@
 
     @include mq(medium) {
         padding: 0;
+        transition: all 0.1s ease-in-out;
+        
+        &:hover {
+            background-color: $color-primary-900;
+            border-radius: .2rem;
+        }
 
         picture {
             order: 1;
@@ -158,19 +164,13 @@
     .newest-staff-post {
         grid-column: 2;
         grid-row: 1;
-        transition: all 0.1s ease-in-out;
-        
-        &:hover {
-            background-color: $color-primary-900;
-            border-radius: .2rem;
-        }
     }
     
     .secondary-posts {
         grid-column: 2;
         grid-row: 2;
         display: flex;
-
+        
         > * {
             flex: 1;
         }
@@ -179,48 +179,11 @@
     .leaderboard {
         grid-column: 3;
         grid-row: 1 / 2;
-        font-size: $font-size-300;
-
-        &__info {
-            transition: all 0.1s ease-in-out;
-            
-            &:hover {
-                background-color: $color-primary-900;
-                border-radius: .3rem;
-            }
-        }
     }
       
     .community-posts {
         grid-column: 3;
         grid-row: 2 / 3;
-
-        &__wrapper {
-            transition: all 0.1s ease-in-out;
-
-            &:hover {
-                background-color: $color-primary-900;
-                border-radius: .3rem;
-            }
-
-            &__post-details {
-                text-decoration: none;
-                color: $color-primary-300;
-                transition: all 0.2s ease-in-out;
-                font-size: $font-size-300;
-
-                .author {
-                    padding: .4rem;
-                    transition: all 0.2s ease-in-out;
-
-                    &:hover {
-                        color: $color-accent-100;
-                        background-color: $color-primary-800;
-                        border-radius: .3rem;
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -271,10 +234,12 @@
 
     @include mq(medium) {
         padding: 0;
+        padding-block-start: $size-5;
     }
 
     @include mq(large) {
         padding: $size-3;
+        padding-block-start: 0;
 
         h2 {
             padding-left: $size-3;
@@ -282,6 +247,12 @@
 
         &__info {
             padding: $size-3;
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                background-color: $color-primary-900;
+                border-radius: .3rem;
+            }
 
             &__title {
                 font-size: $font-size-400;
@@ -376,7 +347,6 @@
     }
 
     &__wrapper {
-
         &__post-title {
             padding-block-end: $size-3;
             color: $color-primary-100;
@@ -443,9 +413,34 @@
 
         &__wrapper {
             padding: $size-3;
-            
+            transition: all 0.1s ease-in-out;
+
             &__post-title {
                 font-size: $font-size-400;
+                padding-block-end: $size-1;
+            }
+    
+            &:hover {
+                background-color: $color-primary-900;
+                border-radius: .3rem;
+            }
+
+            &__post-details {
+                text-decoration: none;
+                color: $color-primary-300;
+                transition: all 0.2s ease-in-out;
+                font-size: $font-size-300;
+
+                .author {
+                    padding: .4rem;
+                    transition: all 0.2s ease-in-out;
+
+                    &:hover {
+                        color: $color-accent-100;
+                        background-color: $color-primary-800;
+                        border-radius: .3rem;
+                    }
+                }
             }
         }
     }
