@@ -121,7 +121,7 @@
     }
 }
 
-// layout para escritorio, breakpoint "medium"
+// diseño para tabletas
 @include mq(medium) {
     .welcome-grid {
         display: grid;
@@ -152,7 +152,7 @@
     }
 }
 
-// layout para escritorio, breakpoint "large"
+// diseño para escritorio
 @include mq(large) {
     .welcome-grid {
         grid-template-columns: 1fr 2fr 1fr;
@@ -187,7 +187,7 @@
     }
 }
 
-// aqui usar el orden de las etiquetas html
+// diseño para móviles, aqui uso el orden original de las etiquetas
 .welcome-grid {
     margin-block: $size-4;
 }
