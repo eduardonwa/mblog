@@ -17,3 +17,8 @@
 .container[data-type="full-bleed"] {
   --max-width: 100%;
 }
+.container[data-type="blog-post"] {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: minmax(auto, 55ch);
+}

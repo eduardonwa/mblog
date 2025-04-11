@@ -28,10 +28,10 @@ class PostController extends Controller
         $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
         $post->setAttribute('likes_count', $post->likesCount());
 
-        $post->thumbnail_url = $post->getFirstMediaUrl('thumbnails', 'lg_thumb');
+        $post->load('media');
     
         return Inertia::render('post/show', [
-            'post' => $post,
+            'post' => $post->append('thumbnail_urls'),
             'meta' => [
                 'title' => $post->meta_title ?? $post->title,
                 'description' => $post->meta_description ?? $post->description,

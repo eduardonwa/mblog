@@ -19,10 +19,10 @@
       <section v-if="newestStaffPosts?.length > 0" class="newest-staff-post">
         <Link style="text-decoration: none;" :href="route('post.show', newestStaffPosts?.[0].slug)">
           <picture>
-            <source media="(min-width: 768px)" :srcset="newestStaffPosts?.[0]?.thumbnail_urls?.lg">
-            <source media="(max-width: 767px)" :srcset="newestStaffPosts?.[0]?.thumbnail_urls?.md">
+            <source media="(min-width: 768px)" :srcset="newestStaffPosts?.[0]?.thumbnail_urls?.max">
+            <source media="(max-width: 767px)" :srcset="newestStaffPosts?.[0]?.thumbnail_urls?.lg">
             <img 
-              :src="newestStaffPosts?.[0]?.thumbnail_urls?.md" 
+              :src="newestStaffPosts?.[0]?.thumbnail_urls?.lg" 
               :alt="newestStaffPosts?.[0]?.title"
               class="post-thumbnail"
             >
@@ -79,10 +79,10 @@
         <article v-for="(post, index) in newestStaffPosts?.slice(1, 3)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <picture>
-                <source media="(min-width: 768px)" :srcset="post.thumbnail_urls?.md">
-                <source media="(max-width: 767px)" :srcset="post.thumbnail_urls?.sm">
+                <source media="(min-width: 768px)" :srcset="post.thumbnail_urls?.max">
+                <source media="(max-width: 767px)" :srcset="post.thumbnail_urls?.lg">
                 <img 
-                  :src="post.thumbnail_urls?.sm" 
+                  :src="post.thumbnail_urls?.lg" 
                   :alt="post.title"
                   class="post-thumbnail"
                 >

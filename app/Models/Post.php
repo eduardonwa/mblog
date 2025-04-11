@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\Conversions\Manipulations;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -164,29 +165,35 @@ class Post extends Model implements HasMedia
     }
 
     public function registerMediaConversions(?Media $media = null): void
-    {   
-        $this
-            ->addMediaConversion('sm_thumb')
+    {
+        $this->addMediaConversion('max_thumb')
+            ->fit(Fit::Max, 720, 720)
+            ->format('webp')
+            ->nonQueued()
+            ->performOnCollections('thumbnails');
+
+        $this->addMediaConversion('lg_thumb')
+            ->fit(Fit::Crop, 560, 300)
+            ->format('webp')
+            ->performOnCollections('thumbnails')
+            ->nonQueued();
+    
+        // Luego las más pequeñas
+        $this->addMediaConversion('md_thumb')
+            ->fit(Fit::Max, 300, 300)
+            ->format('webp')
+            ->nonQueued();
+    
+        $this->addMediaConversion('sm_thumb')
             ->fit(Fit::Contain, 150, 150)
             ->format('webp')
             ->nonQueued();
-
-        $this
-            ->addMediaConversion('md_thumb')
-            ->fit(Fit::Contain, 300, 300)
-            ->format('webp')
-            ->nonQueued();
-
-        $this
-            ->addMediaConversion('lg_thumb')
-            ->fit(Fit::Contain, 1080, 1080)
-            ->format('webp')
-            ->nonQueued(); 
     }
 
     public function getThumbnailUrlsAttribute()
     {
         return [
+            'max' => $this->getFirstMediaUrl('thumbnails', 'max_thumb'),
             'lg' => $this->getFirstMediaUrl('thumbnails', 'lg_thumb'),
             'md' => $this->getFirstMediaUrl('thumbnails', 'md_thumb'), 
             'sm' => $this->getFirstMediaUrl('thumbnails', 'sm_thumb')

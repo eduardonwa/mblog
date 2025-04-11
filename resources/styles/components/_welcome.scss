@@ -241,6 +241,7 @@
     &__info {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         margin-block-start: $size-3;
         gap: $size-1;;
 
