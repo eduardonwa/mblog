@@ -225,6 +225,10 @@
 }
 
 // aqui usar el orden de las etiquetas html
+.welcome-grid {
+    margin-block: $size-4;
+}
+
 .newest-staff-post > a {
     @include post-styles
 }

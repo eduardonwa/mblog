@@ -37,7 +37,7 @@
   
         <div class="nav__auth">
           <Link v-if="$page.props.auth.user" :href="route('dashboard')">Dashboard</Link>
-          <Link v-else :href="route('register')">Join</Link>
+          <Link v-else :href="route('register')">Sign Up</Link>
         </div>
   
         <div :class="{ 'active': isMenuOpen }" class="nav__menu">
