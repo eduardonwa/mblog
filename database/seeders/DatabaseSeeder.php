@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         Category::factory()->count(3)->create();        
         
-        // 1. crear 5 posts del staff
+        // 1. crear 15 posts del staff
         Post::factory()
             ->count(5)
             ->create([
@@ -58,9 +58,9 @@ class DatabaseSeeder extends Seeder
                 'featured' => false
             ]);
 
-        // 2. crear 3 posts featured del staff
+        // 2. crear 6 featured del staff
         Post::factory()
-            ->count(3)
+            ->count(6)
             ->create([
                 'author_id' => $staffUser->id,
                 'category_id' => Category::inRandomOrder()->first()->id,

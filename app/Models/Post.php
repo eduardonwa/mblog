@@ -116,7 +116,7 @@ class Post extends Model implements HasMedia
     }
     
     // featured posts del staff
-    public function scopeFeaturedPosts($query, $limit = 3)
+    public function scopeFeaturedPosts($query, $limit = 6)
     {
         return $query->staffBase()
             ->where('featured', true)
@@ -136,15 +136,23 @@ class Post extends Model implements HasMedia
             });
     }
     
-    public function scopeRecent($query, $limit = 10)
+    // Scope base para posts comunitarios (no staff/admin)
+    public function scopeCommunityBase($query)
     {
-        return $query->with('author')
+        return $query->with(['author', 'media'])
+            ->withCount('likes')
+            ->where('status', 'published')
             ->whereDoesntHave('author', function($q) {
                 $q->whereHas('roles', function($q) {
-                    $q->whereIn('name', ['is_staff', 'admin']); // Excluye admin y staff
+                    $q->whereIn('name', ['is_staff', 'admin']);
                 });
-            })
-            ->where('status', 'published')
+            });
+    }
+
+    // Versión para posts recientes de la comunidad
+    public function scopeRecent($query, $limit = 10)
+    {
+        return $query->communityBase()
             ->latest()
             ->take($limit);
     }
