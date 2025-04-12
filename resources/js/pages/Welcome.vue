@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Head, Link } from '@inertiajs/vue3';
+  import { Head, Link, usePage } from '@inertiajs/vue3';
   import SiteLayout from '@/layouts/SiteLayout.vue';
 
   const { featuredPosts, staffPosts, leaderboard, recent } = defineProps({
@@ -8,6 +8,8 @@
     leaderboard: Object,
     recent: Object,
   });
+
+  const user = usePage().props.auth.user;
 </script>
 
 <template>
@@ -62,8 +64,10 @@
   
       <!-- 2. Leaderboard -->
       <section v-if="leaderboard?.length" class="leaderboard flow">
-        <h2 class="uppercase">leaderboard</h2>
-        <hr>
+        <div class="header-section">
+          <h2 class="uppercase">leaderboard</h2>
+          <hr>
+        </div>
         <article class="leaderboard__info" v-for="post in leaderboard" :key="post.id">      
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <h3 class="leaderboard__info__title">{{ post.title }}</h3>
@@ -75,9 +79,12 @@
   
       <!-- 3. grupo de 2 "featured" -->
       <section v-if="featuredPosts?.length > 1" class="featured-post" data-type="secondary">
+        <div class="header-section">
+          <h2 class="uppercase">featured</h2>
+          <hr>
+        </div>
         <article v-for="(post, index) in featuredPosts?.slice(1, 3)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
-            <hr>
             <picture>
                 <source media="(min-width: 768px)" :srcset="post.thumbnail_urls?.max">
                 <source media="(max-width: 767px)" :srcset="post.thumbnail_urls?.lg">
@@ -87,7 +94,6 @@
                   class="post-thumbnail"
                 >
             </picture>
-
             <div class="post-content">
               <h2> {{ post.title }} </h2>
               <p class="extract margin-block-3">{{ post?.extract }}</p>
@@ -116,18 +122,18 @@
                   <p>{{ featuredPosts?.[0].author?.name || 'Rattlehead' }}</p>
                 </Link>
               </div>
-            </div class="post-content">
-
+            </div>
           </Link>
         </article>
       </section>
 
       <!-- 4. posts del staff (5 primeros) -->
-      <section v-if="staffPosts?.length" class="staff-posts">
-        <div class="header">
-          <h2 class="uppercase">recent</h2>
+      <section v-if="staffPosts?.length" class="staff-posts">  
+        <div class="header-section">
+          <h2 class="uppercase">more posts</h2>
           <hr>
         </div>
+
         <article v-for="(post, index) in staffPosts?.slice(0, 5)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <h2>{{ post.title }}</h2>
@@ -206,21 +212,14 @@
       </section> -->
 
       <!-- 6. Posts recientes de la comunidad -->
-      <section
-        v-if="recent?.length"
-        class="community-posts community-posts--first-batch | flow"
-        data-type="first-batch"  
-      >
-        <h2 class="uppercase">community posts</h2>
-        <hr>
-
+      <section v-if="recent?.length" class="community-posts | flow" data-type="first-batch">
+        <div class="header-section">
+          <h2 class="uppercase">from the community</h2>
+          <hr>
+        </div>
         <article v-for="(post, index) in recent?.slice(0, 5)" :key="post.id" class="community-posts__wrapper">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
-            
-            <h3 class="community-posts__wrapper__post-title">
-                {{ post.title }}
-            </h3>
-
+            <h3 class="community-posts__wrapper__post-title"> {{ post.title }} </h3>
             <div class="community-posts__wrapper__post-details">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="21.5" height="21.5" viewBox="0 0 21.5 21.5">
@@ -237,9 +236,7 @@
               </Link>
             </div>
           </Link>
-
         </article>
-
       </section>
 
       <!-- 7. grupo de 3 "featured" -->
@@ -291,16 +288,21 @@
       </section>
 
       <!-- 8. ultimos 5 posts recientes de la comunidad -->
-      <section
-        v-if="recent?.length"
-        class="community-posts community-posts--second-batch | flow"
-        data-type="second-batch"
-      >
-        <hr>
-        <article>
-          <h2 class="uppercase">We need YOU</h2>
-          <p>Metal sucks and no ones listening to the right stuff anymore!! Sign up to share your own reflection on things.</p>
-        </article>
+      <section v-if="recent?.length" class="community-posts | flow" data-type="second-batch">
+        <div class="header-section">
+          <h2 class="uppercase">more from the community</h2>
+          <hr>
+        </div>
+
+        <div v-if="!user">
+          <article class="cta | border-radius-2">
+            <p> aren't you tired of all these posers praising the fake attitude and shit? no ones listening to the right stuff anymore, but YOU. </p>
+            <a href="register" class="uppercase border-radius-1">
+              become an author NOW
+            </a>
+          </article>
+        </div>
+
         <article
           v-for="(post, index) in recent?.slice(5, 10)"
           :key="post.id"

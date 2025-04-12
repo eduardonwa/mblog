@@ -121,6 +121,18 @@
     }
 }
 
+@mixin header-section-styles(
+) {
+    margin-block-start: $size-6;
+    margin-inline: $size-6;
+
+    h2 {
+        font-size: $font-size-300;
+        color: $color-accent-200;
+        font-family: $font-family-semi-bold;
+    }
+}
+
 // diseño para tabletas
 @include mq(medium) {
     .welcome-grid {
@@ -142,7 +154,7 @@
             grid-row: 2;
         }
 
-        &[data-typ="second-batch"] {
+        &[data-type="second-batch"] {
             grid-column: 1;
             grid-row: 3;
         }
@@ -157,22 +169,17 @@
         &[data-type="secondary"] {
             grid-column: 2;
             grid-row: 2;
-        }/* 
-
-        &[data-type="tertiary"] {
-            grid-column: 2;
-            grid-row: 3;
-        } */
+        }
 
         &[data-type="last-three"] {
             grid-column: 2;
-            grid-row: 4;
+            grid-row: 3;
         }
     }
 
     .staff-posts {
-        grid-column: 2;
-        grid-row: 5;
+        grid-column: 1 / span 2;
+        grid-row: 5 ;
     }
 }
 
@@ -219,6 +226,18 @@
 }
 
 // diseño para móviles
+.featured-post {
+    .header-section {
+        @include header-section-styles();
+
+        @include mq(medium) {
+            margin-inline-start: 0;
+            margin-block-start: 0;
+        }
+    }
+
+}
+
 .featured-post > a {
     @include featured-post-styles;
 }
@@ -226,10 +245,14 @@
 .leaderboard {
     padding: $size-6;
 
-    h2 {
-        font-size: $font-size-300;
-        color: $color-accent-200;
-        font-family: $font-family-semi-bold;
+    .header-section {
+        @include header-section-styles();
+        margin-left: 0;
+        margin-block-start: 0;
+
+        @include mq(large) {
+            margin-inline-start: $size-3;
+        }
     }
 
     &__info {
@@ -269,10 +292,6 @@
         padding: $size-3;
         padding-block-start: 0;
 
-        h2 {
-            padding-left: $size-3;
-        }
-
         &__info {
             padding: $size-3;
             transition: all 0.1s ease-in-out;
@@ -289,6 +308,7 @@
     }
 }
 
+// estilos para grupos
 .featured-post > article > a {
     @include featured-post-styles (
         $img-height: 200px,
@@ -296,8 +316,11 @@
         $title-font-size: $font-size-700,
         $extract-padding-block: 0,
     );
+    // no hay hover, asi que no se necesita el padding
+    padding-block-start: 0;
 
     @include mq(medium) {
+        
         picture {
             margin-block-start: $size-6;
         }
@@ -372,7 +395,7 @@
         align-self: flex-start;
         margin-block-end: $size-6;
         gap: 0;
-        padding-block: $size-5;
+        padding-block: 0;
 
         .post-content {
             padding-inline-end: $size-4;
@@ -411,12 +434,19 @@
             margin-block-start: $size-3;
         }
     }
+    .featured-post[data-type="last-three"] > article > a {
+        .post-content {
+            h2 {
+                font-size: $font-size-500;
+            }
+        }
+        picture {
+            display: none;
+        }
+    }
 }
 
 @include mq(large) {
-    .featured-post[data-type="secondary"] {
-    }
-
     .featured-post[data-type="last-three"] > article > a {
         flex-direction: row;
         align-items: center;
@@ -428,6 +458,7 @@
         }
 
         picture {
+            display: block;
             flex: 3;
             order: 2;
             align-self: center;
@@ -443,13 +474,97 @@
     }
 }
 
+.staff-posts {
+    .header-section {
+        @include header-section-styles();
+        
+        @include mq(medium) {
+            margin-inline-start: 0;
+        }
+
+        @include mq(large) {
+            margin-inline-start: $size-3;
+        }
+    }
+    
+    article > a {
+        @include featured-post-styles(
+            $img-height: 200px,
+            $img-width: 100%,
+            $title-font-size: $font-size-600,
+        );
+        
+        padding-block-start: 0;
+
+        @include mq(medium) {
+
+            picture {
+                height: 180px;
+            }
+
+            h2 {
+                font-size: $font-size-500;
+                font-family: $font-family-base;
+                padding-left: 0;
+            }
+        }
+
+        @include mq(large) {
+            padding: $size-3;
+            padding-block-end: 0;
+
+            .extract {
+                display: none;
+            }
+
+            picture {
+                height: 220px;
+            }
+
+            h2 {
+                font-size: $font-size-400;
+                padding: 0;
+            }
+
+            .post-info {
+                padding-block: $size-2;
+            }
+        }
+    }
+}
+
 .community-posts {
     padding: $size-6;
 
-    h2 {
-        font-size: $font-size-300;
-        font-family: $font-family-semi-bold;
-        color: $color-accent-200;
+    .header-section {
+        @include header-section-styles();
+        margin-left: 0;
+
+        @include mq(medium) {
+            margin-block-start: 0;
+        }
+
+        @include mq(large) {
+            margin-inline-start: $size-3;
+        }
+    }
+
+    .cta {
+        padding: $size-3;
+        background-color: $color-extra-100;
+        color: $color-neutral-900;
+
+        a {
+            margin-block-start: $size-5;
+            display: block;
+            text-align: center;
+            background: linear-gradient(to right, $color-accent-400, $color-extra-400);
+            padding: $size-3;
+            color: $color-neutral-800;
+            font-family: $font-family-semi-bold;
+            border: transparent;
+            text-decoration: none;
+        }
     }
 
     &__wrapper {
@@ -513,10 +628,6 @@
     @include mq(large) {
         padding: $size-3;
     
-        h2 {
-            padding-left: $size-3;
-        }
-
         &__wrapper {
             padding: $size-3;
             transition: all 0.1s ease-in-out;
@@ -547,69 +658,6 @@
                         border-radius: .3rem;
                     }
                 }
-            }
-        }
-    }
-}
-
-.staff-posts {
-    
-    .header {
-        font-size: $font-size-300;
-        color: $color-accent-200;
-        font-family: $font-family-semi-bold;
-        padding-left: $size-6;
-
-        @include mq(medium) {
-            padding-left: 0;
-        }
-
-        @include mq(large) {
-            h2 {
-                padding-left: $size-3;
-            }
-        }
-    }
-
-    article > a {
-        @include featured-post-styles(
-            $img-height: 200px,
-            $img-width: 100%,
-            $title-font-size: $font-size-600,
-        );
-    
-        @include mq(medium) {
-
-            picture {
-                height: 180px;
-            }
-
-            h2 {
-                font-size: $font-size-500;
-                font-family: $font-family-base;
-                padding-left: 0;
-            }
-        }
-
-        @include mq(large) {
-            padding: $size-3;
-            padding-block-end: 0;
-
-            .extract {
-                display: none;
-            }
-
-            picture {
-                height: 220px;
-            }
-
-            h2 {
-                font-size: $font-size-400;
-                padding: 0;
-            }
-
-            .post-info {
-                padding-block: $size-2;
             }
         }
     }
