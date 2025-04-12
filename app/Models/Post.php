@@ -106,32 +106,34 @@ class Post extends Model implements HasMedia
         return $this->likes()->where('user_id', Auth::id())->exists();
     }
 
+    // posts regulares del staff
     public function scopeStaffPosts($query, $limit = 10)
     {
-        return $query->with(['category', 'author'])
-            ->where('status', 'published')
-            ->whereHas('author', function($q) {
-                $q->whereHas('roles', function($q) {
-                    $q->whereIn('name', ['is_staff', 'admin']); // incluye admin y staff
-                });
-            })
-            ->skip(3)
+        return $query->staffBase()
+            ->where('featured', false)
             ->latest()
             ->take($limit);
     }
-
-    public function scopeNewestStaffPosts($query, $limit = 3)
+    
+    // featured posts del staff
+    public function scopeFeaturedPosts($query, $limit = 3)
     {
-        return $query->with(['category', 'author'])
+        return $query->staffBase()
+            ->where('featured', true)
+            ->latest()
+            ->take($limit);
+    }
+    
+    public function scopeStaffBase($query)
+    {
+        return $query->with(['category', 'author', 'media'])
             ->withCount('likes')
             ->where('status', 'published')
             ->whereHas('author', function($q) {
                 $q->whereHas('roles', function($q) {
-                    $q->whereIn('name', ['is_staff', 'admin']); // incluye admin y staff
+                    $q->whereIn('name', ['is_staff', 'admin']);
                 });
-            })
-            ->latest()
-            ->take($limit);
+            });
     }
     
     public function scopeRecent($query, $limit = 10)

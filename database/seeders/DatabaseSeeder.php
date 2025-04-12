@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         $staffUser->assignRole($staffRole);
 
         User::factory()
-            ->count(5)
+            ->count(8)
             ->create()
             ->each(function ($user) use ($authorRole) {
                 $user->assignRole($authorRole);
@@ -49,14 +49,38 @@ class DatabaseSeeder extends Seeder
 
         Category::factory()->count(3)->create();        
         
+        // 1. crear 5 posts del staff
         Post::factory()
-            ->count(10)
+            ->count(5)
+            ->create([
+                'author_id' => $staffUser->id,
+                'category_id' => Category::inRandomOrder()->first()->id,
+                'featured' => false
+            ]);
+
+        // 2. crear 3 posts featured del staff
+        Post::factory()
+            ->count(3)
+            ->create([
+                'author_id' => $staffUser->id,
+                'category_id' => Category::inRandomOrder()->first()->id,
+                'featured' => true
+            ]);
+
+        // 4. crear 20 posts de usuarios normales (no staff/admin)
+        $authUsers = User::whereDoesntHave('roles', function($q) {
+            $q->whereIn('name', ['admin', 'is_staff']);
+        })->get();
+
+        Post::factory()
+            ->count(20)
             ->create()
-            ->each(function ($post) use ($users) {
+            ->each(function ($post) use ($authUsers) {
                 $post->update([
-                    'author_id' => $users->random()->id,
+                    'author_id' => $authUsers->random()->id,
                     'category_id' => Category::inRandomOrder()->first()->id,
+                    'featured' => false
                 ]);
-        });
+            });
     }
 }

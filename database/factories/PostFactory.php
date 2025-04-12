@@ -35,7 +35,7 @@ class PostFactory extends Factory
             'language' => fake()->languageCode(),
             'meta_title' => fake()->sentence(),
             'meta_description' => implode(' ', fake()->sentences(2)),
-            'status' => fake()->boolean() ? 'published' : 'draft',
+            'status' => 'published',
             'featured' => fake()->boolean(),
             'author_id' => User::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,
