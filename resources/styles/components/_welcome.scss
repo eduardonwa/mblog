@@ -355,7 +355,7 @@
         $extract-padding-block: 0,
     );
     // no hay hover, asi que no se necesita el padding
-    padding-block-start: 0;
+    & { padding-block-start: 0; }
 
     @include mq(medium) {
         
@@ -591,7 +591,7 @@
             $title-font-size: $font-size-600,
         );
         
-        padding-block-start: 0;
+        & { padding-block-start: 0; }
 
         @include mq(medium) {
             picture {
