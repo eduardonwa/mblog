@@ -117,7 +117,7 @@
     }
 
     @include mq(large) {
-        padding: $size-6;
+        padding: $size-3;
     }
 }
 
@@ -141,6 +141,7 @@
         grid-template-rows: min-content min-content min-content min-content 1fr;
         padding: 36px 24px;
         gap: 24px;
+        position: relative;
     }
 
     .leaderboard {
@@ -181,17 +182,32 @@
         grid-column: 1 / span 2;
         grid-row: 5 ;
     }
+
+    .grid-border {
+        position: absolute;
+        top: 2.4%;
+        bottom: 1.5%;
+        left: 25.50%;
+        width: 1px;
+        background: $color-primary-400;
+        opacity: .4;
+        margin: 0;
+        border: none;
+        z-index: 1;
+    }
 }
 
 // diseño para escritorio
 @include mq(large) {
     .welcome-grid {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: min-content min-content min-content;
+        grid-template-rows: repeat(3, min-content);
         max-width: 1308px;
         padding: 36px 24px;
+        
     }
 
+    // en el frontend dice "more posts"
     .staff-posts {
         grid-column: 1;
         grid-row: 1;
@@ -208,14 +224,9 @@
             grid-row: 2;
         }
 
-        &[data-type="tertiary"] {
-            grid-column: 2 / 4;
-            grid-row: 3;
-        }
-
         &[data-type="last-three"] {
             grid-column: 2 / 4;
-            grid-row: 5;
+            grid-row: 3;
         }
     }
 
@@ -223,19 +234,41 @@
         grid-column: 4/5;
         grid-row: 1;
     }
+
+    .community-posts {
+        &[data-type="first-batch"] {
+            grid-column: 4;
+        }
+
+        &[data-type="second-batch"] {
+            grid-column: 4;
+            grid-row: 3;
+            
+            .header-section {
+                display: none;
+            }
+        }
+    }
 }
 
 // diseño para móviles
+.grid-border {
+    opacity: 0
+}
+
 .featured-post {
     .header-section {
         @include header-section-styles();
-
         @include mq(medium) {
             margin-inline-start: 0;
             margin-block-start: 0;
         }
+        // solo visible para el grupo de 3 
+        @include mq(large) {
+            margin-inline-start: $size-3;
+            margin-block-start: 0;
+        }
     }
-
 }
 
 .featured-post > a {
@@ -348,14 +381,16 @@
 
     @include mq(large) {
         transition: all 0.1s ease-in-out;
+        padding-block: 0;
 
         .extract {
             margin: 0;
         }
 
         .post-info {
-            padding-block: 0;
-
+            padding-block-start: $size-3;
+            padding-block-end: 0;
+            
             &__upvotes, &__comments {
                 display: flex;
             }
@@ -434,6 +469,7 @@
             margin-block-start: $size-3;
         }
     }
+
     .featured-post[data-type="last-three"] > article > a {
         .post-content {
             h2 {
@@ -447,10 +483,65 @@
 }
 
 @include mq(large) {
+
+    .featured-post[data-type="main"] {
+        > a {
+            .post-info {
+                padding-block-end: 0
+            }
+        }
+    }
+
+    .featured-post[data-type="secondary"] {
+        display: grid;
+        grid-template-areas:
+        "post1 post2";
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: $size-4;
+
+        .header-section {
+            display: none;
+        }
+
+        article:nth-child(1) {
+            grid-area: post1;
+        }
+        article:nth-child(2) {
+            grid-area: post2;
+        }
+
+        > article {
+            > a {
+                display: flex;
+                flex-direction: column;
+
+                picture {
+                    order: 1;
+                    align-self: stretch;
+                }
+            }
+
+            .post-content {
+                order: 2;
+                display: flex;
+                flex-direction: column;
+
+                .post-info {
+                    padding-block-end: $size-3;
+                }
+
+                .extract {
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
+
     .featured-post[data-type="last-three"] > article > a {
         flex-direction: row;
         align-items: center;
         gap: $size-3;
+        padding-block: $size-3;
 
         .post-content {
             flex: 5;
@@ -462,10 +553,10 @@
             flex: 3;
             order: 2;
             align-self: center;
+            margin-block-start: 0;
 
             .post-thubmail {
                 width: 100%;
-                height: auto;
                 max-height: 200px;
                 object-fit: cover;
                 border-radius: 0.5rem;
@@ -475,6 +566,7 @@
 }
 
 .staff-posts {
+    // dice more posts en el frontend
     .header-section {
         @include header-section-styles();
         
@@ -497,7 +589,6 @@
         padding-block-start: 0;
 
         @include mq(medium) {
-
             picture {
                 height: 180px;
             }
@@ -554,16 +645,32 @@
         background-color: $color-extra-100;
         color: $color-neutral-900;
 
-        a {
+        &__register-btn {
             margin-block-start: $size-5;
             display: block;
             text-align: center;
-            background: linear-gradient(to right, $color-accent-400, $color-extra-400);
             padding: $size-3;
-            color: $color-neutral-800;
+            color: $color-neutral-100;
             font-family: $font-family-semi-bold;
             border: transparent;
             text-decoration: none;
+
+            background: linear-gradient(to right, $color-accent-400, $color-extra-400);
+            background-size: 200% 100%;
+            transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
+            
+            &:after {
+                content: 'become an author';
+            }
+
+            &:hover {
+                background-position: 100% 0%;
+                color: $color-neutral-800;
+
+                &:after {
+                    content: 'now!!';
+                }
+            }
         }
     }
 
