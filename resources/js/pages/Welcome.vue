@@ -17,7 +17,8 @@
     <Head title="Welcome" />
 
     <div class="welcome-grid ! mx-auto">
-      <hr class="grid-border"> <!-- Borde vertical -->
+      <hr class="grid-border" data-type="left">
+      <hr class="grid-border" data-type="right">
       <!-- 1. Primer post "featured" -->
       <section v-if="featuredPosts?.length > 0" class="featured-post" data-type="main">
         <Link style="text-decoration: none;" :href="route('post.show', featuredPosts?.[0].slug)">

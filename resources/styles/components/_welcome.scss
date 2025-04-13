@@ -185,16 +185,25 @@
 
     .grid-border {
         position: absolute;
-        top: 2.4%;
+        top: 2%;
         bottom: 1.5%;
-        left: 25.50%;
         width: 1px;
         background: $color-primary-400;
         opacity: .4;
         margin: 0;
         border: none;
         z-index: 1;
+
+
+        &[data-type="left"] {
+            left: 25.50%;
+        }
+    
+        &[data-type="right"] {
+            right: 25.50%;
+        }
     }
+
 }
 
 // diseño para escritorio
@@ -252,10 +261,6 @@
 }
 
 // diseño para móviles
-.grid-border {
-    opacity: 0
-}
-
 .featured-post {
     .header-section {
         @include header-section-styles();
