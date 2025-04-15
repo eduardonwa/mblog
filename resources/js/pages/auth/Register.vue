@@ -9,13 +9,12 @@ import List from '@/components/ui/list/List.vue';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import AuthBase from '@/layouts/AuthLayout.vue';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 // variables reactivas para el formulario de captcha
 const captchaImage = ref<string>('');
 const captchaAnswer = ref<string>('');
 const captchaError = ref<string>('');
-const showCaptcha = ref<boolean>(false);
 
 const form = useForm({
     name: '',
@@ -40,8 +39,6 @@ const submit = async () => {
 
 // generar nuevo captcha
 const generateNewCaptcha = async () => {
-    captchaError.value = '';
-    captchaAnswer.value = '';
     try {
         const response = await axios.get('/captcha/generate', {
             responseType: 'blob'
@@ -85,37 +82,51 @@ const nextStep = () => {
   }
 };
 
-// Nueva función para validar el CAPTCHA
-const validateCaptcha = async () => {
-    captchaError.value = '';
-
-    if (!captchaAnswer.value) {
-        captchaError.value = 'You must identify the band';
+const validateCaptcha = async (): Promise<boolean> => {
+    // Validación básica del frontend
+    if (!captchaAnswer.value?.trim()) {
+        captchaError.value = 'You must enter the band\'s name, unless... you\'re a bot or a poser.';
         return false;
     }
-    
+
     try {
         const { data } = await axios.post('/captcha/validate', {
-            captcha_answer: captchaAnswer.value
+            captcha_answer: captchaAnswer.value.trim()
         });
-        
+
         if (!data.success) {
-            captchaError.value = data.error || 'What!? Those are like the easiest albums wtf... *cough*poser*cough*';
-            generateNewCaptcha();
+            captchaError.value = data.error || 'Poser detected.';
+            await generateNewCaptcha();
             return false;
         }
-        return true;
 
+        return true;
     } catch (error) {
-        captchaError.value = "Server error. Please try again.";
-        generateNewCaptcha();
+        captchaError.value = axios.isAxiosError(error) 
+            ? error.response?.data?.error || 'Server error'
+            : 'Verification failed';
+        
+        await generateNewCaptcha();
         return false;
     }
 };
 
+// Helper para errores
+const getErrorMessage = (error: unknown): string => {
+    if (axios.isAxiosError(error)) {
+        const data = error.response?.data;
+        return data?.error 
+            || data?.message
+            || 'Server error. Please try again.';
+    }
+    return 'Verification failed. Please reload and try again.';
+};
+
 // validación para enviar el captcha
 watch(captchaError, (newVal) => {
-    console.log('Error cambiado:', newVal);
+    if (newVal) {
+        console.warn('CAPTCHA ERROR:', newVal);
+    }
 });
 
 // función para retroceder al paso anterior
@@ -168,6 +179,11 @@ const prevStep = () => {
                         </div>
 
                         <div class="captcha-container__ui">
+                            <!-- mensaje de error -->
+                            <div v-if="captchaError" class="captcha-error">
+                                {{ captchaError }}
+                            </div>
+                            
                             <Input
                                 v-model="captchaAnswer"
                                 type="text"
@@ -176,6 +192,7 @@ const prevStep = () => {
                                 :tabIndex="1"
                             />
                             
+                            <!-- verify btn -->
                             <Button
                                 type="button"
                                 @click="submit"
@@ -187,12 +204,7 @@ const prevStep = () => {
                                 Verify
                             </Button>
                             
-                            <InputError 
-                                :message="captchaError" 
-                                class="clr-accent-100"
-                                v-if="captchaError"
-                            />
-                            
+                            <!-- another album -->
                             <button
                                 type="button"
                                 @click="generateNewCaptcha"
@@ -300,3 +312,9 @@ const prevStep = () => {
 
     </AuthBase>
 </template>
+
+<style scope>
+.text-red-500 {
+    color: #ef4444;
+}
+</style>

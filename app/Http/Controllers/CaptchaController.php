@@ -93,11 +93,17 @@ class CaptchaController extends Controller
             // Procesar imagen
             $image = $manager->read($imagePath)
                 ->greyscale()
-                ->contrast(rand(30, 50))
-                ->blur(rand(1, 7))
-                ->pixelate(rand(10, 15))
-                ->colorize(rand(-20, 20), rand(-20, 20), rand(-20, 20))
-                ->rotate(rand(-15, 15));
+                ->rotate(rand(-30, 30))
+                ->blur(rand(5, 10))
+                ->contrast(rand(40, 60))
+                ->pixelate(rand(10, 20))
+                ->colorize(
+                    rand(-30, 30),
+                    rand(-30, 30),
+                    rand(-30, 30)
+                )
+                ->brightness(rand(-30, 30))
+                ->sharpen(30);
 
             // Guardar respuesta en caché (banda correcta)
             $cacheKey = 'captcha_'.request()->ip();
@@ -131,21 +137,16 @@ class CaptchaController extends Controller
         $normalizedUserAnswer = strtolower(trim($validated['captcha_answer']));
         $normalizedCorrectAnswer = strtolower($correctAnswer);
 
-        $isCorrect = $normalizedUserAnswer === $normalizedCorrectAnswer 
-                   || $normalizedUserAnswer === strtolower($this->bands[$correctAnswer]['name']);
+        $isCorrect = $normalizedUserAnswer === $normalizedCorrectAnswer
+            || $normalizedUserAnswer === strtolower($this->bands[$correctAnswer]['name']);
 
-        if (!$isCorrect) {
-            Cache::forget($cacheKey);
+            if (!$isCorrect) {
             return response()->json([
                 'success' => false,
-                'error' => 'Poser detected. Goodbye.'
+                'error' => 'Wrong answer. Poser detected.'
             ], 422);
         }
 
-        Cache::forget($cacheKey);
-        return response()->json([
-            'success' => true,
-            'verified' => true,
-        ]);
+        return response()->json(['success' => true]);
     }
 }

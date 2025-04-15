@@ -8,8 +8,13 @@
         flex-direction: column;
         gap: $size-10;
 
-        .try-again-btn {
-            
+        .captcha-error {
+            display: block !important;
+            color: #ef4444 !important;
+            text-align: center;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #fee2e2;
         }
 
         .disabled {
