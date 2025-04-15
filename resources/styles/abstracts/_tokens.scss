@@ -98,7 +98,7 @@ $footer-link-text-decoration: none;
 
 // buttons
 $button-font-family: $body-font-family;
-$button-font-size: $font-size-400;
+$button-font-size: $font-size-300;
 $button-font-weight: $font-weight-bold;
 $button-text-transform: uppercase;
 $button-padding: 0.75em 2em;
@@ -127,12 +127,12 @@ $card-heading-color-default: $card-color-default;
 $card-heading-font-size: $font-size-600;
 
 // forms
-$form-label-color: $body-text-color;
+$form-label-color: $color-primary-200;
 $form-label-font-family: $body-font-family;
-$form-label-font-weight: $font-weight-bold;
-$form-label-font-size: $body-font-size;
+$form-label-font-weight: $font-weight-default;
+$form-label-font-size: $font-size-300;
 
-$form-input-color: $body-text-color;
+$form-input-color: $color-neutral-1000;
 $form-input-font-family: $body-font-family;
 $form-input-font-weight: $font-weight-semi-bold;
 $form-input-font-size: $body-font-size;
@@ -142,7 +142,7 @@ $form-input-border-focus: 3px solid $color-primary-400;
 $form-input-padding: $size-3;
 $form-input-border-radius: $border-radius-1;
 
-$form-placeholder-color: $color-primary-300;
+$form-placeholder-color: $color-primary-400;
 $form-placeholder-font-family: $form-input-font-family;
 $form-placeholder-font-weight: $form-input-font-weight;
 $form-placeholder-font-size: $body-font-size;

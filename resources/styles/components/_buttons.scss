@@ -9,7 +9,6 @@
   font-family: $button-font-family;
   font-size: $button-font-size;
   text-transform: $button-text-transform;
-  font-weight: $button-font-weight;
   padding: $button-padding;
   border: $button-border;
   border-radius: $button-border-radius;
@@ -32,6 +31,53 @@
     &:is(:hover, :focus) {
       background-color: $button-primary-background-hover;
       color: $button-primary-color-hover;
+    }
+  }
+
+  &[data-type="form-step-next"] {
+    background: linear-gradient(to right, $color-extra-300, $color-extra-100);
+    background-size: 200% 100%;
+    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
+
+    &:hover {
+        background-position: 100% 0%;
+        color: $color-neutral-800;
+    }
+  }
+
+  &[data-type="form-step-prev"] {
+    background: linear-gradient(to right, $color-extra-100, $color-extra-300);
+    background-size: 200% 100%;
+    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
+
+    &:hover {
+        background-position: 100% 0%;
+        color: $color-neutral-800;
+    }
+  }
+
+  &[data-type="form-login"], &[data-type="form-register"] {
+    margin: auto;
+    color: $color-neutral-100;
+    background: linear-gradient(to right, $color-accent-400, $color-extra-400);
+    background-size: 200% 100%;
+    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    &:hover {
+        background-position: 100% 0%;
+        color: $color-neutral-800;
+    }
+  }
+
+  &[data-type="form-register"] {
+    background: linear-gradient(to right, $color-extra-300, $color-extra-100);
+    width: 100%;
+
+    @include mq(medium) {
+      width: fit-content;
     }
   }
 }

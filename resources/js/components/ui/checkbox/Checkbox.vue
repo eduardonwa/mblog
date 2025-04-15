@@ -1,33 +1,36 @@
-<script setup lang="ts">
-import type { CheckboxRootEmits, CheckboxRootProps } from 'radix-vue'
-import { cn } from '@/lib/utils'
-import { Check } from 'lucide-vue-next'
-import { CheckboxIndicator, CheckboxRoot, useForwardPropsEmits } from 'radix-vue'
-import { computed, type HTMLAttributes } from 'vue'
+<script setup>
+import { ref } from 'vue';
 
-const props = defineProps<CheckboxRootProps & { class?: HTMLAttributes['class'] }>()
-const emits = defineEmits<CheckboxRootEmits>()
+const props = defineProps({
+  modelValue: Boolean,
+  disabled: Boolean
+});
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+const emit = defineEmits(['update:modelValue']);
 
-  return delegated
-})
+const checked = ref(props.modelValue);
 
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
+const toggleCheckbox = () => {
+  if (!props.disabled) {
+    checked.value = !checked.value;
+    emit('update:modelValue', checked.value);
+  }
+};
 </script>
 
 <template>
-  <CheckboxRoot
-    v-bind="forwarded"
-    :class="
-      cn('peer size-5 shrink-0 rounded-sm border border-input ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-accent-foreground',
-         props.class)"
+  <button
+    type="button"
+    role="checkbox"
+    :aria-checked="checked"
+    :disabled="disabled"
+    @click="toggleCheckbox"
+    class="custom-checkbox"
+    :class="{
+      'checked': checked,
+      'disabled': disabled
+    }"
   >
-    <CheckboxIndicator class="flex h-full w-full items-center justify-center text-current">
-      <slot>
-        <Check class="size-3.5 stroke-[3]" />
-      </slot>
-    </CheckboxIndicator>
-  </CheckboxRoot>
+    <span class="check-icon" v-if="checked">✓</span>
+  </button>
 </template>

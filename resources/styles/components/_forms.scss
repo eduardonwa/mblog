@@ -1,5 +1,18 @@
 @use "../abstracts" as *;
 
+@mixin button-spinner() {
+  .spinning-loader {
+    animation: spin 1s linear infinite;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
 .contact-form {
   .form-group {
     display: grid;
@@ -26,4 +39,64 @@ input:not(.button) {
   color: $form-placeholder-color;
   font-weight: $form-placeholder-font-weight;
   font-family: $form-placeholder-font-family;
+}
+
+.register-form {
+  .form-group {
+    display: grid;
+    padding-block: $size-6;
+  }
+
+  @include button-spinner();
+
+  a {
+    padding-inline: $size-10;
+    transition: color 0.1s ease-in-out;
+
+    &:hover {
+      color: $color-extra-100;
+    }
+
+    &:focus {
+      color: $color-extra-100;
+    }
+
+    @include mq(medium) {
+      padding-inline: 0;
+    }
+  }
+}
+
+.login-form {
+  .form-group {
+    display: grid;
+    padding-block: $size-6;
+  }
+
+  @include button-spinner();
+
+  a {
+    padding-inline: $size-10;
+    transition: color 0.1s ease-in-out;
+
+    &:hover {
+      color: $color-extra-100;
+    }
+
+    &:focus {
+      color: $color-extra-100;
+    }
+
+    @include mq(medium) {
+      padding-inline: 0;
+    }
+  }
+
+  .checkbox > label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: $size-3;
+  }
 }
