@@ -25,28 +25,16 @@ const form = useForm({
 });
 
 const submit = async () => {
-    // Validar CAPTCHA primero
-    try {
-        const response = await axios.post('/captcha/validate', {
-            captcha_answer: captchaAnswer.value,
-        });
+    if (currentStep.value === 1) {
+        const isValid = await validateCaptcha();
+        if (isValid) currentStep.value++;
+        return;
+    }
 
-        // Si el CAPTCHA es válido, proceder con el registro
-        form.post(route('register'), {
-            onFinish: () => {
-                form.reset('password', 'password_confirmation');
-                captchaAnswer.value = '';
-                captchaImage.value = '';
-            },
-        });
-    } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-            captchaError.value = error.response?.data?.error || 'Wrong answer, poser! Try again.';
-        } else {
-            captchaError.value = 'Verification failed. Try again.';
-        }
-        generateNewCaptcha();
-        currentStep.value = 1; // Regresar al paso del CAPTCHA
+    if (currentStep.value === totalSteps) {
+        form.post(route('register'));
+    } else {
+        nextStep();
     }
 };
 
@@ -99,25 +87,37 @@ const nextStep = () => {
 
 // Nueva función para validar el CAPTCHA
 const validateCaptcha = async () => {
-  if (!captchaAnswer.value) return;
-  
-  try {
-    await axios.post('/captcha/validate', {
-      captcha_answer: captchaAnswer.value
-    });
-    currentStep.value++; // Solo avanza si es válido
-  } catch {
-    captchaError.value = "Wrong! Try again";
-    generateNewCaptcha();
-  }
+    captchaError.value = '';
+
+    if (!captchaAnswer.value) {
+        captchaError.value = 'You must identify the band';
+        return false;
+    }
+    
+    try {
+        const { data } = await axios.post('/captcha/validate', {
+            captcha_answer: captchaAnswer.value
+        });
+        
+        if (!data.success) {
+            captchaError.value = data.error || 'What!? Those are like the easiest albums wtf... *cough*poser*cough*';
+            generateNewCaptcha();
+            return false;
+        }
+        return true;
+
+    } catch (error) {
+        captchaError.value = "Server error. Please try again.";
+        generateNewCaptcha();
+        return false;
+    }
 };
 
 // validación para enviar el captcha
-watch(captchaAnswer, (newVal: string) => {
-    if (newVal) {
-        captchaError.value = '';
-    }
+watch(captchaError, (newVal) => {
+    console.log('Error cambiado:', newVal);
 });
+
 // función para retroceder al paso anterior
 const prevStep = () => {
     if (currentStep.value > 1) {
@@ -169,6 +169,7 @@ const prevStep = () => {
                                 alt="CAPTCHA Album Cover"
                                 class="margin-block-4"
                             />
+
                             <Input
                                 v-model="captchaAnswer"
                                 type="text"
@@ -176,24 +177,22 @@ const prevStep = () => {
                                 class="text-center"
                                 :tabIndex="1"
                             />
-
-                            <InputError :message="captchaError" class="margin-block-start-2"/>
                             
                             <Button
                                 type="button"
-                                @click="validateCaptcha"
-                                class="fw-base button mx-auto margin-block-4"
+                                @click="submit"
                                 :disabled="!captchaAnswer.valueOf()"
-                                :class="{ 'opacity-50 cursor-not-allowed': !captchaAnswer.valueOf() }"
+                                class="fw-base button mx-auto"
+                                :class="{ 'opacity-50 cursor-not-allowed error-container': !captchaAnswer.valueOf() }"
                             >
-                                <template v-if="form.processing">
-                                    <LoaderCircle class="animate-spin mr-2 h-4 w-4" />
-                                    Verifying...
-                                </template>
-                                <template v-else>
-                                    Verify and Continue
-                                </template>
+                                Verify
                             </Button>
+                            
+                            <InputError 
+                                :message="captchaError" 
+                                class="clr-accent-100"
+                                v-if="captchaError"
+                            />
                             
                             <button
                                 type="button"
@@ -282,8 +281,9 @@ const prevStep = () => {
                         v-if="currentStep === totalSteps"
                         type="submit"
                         class="fw-base button mx-auto"
-                        tabindex="5" :disabled="form.processing"
+                        :disabled="form.processing"
                         data-type="form-login"
+                        tabindex="5"
                     >
                         <LoaderCircle v-if="form.processing" class="spinning-loader" />
                         Create account
@@ -302,17 +302,20 @@ const prevStep = () => {
 </template>
 
 <style scoped>
-.opacity-50 {
-    opacity: 0.5;
-}
-.cursor-not-allowed {
-    cursor: not-allowed;
-}
-.animate-spin {
-    animation: spin 1s linear infinite;
-}
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+    .opacity-50 {
+        opacity: 0.5;
+    }
+    .cursor-not-allowed {
+        cursor: not-allowed;
+    }
+    .animate-spin {
+        animation: spin 1s linear infinite;
+    }
+    .error-container {
+        min-height: 2rem; /* Asegura espacio para el mensaje */
+    }
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
 </style>

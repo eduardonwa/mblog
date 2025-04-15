@@ -93,6 +93,7 @@ class CaptchaController extends Controller
 
         if (!$correctAnswer) {
             return response()->json([
+                'success' => false,
                 'error' => 'CAPTCHA expired. Please refresh and try again.'
             ], 422);
         }
@@ -106,15 +107,15 @@ class CaptchaController extends Controller
         if (!$isCorrect) {
             Cache::forget($cacheKey);
             return response()->json([
-                'error' => '¡Incorrecto! Respuesta correcta: '.$this->bands[$correctAnswer]['name'],
-                'correct_answer' => $this->bands[$correctAnswer]['name'] // Solo para desarrollo
+                'success' => false,
+                'error' => 'Poser detected. Goodbye.'
             ], 422);
         }
 
         Cache::forget($cacheKey);
         return response()->json([
             'success' => true,
-            'message' => '¡Correcto! 🤘'
+            'verified' => true,
         ]);
     }
 }
