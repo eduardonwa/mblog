@@ -15,9 +15,25 @@ class CaptchaController extends Controller
             'name' => 'Black Sabbath',
             'albums' => ['master-of-reality']
         ],
+        'cattle' => [
+            'name' => 'Cattle Decapitation',
+            'albums' => ['terrasite'],
+        ],
+        'crowbar' => [
+            'name' => 'Crowbar',
+            'albums' => ['sever-the-wicked-hand'],
+        ],
+        'cryptopsy' => [
+            'name' => 'Cryptopsy',
+            'albums' => ['as-gomorrah-burns']
+        ],
         'deftones' => [
             'name' => 'Deftones',
             'albums' => ['deftones']
+        ],
+        'dream' => [
+            'name' => 'Dream Theater',
+            'albums' => ['images-and-words'],
         ],
         'maiden' => [
             'name' => 'Iron Maiden',
@@ -35,6 +51,10 @@ class CaptchaController extends Controller
             'name' => 'Metallica',
             'albums' => ['ride-the-lighting'],
         ],
+        'flames' => [
+            'name' => 'In Flames',
+            'albums' => ['clayman'],
+        ],
         'pantera' => [
             'name' => 'Pantera',
             'albums' => ['cowboys-from-hell'],
@@ -42,6 +62,14 @@ class CaptchaController extends Controller
         'slipknot' => [
             'name' => 'Slipknot',
             'albums' => ['iowa'],
+        ],
+        'tool' => [
+            'name' => 'Tool',
+            'albums' => ['lateralus'],
+        ],
+        'zenith' => [
+            'name' => 'The Zenith Passage',
+            'albums' => ['datalysium'],
         ],
     ];
 
@@ -56,7 +84,7 @@ class CaptchaController extends Controller
             $album = $band['albums'][array_rand($band['albums'])];
             
             // Ruta de la imagen
-            $imagePath = public_path("images/albums/{$album}.jpg");
+            $imagePath = public_path("images/albums/{$album}.webp");
             
             if (!file_exists($imagePath)) {
                 throw new \Exception("Album image not found: {$album}");
@@ -65,8 +93,10 @@ class CaptchaController extends Controller
             // Procesar imagen
             $image = $manager->read($imagePath)
                 ->greyscale()
-                ->contrast(rand(20, 40))
-                ->blur(rand(1, 3))
+                ->contrast(rand(30, 50))
+                ->blur(rand(1, 7))
+                ->pixelate(rand(10, 15))
+                ->colorize(rand(-20, 20), rand(-20, 20), rand(-20, 20))
                 ->rotate(rand(-15, 15));
 
             // Guardar respuesta en caché (banda correcta)

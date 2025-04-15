@@ -13,41 +13,6 @@
   }
 }
 
-@mixin input-styles() {
-  input {
-    background: transparent;
-    border: transparent;
-    border-bottom: 1px solid $color-neutral-100;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-    transition: outline 0.2s ease-in-out;
-    margin-block-end: $size-8;
-    padding-block-start: $size-4;
-    color: $color-neutral-100;
-
-    &:focus {
-      outline: transparent solid;
-      background-color: $color-primary-900;
-    }
-  }
-
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:active,
-  input:autofill,
-  input:autofill:hover,
-  input:autofill:focus,
-  input:autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px $color-primary-900 inset !important; /* Color de fondo personalizado (ej: gris claro) */
-    -webkit-text-fill-color: $color-neutral-100 !important; /* Color del texto */
-    box-shadow: 0 0 0px 1000px $color-primary-900 inset !important; /* Para Firefox moderno */
-    background-color: $color-primary-900 !important; /* Redundancia para algunos navegadores */
-  }
-}
-
 .contact-form {
   .form-group {
     display: grid;
@@ -81,7 +46,7 @@ input:not(.button) {
   .form-group {
     display: grid;
 
-    @include input-styles();
+    @include form-input-styles($margin-block-end: $size-8);
   }
   
 
@@ -110,7 +75,7 @@ input:not(.button) {
     display: grid;
     padding-block: $size-6;
 
-    @include input-styles();
+    @include form-input-styles($margin-block-end: $size-8);
   }
 
   @include button-spinner();

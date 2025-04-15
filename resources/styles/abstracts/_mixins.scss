@@ -33,3 +33,38 @@
   font-weight: $heading-font-weight;
   line-height: $heading-line-height;
 }
+
+@mixin form-input-styles($margin-block-end) {
+  input {
+    background: transparent;
+    border: transparent;
+    border-bottom: 1px solid $form-input-border-color;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    transition: outline 0.2s ease-in-out;
+    margin-block-end: $margin-block-end;
+    padding-block-start: $form-input-padding-block-start;
+    color: $form-input-border-color;
+
+    &:focus {
+      outline: transparent solid;
+      background-color: $form-input-background-color-focused;
+    }
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active,
+  input:autofill,
+  input:autofill:hover,
+  input:autofill:focus,
+  input:autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px $form-input-background-color-focused inset !important;
+    -webkit-text-fill-color: $form-input-border-color !important;
+    box-shadow: 0 0 0px 1000px $form-input-background-color-focused inset !important;
+    background-color: $form-input-background-color-focused !important;
+  }
+}

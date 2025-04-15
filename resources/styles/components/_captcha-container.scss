@@ -1,0 +1,27 @@
+@use '../abstracts/' as *;
+
+.captcha-container {
+    @include form-input-styles($margin-block-end: 0);
+
+    &__ui {
+        display: flex;
+        flex-direction: column;
+        gap: $size-10;
+
+        .try-again-btn {
+            
+        }
+
+        .disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            // animation: spin 1s linear infinite;
+            min-height: 2rem;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    }
+}

@@ -139,8 +139,11 @@ $form-input-font-size: $body-font-size;
 $form-input-background-color: $color-neutral-100;
 $form-input-border-default: 1px solid $color-primary-200;
 $form-input-border-focus: 3px solid $color-primary-400;
+$form-input-border-color: $color-neutral-100;
 $form-input-padding: $size-3;
+$form-input-padding-block-start: $size-4;
 $form-input-border-radius: $border-radius-1;
+$form-input-background-color-focused: $color-primary-900;
 
 $form-placeholder-color: $color-primary-400;
 $form-placeholder-font-family: $form-input-font-family;

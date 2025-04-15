@@ -56,7 +56,7 @@
     }
   }
 
-  &[data-type="form-login"], &[data-type="form-register"] {
+  &[data-type="form-login"], &[data-type="form-register"], &[data-type="verify-captcha"]  {
     margin: auto;
     color: $color-neutral-100;
     background: linear-gradient(to right, $color-accent-400, $color-extra-400);
@@ -75,6 +75,30 @@
   &[data-type="form-register"] {
     background: linear-gradient(to right, $color-extra-300, $color-extra-100);
     width: 100%;
+
+    @include mq(medium) {
+      width: fit-content;
+    }
+  }
+
+  &[data-type="try-again"] {
+    background-color: $color-primary-500;
+    padding: $size-2;
+    border: 1px solid $color-primary-900;
+    color: $color-neutral-100;
+    text-transform: lowercase;
+    width: 100%;
+    margin: auto;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    
+    &:hover {
+      background-color: $color-primary-700
+    }
+    
+    &:focus {
+      background-color: $color-primary-900;
+      color: $color-neutral-100;
+    }
 
     @include mq(medium) {
       width: fit-content;

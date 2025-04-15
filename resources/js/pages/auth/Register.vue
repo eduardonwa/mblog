@@ -158,18 +158,16 @@ const prevStep = () => {
                 <!-- CAPTCHA verification -->
                 <section v-show="currentStep === 1">
                     <div class="captcha-container">
-                        <div class="text-center margin-block-4">
-                            <h3 class="">are you a poser?</h3>
-                            <p>what band does this album belong to?</p>
-                        </div>
-
-                        <div class="flex-group">
+                        <div class="text-center">
+                            <h3>what band does this album belong to?</h3>
                             <img
                                 :src="captchaImage"
                                 alt="CAPTCHA Album Cover"
                                 class="margin-block-4"
                             />
+                        </div>
 
+                        <div class="captcha-container__ui">
                             <Input
                                 v-model="captchaAnswer"
                                 type="text"
@@ -181,9 +179,10 @@ const prevStep = () => {
                             <Button
                                 type="button"
                                 @click="submit"
-                                :disabled="!captchaAnswer.valueOf()"
                                 class="fw-base button mx-auto"
-                                :class="{ 'opacity-50 cursor-not-allowed error-container': !captchaAnswer.valueOf() }"
+                                data-type="verify-captcha"
+                                :disabled="!captchaAnswer.valueOf()"
+                                :class="{ 'disabled': !captchaAnswer.valueOf() }"
                             >
                                 Verify
                             </Button>
@@ -197,9 +196,10 @@ const prevStep = () => {
                             <button
                                 type="button"
                                 @click="generateNewCaptcha"
-                                class="clr-extra-400 text-center"
+                                class="button"
+                                data-type="try-again"
                             >
-                                ↻ Try another album
+                                ↻ Try another album?
                             </button>
                         </div>
                     </div>
@@ -300,22 +300,3 @@ const prevStep = () => {
 
     </AuthBase>
 </template>
-
-<style scoped>
-    .opacity-50 {
-        opacity: 0.5;
-    }
-    .cursor-not-allowed {
-        cursor: not-allowed;
-    }
-    .animate-spin {
-        animation: spin 1s linear infinite;
-    }
-    .error-container {
-        min-height: 2rem; /* Asegura espacio para el mensaje */
-    }
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-</style>
