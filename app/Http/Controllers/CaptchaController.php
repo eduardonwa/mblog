@@ -7,6 +7,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 
 class CaptchaController extends Controller
 {
@@ -76,45 +77,41 @@ class CaptchaController extends Controller
     public function generateMetalCaptcha()
     {
         try {
-            $manager = new ImageManager(new Driver());
-            
-            // Seleccionar banda y álbum aleatorio
             $bandKey = array_rand($this->bands);
             $band = $this->bands[$bandKey];
             $album = $band['albums'][array_rand($band['albums'])];
-            
-            // Ruta de la imagen
             $imagePath = public_path("images/albums/{$album}.webp");
-            
+    
             if (!file_exists($imagePath)) {
-                throw new \Exception("Album image not found: {$album}");
+                throw new \Exception("Image not found");
             }
-
-            // Procesar imagen
-            $image = $manager->read($imagePath)
+    
+            // Almacena la KEY de la banda, no el nombre del álbum
+            Cache::put(
+                'captcha_'.request()->ip(),
+                $bandKey, // <- Cambio crucial aquí
+                now()->addMinutes(10)
+            );
+    
+            // Procesamiento mínimo
+            $image = (new ImageManager(new Driver()))
+                ->read($imagePath)
                 ->greyscale()
-                ->rotate(rand(-30, 30))
-                ->blur(rand(5, 10))
                 ->contrast(rand(40, 60))
-                ->pixelate(rand(10, 20))
                 ->colorize(
                     rand(-30, 30),
                     rand(-30, 30),
                     rand(-30, 30)
                 )
-                ->brightness(rand(-30, 30))
-                ->sharpen(30);
-
-            // Guardar respuesta en caché (banda correcta)
-            $cacheKey = 'captcha_'.request()->ip();
-            Cache::put($cacheKey, $bandKey, now()->addMinutes(10));
-            
-            return response($image->toPng())
-                ->header('Content-Type', 'image/png');
-
+                ->pixelate(24); // Solo efecto esencial
+    
+            return response($image->toWebp(75))
+                ->header('Content-Type', 'image/webp')
+                ->header('Cache-Control', 'no-store, max-age=0');
+    
         } catch (\Exception $e) {
-            Log::error('CAPTCHA generation failed: '.$e->getMessage());
-            return response()->json(['error' => 'Failed to generate CAPTCHA'], 500);
+            Log::error("CAPTCHA Error: {$e->getMessage()}");
+            return response()->json(['error' => 'CAPTCHA failed'], 500);
         }
     }
 

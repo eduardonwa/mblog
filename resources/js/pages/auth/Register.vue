@@ -15,6 +15,7 @@ import axios, { AxiosError } from 'axios';
 const captchaImage = ref<string>('');
 const captchaAnswer = ref<string>('');
 const captchaError = ref<string>('');
+const isLoading = ref(false);
 
 const form = useForm({
     name: '',
@@ -39,21 +40,27 @@ const submit = async () => {
 
 // generar nuevo captcha
 const generateNewCaptcha = async () => {
+    isLoading.value = true;
+
     try {
-        const response = await axios.get('/captcha/generate', {
-            responseType: 'blob'
+        const cacheBuster = Date.now();
+        const { data } = await axios.get(`/captcha/generate?_=${cacheBuster}`, {
+            responseType: 'blob',
+            timeout: 3000 // Timeout de 3 segundos
         });
+
+        // libera memoria de la imagen anterior
+        if (captchaImage.value) {
+            URL.revokeObjectURL(captchaImage.value);
+        }
+        // crea un nuevo objeto URL para la nueva imagen
+        captchaImage.value = URL.createObjectURL(data);
         
-        const reader = new FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-            if (e.target?.result) {
-                captchaImage.value = e.target.result.toString();
-            }
-        };
-        reader.readAsDataURL(response.data);
-    } catch (error: unknown) {
-        captchaError.value = 'Failed to load CAPTCHA. Please try again.';
-        console.error('CAPTCHA error:', error);
+    } catch (error) {
+        captchaError.value = 'Error loading challenge';
+        console.error('CAPTCHA load failed:', error);
+    } finally {
+        isLoading.value = false;
     }
 };
 
@@ -84,6 +91,7 @@ const nextStep = () => {
 
 const validateCaptcha = async (): Promise<boolean> => {
     // Validación básica del frontend
+    // muestra mensjae si el campo fue enviado vacío
     if (!captchaAnswer.value?.trim()) {
         captchaError.value = 'You must enter the band\'s name, unless... you\'re a bot or a poser.';
         return false;
@@ -94,8 +102,9 @@ const validateCaptcha = async (): Promise<boolean> => {
             captcha_answer: captchaAnswer.value.trim()
         });
 
+        // respuesta incorrecta
         if (!data.success) {
-            captchaError.value = data.error || 'Poser detected.';
+            captchaError.value = data.error;
             await generateNewCaptcha();
             return false;
         }
@@ -135,6 +144,10 @@ const prevStep = () => {
         currentStep.value--;
     }
 };
+
+const handleImageLoad = () => {
+    console.log('CAPTCHA image loaded successfully');
+};
 </script>
 
 <template>
@@ -169,12 +182,20 @@ const prevStep = () => {
                 <!-- CAPTCHA verification -->
                 <section v-show="currentStep === 1">
                     <div class="captcha-container">
+                        <!-- spinner -->
+                        <div v-if="isLoading" class="spinner-container">
+                            <LoaderCircle class="spinner" />
+                            <p>Verifying your metal credentials...</p>
+                        </div>
+                    
                         <div class="text-center">
                             <h3>what band does this album belong to?</h3>
                             <img
+                                v-if="captchaImage"
                                 :src="captchaImage"
                                 alt="CAPTCHA Album Cover"
                                 class="margin-block-4"
+                                @load="handleImageLoad"
                             />
                         </div>
 
@@ -204,7 +225,7 @@ const prevStep = () => {
                                 Verify
                             </Button>
                             
-                            <!-- another album -->
+                            <!-- retry challenge -->
                             <button
                                 type="button"
                                 @click="generateNewCaptcha"
@@ -316,5 +337,38 @@ const prevStep = () => {
 <style scope>
 .text-red-500 {
     color: #ef4444;
+}
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    color: #ef4444; /* Color metalero */
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error-message {
+    color: #ef4444;
+    background: #fee2e2;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.captcha-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 </style>
