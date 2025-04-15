@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import List from '@/components/ui/list/List.vue';
-import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import List from '@/components/ui/list/List.vue';
+import InputError from '@/components/InputError.vue';
+import TextLink from '@/components/TextLink.vue';
+import AuthBase from '@/layouts/AuthLayout.vue';
+import axios from 'axios';
+
+// variables reactivas para el formulario de captcha
+const captchaImage = ref<string>('');
+const captchaAnswer = ref<string>('');
+const captchaError = ref<string>('');
+const showCaptcha = ref<boolean>(false);
 
 const form = useForm({
     name: '',
@@ -17,33 +24,100 @@ const form = useForm({
     password_confirmation: '',
 });
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+const submit = async () => {
+    // Validar CAPTCHA primero
+    try {
+        const response = await axios.post('/captcha/validate', {
+            captcha_answer: captchaAnswer.value,
+        });
+
+        // Si el CAPTCHA es válido, proceder con el registro
+        form.post(route('register'), {
+            onFinish: () => {
+                form.reset('password', 'password_confirmation');
+                captchaAnswer.value = '';
+                captchaImage.value = '';
+            },
+        });
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            captchaError.value = error.response?.data?.error || 'Wrong answer, poser! Try again.';
+        } else {
+            captchaError.value = 'Verification failed. Try again.';
+        }
+        generateNewCaptcha();
+        currentStep.value = 1; // Regresar al paso del CAPTCHA
+    }
+};
+
+// generar nuevo captcha
+const generateNewCaptcha = async () => {
+    captchaError.value = '';
+    captchaAnswer.value = '';
+    try {
+        const response = await axios.get('/captcha/generate', {
+            responseType: 'blob'
+        });
+        
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+            if (e.target?.result) {
+                captchaImage.value = e.target.result.toString();
+            }
+        };
+        reader.readAsDataURL(response.data);
+    } catch (error: unknown) {
+        captchaError.value = 'Failed to load CAPTCHA. Please try again.';
+        console.error('CAPTCHA error:', error);
+    }
 };
 
 /* multistep form */
 // estado para controlar el paso actual
 const currentStep = ref(1);
-const totalSteps = 3;
+const totalSteps = 4;
+
+// mostrar captcha en el primer paso
+onMounted(() => {
+    generateNewCaptcha();
+});
 
 // funcion para avanzar al siguiente paso
 const nextStep = () => {
-    // validación básica del paso actual antes de avanzar
-    if (currentStep.value === 1 && (!form.name)) {
-        alert('Just pick a username. Doesn\'t have to be the most original shit ever.');
-        return;
-    }
-    if (currentStep.value === 2 && (!form.email)) {
-        alert('Please fill out the email field. Hmkay?');
-        return;
-    }
-    if (currentStep.value < totalSteps) {
-        currentStep.value++;
-    }
+  if (currentStep.value === 2 && !form.name) {
+    alert('Need username');
+    return;
+  }
+  if (currentStep.value === 3 && !form.email) {
+    alert('Need email');
+    return;
+  }
+  if (currentStep.value < totalSteps) {
+    currentStep.value++;
+  }
 };
 
+// Nueva función para validar el CAPTCHA
+const validateCaptcha = async () => {
+  if (!captchaAnswer.value) return;
+  
+  try {
+    await axios.post('/captcha/validate', {
+      captcha_answer: captchaAnswer.value
+    });
+    currentStep.value++; // Solo avanza si es válido
+  } catch {
+    captchaError.value = "Wrong! Try again";
+    generateNewCaptcha();
+  }
+};
+
+// validación para enviar el captcha
+watch(captchaAnswer, (newVal: string) => {
+    if (newVal) {
+        captchaError.value = '';
+    }
+});
 // función para retroceder al paso anterior
 const prevStep = () => {
     if (currentStep.value > 1) {
@@ -81,7 +155,59 @@ const prevStep = () => {
             </List>
 
             <form @submit.prevent="submit" class="register-form | container">
+                <!-- CAPTCHA verification -->
                 <section v-show="currentStep === 1">
+                    <div class="captcha-container">
+                        <div class="text-center margin-block-4">
+                            <h3 class="">are you a poser?</h3>
+                            <p>what band does this album belong to?</p>
+                        </div>
+
+                        <div class="flex-group">
+                            <img
+                                :src="captchaImage"
+                                alt="CAPTCHA Album Cover"
+                                class="margin-block-4"
+                            />
+                            <Input
+                                v-model="captchaAnswer"
+                                type="text"
+                                placeholder="Enter band name"
+                                class="text-center"
+                                :tabIndex="1"
+                            />
+
+                            <InputError :message="captchaError" class="margin-block-start-2"/>
+                            
+                            <Button
+                                type="button"
+                                @click="validateCaptcha"
+                                class="fw-base button mx-auto margin-block-4"
+                                :disabled="!captchaAnswer.valueOf()"
+                                :class="{ 'opacity-50 cursor-not-allowed': !captchaAnswer.valueOf() }"
+                            >
+                                <template v-if="form.processing">
+                                    <LoaderCircle class="animate-spin mr-2 h-4 w-4" />
+                                    Verifying...
+                                </template>
+                                <template v-else>
+                                    Verify and Continue
+                                </template>
+                            </Button>
+                            
+                            <button
+                                type="button"
+                                @click="generateNewCaptcha"
+                                class="clr-extra-400 text-center"
+                            >
+                                ↻ Try another album
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- usuario  -->
+                <section v-show="currentStep === 2">
                     <div class="form-group flow">
                         <Label for="name">User name</Label>
                         <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name" placeholder="kill_the_kardashians_69" />
@@ -89,7 +215,8 @@ const prevStep = () => {
                     </div>
                 </section>
     
-                <section v-show="currentStep === 2">
+                <!-- email  -->
+                <section v-show="currentStep === 3">
                     <div class="form-group flow">
                         <Label for="email">Email address</Label>
                         <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
@@ -97,7 +224,8 @@ const prevStep = () => {
                     </div>
                 </section>
     
-                <section v-show="currentStep === 3">
+                <!-- contraseña  -->
+                <section v-show="currentStep === 4">
                     <div class="form-group flow">
                         <Label for="password">Password</Label>
                         <Input
@@ -126,11 +254,11 @@ const prevStep = () => {
                         <InputError :message="form.errors.password_confirmation" />
                     </div>
                 </section>
-    
+
                 <!-- controles de navegación -->
                 <section class="flex-group mx-auto">
                     <Button
-                        v-if="currentStep > 1"
+                        v-if="currentStep > 1 && currentStep !== 2"
                         type="button"
                         @click="prevStep"
                         class="fw-base button mx-auto"
@@ -140,11 +268,12 @@ const prevStep = () => {
                     </Button>
     
                     <Button
-                        v-if="currentStep < totalSteps"
+                        v-if="currentStep < totalSteps && currentStep !== 1"
                         type="button"
                         @click="nextStep"
                         class="fw-base button mx-auto"
                         data-type="form-step-next"
+                        :disabled="currentStep === 1 && !captchaAnswer.valueOf()"
                     >
                         Next
                     </Button>
@@ -171,3 +300,19 @@ const prevStep = () => {
 
     </AuthBase>
 </template>
+
+<style scoped>
+.opacity-50 {
+    opacity: 0.5;
+}
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+</style>

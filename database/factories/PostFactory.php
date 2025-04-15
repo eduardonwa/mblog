@@ -20,7 +20,7 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $images = glob(public_path('images/seeder/*'));
+        $images = glob(public_path('images/albums/*'));
 
         if (empty($images)) {
             throw new \Exception('No hay imágenes en la carpeta public/images/seeder.');

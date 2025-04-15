@@ -4,6 +4,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\WelcomeController;
 
 Route::get('/', function () {
@@ -18,6 +20,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
 });
+
+Route::get('/captcha/generate', [CaptchaController::class, 'generateMetalCaptcha']);
+Route::post('/captcha/validate', [CaptchaController::class, 'validateCaptcha']);
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('posts', [PostController::class, 'index'])->name('post.index');
