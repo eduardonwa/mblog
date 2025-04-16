@@ -16,6 +16,7 @@ const captchaImage = ref<string>('');
 const captchaAnswer = ref<string>('');
 const captchaError = ref<string>('');
 const isLoading = ref(false);
+const captchaSuccess = ref(false);
 
 const form = useForm({
     name: '',
@@ -92,8 +93,11 @@ const nextStep = () => {
 const validateCaptcha = async (): Promise<boolean> => {
     // Validación básica del frontend
     // muestra mensjae si el campo fue enviado vacío
+    captchaError.value = '';
+    captchaSuccess.value = false;
+
     if (!captchaAnswer.value?.trim()) {
-        captchaError.value = 'You must enter the band\'s name, unless... you\'re a bot or a poser.';
+        captchaError.value = 'You must enter the band\'s name, unless you\'re a bot or a poser.';
         return false;
     }
 
@@ -102,14 +106,15 @@ const validateCaptcha = async (): Promise<boolean> => {
             captcha_answer: captchaAnswer.value.trim()
         });
 
-        // respuesta incorrecta
-        if (!data.success) {
+        if (data.success) {
+            captchaSuccess.value = true;
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            return true;
+        } else {
             captchaError.value = data.error;
             await generateNewCaptcha();
             return false;
         }
-
-        return true;
     } catch (error) {
         captchaError.value = axios.isAxiosError(error) 
             ? error.response?.data?.error || 'Server error'
@@ -181,14 +186,8 @@ const handleImageLoad = () => {
             <form @submit.prevent="submit" class="register-form | container">
                 <!-- CAPTCHA verification -->
                 <section v-show="currentStep === 1">
-                    <div class="captcha-container">
-                        <!-- spinner -->
-                        <div v-if="isLoading" class="spinner-container">
-                            <LoaderCircle class="spinner" />
-                            <p>Verifying your metal credentials...</p>
-                        </div>
-                    
-                        <div class="text-center">
+                    <div class="captcha-container">                    
+                        <div class="captcha-container__image | text-center">
                             <h3>what band does this album belong to?</h3>
                             <img
                                 v-if="captchaImage"
@@ -197,6 +196,20 @@ const handleImageLoad = () => {
                                 class="margin-block-4"
                                 @load="handleImageLoad"
                             />
+
+                            <!-- spinner -->
+                            <transition name="fade">
+                                <div v-if="isLoading" class="spinner">
+                                    <LoaderCircle class="spinner-circle" />
+                                    <p>Poser Detector 5000 is working...</p>
+                                </div>
+                            </transition>
+
+                            <transition name="fade">
+                                <div v-if="captchaSuccess && currentStep === 1" class="success-message">
+                                    ✓ Verified! Proceeding...
+                                </div>
+                            </transition>
                         </div>
 
                         <div class="captcha-container__ui">
@@ -333,42 +346,3 @@ const handleImageLoad = () => {
 
     </AuthBase>
 </template>
-
-<style scope>
-.text-red-500 {
-    color: #ef4444;
-}
-.spinner-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 2rem;
-}
-
-.spinner {
-    animation: spin 1s linear infinite;
-    color: #ef4444; /* Color metalero */
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.error-message {
-    color: #ef4444;
-    background: #fee2e2;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
-    border-radius: 0.25rem;
-    text-align: center;
-    animation: fadeIn 0.3s ease-out;
-}
-
-.captcha-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-</style>

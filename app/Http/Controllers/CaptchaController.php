@@ -16,7 +16,7 @@ class CaptchaController extends Controller
             'name' => 'Black Sabbath',
             'albums' => ['master-of-reality']
         ],
-        'cattle' => [
+        'cattle-decapitation' => [
             'name' => 'Cattle Decapitation',
             'albums' => ['terrasite'],
         ],
@@ -32,11 +32,11 @@ class CaptchaController extends Controller
             'name' => 'Deftones',
             'albums' => ['deftones']
         ],
-        'dream' => [
+        'dream-theater' => [
             'name' => 'Dream Theater',
             'albums' => ['images-and-words'],
         ],
-        'maiden' => [
+        'iron-maiden' => [
             'name' => 'Iron Maiden',
             'albums' => ['piece-of-mind'],
         ],
@@ -52,7 +52,7 @@ class CaptchaController extends Controller
             'name' => 'Metallica',
             'albums' => ['ride-the-lighting'],
         ],
-        'flames' => [
+        'in-flames' => [
             'name' => 'In Flames',
             'albums' => ['clayman'],
         ],
@@ -68,7 +68,7 @@ class CaptchaController extends Controller
             'name' => 'Tool',
             'albums' => ['lateralus'],
         ],
-        'zenith' => [
+        'the-zenith-passage' => [
             'name' => 'The Zenith Passage',
             'albums' => ['datalysium'],
         ],

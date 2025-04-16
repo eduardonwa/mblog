@@ -3,6 +3,61 @@
 .captcha-container {
     @include form-input-styles($margin-block-end: 0);
 
+    &__image {
+        position: relative;
+        min-height: 250px;
+        overflow: hidden;
+
+        @include mq(medium) {
+            margin: 0 auto;
+        }
+
+        .success-message {
+            color: $color-neutral-100;
+            text-align: center;
+            padding: $size-2;
+            margin-block: $size-4;
+            background-color: $color-accent-600;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        > img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2rem;
+            inset: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            background-color: $color-neutral-900;
+            opacity: .8;
+    
+            .spinner-circle {
+                animation: spin 1s linear infinite;
+                color: #ef4444;
+            }
+        }
+    }
+
     &__ui {
         display: flex;
         flex-direction: column;
@@ -15,12 +70,12 @@
             margin: 0.5rem 0;
             padding: 0.5rem;
             background: $color-neutral-100;
+            animation: fadeIn 0.3s ease-out;
         }
 
         .disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            // animation: spin 1s linear infinite;
             min-height: 2rem;
         }
 
