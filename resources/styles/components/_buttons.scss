@@ -34,28 +34,6 @@
     }
   }
 
-/*   &[data-type="form-step-next"] {
-    background: linear-gradient(to right, $color-extra-300, $color-extra-100);
-    background-size: 200% 100%;
-    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
-
-    &:hover {
-        background-position: 100% 0%;
-        color: $color-neutral-800;
-    }
-  } */
-
-/*   &[data-type="form-step-prev"] {
-    background: linear-gradient(to right, $color-extra-100, $color-extra-300);
-    background-size: 200% 100%;
-    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
-
-    &:hover {
-        background-position: 100% 0%;
-        color: $color-neutral-800;
-    }
-  } */
-
   &[data-type="form-login"],
   &[data-type="form-register"],
   &[data-type="verify-captcha"],
@@ -84,7 +62,8 @@
     }
   }
 
-  &[data-type="form-step-next"], &[data-type="form-step-prev"] {
+  &[data-type="form-step-next"],
+  &[data-type="form-step-prev"] {
     background-color: $color-primary-500;
     padding: $size-3;
     border: 1px solid $color-primary-900;
@@ -104,6 +83,33 @@
 
     @include mq(medium) {
       width: fit-content;
+    }
+  }
+
+  &[data-type="like"] {
+    background: transparent;
+    border: none;
+    color: $color-neutral-100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $size-1;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    cursor: pointer;
+
+    svg {
+      width: $size-9;
+      height: $size-9;
+      stroke: none;
+      fill: $color-neutral-100;
+    }
+
+    span {
+      display: inline-block;
+      animation: none !important;
     }
   }
 }

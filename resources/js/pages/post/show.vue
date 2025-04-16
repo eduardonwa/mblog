@@ -72,6 +72,11 @@
         </div>
       </header>
 
+      <LikeButton
+          :post="localPost" 
+          @update:post="updatedPost => localPost = updatedPost" 
+      />
+
       <!-- Imagen y extracto -->
       <article class="blog-post__subheader">
         <section>
@@ -105,17 +110,6 @@
       <section class="blog-post__body | flow">
         <div v-html="post?.body"></div>
       </section>
-
-      <div class="like-button-trigger"></div>
     </section>
-
-    <div
-      ref="likeButtonRef"
-      :class="['show-like-btn-wrapper', { 'is-sticky': isSticky }]">
-      <LikeButton
-          :post="localPost" 
-          @update:post="updatedPost => localPost = updatedPost" 
-      />
-    </div>
   </SiteLayout>
 </template>
