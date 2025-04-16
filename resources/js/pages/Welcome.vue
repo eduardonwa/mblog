@@ -39,11 +39,10 @@
           <div class="post-info">
             <!-- upvotes -->
             <div class="post-info__upvotes">
-              <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="34" height="27" viewBox="0 0 34 35">
+              <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="30" height="30" viewBox="0 0 34 34">
                 <path d="M24 6c-1.7 0-3 1.3-3 3v2.2c-.3-.1-.6-.2-1-.2-.8 0-1.5.3-2 .8-.5-.5-1.2-.8-2-.8-.4 0-.7.1-1 .2V7c0-1.7-1.3-3-3-3S9 5.3 9 7v10.9c-.5-.5-1.2-.9-2-.9-.9 0-1.7.3-2.3.9-1.1 1.1-1.2 3-.1 4.2l3.2 3.6C9.6 27.8 12.2 29 15 29h3.7c4.6 0 8.4-3.8 8.4-8.4V9C27 7.3 25.7 6 24 6zm1 10v4.6c0 3.5-2.9 6.4-6.4 6.4h-3.7c-2.2 0-4.2-.9-5.7-2.6L6 20.8c-.4-.4-.4-1.1.1-1.5.2-.2.5-.3.8-.3.3 0 .6.2.8.4l1.5 1.8c.3.3.7.4 1.1.3.4-.1.7-.5.7-.9V7c0-.6.4-1 1-1s1 .4 1 1v8c0 .6.4 1 1 1s1-.4 1-1v-1c0-.6.4-1 1-1s1 .4 1 1v1c0 .6.4 1 1 1s1-.4 1-1v-1c0-.6.4-1 1-1s1 .4 1 1v1c0 .6.4 1 1 1s1-.4 1-1V9c0-.6.4-1 1-1s1 .4 1 1v7z"/>
               </svg>
-
-              <span>{{ featuredPosts?.[0].likes_count }} upvotes</span>
+              <span>{{ featuredPosts?.[0].likes_count }} hailed</span>
             </div>
     
             <!-- comments -->

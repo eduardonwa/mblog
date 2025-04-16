@@ -92,7 +92,8 @@
             }
 
             &__upvotes, &__comments {
-                display: flex;
+                display: inline-flex;
+                align-items: center;
                 gap: $size-1;
                 padding: .5rem;
                 transition: all 0.2s ease-in-out;
@@ -100,7 +101,6 @@
                 svg path {
                     fill: currentColor;
                     transition: fill 0.2s ease-in-out;
-                    height: 18px;
                 }
 
                 span {
