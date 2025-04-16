@@ -54,7 +54,7 @@ const submit = () => {
             <div class="form-group flow">
                 <div class="">
                     <Label for="password">Password</Label>
-                    <TextLink class="clr-extra-400 fs-300 no-decoration" v-if="canResetPassword" :href="route('password.request')" :tabindex="5">
+                    <TextLink class="system-link | fs-300 margin-inline-2" v-if="canResetPassword" :href="route('password.request')" :tabindex="5">
                         Forgot password?
                     </TextLink>
                 </div>
@@ -88,9 +88,9 @@ const submit = () => {
                 Log in
             </Button>
 
-            <div class="text-center padding-4 margin-block-10" style="font-size: 14px;">
-                Don't have an account? <br>
-                <TextLink class="clr-extra-400" :href="route('register')" :tabindex="5">Sign up</TextLink>
+            <div class="fs-300 text-center padding-4 margin-block-10">
+                <span>Don't have an account?</span>
+                <TextLink class="system-link | margin-inline-2" :href="route('register')" :tabindex="5">Sign up</TextLink>
             </div>
         </form>
     </AuthBase>

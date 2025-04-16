@@ -159,36 +159,44 @@ const handleImageLoad = () => {
     <AuthBase title="Create an account" description="Join a thriving community of opiniated metalheads">
         <Head title="Register" />
         
-        <section class="even-columns container padding-inline-4 margin-block-start-12">
-            <List class="flow">
-                <div class="margin-block-end-6">
-                    <h2 class="ff-accent clr-extra-300">Write rants that draw blood</h2>
-                    <ul>
-                        <li style="list-style-type: none;">Publish unfiltered reviews, rants and manifestos.</li>
-                    </ul>
+        <section class="even-columns container padding-inline-4 margin-block-start-10">
+            <div>
+                <List class="flow">
+                    <div class="margin-block-end-6">
+                        <h2 class="ff-accent clr-extra-300">Write rants that draw blood</h2>
+                        <ul>
+                            <li style="list-style-type: none;">Publish unfiltered reviews, rants and manifestos.</li>
+                        </ul>
+                    </div>
+    
+                    <div class="margin-block-end-6">
+                        <h2 class="ff-accent clr-extra-300">Ride with the Doom Cult</h2>
+                        <ul>
+                            <li style="list-style-type: none;">Join a group: <em>"Thrash Purists", </em> <em>"Doom Cultists"</em>, etc. </li>
+                        </ul>
+                    </div>
+    
+                    <div class="margin-block-end-6">
+                        <h2 class="ff-accent clr-extra-300">Smash the "Hail" button</h2>
+                        <ul>
+                            <li style="list-style-type: none;">Approve posts with a 🤘 instead of a lame "like."</li>
+                        </ul>
+                    </div>
+                </List>
+                <div class="fs-300 text-center padding-4 margin-block-2">
+                    <span>Already have an account?</span>
+                    <TextLink class="system-link | margin-inline-2" :href="route('login')" :tabindex="6">
+                        Log in
+                    </TextLink>
                 </div>
-
-                <div class="margin-block-end-6">
-                    <h2 class="ff-accent clr-extra-300">Ride with the Doom Cult</h2>
-                    <ul>
-                        <li style="list-style-type: none;">Join a group: <em>"Thrash Purists", </em> <em>"Doom Cultists"</em>, etc. </li>
-                    </ul>
-                </div>
-
-                <div class="margin-block-end-6">
-                    <h2 class="ff-accent clr-extra-300">Smash the "Hail" button</h2>
-                    <ul>
-                        <li style="list-style-type: none;">Approve posts with a 🤘 instead of a lame "like."</li>
-                    </ul>
-                </div>
-            </List>
+            </div>
 
             <form @submit.prevent="submit" class="register-form | container">
                 <!-- CAPTCHA verification -->
                 <section v-show="currentStep === 1">
-                    <div class="captcha-container">                    
+                    <div class="captcha-container">
                         <div class="captcha-container__image | text-center">
-                            <h3>what band does this album belong to?</h3>
+                            <h3>What band does this album belong to?</h3>
                             <img
                                 v-if="captchaImage"
                                 :src="captchaImage"
@@ -239,14 +247,9 @@ const handleImageLoad = () => {
                             </Button>
                             
                             <!-- retry challenge -->
-                            <button
-                                type="button"
-                                @click="generateNewCaptcha"
-                                class="button"
-                                data-type="try-again"
-                            >
+                            <span @click="generateNewCaptcha" class="retry-captcha">
                                 ↻ Try another album?
-                            </button>
+                            </span>
                         </div>
                     </div>
                 </section>
@@ -335,12 +338,13 @@ const handleImageLoad = () => {
                         Create account
                     </Button>
                 </section>
-                <div style="font-size: 14px;" class="text-center padding-4 margin-block-10">
+
+<!--                 <div style="font-size: 14px;" class="text-center padding-4 margin-block-10">
                     Already have an account? <br>
                     <TextLink class="clr-extra-400" :href="route('login')" :tabindex="6">
                         Log in
                     </TextLink>
-                </div>
+                </div> -->
             </form>
         </section>
 

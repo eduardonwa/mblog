@@ -34,7 +34,7 @@
     }
   }
 
-  &[data-type="form-step-next"] {
+/*   &[data-type="form-step-next"] {
     background: linear-gradient(to right, $color-extra-300, $color-extra-100);
     background-size: 200% 100%;
     transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
@@ -43,9 +43,9 @@
         background-position: 100% 0%;
         color: $color-neutral-800;
     }
-  }
+  } */
 
-  &[data-type="form-step-prev"] {
+/*   &[data-type="form-step-prev"] {
     background: linear-gradient(to right, $color-extra-100, $color-extra-300);
     background-size: 200% 100%;
     transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
@@ -54,9 +54,12 @@
         background-position: 100% 0%;
         color: $color-neutral-800;
     }
-  }
+  } */
 
-  &[data-type="form-login"], &[data-type="form-register"], &[data-type="verify-captcha"]  {
+  &[data-type="form-login"],
+  &[data-type="form-register"],
+  &[data-type="verify-captcha"],
+  &[data-type="reset-password"]  {
     margin: auto;
     color: $color-neutral-100;
     background: linear-gradient(to right, $color-accent-400, $color-extra-400);
@@ -81,12 +84,11 @@
     }
   }
 
-  &[data-type="try-again"] {
+  &[data-type="form-step-next"], &[data-type="form-step-prev"] {
     background-color: $color-primary-500;
-    padding: $size-2;
+    padding: $size-3;
     border: 1px solid $color-primary-900;
     color: $color-neutral-100;
-    text-transform: lowercase;
     width: 100%;
     margin: auto;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
