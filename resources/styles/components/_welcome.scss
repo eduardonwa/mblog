@@ -194,13 +194,16 @@
         border: none;
         z-index: 1;
 
-
         &[data-type="left"] {
-            left: 25.50%;
+            left: 42%;
+            top: 1%;
+            bottom: 30%;
+            display: block;
         }
     
         &[data-type="right"] {
             right: 25.50%;
+            display: none;
         }
     }
 
@@ -213,7 +216,6 @@
         grid-template-rows: repeat(3, min-content);
         max-width: 1308px;
         padding: 36px 24px;
-        
     }
 
     // en el frontend dice "more posts"
@@ -258,9 +260,26 @@
             }
         }
     }
+
+    .grid-border {
+        &[data-type="left"] {
+            left: 25.50%;
+            top: 2%;
+            bottom: 1.5%;
+        }
+
+        &[data-type="right"] {
+            display: block;
+            right: 25.50%;
+        }
+    }
 }
 
 // diseño para móviles
+.grid-border {
+    display: none;
+}
+
 .featured-post {
     .header-section {
         @include header-section-styles();
