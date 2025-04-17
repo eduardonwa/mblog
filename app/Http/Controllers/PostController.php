@@ -99,16 +99,20 @@ class PostController extends Controller
     {
         try {
             $post = Post::findOrFail($postId);
-            
             $post->likes()->firstOrCreate(['user_id' => Auth::id()]);
     
-            return redirect()->back()->with([
-                'likes_count' => $post->likes()->count()
+            return response()->json([
+                'success' => true,
+                'likes_count' => $post->likes()->count(),
+                'is_liked_by_user' => true
             ]);
     
         } catch (\Exception $e) {
             Log::error('Error en like: '.$e->getMessage());
-            return back()->withErrors(['message' => 'Error al procesar el like']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al procesar el like'
+            ], 500);
         }
     }
     
@@ -116,16 +120,20 @@ class PostController extends Controller
     {
         try {
             $post = Post::findOrFail($postId);
-            
             $post->likes()->where('user_id', Auth::id())->delete();
     
-            return redirect()->back()->with([
-                'likes_count' => $post->likes()->count()
+            return response()->json([
+                'success' => true,
+                'likes_count' => $post->likes()->count(),
+                'is_liked_by_user' => false
             ]);
     
         } catch (\Exception $e) {
             Log::error('Error en unlike: '.$e->getMessage());
-            return back()->withErrors(['message' => 'Error al remover el like']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al remover el like'
+            ], 500);
         }
     }
 }

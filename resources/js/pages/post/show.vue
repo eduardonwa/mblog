@@ -2,7 +2,7 @@
   import { Head, Link } from '@inertiajs/vue3';
   import SiteLayout from '@/layouts/SiteLayout.vue';
   import LikeButton from '@/components/LikeButton.vue';
-  import { ref, onMounted } from 'vue'
+  import { ref } from 'vue'
 
   const { post, meta } = defineProps({
       post: Object,
@@ -11,22 +11,6 @@
 
   const localPost = ref({...post});
   const openLightbox = ref(false);
-  const likeButtonRef = ref(null);
-  const isSticky = ref(false);
-
-  onMounted(() => {
-      const observer = new IntersectionObserver(
-          ([entry]) => {
-              isSticky.value = !entry.isIntersecting;
-          },
-          { threshold: 0.1 }
-      );
-
-      const trigger = document.querySelector('.like-button-trigger');
-      if (trigger) {
-          observer.observe(trigger);
-      }
-  });
 </script>
 
 <template>
@@ -39,6 +23,7 @@
 
     <section class="blog-post | container" data-type="blog-post">
       <header class="post-header">
+
         <div class="post-header__meta-group">
           <!-- titulo y extracto -->
           <div class="post-title-group">
@@ -59,6 +44,11 @@
             </Link>
           </div>
         </div>
+        
+        <LikeButton
+            :post="localPost" 
+            @update:post="updatedPost => localPost = updatedPost" 
+        />
 
         <!-- Tags -->
         <div v-if="post?.tags?.length">
@@ -71,11 +61,6 @@
           </Link>
         </div>
       </header>
-
-      <LikeButton
-          :post="localPost" 
-          @update:post="updatedPost => localPost = updatedPost" 
-      />
 
       <!-- Imagen y extracto -->
       <article class="blog-post__subheader">
@@ -110,6 +95,8 @@
       <section class="blog-post__body | flow">
         <div v-html="post?.body"></div>
       </section>
+
     </section>
+
   </SiteLayout>
 </template>

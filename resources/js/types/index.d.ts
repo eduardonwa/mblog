@@ -35,3 +35,37 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Post {
+    id: number;
+    title: string;
+    extract?: string;
+    body?: string;
+    is_liked_by_user: boolean;
+    likes_count: number;
+    author: {
+        name: string;
+    };
+    smart_date: string;
+    category: {
+        slug: string;
+        name: string;
+    };
+    tags?: Array<{
+        id: number;
+        slug: { en: string };
+        name: { en: string };
+    }>;
+    thumbnail_urls?: {
+        max?: string;
+        lg?: string;
+    };
+}
+
+export interface Meta {
+    title?: string;
+    description?: string;
+    author?: string;
+}
+
+export {};

@@ -25,16 +25,6 @@ declare global {
     }
 }
 
-window.Inertia = {
-    ...window.Inertia,
-    shouldPreserveScroll: () => true,
-    on: (event: string, callback: (...args: any[]) => void) => {
-        if (event === 'navigate') {
-            window.addEventListener('popstate', callback);
-        }
-    }
-};
-
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
