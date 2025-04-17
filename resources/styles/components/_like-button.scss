@@ -13,23 +13,24 @@
     position: relative;
     contain: content;
 
-    .like-counter {
-        position: relative;
-        height: 1.2em;
-        overflow: hidden;
-        display: inline-block;
-        min-width: 20px;
-        text-align: center;
+    .like-count {
+        display: inline-block; // Necesario para transformaciones
+        backface-visibility: hidden; // Mejora rendimiento de animaciones
+        will-change: transform, opacity; // Optimización para animaciones
         
-        &.animating .like-count {
+        &.animating {
             animation: countJump 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.4) forwards;
         }
     }
 
-    .pulse-animation {
-        animation: metalShake 1.4s cubic-bezier(0.17, 0.67, 0.21, 0.99) forwards;
+    svg {
         transform-origin: center;
         backface-visibility: hidden;
+        will-change: transform, filter;
+        
+        &.pulse-animation {
+            animation: metalShake 1.4s cubic-bezier(0.17, 0.67, 0.21, 0.99) forwards;
+        }
     }
 }
 
