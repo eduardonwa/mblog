@@ -63,3 +63,13 @@ Stack trace:
 #0 /var/www/html/mblog/vendor/_laravel_ide/discover-476fe65492650d7ce55de1f8f96024c5.php(62): LaravelVsCode::startupError()
 #1 {main}
   thrown in /var/www/html/mblog/vendor/_laravel_ide/discover-476fe65492650d7ce55de1f8f96024c5.php on line 33
+[17-Apr-2025 17:27:36 UTC] PHP Fatal error:  Uncaught Error: __VSCODE_LARAVEL_STARTUP_ERROR__: syntax error, unexpected single-quoted string "ses", expecting "]" in /var/www/html/mblog/vendor/_laravel_ide/discover-6f0f1acd77de9f7869cf9462ed4d802b.php:33
+Stack trace:
+#0 /var/www/html/mblog/vendor/_laravel_ide/discover-6f0f1acd77de9f7869cf9462ed4d802b.php(62): LaravelVsCode::startupError()
+#1 {main}
+  thrown in /var/www/html/mblog/vendor/_laravel_ide/discover-6f0f1acd77de9f7869cf9462ed4d802b.php on line 33
+[17-Apr-2025 17:27:36 UTC] PHP Fatal error:  Uncaught Error: __VSCODE_LARAVEL_STARTUP_ERROR__: syntax error, unexpected single-quoted string "ses", expecting "]" in /var/www/html/mblog/vendor/_laravel_ide/discover-5802e590a92e23606bb54d2909564178.php:33
+Stack trace:
+#0 /var/www/html/mblog/vendor/_laravel_ide/discover-5802e590a92e23606bb54d2909564178.php(62): LaravelVsCode::startupError()
+#1 {main}
+  thrown in /var/www/html/mblog/vendor/_laravel_ide/discover-5802e590a92e23606bb54d2909564178.php on line 33
