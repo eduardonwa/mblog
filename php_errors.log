@@ -73,3 +73,4 @@ Stack trace:
 #0 /var/www/html/mblog/vendor/_laravel_ide/discover-5802e590a92e23606bb54d2909564178.php(62): LaravelVsCode::startupError()
 #1 {main}
   thrown in /var/www/html/mblog/vendor/_laravel_ide/discover-5802e590a92e23606bb54d2909564178.php on line 33
+[17-Apr-2025 17:56:32 UTC] PHP Fatal error:  Cannot use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmail because the name is already in use in /var/www/html/mblog/app/Models/User.php on line 8

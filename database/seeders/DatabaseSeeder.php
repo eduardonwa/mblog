@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
         
-        $adminRole = Role::where('name', 'admin')->first();
+/*         $adminRole = Role::where('name', 'admin')->first();
         $staffRole = Role::where('name', 'is_staff')->first();
         $authorRole = Role::where('name', 'author')->first();
 
@@ -49,7 +49,6 @@ class DatabaseSeeder extends Seeder
 
         Category::factory()->count(3)->create();        
         
-        // 1. crear 15 posts del staff
         Post::factory()
             ->count(5)
             ->create([
@@ -58,7 +57,6 @@ class DatabaseSeeder extends Seeder
                 'featured' => false
             ]);
 
-        // 2. crear 6 featured del staff
         Post::factory()
             ->count(6)
             ->create([
@@ -67,7 +65,6 @@ class DatabaseSeeder extends Seeder
                 'featured' => true
             ]);
 
-        // 4. crear 20 posts de usuarios normales (no staff/admin)
         $authUsers = User::whereDoesntHave('roles', function($q) {
             $q->whereIn('name', ['admin', 'is_staff']);
         })->get();
@@ -81,6 +78,6 @@ class DatabaseSeeder extends Seeder
                     'category_id' => Category::inRandomOrder()->first()->id,
                     'featured' => false
                 ]);
-            });
+            }); */
     }
 }

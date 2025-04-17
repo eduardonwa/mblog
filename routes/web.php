@@ -1,10 +1,9 @@
 <?php
 
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\WelcomeController;
 
@@ -33,3 +32,8 @@ Route::get('author/{user:name}/posts', [PostController::class, 'postByAuthor'])-
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent');
+})->middleware(['auth'])->name('verification.send');
