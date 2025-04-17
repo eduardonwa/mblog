@@ -105,11 +105,21 @@
       height: $size-9;
       stroke: none;
       fill: $color-neutral-100;
+      transition: transform 0.3s ease;
     }
 
     span {
-      display: inline-block;
-      animation: none !important;
+      display: block;
+      font-size: $font-size-500;
+    }
+
+    &.like-button--active {
+      svg {
+        fill: $color-extra-300;
+      }
+      .like-count {
+        color: $color-extra-300;
+      }
     }
   }
 }

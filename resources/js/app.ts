@@ -8,35 +8,69 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';
 import AppNavigation from './components/AppNavigation.vue';
 
-// Extend ImportMeta interface for Vite...
-declare module 'vite/client' {
-    interface ImportMetaEnv {
-        readonly VITE_APP_NAME: string;
-        [key: string]: string | boolean | undefined;
-    }
+/// <reference types="vite/client" />
 
-    interface ImportMeta {
-        readonly env: ImportMetaEnv;
-        readonly glob: <T>(pattern: string) => Record<string, () => Promise<T>>;
+// Extiende solo lo que necesites adicionalmente
+interface ImportMetaEnv {
+    readonly VITE_APP_NAME: string;
+    // Agrega aquí otras variables de entorno personalizadas si las tienes
+}
+
+declare global {
+    interface Window {
+        Inertia: {
+            shouldPreserveScroll: () => boolean;
+            on: (event: string, callback: (...args: any[]) => void) => void;
+        };
     }
 }
+
+window.Inertia = {
+    ...window.Inertia,
+    shouldPreserveScroll: () => true,
+    on: (event: string, callback: (...args: any[]) => void) => {
+        if (event === 'navigate') {
+            window.addEventListener('popstate', callback);
+        }
+    }
+};
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
+    resolve: (name) => {
+        const pages = import.meta.glob<DefineComponent>('./pages/**/*.vue');
+        return resolvePageComponent(`./pages/${name}.vue`, pages);
+    },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .component('AppNavigation', AppNavigation)
-            .mount(el);
+            .component('AppNavigation', AppNavigation);
+
+        app.config.globalProperties.$preserveScroll = (callback: () => void) => {
+            const scrollPosition = window.scrollY;
+            document.documentElement.style.overflow = 'hidden';
+            
+            const restoreScroll = () => {
+                window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+                document.documentElement.style.overflow = '';
+            };
+
+            try {
+                return callback();
+            } finally {
+                requestAnimationFrame(restoreScroll);
+            }
+        };
+
+        app.mount(el);
     },
     progress: {
         color: '#4B5563',
+        showSpinner: false
     },
 });
 
-// This will set light / dark mode on page load...
 initializeTheme();

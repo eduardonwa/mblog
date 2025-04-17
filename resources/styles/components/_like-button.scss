@@ -10,97 +10,43 @@
     justify-content: center;
     align-items: center;
     padding: $size-3;
+    position: relative;
 
-    span {
-        font-size: $font-size-500;
-    }
-
-    .like-button {
-        &--active {
-            svg {
-              fill: $color-extra-300;
-            }
-            span {
-                color: $color-extra-300;
-            }
+    .like-counter {
+        position: relative;
+        height: 1.2em;
+        overflow: hidden;
+        
+        &.animating .like-count {
+            animation: countJump 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.4) forwards;
         }
     }
+
+    .pulse-animation {
+        animation: metalShake 1.4s cubic-bezier(0.17, 0.67, 0.21, 0.99) forwards;
+        transform-origin: center;
+        backface-visibility: hidden;
+    }
+}
+
+/* Animaciones */
+@keyframes countJump {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    30% { transform: translateY(-100%) scale(1.3); opacity: 0; }
+    40% { transform: translateY(100%) scale(0.8); opacity: 0; }
+    70% { transform: translateY(0) scale(1.1); opacity: 1; text-shadow: 0 0 8px rgba(255, 215, 0, 0.8); }
+    100% { transform: translateY(0) scale(1); text-shadow: none; }
 }
 
 @keyframes metalShake {
-    0% {
-        transform: scale(1) rotate(0deg) translateX(0);
-        filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
-    }
-    40% {
-        transform: scale(1.5) rotate(0deg) translateX(0);
-        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
-    }
-    42% { transform: scale(1.5) rotate(-2deg) translateX(-3px); }
-    44% { transform: scale(1.5) rotate(2deg) translateX(3px); }
-    46% { transform: scale(1.5) rotate(-3deg) translateX(-4px); }
-    48% { transform: scale(1.5) rotate(3deg) translateX(4px); }
-    50% { transform: scale(1.5) rotate(-2deg) translateX(-3px); }
-    52% { transform: scale(1.5) rotate(2deg) translateX(3px); }
-    54% { transform: scale(1.5) rotate(0deg) translateX(0); }
-    100% {
-        transform: scale(1) rotate(0deg) translateX(0);
-    }
-}
-
-.pulse-animation {
-    animation: metalShake 1.4s cubic-bezier(0.17, 0.67, 0.21, 0.99) forwards;
-    transform-origin: center;
-    backface-visibility: hidden;
-}
-
-.like-counter {
-    position: relative;
-    display: inline-block;
-    height: 1.2em;
-    overflow: hidden;
-}
-
-.like-count {
-    display: block;
-    transition: all 0.3s ease-out;
-}
-
-.current-count {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.current-count.fade-out {
-    transform: translateY(-100%);
-    opacity: 0;
-}
-
-.next-count {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    opacity: 0;
-    transform: scale(0.8);
-}
-
-.next-count.animate {
-    animation: likeJump 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-@keyframes likeJump {
-    0% {
-        transform: translateY(0) scale(0.8);
-        opacity: 0;
-    }
-    50% {
-        transform: translateY(-60%) scale(1.2);
-        opacity: 1;
-        text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
-    }
-    100% {
-        transform: translateY(-100%) scale(1);
-        opacity: 1;
-        text-shadow: none;
-    }
+    0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+    40% { transform: scale(1.2); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8)); }
+    42% { transform: scale(1.2) rotate(-2deg); }
+    44% { transform: scale(1.2) rotate(2deg); }
+    46% { transform: scale(1.2) rotate(-3deg); }
+    48% { transform: scale(1.2) rotate(3deg); }
+    50% { transform: scale(1.2) rotate(-2deg); }
+    52% { transform: scale(1.2) rotate(2deg); }
+    54% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
