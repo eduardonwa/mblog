@@ -36,7 +36,6 @@ return [
     ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN', 'admin.sickofmetal.net'),
-        'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
 
