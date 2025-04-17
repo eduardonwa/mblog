@@ -34,10 +34,5 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-    'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN', 'admin.sickofmetal.net'),
-        'secret' => env('MAILGUN_SECRET', '751700ec229eb713f79289939ce0a269-17c877d7-ff6a26c7'),
-        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
-    ],
 
 ];
