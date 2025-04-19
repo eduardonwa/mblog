@@ -182,6 +182,7 @@ const handleImageLoad = () => {
                             <li style="list-style-type: none;">Approve posts with a 🤘 instead of a lame "like."</li>
                         </ul>
                     </div>
+                    <h2>...and MORE!</h2>
                 </List>
                 <div class="fs-300 text-center padding-4 margin-block-2">
                     <span>Already have an account?</span>

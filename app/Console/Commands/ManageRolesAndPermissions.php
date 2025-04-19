@@ -14,10 +14,10 @@ class ManageRolesAndPermissions extends Command
      * @var string
      */
     protected $signature = 'roles:manage
-                            {action : create-role|create-permission|assign-permission}
-                            {name : Name of role/permission}
+                            {action : create-role|create-permission|assign-permission|delete-role|delete-permission|list-roles|list-permissions|show-permissions}
+                            {name? : Name of role/permission}
                             {--permissions=* : Permission to assign (space separated)}
-                            {--force : Force delete without confirmation}
+                            {--force : Force delete (no confirmation prompt)}
                             ';
 
     /**
@@ -35,6 +35,11 @@ class ManageRolesAndPermissions extends Command
         $action = $this->argument('action');
         $name = $this->argument('name');
 
+        if (in_array($action, ['create-role', 'create-permission', 'assign-permission', 'delete-role', 'delete-permission', 'show-permissions']) && empty($name)) {
+            $this->error('The name argument is required for this action');
+            return;
+        }
+
         switch ($action) {
             case 'create-role':
                 $this->createRole($name);
@@ -51,12 +56,15 @@ class ManageRolesAndPermissions extends Command
             case 'delete-permission':
                 $this->deletePermission($name);
                 break;
+            case 'list-roles':
+                return $this->listRoles();
+            case 'list-permissions':
+                return $this->listPermissions();
             case 'show-permissions':
-                $this->showRolePermissions($name);
-                break;
+                return $this->showRolePermissions($this->argument('name'));
             default:
                 $this->error(
-                    'Invalid action. Use: create-role, create-permission, assign-permission, delete-role or delete-permission 
+                    'Invalid action. Available actions: create-role, create-permission, assign-permission, delete-role or delete-permission 
                 ');
         }
     }
@@ -70,7 +78,7 @@ class ManageRolesAndPermissions extends Command
     private function createPermission(string $name): void
     {
         Permission::firstOrCreate(['name' => $name, 'guard_name' => 'web']);
-        $this->info("✅ Permiso '$name' created/exists.");
+        $this->info("✅ Permission '$name' created/exists.");
     }
 
     private function assignPermissionsToRole(string $roleName): void
@@ -78,7 +86,7 @@ class ManageRolesAndPermissions extends Command
         $permissions = $this->option('permissions');
 
         if (empty($permissions)) {
-            $this->error('Please specify at least one permission with --permissions="permission1 permission2"');
+            $this->error('Please specify at least one action with --permissions="permission1 permission2"');
             return;
         }
 
@@ -112,7 +120,7 @@ class ManageRolesAndPermissions extends Command
         }
 
         $role->delete();
-        $this->info("✅ Rol '$name' eliminado.");
+        $this->info("✅ Role '$name' deleted.");
     }
 
     private function deletePermission(string $name): void
@@ -145,5 +153,17 @@ class ManageRolesAndPermissions extends Command
             ["Role permissions '$roleName'"], 
             $role->permissions->pluck('name')->map(fn ($name) => [$name])->toArray()
         );
+    }
+
+    private function listRoles(): void
+    {
+        $roles = Role::all()->pluck('name');
+        $this->table(['Roles'], $roles->map(fn($r) => [$r])->toArray());
+    }
+
+    private function listPermissions(): void
+    {
+        $permissions = Permission::all()->pluck('name');
+        $this->table(['Permissions'], $permissions->map(fn($p) => [$p])->toArray());
     }
 }
