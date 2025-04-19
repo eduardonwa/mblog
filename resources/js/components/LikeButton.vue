@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import axios from 'axios';
   import { ref, nextTick } from 'vue';
+  import { router, usePage } from '@inertiajs/vue3';
+  import type { PageProps } from '@inertiajs/core';
 
   const props = defineProps({
       post: {
@@ -12,8 +14,14 @@
   const emit = defineEmits(['update:post']);
   const isPulsing = ref(false);
   const isCounting = ref(false);
+  const page = usePage<PageProps>();
 
   const toggleLike = async (e: MouseEvent) => {
+    if (!(page.props.auth as { user: any }).user) {
+      router.visit(route('register'));
+      return;
+    }
+
     e.preventDefault();
     const wasLiked = props.post.is_liked_by_user;
     
