@@ -34,12 +34,13 @@ class ManageRolesAndPermissions extends Command
     {
         $action = $this->argument('action');
         $name = $this->argument('name');
-
+    
+        // Validar argumento name para acciones que lo requieren
         if (in_array($action, ['create-role', 'create-permission', 'assign-permission', 'delete-role', 'delete-permission', 'show-permissions']) && empty($name)) {
             $this->error('The name argument is required for this action');
             return;
         }
-
+    
         switch ($action) {
             case 'create-role':
                 $this->createRole($name);
@@ -57,15 +58,16 @@ class ManageRolesAndPermissions extends Command
                 $this->deletePermission($name);
                 break;
             case 'list-roles':
-                return $this->listRoles();
+                $this->listRoles();
+                break;
             case 'list-permissions':
-                return $this->listPermissions();
+                $this->listPermissions();
+                break;
             case 'show-permissions':
-                return $this->showRolePermissions($this->argument('name'));
+                $this->showRolePermissions($name);
+                break;
             default:
-                $this->error(
-                    'Invalid action. Available actions: create-role, create-permission, assign-permission, delete-role or delete-permission 
-                ');
+                $this->error('Invalid action. Available actions: create-role, create-permission, assign-permission, delete-role, delete-permission, list-roles, list-permissions, show-permissions');
         }
     }
 
