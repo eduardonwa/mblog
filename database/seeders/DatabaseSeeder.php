@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Spatie\Permission\Models\Role;
+use Database\Seeders\InterestSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,11 +18,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RoleSeeder::class);
+        $this->call([
+            PermissionSeeder::class,
+            RoleSeeder::class
+        ]);
         
-/*         $adminRole = Role::where('name', 'admin')->first();
-        $staffRole = Role::where('name', 'is_staff')->first();
-        $authorRole = Role::where('name', 'author')->first();
+        $adminRole = Role::where('name', 'admin')->first();
+        $staffRole = Role::where('name', 'staff')->first();
+        $memberRole = Role::where('name', 'member')->first();
 
         $adminUser = User::factory()->create([
             'name' => 'eduardo',
@@ -41,8 +45,8 @@ class DatabaseSeeder extends Seeder
         User::factory()
             ->count(8)
             ->create()
-            ->each(function ($user) use ($authorRole) {
-                $user->assignRole($authorRole);
+            ->each(function ($user) use ($memberRole) {
+                $user->assignRole($memberRole);
             });
 
         $users = User::all();
@@ -66,7 +70,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
         $authUsers = User::whereDoesntHave('roles', function($q) {
-            $q->whereIn('name', ['admin', 'is_staff']);
+            $q->whereIn('name', ['admin', 'staff']);
         })->get();
 
         Post::factory()
@@ -78,6 +82,6 @@ class DatabaseSeeder extends Seeder
                     'category_id' => Category::inRandomOrder()->first()->id,
                     'featured' => false
                 ]);
-            }); */
+            });
     }
 }

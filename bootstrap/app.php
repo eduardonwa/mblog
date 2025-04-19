@@ -1,7 +1,10 @@
 <?php
 
-use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\CheckKreator;
 use Illuminate\Foundation\Application;
+use App\Http\Middleware\RedirectIfGuest;
+use App\Http\Middleware\RedirectToRegister;
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
@@ -16,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
+        ]);
+        $middleware->alias([
+            'content.creator' => CheckKreator::class,
+            'redirect.guest' => RedirectIfGuest::class,
+            'redirect.to.register' => \App\Http\Middleware\RedirectToRegister::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

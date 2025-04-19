@@ -14,18 +14,33 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // crear roles
-        $adminRole = Role::create(['name' => 'admin']);
-        $staffRole = Role::create(['name' => 'is_staff']);
-        $authorRole = Role::create(['name' => 'author']);
+        $permissions = [
+            // básicos (todos los autenticados)
+            'view_posts',
+            'view_featured_posts',
+            'comment_posts',
+            'like_posts',
 
-        // crear permisos
-        $createPost = Permission::create(['name' => 'create_posts']);
-        $editPost = Permission::create(['name' => 'edit_posts']);
-        $deletePost = Permission::create(['name' => 'delete_posts']);
-        // asignar permisos a roles
-        $adminRole->givePermissionTo([$createPost, $editPost, $deletePost]);
-        $staffRole->givePermissionTo([$createPost, $editPost, $deletePost]);
-        $authorRole->givePermissionTo([$createPost, $editPost, $deletePost]);
+            // creadores
+            'create_posts',
+            'edit_own_posts',
+            'delete_own_posts',
+
+            // staff
+            'manage_categories',
+            'manage_creator_categories',
+            'feature_posts',
+            'edit_any_post',
+
+            // admin
+            'delete_any_post'
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate([
+                'name' => $permission,
+                'guard_name' => 'web'
+            ]);
+        }
     }
 }

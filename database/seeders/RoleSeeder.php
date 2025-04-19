@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
 {
@@ -13,8 +14,34 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        Role::firstOrCreate(['name' => 'is_staff', 'guard_name' => 'web']);
-        Role::firstOrCreate(['name' => 'author', 'guard_name' => 'web']);
+        // rol member (autenticado básico)
+        $member = Role::firstOrCreate(['name' => 'member', 'guard_name' => 'web']);
+        $member->givePermissionTo([
+            'view_posts',
+            'view_featured_posts',
+            'comment_posts',
+            'like_posts'
+        ]);
+
+        // rol content creator
+        $creator = Role::firstOrCreate(['name' => 'kreator', 'guard_name' => 'web']);
+        $creator->givePermissionTo([
+            ...$member->permissions->pluck('name')->toArray(),
+            'create_posts',
+            'edit_own_posts',
+            'delete_own_posts'
+        ]);
+
+        // rol staff
+        $staff = Role::firstOrCreate(['name' => 'staff', 'guard_name' => 'web']);
+        $staff->givePermissionTo([
+            ...$creator->permissions->pluck('name')->toArray(),
+            'manage_creator_categories',
+            'edit_any_post',
+        ]);
+
+        // rol admin
+        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $admin->givePermissionTo(Permission::all());
     }
 }

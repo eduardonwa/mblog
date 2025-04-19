@@ -37,6 +37,11 @@ class Post extends Model implements HasMedia
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -89,11 +94,6 @@ class Post extends Model implements HasMedia
         
         // Corrección del typo: isFormat → isoFormat
         return $short ? $createdAt->isoFormat('D MMM') : $createdAt->isoFormat('D MMMM YYYY');
-    }
-
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
     }
 
     public function likesCount()
