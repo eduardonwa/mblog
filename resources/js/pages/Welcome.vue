@@ -56,8 +56,8 @@
               <span> comments </span>
             </div>
 
-            <Link :href="route('author.posts', featuredPosts?.[0].author.name)">
-              <p>{{ featuredPosts?.[0].author?.name || 'Rattlehead' }}</p>
+            <Link :href="route('author.posts', featuredPosts?.[0].user?.name)">
+              <p>{{ featuredPosts?.[0].user?.name || 'Rattlehead' }}</p>
             </Link>
           </div>
           
@@ -119,8 +119,8 @@
                   <span>  </span>
                 </div>
         
-                <Link :href="route('author.posts', featuredPosts?.[0].author.name)">
-                  <p>{{ featuredPosts?.[0].author?.name || 'Rattlehead' }}</p>
+                <Link :href="route('author.posts', featuredPosts?.[0].user?.name)">
+                  <p>{{ featuredPosts?.[0].user?.name || 'Rattlehead' }}</p>
                 </Link>
               </div>
             </div>
@@ -160,8 +160,8 @@
                 <span> </span>
               </div>
         
-              <Link :href="route('author.posts', featuredPosts?.[0].author.name)">
-                <p>{{ featuredPosts?.[0].author?.name || 'Rattlehead' }}</p>
+              <Link :href="route('author.posts', featuredPosts?.[0].user?.name)">
+                <p>{{ featuredPosts?.[0].user?.name || 'Rattlehead' }}</p>
               </Link>
             </div>
           </Link>
@@ -198,8 +198,8 @@
                   {{ post?.short_date }}
                 </span>
               </div>
-              <Link class="author" :href="route('author.posts', post.author.name)">
-                {{ post.author?.name }}
+              <Link class="author" :href="route('author.posts', post.user?.name)">
+                {{ post.user?.name }}
               </Link>
             </div>
           </Link>
@@ -247,8 +247,8 @@
                   <span> </span>
                 </div>
         
-                <Link :href="route('author.posts', featuredPosts?.[0].author.name)">
-                  <p>{{ featuredPosts?.[0].author?.name || 'Rattlehead' }}</p>
+                <Link :href="route('author.posts', featuredPosts?.[0].user?.name)">
+                  <p>{{ featuredPosts?.[0].user?.name || 'Rattlehead' }}</p>
                 </Link>
               </div>
             </div>
@@ -282,8 +282,8 @@
                   {{ post?.short_date }}
                 </span>
               </div>
-              <Link class="author" :href="route('author.posts', post.author.name)">
-                {{ post.author?.name }}
+              <Link class="author" :href="route('author.posts', post.user?.name)">
+                {{ post.user?.name }}
               </Link>
             </div>
           </Link>

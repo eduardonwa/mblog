@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
+    // En tu DatabaseSeeder
     public function run(): void
     {
         $this->call([
@@ -23,65 +24,56 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class
         ]);
         
-        $adminRole = Role::where('name', 'admin')->first();
-        $staffRole = Role::where('name', 'staff')->first();
-        $memberRole = Role::where('name', 'member')->first();
+        // Crear categorías primero
+        Category::factory()->count(3)->create();
 
+        // Crear 1 admin
         $adminUser = User::factory()->create([
             'name' => 'eduardo',
             'email' => 'admin@sickofmetal.net',
             'password' => bcrypt('password'),
-        ]);
+        ])->assignRole('admin');
 
-        $staffUser = User::factory()->create([
-            'name' => 'staff_user',
-            'email' => 'staff@mail.com',
-            'password' => bcrypt('password123')
-        ]);
-
-        $adminUser->assignRole($adminRole);
-        $staffUser->assignRole($staffRole);
-
-        User::factory()
-            ->count(8)
+        // Crear 2 staff (como mencionaste)
+        $staffUsers = User::factory()
+            ->count(2)
             ->create()
-            ->each(function ($user) use ($memberRole) {
-                $user->assignRole($memberRole);
-            });
+            ->each(fn($user) => $user->assignRole('staff'));
 
-        $users = User::all();
+        // Crear miembros con el rol kreator
+        $kreators = User::factory()
+            ->count(5)
+            ->create()
+            ->each(fn($user) => $user->assignRole('kreator'));
 
-        Category::factory()->count(3)->create();        
-        
+        // Crear posts para admin (5 normales + 3 destacados)
         Post::factory()
             ->count(5)
-            ->create([
-                'author_id' => $staffUser->id,
-                'category_id' => Category::inRandomOrder()->first()->id,
-                'featured' => false
-            ]);
-
+            ->create(['user_id' => $adminUser->id, 'featured' => false]);
+        
         Post::factory()
-            ->count(6)
-            ->create([
-                'author_id' => $staffUser->id,
-                'category_id' => Category::inRandomOrder()->first()->id,
-                'featured' => true
-            ]);
+            ->count(2)
+            ->create(['user_id' => $adminUser->id, 'featured' => true, 'status' => 'published']);
 
-        $authUsers = User::whereDoesntHave('roles', function($q) {
-            $q->whereIn('name', ['admin', 'staff']);
-        })->get();
+        // Crear posts para cada staff (3 normales + 2 destacados por staff)
+        $staffUsers->each(function($staff) {
+            Post::factory()
+                ->count(3)
+                ->create(['user_id' => $staff->id, 'featured' => false]);
+            
+            Post::factory()
+                ->count(2)
+                ->create(['user_id' => $staff->id, 'featured' => true, 'status' => 'published']);
+        });
 
+        // Crear posts asignados a kreators aleatorios
         Post::factory()
             ->count(20)
-            ->create()
-            ->each(function ($post) use ($authUsers) {
-                $post->update([
-                    'author_id' => $authUsers->random()->id,
-                    'category_id' => Category::inRandomOrder()->first()->id,
-                    'featured' => false
-                ]);
-            });
+            ->state([
+                'user_id' => fn() => $kreators->random()->id,
+                'featured' => false,
+                'status' => 'published'
+            ])
+            ->create();
     }
 }

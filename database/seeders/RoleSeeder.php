@@ -23,9 +23,9 @@ class RoleSeeder extends Seeder
             'like_posts'
         ]);
 
-        // rol content creator
-        $creator = Role::firstOrCreate(['name' => 'kreator', 'guard_name' => 'web']);
-        $creator->givePermissionTo([
+        // rol content kreator
+        $kreator = Role::firstOrCreate(['name' => 'kreator', 'guard_name' => 'web']);
+        $kreator->givePermissionTo([
             ...$member->permissions->pluck('name')->toArray(),
             'create_posts',
             'edit_own_posts',
@@ -35,7 +35,7 @@ class RoleSeeder extends Seeder
         // rol staff
         $staff = Role::firstOrCreate(['name' => 'staff', 'guard_name' => 'web']);
         $staff->givePermissionTo([
-            ...$creator->permissions->pluck('name')->toArray(),
+            ...$kreator->permissions->pluck('name')->toArray(),
             'manage_creator_categories',
             'edit_any_post',
         ]);

@@ -18,7 +18,7 @@
     <Head>
       <title>{{ meta?.title }}</title>
       <meta name="description" :content="meta?.description">
-      <meta name="author" :content="meta?.author">
+      <meta name="user" :content="meta?.user">
     </Head>
 
     <section class="blog-post | container" data-type="blog-post">
@@ -33,8 +33,8 @@
 
           <!-- autor fecha y categoria -->
           <div class="meta-primary">
-            <Link :href="route('author.posts', post?.author.name)">
-              <p>{{ post?.author?.name || 'Rattlehead' }}</p>
+            <Link :href="route('author.posts', post?.user?.name)">
+              <p>{{ post?.user?.name || 'Rattlehead' }}</p>
             </Link>
 
             <p>{{ post?.smart_date }}</p>

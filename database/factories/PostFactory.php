@@ -23,7 +23,7 @@ class PostFactory extends Factory
         $images = glob(public_path('images/albums/*'));
 
         if (empty($images)) {
-            throw new \Exception('No hay imágenes en la carpeta public/images/seeder.');
+            throw new \Exception('No hay imágenes en la carpeta public/albums.');
         }
 
         return [
@@ -37,7 +37,7 @@ class PostFactory extends Factory
             'meta_description' => implode(' ', fake()->sentences(2)),
             'status' => 'published',
             'featured' => fake()->boolean(),
-            'author_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }

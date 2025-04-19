@@ -26,10 +26,15 @@ class Post extends Model implements HasMedia
         'short_date',
         'thumbnail_urls'
     ];
-    
-    public function author(): BelongsTo
+
+    public function kreator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function category(): BelongsTo
@@ -106,6 +111,17 @@ class Post extends Model implements HasMedia
         return $this->likes()->where('user_id', Auth::id())->exists();
     }
 
+    // scope para posts de staff/admin (no necesita el rol de kreator)
+    public function scopeStaffBase($query)
+    {
+        return $query->with(['user', 'category', 'media'])
+            ->withCount('likes')
+            ->where('status', 'published')
+            ->whereHas('user', function($q) {
+                $q->role(['staff', 'admin']);
+            });
+    }
+
     // posts regulares del staff
     public function scopeStaffPosts($query, $limit = 10)
     {
@@ -123,29 +139,15 @@ class Post extends Model implements HasMedia
             ->latest()
             ->take($limit);
     }
-    
-    public function scopeStaffBase($query)
-    {
-        return $query->with(['category', 'author', 'media'])
-            ->withCount('likes')
-            ->where('status', 'published')
-            ->whereHas('author', function($q) {
-                $q->whereHas('roles', function($q) {
-                    $q->whereIn('name', ['is_staff', 'admin']);
-                });
-            });
-    }
-    
-    // Scope base para posts comunitarios (no staff/admin)
+       
+    // Scope para posts de "kreators" (no staff/admin)
     public function scopeCommunityBase($query)
     {
-        return $query->with(['author', 'media'])
+        return $query->with(['user', 'media'])
             ->withCount('likes')
             ->where('status', 'published')
-            ->whereDoesntHave('author', function($q) {
-                $q->whereHas('roles', function($q) {
-                    $q->whereIn('name', ['is_staff', 'admin']);
-                });
+            ->whereHas('user', function($q) {
+                $q->role('kreator');
             });
     }
 
@@ -159,10 +161,10 @@ class Post extends Model implements HasMedia
 
     public function scopeMostLiked($query, $limit = 5)
     {
-        return $query->with(['author', 'likes'])
+        return $query->with(['likes'])
             ->withCount('likes')
-            ->whereDoesntHave('author.roles', function($q) {
-                $q->whereIn('name', ['is_staff', 'admin']); // Excluye admin y staff
+            ->whereHas('kreator', function($q) {
+                $q->role('kreator');
             })
             ->orderByDesc('likes_count')
             ->take($limit);

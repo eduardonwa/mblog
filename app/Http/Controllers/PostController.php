@@ -17,9 +17,10 @@ class PostController extends Controller
     {
         $post = Post::with([
             'category',
-            'author',
+            'user',
             'tags:id,name,slug',
-            'likes'
+            'likes',
+            'media'
         ])
         ->where('slug', $slug)
         ->where('status', 'published')
@@ -27,22 +28,20 @@ class PostController extends Controller
     
         $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
         $post->setAttribute('likes_count', $post->likesCount());
-
-        $post->load('media');
     
         return Inertia::render('post/show', [
             'post' => $post->append('thumbnail_urls'),
             'meta' => [
                 'title' => $post->meta_title ?? $post->title,
                 'description' => $post->meta_description ?? $post->description,
-                'author' => $post->author?->name,
+                'author' => $post->user?->name,
             ],
         ]);
     }
 
     public function index()
     {
-        $posts = Post::with('category', 'author')
+        $posts = Post::with('category', 'user')
             ->where('status', 'published')
             ->paginate(20);
 
@@ -81,13 +80,11 @@ class PostController extends Controller
 
     public function postByAuthor(User $user)
     {
-        $posts = Post::with(['category', 'tags', 'author'])
-            ->where('author_id', $user->id)
+        $posts = Post::with(['category', 'tags', 'user'])
+            ->where('user_id', $user->id)
             ->where('status', 'published')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-
-        Log::debug("Posts encontrados: ".$posts->count());
 
         return Inertia::render('post/author', [
             'posts' => $posts,

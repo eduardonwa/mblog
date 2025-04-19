@@ -51,20 +51,20 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         ];
     }
 
-    public function assignAuthor(): void
+    public function assignKreator(): void
     {
-        // Verificar si ya tiene el rol de "author"
-        if ($this->hasRole('author')) {
-            throw new \Exception('El usuario ya tiene el rol de autor.');
+        // Verificar si ya tiene el rol de "kreator"
+        if ($this->hasRole('kreator')) {
+            throw new \Exception('User already has "kreator" role.');
         }
     
-        // Asignar el rol de "author"
-        $this->assignRole('author');
+        // Asignar el rol de "kreator"
+        $this->assignRole('kreator');
     }
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'author_id');
+        return $this->hasMany(Post::class, 'kreator_id');
     }
 
     public function likes()
