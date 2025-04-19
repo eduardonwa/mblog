@@ -14,6 +14,32 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $permissions = [
+            // básicos (todos los autenticados)
+            'view_posts',
+            'view_featured_posts',
+            'comment_posts',
+            'like_posts',
+
+            // creadores
+            'create_posts',
+            'edit_own_posts',
+            'delete_own_posts',
+
+            // staff
+            'manage_categories',
+            'manage_creator_categories',
+            'feature_posts',
+            'edit_any_post',
+
+            // admin
+            'delete_any_post'
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
+        }
+
         // rol member (autenticado básico)
         $member = Role::firstOrCreate(['name' => 'member', 'guard_name' => 'web']);
         $member->givePermissionTo([
