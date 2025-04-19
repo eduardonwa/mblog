@@ -85,7 +85,7 @@ class PostResource extends Resource
                                             ->searchable(),
                                         SpatieTagsInput::make('tags')
                                             ->separator(','),
-                                        Hidden::make('author_id')
+                                        Hidden::make('user_id')
                                             ->default(Auth::id()),
                                     ]),
                                 Tab::make('Meta')
@@ -188,7 +188,7 @@ class PostResource extends Resource
 
     protected function beforeCreate(array $data): array
     {
-        $data['author_id'] = Auth::id();
+        $data['user_id'] = Auth::id();
         return $data;
     }
 }
