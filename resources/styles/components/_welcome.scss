@@ -139,14 +139,14 @@
     grid-template-columns: 1fr;
     gap: 24px;
     position: relative;
-    grid-template-areas: 
+    grid-template-areas:
     "main"
     "leaderboard"
     "secondary"
     "staff"
     "last-three"
-    "second-batch"
-    "first-batch";
+    "first-batch"
+    "second-batch";
 
     // estilos bases (móvil)
     .grid-border {
@@ -203,7 +203,6 @@
         }
     }
 
-    
     .staff-posts { grid-area: staff; }
     .featured-post[data-type="main"] { grid-area: main; }
     .featured-post[data-type="secondary"] { grid-area: secondary; }
@@ -211,19 +210,6 @@
     .leaderboard { grid-area: leaderboard; }
     .community-posts[data-type="first-batch"] { grid-area: first-batch; }
     .community-posts[data-type="second-batch"] { grid-area: second-batch; }
-}
-
-.featured-post {
-    .header-section {
-        @include header-section-styles();
-        @include mq(medium) {
-            margin-inline-start: 0;
-            margin-block-start: 0;
-        }
-        @include mq(large) {
-            display: none;
-        }
-    }
 }
 
 .featured-post > a {
@@ -541,7 +527,7 @@
             $title-font-size: $font-size-600,
         );
         
-        & { padding-block-start: 0; }
+        // & { padding-block-start: 0; }
 
         @include mq(medium) {
             picture {
@@ -556,7 +542,7 @@
         }
 
         @include mq(large) {
-            padding: $size-3;
+            margin-block-start: $size-3;
             padding-block-end: 0;
 
             .extract {
@@ -599,6 +585,7 @@
         padding: $size-3;
         background-color: $color-extra-100;
         color: $color-neutral-900;
+        margin-block-end: $size-8;
 
         &__register-btn {
             margin-block-start: $size-5;

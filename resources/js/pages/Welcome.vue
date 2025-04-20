@@ -65,7 +65,7 @@
       </section>
   
       <!-- 2. Leaderboard -->
-      <section v-if="leaderboard?.length" class="leaderboard flow">
+      <section v-if="leaderboard?.length" class="leaderboard">
         <div class="header-section">
           <h2 class="uppercase">leaderboard</h2>
         </div>
@@ -80,9 +80,6 @@
   
       <!-- 3. grupo de 2 "featured" -->
       <section v-if="featuredPosts?.length > 1" class="featured-post" data-type="secondary">
-        <div class="header-section">
-          <h2 class="uppercase">featured</h2>
-        </div>
         <article v-for="(post, index) in featuredPosts?.slice(1, 3)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <picture>
@@ -128,10 +125,6 @@
 
       <!-- 4. posts del staff (5 primeros) -->
       <section v-if="staffPosts?.length" class="staff-posts">  
-        <div class="header-section">
-          <h2 class="uppercase">more posts</h2>
-        </div>
-
         <article v-for="(post, index) in staffPosts?.slice(0, 5)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <h2>{{ post.title }}</h2>
@@ -177,7 +170,7 @@
         </div>
         <div v-else>
           <div class="header-section">
-            <h2 class="uppercase">from the community</h2>
+            <h2 class="uppercase">community posts</h2>
           </div>
         </div>
         <article v-for="(post, index) in recent?.slice(0, 5)" :key="post.id" class="community-posts__wrapper">
@@ -204,10 +197,6 @@
 
       <!-- 7. grupo de 3 "featured" -->
       <section v-if="featuredPosts?.length > 1" class="featured-post" data-type="last-three">
-        <div class="header-section | uppercase">
-          <h2>staff</h2>
-        </div>
-
         <article v-for="(post, index) in featuredPosts?.slice(3, 6)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <picture>
@@ -253,9 +242,6 @@
 
       <!-- 8. ultimos 5 posts recientes de la comunidad -->
       <section v-if="recent?.length" class="community-posts | flow" data-type="second-batch">
-        <div class="header-section">
-          <h2 class="uppercase">from the community</h2>
-        </div>
         <article
           v-for="(post, index) in recent?.slice(5, 10)"
           :key="post.id"
