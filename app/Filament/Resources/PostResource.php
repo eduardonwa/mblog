@@ -78,7 +78,7 @@ class PostResource extends Resource
                                             ->required(),
                                         Toggle::make('featured'),
                                         TextArea::make('extract')
-                                            ->helperText('Limited to 255 characters allowed')
+                                            ->helperText('Limited to 255 characters')
                                             ->maxLength(255),
                                         Select::make('language')
                                             ->options(config('languages'))
@@ -108,7 +108,8 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        DateTimePicker::make('created_at'),
+                                        DateTimePicker::make('created_at')
+                                            ->label('Publish date'),
                                         Radio::make('status')
                                             ->options([
                                                 'draft' => 'Draft',

@@ -7,6 +7,7 @@ use Filament\Tables;
 use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
@@ -26,19 +27,26 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->required(),
-                TextInput::make('slug')->required(),
+                TextInput::make('name')
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function($state, $set) {
+                        $set('slug', Str::slug($state));
+                    }),
+                TextInput::make('slug')
+                    ->required()
+                    ->unique(ignoreRecord: true),
                 Select::make('scope')
                     ->options([
-                        'public' => 'Editorial Content (site wide)',
-                        'kreators' => 'Exclusive for kReAtOrS (ppl running this shit)',
+                        'public' => 'Editorial',
+                        'kreators' => 'Kreators',
                     ])
                     ->default('public')
                     ->required()
-                    ->visible(fn (): bool => Auth::hasRole('admin')),
-                TextInput::make('icon')
+                    ->visible(fn (): bool => Auth::user()?->hasRole('admin')),
+/*                 TextInput::make('icon')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255), */
             ]);
     }
 
