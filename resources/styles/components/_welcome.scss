@@ -136,13 +136,24 @@
 // diseño principal
 .welcome-grid {
     display: grid;
+    grid-template-columns: 1fr;
     gap: 24px;
     position: relative;
+    grid-template-areas: 
+    "main"
+    "leaderboard"
+    "secondary"
+    "staff"
+    "last-three"
+    "second-batch"
+    "first-batch";
 
     // estilos bases (móvil)
     .grid-border {
-        &[data-type="left"] {display: none;}
-        &[data-type="right"] {display: none;}
+        &[data-type="left"] {display: none; position: absolute;}
+        &[data-type="right"] {display: none; position: absolute;}
+        border: 1px dashed $color-accent-400;
+        opacity: .3;
     }
 
     // tabletas
@@ -151,45 +162,17 @@
         grid-template-rows: repeat(4, min-content);
         padding: 36px 24px;
         grid-template-areas:
-            "leaderboard      featured-main"
-            "community-first  featured-secondary"
-            "community-second featured-last-three"
-            "staff-posts      staff-posts";
+            "leaderboard  main"
+            "first-batch  secondary"
+            "second-batch last-three"
+            "staff        staff";
 
-        .leaderboard {
-            grid-area: leaderboard;
-        }
-        
-        .community-posts[data-type="first-batch"] {
-            grid-area: community-first;
-        }
-
-        .community-posts[data-type="second-batch"] {
-            grid-area: community-second;
-        }
-
-        .featured-post[data-type="main"] {
-            grid-area: featured-main;
-        }
-
-        .featured-post[data-type="secondary"] {
-            grid-area: featured-secondary;
-        }
-
-        .featured-post[data-type="last-three"] {
-            grid-area: featured-last-three;
-        }
-
-        .staff-posts {
-            grid-area: staff-posts;
-        }
-
-        .grid-border[data-type="left"] {
-            display: block;
-            left: 42%;
-            top: 1%;
-            bottom: 32%;
-        }
+            .grid-border[data-type="left"] {
+                display: block;
+                left: 42%;
+                top: 1%;
+                bottom: 32%;
+            }
     }
 
     // escritorio
@@ -200,51 +183,34 @@
         align-items: start;
         // padding: 36px 24px;
         grid-template-areas:
-            "staff-posts featured-main       featured-main       leaderboard"
-            "staff-posts featured-secondary  featured-secondary  community-first"
-            "staff-posts featured-last-three featured-last-three community-second";
-
-        .featured-post[data-type="main"] {
-            grid-area: featured-main;
-        }
-        
-        .featured-post[data-type="secondary"] {
-            grid-area: featured-secondary;
-            height: min-content;
-        }
-
-        .featured-post[data-type="last-three"] {
-            grid-area: featured-last-three;
-        }
-
-        .staff-posts {
-            grid-area: staff-posts;
-        }
-
-        .leaderboard {
-            grid-area: leaderboard;
-        }
-
-        .community-posts[data-type="first-batch"] {
-            grid-area: community-first;
-        }
-
-        .community-posts[data-type="second-batch"] { 
-            grid-area: community-second; 
-        }
+            "staff main       main       leaderboard"
+            "staff secondary  secondary  first-batch"
+            "staff last-three last-three second-batch";
 
         .grid-border {
             &[data-type="left"] {
+                top: 1%;
                 left: 25.50%;
-                top: 2%;
                 bottom: 1.5%;
             }
             &[data-type="right"] {
+                position: absolute;
                 display: block;
+                top: 1%;
+                bottom: 1.5%;
                 right: 25.50%;
             }
         }
     }
+
+    
+    .staff-posts { grid-area: staff; }
+    .featured-post[data-type="main"] { grid-area: main; }
+    .featured-post[data-type="secondary"] { grid-area: secondary; }
+    .featured-post[data-type="last-three"] { grid-area: last-three; }
+    .leaderboard { grid-area: leaderboard; }
+    .community-posts[data-type="first-batch"] { grid-area: first-batch; }
+    .community-posts[data-type="second-batch"] { grid-area: second-batch; }
 }
 
 .featured-post {
@@ -649,7 +615,7 @@
             transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
             
             &:after {
-                content: 'become an author';
+                content: 'become a kreator';
             }
 
             &:hover {

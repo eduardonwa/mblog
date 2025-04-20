@@ -17,8 +17,8 @@
     <Head title="Welcome" />
 
     <div class="welcome-grid ! mx-auto">
-      <hr class="grid-border" data-type="left">
-      <hr class="grid-border" data-type="right">
+      <hr class="grid-border" role="separator" data-type="left">
+      <hr class="grid-border" role="separator" data-type="right">
       <!-- 1. Primer post "featured" -->
       <section v-if="featuredPosts?.length > 0" class="featured-post" data-type="main">
         <Link style="text-decoration: none;" :href="route('post.show', featuredPosts?.[0].slug)">
@@ -68,7 +68,6 @@
       <section v-if="leaderboard?.length" class="leaderboard flow">
         <div class="header-section">
           <h2 class="uppercase">leaderboard</h2>
-          <hr>
         </div>
         <article class="leaderboard__info" v-for="post in leaderboard" :key="post.id">      
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
@@ -83,7 +82,6 @@
       <section v-if="featuredPosts?.length > 1" class="featured-post" data-type="secondary">
         <div class="header-section">
           <h2 class="uppercase">featured</h2>
-          <hr>
         </div>
         <article v-for="(post, index) in featuredPosts?.slice(1, 3)" :key="post.id">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
@@ -132,7 +130,6 @@
       <section v-if="staffPosts?.length" class="staff-posts">  
         <div class="header-section">
           <h2 class="uppercase">more posts</h2>
-          <hr>
         </div>
 
         <article v-for="(post, index) in staffPosts?.slice(0, 5)" :key="post.id">
@@ -181,7 +178,6 @@
         <div v-else>
           <div class="header-section">
             <h2 class="uppercase">from the community</h2>
-            <hr>
           </div>
         </div>
         <article v-for="(post, index) in recent?.slice(0, 5)" :key="post.id" class="community-posts__wrapper">
@@ -210,7 +206,6 @@
       <section v-if="featuredPosts?.length > 1" class="featured-post" data-type="last-three">
         <div class="header-section | uppercase">
           <h2>staff</h2>
-          <hr>
         </div>
 
         <article v-for="(post, index) in featuredPosts?.slice(3, 6)" :key="post.id">
@@ -260,7 +255,6 @@
       <section v-if="recent?.length" class="community-posts | flow" data-type="second-batch">
         <div class="header-section">
           <h2 class="uppercase">from the community</h2>
-          <hr>
         </div>
         <article
           v-for="(post, index) in recent?.slice(5, 10)"
