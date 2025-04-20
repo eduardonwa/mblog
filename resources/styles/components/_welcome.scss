@@ -133,151 +133,118 @@
     }
 }
 
-// diseño para tabletas
-@include mq(medium) {
-    .welcome-grid {
-        display: grid;
-        grid-template-columns: .7fr 1fr;
-        grid-template-rows: min-content min-content min-content min-content 1fr;
-        padding: 36px 24px;
-        gap: 24px;
-        position: relative;
-    }
+// diseño principal
+.welcome-grid {
+    display: grid;
+    gap: 24px;
+    position: relative;
 
-    .leaderboard {
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    .community-posts {
-        &[data-type="first-batch"] {
-            grid-column: 1;
-            grid-row: 2;
-        }
-
-        &[data-type="second-batch"] {
-            grid-column: 1;
-            grid-row: 3;
-        }
-    }
-
-    .featured-post {
-        &[data-type="main"] {
-            grid-column: 2;
-            grid-row: 1;
-        }
-
-        &[data-type="secondary"] {
-            grid-column: 2;
-            grid-row: 2;
-        }
-
-        &[data-type="last-three"] {
-            grid-column: 2;
-            grid-row: 3;
-        }
-    }
-
-    .staff-posts {
-        grid-column: 1 / span 2;
-        grid-row: 5 ;
-    }
-
+    // estilos bases (móvil)
     .grid-border {
-        position: absolute;
-        top: 2%;
-        bottom: 1.5%;
-        width: 1px;
-        background: $color-primary-400;
-        opacity: .4;
-        margin: 0;
-        border: none;
-        z-index: 1;
+        &[data-type="left"] {display: none;}
+        &[data-type="right"] {display: none;}
+    }
 
-        &[data-type="left"] {
+    // tabletas
+    @include mq(medium) {
+        grid-template-columns: 0.7fr 1fr;
+        grid-template-rows: repeat(4, min-content);
+        padding: 36px 24px;
+        grid-template-areas:
+            "leaderboard      featured-main"
+            "community-first  featured-secondary"
+            "community-second featured-last-three"
+            "staff-posts      staff-posts";
+
+        .leaderboard {
+            grid-area: leaderboard;
+        }
+        
+        .community-posts[data-type="first-batch"] {
+            grid-area: community-first;
+        }
+
+        .community-posts[data-type="second-batch"] {
+            grid-area: community-second;
+        }
+
+        .featured-post[data-type="main"] {
+            grid-area: featured-main;
+        }
+
+        .featured-post[data-type="secondary"] {
+            grid-area: featured-secondary;
+        }
+
+        .featured-post[data-type="last-three"] {
+            grid-area: featured-last-three;
+        }
+
+        .staff-posts {
+            grid-area: staff-posts;
+        }
+
+        .grid-border[data-type="left"] {
+            display: block;
             left: 42%;
             top: 1%;
-            bottom: 30%;
-            display: block;
-        }
-    
-        &[data-type="right"] {
-            right: 25.50%;
-            display: none;
+            bottom: 32%;
         }
     }
 
-}
-
-// diseño para escritorio
-@include mq(large) {
-    .welcome-grid {
+    // escritorio
+    @include mq(large) {
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(3, min-content);
         max-width: 1308px;
-        padding: 36px 24px;
-    }
+        align-items: start;
+        // padding: 36px 24px;
+        grid-template-areas:
+            "staff-posts featured-main       featured-main       leaderboard"
+            "staff-posts featured-secondary  featured-secondary  community-first"
+            "staff-posts featured-last-three featured-last-three community-second";
 
-    // en el frontend dice "more posts"
-    .staff-posts {
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    .featured-post {
-        &[data-type="main"] {
-            grid-column: 2 / 4;
-            grid-row: 1;
+        .featured-post[data-type="main"] {
+            grid-area: featured-main;
+        }
+        
+        .featured-post[data-type="secondary"] {
+            grid-area: featured-secondary;
+            height: min-content;
         }
 
-        &[data-type="secondary"] {
-            grid-column: 2 / 4;
-            grid-row: 2;
+        .featured-post[data-type="last-three"] {
+            grid-area: featured-last-three;
         }
 
-        &[data-type="last-three"] {
-            grid-column: 2 / 4;
-            grid-row: 3;
-        }
-    }
-
-    .leaderboard {
-        grid-column: 4/5;
-        grid-row: 1;
-    }
-
-    .community-posts {
-        &[data-type="first-batch"] {
-            grid-column: 4;
+        .staff-posts {
+            grid-area: staff-posts;
         }
 
-        &[data-type="second-batch"] {
-            grid-column: 4;
-            grid-row: 3;
-            
-            .header-section {
-                display: none;
+        .leaderboard {
+            grid-area: leaderboard;
+        }
+
+        .community-posts[data-type="first-batch"] {
+            grid-area: community-first;
+        }
+
+        .community-posts[data-type="second-batch"] { 
+            grid-area: community-second; 
+        }
+
+        .grid-border {
+            &[data-type="left"] {
+                left: 25.50%;
+                top: 2%;
+                bottom: 1.5%;
+            }
+            &[data-type="right"] {
+                display: block;
+                right: 25.50%;
             }
         }
     }
-
-    .grid-border {
-        &[data-type="left"] {
-            left: 25.50%;
-            top: 2%;
-            bottom: 1.5%;
-        }
-
-        &[data-type="right"] {
-            display: block;
-            right: 25.50%;
-        }
-    }
-}
-
-// diseño para móviles
-.grid-border {
-    display: none;
 }
 
 .featured-post {
@@ -287,10 +254,8 @@
             margin-inline-start: 0;
             margin-block-start: 0;
         }
-        // solo visible para el grupo de 3 
         @include mq(large) {
-            margin-inline-start: $size-3;
-            margin-block-start: 0;
+            display: none;
         }
     }
 }
@@ -350,8 +315,8 @@
         padding-block-start: 0;
 
         &__info {
-            padding: $size-3;
             transition: all 0.1s ease-in-out;
+            padding: $size-2;
 
             &:hover {
                 background-color: $color-primary-900;
@@ -760,7 +725,7 @@
         padding: $size-3;
     
         &__wrapper {
-            padding: $size-3;
+            padding: $size-2;
             transition: all 0.1s ease-in-out;
 
             &__post-title {

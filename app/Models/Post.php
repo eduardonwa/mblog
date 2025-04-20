@@ -161,7 +161,7 @@ class Post extends Model implements HasMedia
 
     public function scopeMostLiked($query, $limit = 5)
     {
-        return $query->with(['likes'])
+        return $query->with(['likes', 'user'])
             ->withCount('likes')
             ->whereHas('kreator', function($q) {
                 $q->role('kreator');

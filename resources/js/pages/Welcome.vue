@@ -73,7 +73,7 @@
         <article class="leaderboard__info" v-for="post in leaderboard" :key="post.id">      
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <h3 class="leaderboard__info__title">{{ post.title }}</h3>
-            <span class="leaderboard__info__author">{{ post.author?.name }}</span>          
+            <span class="leaderboard__info__author">{{ post.user?.name }}</span>          
           </Link>
           <span class="leaderboard__info__likes">{{ post.likes_count }}</span>
         </article>
