@@ -277,10 +277,7 @@
                   <path id="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(0.75 0.75)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
                   <path id="Vector-2" data-name="Vector" d="M4.08,7.67.98,5.82A2.215,2.215,0,0,1,0,4.1V0" transform="translate(10.38 6.26)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
                 </svg>
-    
-                <span>
-                  {{ post?.short_date }}
-                </span>
+                <span>{{ post?.short_date }}</span>
               </div>
               <Link class="author" :href="route('author.posts', post.user?.name)">
                 {{ post.user?.name }}

@@ -52,16 +52,7 @@ class Post extends Model implements HasMedia
         return 'slug';
     }
 
-/*     public function getSmartDateAttribute()
-    {
-        $createdAt = $this->created_at;
-           
-        if ($createdAt > now()->subDays(7)) {
-            return $createdAt->diffForHumans();
-        }
-        
-        return $createdAt->isoFormat('D MMMM YYYY');
-    } */
+    // utiliza el formato largo
     public function getSmartDateAttribute()
     {
         return $this->formatDate(false);
@@ -76,29 +67,28 @@ class Post extends Model implements HasMedia
     {
         $createdAt = $this->created_at;
         $now = now();
+        $diffInMinutes = $createdAt->diffInMinutes($now);
+        $diffInHours = $createdAt->diffInHours($now);
+        $diffInDays = $createdAt->diffInDays($now);
     
-        if ($createdAt > $now->subDays(7)) {
-            if ($short) {
-                if ($createdAt > $now->subMinute()) {
-                    return 'Now';
-                }
-                
-                if ($createdAt > $now->subHour()) {
-                    $minutes = $createdAt->diffInMinutes();
-                    return $minutes < 60 ? $minutes.'m' : floor($minutes/60).'h';
-                }
-                
-                if ($createdAt > $now->subDay()) {  // Cambiado de subDays() a subDay()
-                    return $createdAt->diffInHours().'h';
-                }
-                
-                return $createdAt->diffInDays().'d';
+        if ($short) {
+            if ($diffInMinutes < 1) {
+                return 'Now';
             }
-            return $createdAt->diffForHumans();
+            if ($diffInMinutes < 60) {
+                return $diffInMinutes . 'm';
+            }
+            if ($diffInHours < 24) {
+                return floor($diffInHours) . 'h';
+            }
+            if ($diffInDays < 7) {
+                return $diffInDays . 'd';
+            }
+            return $createdAt->isoFormat('D MMM');
         }
-        
-        // Corrección del typo: isFormat → isoFormat
-        return $short ? $createdAt->isoFormat('D MMM') : $createdAt->isoFormat('D MMMM YYYY');
+    
+        // Versión larga (diffForHumans)
+        return $createdAt->diffForHumans();
     }
 
     public function likesCount()
