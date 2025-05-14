@@ -27,7 +27,7 @@ class Post extends Model implements HasMedia
         'thumbnail_urls'
     ];
 
-    public function kreator(): BelongsTo
+    public function member(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -137,7 +137,7 @@ class Post extends Model implements HasMedia
             ->withCount('likes')
             ->where('status', 'published')
             ->whereHas('user', function($q) {
-                $q->role('kreator');
+                $q->role('member');
             });
     }
 
@@ -153,8 +153,8 @@ class Post extends Model implements HasMedia
     {
         return $query->with(['likes', 'user'])
             ->withCount('likes')
-            ->whereHas('kreator', function($q) {
-                $q->role('kreator');
+            ->whereHas('member', function($q) {
+                $q->role('member');
             })
             ->orderByDesc('likes_count')
             ->take($limit);

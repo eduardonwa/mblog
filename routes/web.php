@@ -63,7 +63,7 @@ Route::middleware('redirect.to.register')->group(function () {
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
 });
 
-Route::middleware(['auth', 'kreator'])->group(function () {
+Route::middleware(['auth', 'member'])->group(function () {
     //
 });
 

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckKreator
+class CheckMember
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class CheckKreator
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->hasRole('kreator')) {
-            abort(403, 'Only kReAtORs can publish articles');
+        if (!$request->user()->hasRole('member')) {
+            abort(403, 'Only members can publish articles');
         }
         return $next($request);
     }

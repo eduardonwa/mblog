@@ -19,7 +19,7 @@ defineProps<{
 <template>
     <Head title="Dashboard" />
     <h1 class="text-center fw-bold margin-block-15">Coming soon.</h1>
-<!--     <AppLayout :breadcrumbs="breadcrumbs">
+    <AppLayout :breadcrumbs="breadcrumbs">
         <div>
             <div>
                 <div>
@@ -36,5 +36,5 @@ defineProps<{
                 <PlaceholderPattern />
             </div>
         </div>
-    </AppLayout> -->
+    </AppLayout>
 </template>

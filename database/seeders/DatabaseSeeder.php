@@ -39,11 +39,11 @@ class DatabaseSeeder extends Seeder
             ->create()
             ->each(fn($user) => $user->assignRole('staff'));
 
-        // Crear miembros con el rol kreator
+        // Crear miembros con el rol member
         $kreators = User::factory()
             ->count(5)
             ->create()
-            ->each(fn($user) => $user->assignRole('kreator'));
+            ->each(fn($user) => $user->assignRole('member'));
 
         // Crear posts para admin (5 normales + 3 destacados)
         Post::factory()

@@ -36,14 +36,6 @@ class CategoryResource extends Resource
                 TextInput::make('slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-                Select::make('scope')
-                    ->options([
-                        'public' => 'Editorial',
-                        'kreators' => 'Kreators',
-                    ])
-                    ->default('public')
-                    ->required()
-                    ->visible(fn (): bool => Auth::user()?->hasRole('admin')),
 /*                 TextInput::make('icon')
                     ->required()
                     ->maxLength(255), */
@@ -56,8 +48,8 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('icon')
-                    ->searchable(),
+/*                 Tables\Columns\TextColumn::make('icon')
+                    ->searchable(), */
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

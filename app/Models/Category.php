@@ -15,14 +15,4 @@ class Category extends Model
     {
         return $this->hasMany(Post::class, 'category_id');
     }
-
-    public function scopePublic($query)
-    {
-        return $query->where('scope', 'public');
-    }
-
-    public function scopeForKreators($query)
-    {
-        return $query->where('scope', 'kreators');
-    }
 }
