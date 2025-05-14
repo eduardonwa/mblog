@@ -76,7 +76,7 @@ class Post extends Model implements HasMedia
                 return 'Now';
             }
             if ($diffInMinutes < 60) {
-                return $diffInMinutes . 'm';
+                return floor($diffInMinutes) . 'm';
             }
             if ($diffInHours < 24) {
                 return floor($diffInHours) . 'h';
