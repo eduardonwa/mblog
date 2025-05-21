@@ -39,8 +39,8 @@
   &[data-type="verify-captcha"],
   &[data-type="reset-password"]  {
     margin: auto;
-    color: $color-neutral-100;
-    background: linear-gradient(to right, $color-accent-400, $color-extra-400);
+    color: $color-neutral-800;
+    background: linear-gradient(to right, $color-accent-400, $color-secondary-400);
     background-size: 200% 100%;
     transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
     display: flex;
@@ -49,12 +49,11 @@
 
     &:hover {
         background-position: 100% 0%;
-        color: $color-neutral-800;
     }
   }
 
   &[data-type="form-register"] {
-    background: linear-gradient(to right, $color-extra-300, $color-extra-100);
+    background: linear-gradient(to right, $color-secondary-300, $color-secondary-100);
     width: 100%;
 
     @include mq(medium) {
@@ -115,11 +114,28 @@
 
     &.like-button--active {
       svg {
-        fill: $color-extra-300;
+        fill: $color-secondary-300;
       }
       .like-count {
-        color: $color-extra-300;
+        color: $color-secondary-300;
       }
     }
+  }
+}
+
+// ui buttons
+.uphail-icon, .comment-icon, .author-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: inherit;
+  
+  svg {
+    transition: fill 0.2s ease;
+  }
+  
+  path {
+    fill: currentColor; /* Usa el color del botón */
   }
 }

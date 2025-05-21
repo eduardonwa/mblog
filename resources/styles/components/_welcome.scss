@@ -1,5 +1,33 @@
 @use '../abstracts/' as *;
 
+.main-editorial-grid {
+    @include mq(medium) {
+        display: grid;
+        grid-template-columns: .7fr 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+            "leaderboard     main-post"
+            "secondary-posts secondary-posts";
+
+        .main-post { grid-area: main-post; }
+        .leaderboard { grid-area: leaderboard; }
+        .secondary-posts { grid-area: secondary-posts; }
+        .community-feed { grid-area: community-feed; }
+    }
+
+    @include mq(large) {
+        gap: $size-8;
+        grid-template-columns: 2fr .7fr;
+        grid-template-areas:
+            "main-post       leaderboard"
+            "secondary-posts leaderboard";
+    }
+}
+
+/* @use '../abstracts/' as *;
+
 @mixin featured-post-styles(
     $img-height: 300px,
     $img-width: 100%,
@@ -723,4 +751,4 @@
             }
         }
     }
-}
+} */

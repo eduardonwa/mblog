@@ -163,26 +163,26 @@ const handleImageLoad = () => {
             <div>
                 <List class="flow">
                     <div class="margin-block-end-6">
-                        <h2 class="ff-accent clr-extra-300">Write rants that draw blood</h2>
+                        <h2 class="ff-accent clr-accent-300">Write rants that draw blood</h2>
                         <ul>
                             <li style="list-style-type: none;">Publish unfiltered reviews, rants and manifestos.</li>
                         </ul>
                     </div>
     
                     <div class="margin-block-end-6">
-                        <h2 class="ff-accent clr-extra-300">Ride with the Doom Cult</h2>
+                        <h2 class="ff-accent clr-accent-300">Forget algorithms, follow your gut</h2>
                         <ul>
-                            <li style="list-style-type: none;">Join a group: <em>"Thrash Purists", </em> <em>"Doom Cultists"</em>, etc. </li>
+                            <li style="list-style-type: none;">Keep up with the topics that interest you by following groups.</li>
                         </ul>
                     </div>
     
                     <div class="margin-block-end-6">
-                        <h2 class="ff-accent clr-extra-300">Smash the "Hail" button</h2>
+                        <h2 class="ff-accent clr-accent-300">Smash the "Hail" button</h2>
                         <ul>
                             <li style="list-style-type: none;">Approve posts with a 🤘 instead of a lame "like."</li>
                         </ul>
                     </div>
-                    <h2>...and MORE!</h2>
+                    <h2>...and <span class="italic">MORE!</span></h2>
                 </List>
                 <div class="fs-300 text-center padding-4 margin-block-2">
                     <span>Already have an account?</span>

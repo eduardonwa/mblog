@@ -67,27 +67,28 @@ class Post extends Model implements HasMedia
     {
         $createdAt = $this->created_at;
         $now = now();
-        $diffInMinutes = $createdAt->diffInMinutes($now);
-        $diffInHours = $createdAt->diffInHours($now);
-        $diffInDays = $createdAt->diffInDays($now);
+
+        // calcular todos los valores con floor
+        $minutes = floor($createdAt->diffInMinutes($now));
+        $hours = floor($createdAt->diffInHours($now));
+        $days = floor($createdAt->diffInDays($now));
     
         if ($short) {
-            if ($diffInMinutes < 1) {
+            if ($minutes < 1) {
                 return 'Now';
             }
-            if ($diffInMinutes < 60) {
-                return floor($diffInMinutes) . 'm';
+            if ($minutes < 60) {
+                return $minutes . 'm';
             }
-            if ($diffInHours < 24) {
-                return floor($diffInHours) . 'h';
+            if ($hours < 24) {
+                return $hours . 'h';
             }
-            if ($diffInDays < 7) {
-                return $diffInDays . 'd';
+            if ($days < 7) {
+                return $days . 'd';
             }
             return $createdAt->isoFormat('D MMM');
         }
-    
-        // Versión larga (diffForHumans)
+        // Versión larga
         return $createdAt->diffForHumans();
     }
 
@@ -101,7 +102,7 @@ class Post extends Model implements HasMedia
         return $this->likes()->where('user_id', Auth::id())->exists();
     }
 
-    // scope para posts de staff/admin (no necesita el rol de kreator)
+    // scope para posts de staff/admin (no necesita el rol de member)
     public function scopeStaffBase($query)
     {
         return $query->with(['user', 'category', 'media'])
@@ -122,7 +123,7 @@ class Post extends Model implements HasMedia
     }
     
     // featured posts del staff
-    public function scopeFeaturedPosts($query, $limit = 6)
+    public function scopeFeaturedPosts($query, $limit = 5)
     {
         return $query->staffBase()
             ->where('featured', true)
@@ -130,7 +131,7 @@ class Post extends Model implements HasMedia
             ->take($limit);
     }
        
-    // Scope para posts de "kreators" (no staff/admin)
+    // Scope para posts de "members" (no staff/admin)
     public function scopeCommunityBase($query)
     {
         return $query->with(['user', 'media'])
@@ -142,7 +143,7 @@ class Post extends Model implements HasMedia
     }
 
     // Versión para posts recientes de la comunidad
-    public function scopeRecent($query, $limit = 10)
+    public function scopeRecent($query, $limit = 5)
     {
         return $query->communityBase()
             ->latest()

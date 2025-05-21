@@ -9,13 +9,12 @@ export const avatarVariant = cva(
     {
         variants: {
             size: {
-                sm: 'h-10 w-10 text-xs',
-                base: 'h-16 w-16 text-2xl',
-                lg: 'h-32 w-32 text-5xl',
+                sm: 'avatar__sm',
+                base: 'avatar__base',
+                lg: 'avatar__lg',
             },
             shape: {
-                circle: 'rounded-full',
-                square: 'rounded-md',
+                circle: 'round',
             },
         },
     },

@@ -1,0 +1,164 @@
+@use '../abstracts' as *;
+
+.main-post {
+    margin-block: $size-8;
+    gap: $size-4;
+
+    @include mq(medium) {
+        padding-inline: $size-4;
+    }
+
+    @include mq(large) {
+        display: flex;
+        margin-block-end: 0;
+        padding-inline: 0;
+        padding: $size-3;
+        transition: all 0.1s ease-in;
+
+        &:hover {
+            background-color: $color-primary-700;
+            border-radius: .3rem;
+            cursor: pointer;
+        }
+    }
+
+    &__info {
+        &__header {
+            p {
+                padding-block: $size-4;
+            }
+        }
+
+        &__details {
+            display: flex;
+            color: $color-primary-200;
+            padding-block: $size-2;
+    
+            div {
+                display: flex;
+                padding: $size-2;
+                margin-inline: $size-1;
+                transition: all 0.1s ease;
+                cursor: pointer;
+                border-radius: .3rem;
+                
+
+                &:hover {
+                    background-color: $color-primary-800;
+                    color: $color-secondary-200;
+
+                    span {
+                        color: $color-primary-200; // se aplica a todos los textos
+                    }
+                
+                    .main-post-comment-icon, .main-post-author-icon {
+                        stroke: $color-secondary-200; // la propiedad la puse por los puntitos del globito
+
+                        path {
+                            stroke: $color-secondary-200; // es el globo
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &__image {
+        padding-block: $size-4;
+
+        @include mq(large) {
+            padding-block: 0;
+        }
+
+        img {
+            object-fit: cover;
+            object-position: top;
+        }
+    }
+}
+
+.secondary-posts {
+    margin-block: $size-8;
+    position: relative;
+
+    @include mq(medium) {
+        display: flex;
+        gap: $size-4;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    @include mq(large) {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(auto, max-content);
+    }
+    
+    /* tarjetas */
+    &__post-card {
+        display: flex;
+        flex-direction: column;
+        padding: $size-3;
+        border-radius: .3rem;
+        transition: all 0.1s ease;
+        height: fit-content;
+
+        &:hover {
+            background: $color-primary-700;
+            cursor: pointer;
+        }
+
+        @include mq(medium) {
+            flex: 0 0 calc(30% - #{$size-1});
+            scroll-snap-align: start;
+            min-width: 0;
+            min-height: 0;
+        }
+
+        h2 {
+            order: 1;
+            font-size: $font-size-600;
+            padding-block: $size-4;
+            margin: 0;
+            flex: 0 0 auto;
+
+            @include mq(medium) {
+                flex-shrink: 0;
+                order: 2;
+            }
+
+            @include mq(large) {
+                font-size: $font-size-500;
+            }
+        }
+
+        &__image-wrapper {
+            order: 2;
+            height: 270px;
+
+            @include mq(medium)  {
+                order: 1;
+                height: calc(300px - 80px);
+                min-height: 0;
+            }
+
+            @include mq(large) {
+                height: calc(240px - 80px);
+            }
+
+            img {
+                height: 100%;
+                width: 100%;
+                display: block;
+                object-fit: cover;
+                object-position: top center;
+            }
+        }
+    }
+}

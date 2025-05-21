@@ -55,14 +55,14 @@
     width: 80px;
 
     a {
-      color: $color-extra-300;
+      color: $color-secondary-300;
       text-decoration: none;
       font-size: $font-size-300;
       font-family: $font-family-semi-bold;
-      transition: color 0.3s ease-in-out;
+      transition: color 0.1s ease-in-out;
 
       &:hover {
-        color: $color-extra-500;
+        color: $color-secondary-500;
       }
     }
 
