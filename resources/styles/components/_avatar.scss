@@ -1,9 +1,12 @@
 @use '../abstracts' as *;
 
 .avatar {
+    border-radius: 50%;
+    
     &__sm {
         width: 30px;
         height: 30px;
+        border: 1px solid;
 
         img {
             max-width: 32px;

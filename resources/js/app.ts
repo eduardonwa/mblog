@@ -39,7 +39,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .component('AppNavigation', AppNavigation);
 
-        app.config.globalProperties.$preserveScroll = (callback: () => void) => {
+        /* app.config.globalProperties.$preserveScroll = (callback: () => void) => {
             const scrollPosition = window.scrollY;
             document.documentElement.style.overflow = 'hidden';
             
@@ -53,7 +53,7 @@ createInertiaApp({
             } finally {
                 requestAnimationFrame(restoreScroll);
             }
-        };
+        }; */
 
         app.mount(el);
     },

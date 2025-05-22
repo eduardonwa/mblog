@@ -14,13 +14,13 @@
         transition: all 0.3s ease;
         border-radius: .3rem;
 
+        &:hover {
+            background-color: $color-primary-700;
+            cursor: pointer;
+        }
+
         @include mq(large) {
             padding: $size-3;
-
-            &:hover {
-                background-color: $color-primary-700;
-                cursor: pointer;
-            }
         }
 
         &__left-column {
@@ -28,6 +28,7 @@
             flex: 1;
             gap: $size-1;
             flex-direction: column;
+            padding: $size-1;
 
             &__user {
                 display: flex;

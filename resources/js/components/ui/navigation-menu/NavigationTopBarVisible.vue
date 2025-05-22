@@ -3,19 +3,17 @@
     import { Link } from '@inertiajs/vue3';
     import MenuIcon from '../icons/MenuIcon.vue';
     
-    const props = defineProps({
-        isMenuOpen: Boolean, // <- Recibe el estado del menú
-        showCloseButton: Boolean // <- Nuevo prop para alternar entre íconos
+    defineProps({
+        isMenuOpen: Boolean
     });
 
-    const emit = defineEmits(['toggleMenu']);
+    defineEmits(['openMenu']);
 </script>
 
 <template>
     <!-- toggle -->
-    <div @click="$emit('toggleMenu')">
-      <MenuIcon class="nav__visible__toggle" v-if="!showCloseButton" />
-      <span v-else class="close-icon">✕</span>
+    <div @click="$emit('openMenu')">
+      <MenuIcon class="nav__visible__toggle" />
     </div>
 
     <!-- logo -->

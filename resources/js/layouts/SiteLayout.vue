@@ -7,7 +7,7 @@
     <Head>
       <title v-if="$page.props.meta?.title">{{ $page.props.meta.title }}</title>
       <title v-else>s1ck0fm3t4L</title>
-      <meta name="description" content="Descripción general del sitio">
+      <meta name="description" content="Heavy Metal Blog">
       <meta name="csrf-token" :content="$page.props.csrf_token">
       <link rel="icon" href="/favicon.ico">
       <!-- <link rel="preconnect" href="https://rsms.me/" />

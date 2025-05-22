@@ -1,16 +1,16 @@
 <script setup lang="ts">
     import UserIcon from '../icons/UserIcon.vue';
     import { Link } from '@inertiajs/vue3';
-    import MenuIcon from '../icons/MenuIcon.vue';
 
-    const props = defineProps({
-        showCloseButton: Boolean
+    defineProps({
+        isMenuOpen: Boolean
     });
-
+    
+    defineEmits(['closeMenu']);
 </script>
 
 <template>
-    <div @click="$emit('toggleMenu')">
+    <div @click="$emit('closeMenu')">
         <span class="close-icon">✕</span>
     </div>
 

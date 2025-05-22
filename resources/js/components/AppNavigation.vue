@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import { ref, computed } from 'vue';
-    import { Link, usePage } from '@inertiajs/vue3';
+    import { ref, computed, onMounted, onUnmounted } from 'vue';
+    import { Link, usePage, router } from '@inertiajs/vue3';
     import NavigationTopBarVisible from '@/components/ui/navigation-menu/NavigationTopBarVisible.vue';
     import NavigationTopBarInvisible from '@/components/ui/navigation-menu/NavigationTopBarInvisible.vue';
     import HomeIcon from './ui/icons/HomeIcon.vue';
@@ -10,10 +10,37 @@
 
     const isMenuOpen = ref(false);
 
-    const toggleMenu = () => {
-        isMenuOpen.value = !isMenuOpen.value;
-        document.body.style.overflow = isMenuOpen.value ? 'hidden' : '';
+    // todo esto para quitar la clase "overflow" del body.
+    // Función específica para abrir
+    const openMenu = () => {
+        isMenuOpen.value = true;
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('menu-open');
     };
+
+    // Función específica para cerrar
+    const closeMenu = () => {
+        isMenuOpen.value = false;
+        document.body.style.overflow = '';
+        document.body.classList.remove('menu-open');
+    };
+
+    // Función para alternar el menú
+    onMounted(() => {
+    window.addEventListener('popstate', closeMenu);
+        // Escuchar el evento de clic en el documento
+        const removeListener = router.on('navigate', () => {
+            closeMenu();
+            return () => removeListener();
+        });
+    });
+
+    // Cerrar el menú al hacer clic fuera de él
+    onUnmounted(() => {
+        window.removeEventListener('popstate', closeMenu);
+        document.body.style.overflow = '';
+        document.body.classList.remove('menu-open');
+    });
 </script>
 
 <template>
@@ -22,7 +49,7 @@
             <div class="nav__visible">
                 <NavigationTopBarVisible
                     :isMenuOpen="isMenuOpen"
-                    @toggle-menu="toggleMenu"
+                    @open-menu="openMenu"
                 />
             </div>
 
@@ -30,8 +57,7 @@
                 <div class="nav__hidden__top">
                     <NavigationTopBarInvisible
                         :isMenuOpen="isMenuOpen"
-                        :showCloseButton="true"
-                        @toggle-menu="toggleMenu"
+                        @close-menu="closeMenu"
                     />
                 </div>
 
