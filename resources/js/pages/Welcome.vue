@@ -1,11 +1,10 @@
 <script setup lang="ts">
     import { Head, Link, usePage } from '@inertiajs/vue3';
     import SiteLayout from '@/layouts/SiteLayout.vue';
-    import Uphail from '@/components/ui/icons/Uphail.vue';
-    import Comment from '@/components/ui/icons/Comment.vue';
-    import Author from '@/components/ui/icons/Author.vue';
+    import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
+    import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
+    import AuthorIcon from '@/components/ui/icons/AuthorIcon.vue';
     import Avatar from '@/components/ui/avatar/Avatar.vue';
-
 
     const { featuredPosts, leaderboard, recent } = defineProps({
         featuredPosts: Object,
@@ -20,7 +19,7 @@
     <SiteLayout>
         <Head title="Welcome" />
         <!-- leaderboard y posts principales -->
-        <section class="main-editorial-grid | padding-6">
+        <section class="main-editorial-grid | padding-5">
             <!-- post principal -->
             <header class="main-post" aria-label="Main Post">
                 <div class="main-post__info">
@@ -35,7 +34,7 @@
                     <!-- uphails, comentarios, autor -->
                     <div class="main-post__info__details">
                         <div>
-                            <Uphail
+                            <UphailIcon
                                 size="24px"
                                 fillColor="#D3D7EA"
                                 style="margin-right: .4rem;"
@@ -44,7 +43,7 @@
                         </div>
     
                         <div class="padding-inline-4">
-                            <Comment
+                            <CommentIcon
                                 class="main-post-comment-icon"
                                 size="24px"
                                 style="margin-right: .4rem;"
@@ -53,7 +52,7 @@
                         </div>
     
                         <div>
-                            <Author
+                            <AuthorIcon
                                 class="main-post-author-icon"
                                 color="#d9d9de" 
                                 hoverColor="#1e90ff"
@@ -94,7 +93,7 @@
                     <!-- uphail btn -->
                     <div class="leaderboard__container__uphail">
                         <span class="clr-primary-300">2</span>
-                        <Uphail
+                        <UphailIcon
                             size="24px"
                             fillColor="#A0DD05"
                             style="margin-right: .4rem;"
@@ -122,36 +121,7 @@
                     <!-- uphail btn -->
                     <div class="leaderboard__container__uphail">
                         <span class="clr-primary-300">2</span>
-                        <Uphail
-                            size="24px"
-                            fillColor="#A0DD05"
-                            hoverColor="#BFF625"
-                            style="margin-right: .4rem;"
-                        />
-                    </div>
-                </article>
-
-                <article class="leaderboard__container">
-                    <div class="leaderboard__container__left-column">
-                        <div class="leaderboard__container__left-column__user">
-                            <span class="clr-neutral-200">#1</span>
-                            <Avatar size="sm" shape="circle">
-                                <img
-                                    src="images/avatar/thrash.png"
-                                    alt="avatar de warpig"
-                                    class="avatar__image"
-                                >
-                            </Avatar>
-                            <p>warpig</p>
-                        </div>
-                        <div class="leaderboard__container__left-column__post">
-                            <h2>"Funeral Fog" (Norway, 2025) - Pure kvlt lo-fi necrotones for the real connoisseurs!</h2>
-                        </div>
-                    </div>
-                    <!-- uphail btn -->
-                    <div class="leaderboard__container__uphail">
-                        <span class="clr-primary-300">2</span>
-                        <Uphail
+                        <UphailIcon
                             size="24px"
                             fillColor="#A0DD05"
                             hoverColor="#BFF625"
@@ -180,7 +150,7 @@
                     <!-- uphail btn -->
                     <div class="leaderboard__container__uphail">
                         <span class="clr-primary-300">2</span>
-                        <Uphail
+                        <UphailIcon
                             size="24px"
                             fillColor="#A0DD05"
                             hoverColor="#BFF625"
@@ -209,7 +179,36 @@
                     <!-- uphail btn -->
                     <div class="leaderboard__container__uphail">
                         <span class="clr-primary-300">2</span>
-                        <Uphail
+                        <UphailIcon
+                            size="24px"
+                            fillColor="#A0DD05"
+                            hoverColor="#BFF625"
+                            style="margin-right: .4rem;"
+                        />
+                    </div>
+                </article>
+
+                <article class="leaderboard__container">
+                    <div class="leaderboard__container__left-column">
+                        <div class="leaderboard__container__left-column__user">
+                            <span class="clr-neutral-200">#1</span>
+                            <Avatar size="sm" shape="circle">
+                                <img
+                                    src="images/avatar/thrash.png"
+                                    alt="avatar de warpig"
+                                    class="avatar__image"
+                                >
+                            </Avatar>
+                            <p>warpig</p>
+                        </div>
+                        <div class="leaderboard__container__left-column__post">
+                            <h2>"Funeral Fog" (Norway, 2025) - Pure kvlt lo-fi necrotones for the real connoisseurs!</h2>
+                        </div>
+                    </div>
+                    <!-- uphail btn -->
+                    <div class="leaderboard__container__uphail">
+                        <span class="clr-primary-300">2</span>
+                        <UphailIcon
                             size="24px"
                             fillColor="#A0DD05"
                             hoverColor="#BFF625"

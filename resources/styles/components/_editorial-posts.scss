@@ -3,6 +3,13 @@
 .main-post {
     margin-block: $size-8;
     gap: $size-4;
+    padding-inline: $size-1;
+        
+    &:hover {
+        background-color: $color-primary-700;
+        border-radius: .3rem;
+        cursor: pointer;
+    }
 
     @include mq(medium) {
         padding-inline: $size-4;
@@ -14,12 +21,6 @@
         padding-inline: 0;
         padding: $size-3;
         transition: all 0.1s ease-in;
-
-        &:hover {
-            background-color: $color-primary-700;
-            border-radius: .3rem;
-            cursor: pointer;
-        }
     }
 
     &__info {
@@ -42,7 +43,6 @@
                 cursor: pointer;
                 border-radius: .3rem;
                 
-
                 &:hover {
                     background-color: $color-primary-800;
                     color: $color-secondary-200;
@@ -52,10 +52,10 @@
                     }
                 
                     .main-post-comment-icon, .main-post-author-icon {
-                        stroke: $color-secondary-200; // la propiedad la puse por los puntitos del globito
+                        stroke: $color-secondary-200; // la puse por los puntitos del icono del comentario
 
                         path {
-                            stroke: $color-secondary-200; // es el globo
+                            stroke: $color-secondary-200; // por la forma del globo
                         }
                     }
                 }
@@ -70,6 +70,18 @@
             padding-block: 0;
         }
 
+        @include mq(extraLarge) {
+            height: 400px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+        
         img {
             object-fit: cover;
             object-position: top;

@@ -37,7 +37,8 @@
   &[data-type="form-login"],
   &[data-type="form-register"],
   &[data-type="verify-captcha"],
-  &[data-type="reset-password"]  {
+  &[data-type="reset-password"],
+  &[data-type="recover-password"] {
     margin: auto;
     color: $color-neutral-800;
     background: linear-gradient(to right, $color-accent-400, $color-secondary-400);
@@ -114,28 +115,11 @@
 
     &.like-button--active {
       svg {
-        fill: $color-secondary-300;
+        fill: $color-accent-300;
       }
       .like-count {
-        color: $color-secondary-300;
+        color: $color-accent-300;
       }
     }
-  }
-}
-
-// ui buttons
-.uphail-icon, .comment-icon, .author-icon {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: inherit;
-  
-  svg {
-    transition: fill 0.2s ease;
-  }
-  
-  path {
-    fill: currentColor; /* Usa el color del botón */
   }
 }

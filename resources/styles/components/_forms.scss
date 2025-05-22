@@ -81,3 +81,21 @@ input:not(.button) {
   
   @include button-spinner();
 }
+
+.new-password-form {
+  .form-group {
+    display: grid;
+    padding-block: $size-6;
+    @include form-input-styles($margin-block-end: $size-8);
+  }
+  
+  @include button-spinner();
+
+  .checkbox > label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: $size-3;
+  }
+}

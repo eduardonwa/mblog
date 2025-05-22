@@ -23,6 +23,7 @@
         grid-template-areas:
             "main-post       leaderboard"
             "secondary-posts leaderboard";
+        margin-inline: $size-6;
     }
 }
 
