@@ -27,6 +27,12 @@ a:is(:hover, :focus) {
 hr {
   margin-block: $size-3;
   border: 0;
-  border-bottom: 1px dashed $color-accent-400;
-  background: $color-accent-900;
+  border-bottom: 1px dashed $color-secondary-400;
+  background: $color-primary-800;
+}
+
+.hr-leaderboard, .hr-secondary {
+  @include mq(medium) {
+    display: none;
+  }
 }

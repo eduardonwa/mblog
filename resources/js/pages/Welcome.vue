@@ -116,6 +116,8 @@
                 </div>
             </section>
 
+            <hr class="hr-leaderboard | margin-inline-4">
+
             <!-- posts secundarios -->
             <section
                 v-if="recent?.length"
@@ -135,8 +137,15 @@
                                 >
                             </picture>
                         </div>
-                        <h2>{{ post.title }}</h2>
+
+                        <div class="secondary-posts__post-card__info">
+                            <h2>{{ post.title }}</h2>
+                            <p>{{ post.extract }}</p>
+                        </div>
+
                     </Link>
+                    <hr class="hr-secondary">
+
                 </article>
             </section>
             <!-- community feed -->
