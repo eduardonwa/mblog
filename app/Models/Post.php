@@ -102,63 +102,78 @@ class Post extends Model implements HasMedia
         return $this->likes()->where('user_id', Auth::id())->exists();
     }
 
-    // scope para posts de staff/admin (no necesita el rol de member)
-    public function scopeStaffBase($query)
+    // scope base para relaciones y condiciones comunes
+    public function scopeWithCommonRelations($query)
     {
         return $query->with(['user', 'category', 'media'])
-            ->withCount('likes')
-            ->where('status', 'published')
-            ->whereHas('user', function($q) {
-                $q->role(['staff', 'admin']);
-            });
+                    ->withCount('likes');
     }
 
-    // posts regulares del staff
-    public function scopeStaffPosts($query, $limit = 10)
+    // scope base para posts publicados
+    public function scopePublished($query)
     {
-        return $query->staffBase()
-            ->where('featured', false)
-            ->latest()
-            ->take($limit);
+        return $query->where('status', 'published')
+                    ->withCommonRelations();
+    }
+
+    // 1. Featured posts (solo staff/admin)
+    public function scopeFeatured($query, $limit = null)
+    {
+        $query = $query->published()
+                    ->where('featured', true)
+                    ->whereHas('user', function($q) {
+                        $q->role(['staff', 'admin']);
+                    })
+                    ->latest();
+
+        return $limit ? $query->take($limit) : $query;
+    }
+
+    // 2. Staff/admin posts no destacados
+    public function scopeStaffPosts($query, $limit = null)
+    {
+        $query = $query->published()
+                    ->where('featured', false)
+                    ->whereHas('user', function($q) {
+                        $q->role(['staff', 'admin']);
+                    })
+                    ->latest();
+
+        return $limit ? $query->take($limit) : $query;
     }
     
-    // featured posts del staff
-    public function scopeFeaturedPosts($query, $limit = 5)
+    // 3. Top member posts (por likes)
+    public function scopeTopMemberPosts($query, $limit = null)
     {
-        return $query->staffBase()
-            ->where('featured', true)
-            ->latest()
-            ->take($limit);
-    }
-       
-    // Scope para posts de "members" (no staff/admin)
-    public function scopeCommunityBase($query)
-    {
-        return $query->with(['user', 'media'])
-            ->withCount('likes')
-            ->where('status', 'published')
-            ->whereHas('user', function($q) {
-                $q->role('member');
-            });
+        $query = $query->published()
+                    ->whereHas('user', function($q) {
+                        $q->role('member');
+                    })
+                    ->orderByDesc('likes_count');
+
+        return $limit ? $query->take($limit) : $query;
     }
 
-    // Versión para posts recientes de la comunidad
-    public function scopeRecent($query, $limit = 4)
+    // 4. Community feed (posts en grupos o sin categoría - cualquier rol)
+    public function scopeCommunityFeed($query, $limit = null)
     {
-        return $query->communityBase()
-            ->latest()
-            ->take($limit);
+        $query = $query->published()
+                    ->whereNull('category_id')
+                    ->latest();
+
+        return $limit ? $query->take($limit) : $query;
     }
 
-    public function scopeMostLiked($query, $limit = 5)
+    // 5. Posts recientes de miembros
+    public function scopeRecentMemberPosts($query, $limit = null)
     {
-        return $query->with(['likes', 'user'])
-            ->withCount('likes')
-            ->whereHas('member', function($q) {
-                $q->role('member');
-            })
-            ->orderByDesc('likes_count')
-            ->take($limit);
+        $query = $query->published()
+                    ->whereHas('user', function($q) {
+                        $q->role('member');
+                    })
+                    ->latest();
+
+        return $limit ? $query->take($limit) : $query;
     }
 
     public function registerMediaCollections(): void

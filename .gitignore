@@ -21,4 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+.php_errors.log
 php_errors.log
