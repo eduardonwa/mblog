@@ -143,7 +143,7 @@ class Post extends Model implements HasMedia
     }
 
     // Versión para posts recientes de la comunidad
-    public function scopeRecent($query, $limit = 5)
+    public function scopeRecent($query, $limit = 4)
     {
         return $query->communityBase()
             ->latest()

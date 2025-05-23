@@ -173,6 +173,7 @@
             <h2 class="uppercase">community posts</h2>
           </div>
         </div>
+
         <article v-for="(post, index) in recent?.slice(0, 5)" :key="post.id" class="community-posts__wrapper">
           <Link style="text-decoration: none;" :href="route('post.show', post.slug)">
             <h3 class="community-posts__wrapper__post-title"> {{ post.title }} </h3>
@@ -186,6 +187,7 @@
                 <span>
                   {{ post?.short_date }}
                 </span>
+                
               </div>
               <Link class="author" :href="route('author.posts', post.user?.name)">
                 {{ post.user?.name }}
@@ -193,6 +195,7 @@
             </div>
           </Link>
         </article>
+
       </section>
 
       <!-- 7. grupo de 3 "featured" -->

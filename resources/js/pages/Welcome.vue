@@ -19,16 +19,20 @@
     <SiteLayout>
         <Head title="Welcome" />
         <!-- leaderboard y posts principales -->
-        <section class="main-editorial-grid | padding-5">
+        <section class="main-editorial-grid">
             <!-- post principal -->
-            <header class="main-post" aria-label="Main Post">
+            <Link
+                :href="route('post.show', featuredPosts?.[0].slug)"
+                class="main-post | no-decor"
+                aria-label="Main Post"
+            >
                 <div class="main-post__info">
                     <div class="main-post__info__header">
                         <h2 class="fs-700">
-                            Abbath's New Album 'Dread Reaver' leaked - turns out it's just 40 minutes of him laughing in a snowstorm
+                            {{ featuredPosts?.[0].title }}
                         </h2>
                         <p class="fs-500">
-                            Corpsepaint sales spike 666% as fans prepare for the frostbitten apocalypse. Pre-order now before Odin changes his WiFi password
+                            {{ featuredPosts?.[0].extract }}
                         </p>
                     </div>
                     <!-- uphails, comentarios, autor -->
@@ -39,7 +43,7 @@
                                 fillColor="#D3D7EA"
                                 style="margin-right: .4rem;"
                             />
-                            <span>uphails</span>
+                            <span class="uphail-count">{{ featuredPosts?.[0].likes_count }}</span>
                         </div>
     
                         <div class="padding-inline-4">
@@ -48,7 +52,7 @@
                                 size="24px"
                                 style="margin-right: .4rem;"
                             />
-                            <span>comments</span>
+                            <span class="comment-count">comments</span>
                         </div>
     
                         <div>
@@ -59,196 +63,82 @@
                                 size="24px"
                                 style="margin-right: .4rem;"
                             />
-                            <span>warpig</span>
+                            <span>{{ featuredPosts?.[0].user?.name || 'Rattlehead' }}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="main-post__image">
-                    <img src="images/albums/clayman.webp" alt="">
+                    <picture>
+                        <source media="(min-width: 768px)" :srcset="featuredPosts?.[0]?.thumbnail_urls?.max">
+                        <source media="(max-width: 767px)" :srcset="featuredPosts?.[0]?.thumbnail_urls?.lg">
+                        <img 
+                            :src="featuredPosts?.[0]?.thumbnail_urls?.lg" 
+                            :alt="featuredPosts?.[0]?.title"
+                            class="post-thumbnail"
+                        >
+                    </picture>
                 </div>
-            </header>
+            </Link>
 
             <!-- leaderboard -->
-            <section class="leaderboard | flow" aria-label="Leaderboard">
+            <section v-if="leaderboard?.length" class="leaderboard | flow" aria-label="Leaderboard">
                 <h2 class="uppercase fw-semibold clr-secondary-200">Leaderboard</h2>
 
-                <article class="leaderboard__container">
-                    <div class="leaderboard__container__left-column">
-                        <div class="leaderboard__container__left-column__user">
-                            <span class="clr-neutral-200">#1</span>
-                            <Avatar size="sm" shape="circle">
-                                <img
-                                    src="images/avatar/thrash.png"
-                                    alt="avatar de warpig"
-                                    class="avatar__image"
-                                >
-                            </Avatar>
-                            <p>warpig</p>
+                <div v-for="post in leaderboard" :key="post.id">
+                    <Link class="leaderboard__container | no-decor" :href="route('post.show', post.slug)">
+                        <div class="leaderboard__container__left-column">
+                            <div class="leaderboard__container__left-column__user">
+                                <span class="clr-neutral-200">#1</span>
+                                <Avatar size="sm" shape="circle">
+                                    <img
+                                        src="images/avatar/thrash.png"
+                                        alt="avatar de warpig"
+                                        class="avatar__image"
+                                    >
+                                </Avatar>
+                                <p>{{ post.user?.name }}</p>
+                            </div>
+                            <div class="leaderboard__container__left-column__post">
+                                <h2>{{ post.title }}</h2>
+                            </div>
                         </div>
-                        <div class="leaderboard__container__left-column__post">
-                            <h2>"Funeral Fog" (Norway, 2025) - Pure kvlt lo-fi necrotones for the real connoisseurs!</h2>
+                        <!-- uphail btn -->
+                        <div class="leaderboard__container__uphail">
+                            <span class="clr-primary-300">{{ post.likes_count }}</span>
+                            <UphailIcon
+                                size="24px"
+                                fillColor="#A0DD05"
+                                style="margin-right: .4rem;"
+                            />
                         </div>
-                    </div>
-                    <!-- uphail btn -->
-                    <div class="leaderboard__container__uphail">
-                        <span class="clr-primary-300">2</span>
-                        <UphailIcon
-                            size="24px"
-                            fillColor="#A0DD05"
-                            style="margin-right: .4rem;"
-                        />
-                    </div>
-                </article>
-
-                <article class="leaderboard__container">
-                    <div class="leaderboard__container__left-column">
-                        <div class="leaderboard__container__left-column__user">
-                            <span class="clr-neutral-200">#1</span>
-                            <Avatar size="sm" shape="circle">
-                                <img
-                                    src="images/avatar/thrash.png"
-                                    alt="avatar de warpig"
-                                    class="avatar__image"
-                                >
-                            </Avatar>
-                            <p>warpig</p>
-                        </div>
-                        <div class="leaderboard__container__left-column__post">
-                            <h2>"Funeral Fog" (Norway, 2025) - Pure kvlt lo-fi necrotones for the real connoisseurs!</h2>
-                        </div>
-                    </div>
-                    <!-- uphail btn -->
-                    <div class="leaderboard__container__uphail">
-                        <span class="clr-primary-300">2</span>
-                        <UphailIcon
-                            size="24px"
-                            fillColor="#A0DD05"
-                            hoverColor="#BFF625"
-                            style="margin-right: .4rem;"
-                        />
-                    </div>
-                </article>
-
-                <article class="leaderboard__container">
-                    <div class="leaderboard__container__left-column">
-                        <div class="leaderboard__container__left-column__user">
-                            <span class="clr-neutral-200">#1</span>
-                            <Avatar size="sm" shape="circle">
-                                <img
-                                    src="images/avatar/thrash.png"
-                                    alt="avatar de warpig"
-                                    class="avatar__image"
-                                >
-                            </Avatar>
-                            <p>warpig</p>
-                        </div>
-                        <div class="leaderboard__container__left-column__post">
-                            <h2>"Funeral Fog" (Norway, 2025) - Pure kvlt lo-fi necrotones for the real connoisseurs!</h2>
-                        </div>
-                    </div>
-                    <!-- uphail btn -->
-                    <div class="leaderboard__container__uphail">
-                        <span class="clr-primary-300">2</span>
-                        <UphailIcon
-                            size="24px"
-                            fillColor="#A0DD05"
-                            hoverColor="#BFF625"
-                            style="margin-right: .4rem;"
-                        />
-                    </div>
-                </article>
-
-                <article class="leaderboard__container">
-                    <div class="leaderboard__container__left-column">
-                        <div class="leaderboard__container__left-column__user">
-                            <span class="clr-neutral-200">#1</span>
-                            <Avatar size="sm" shape="circle">
-                                <img
-                                    src="images/avatar/thrash.png"
-                                    alt="avatar de warpig"
-                                    class="avatar__image"
-                                >
-                            </Avatar>
-                            <p>warpig</p>
-                        </div>
-                        <div class="leaderboard__container__left-column__post">
-                            <h2>"Funeral Fog" (Norway, 2025) - Pure kvlt lo-fi necrotones for the real connoisseurs!</h2>
-                        </div>
-                    </div>
-                    <!-- uphail btn -->
-                    <div class="leaderboard__container__uphail">
-                        <span class="clr-primary-300">2</span>
-                        <UphailIcon
-                            size="24px"
-                            fillColor="#A0DD05"
-                            hoverColor="#BFF625"
-                            style="margin-right: .4rem;"
-                        />
-                    </div>
-                </article>
-
-                <article class="leaderboard__container">
-                    <div class="leaderboard__container__left-column">
-                        <div class="leaderboard__container__left-column__user">
-                            <span class="clr-neutral-200">#1</span>
-                            <Avatar size="sm" shape="circle">
-                                <img
-                                    src="images/avatar/thrash.png"
-                                    alt="avatar de warpig"
-                                    class="avatar__image"
-                                >
-                            </Avatar>
-                            <p>warpig</p>
-                        </div>
-                        <div class="leaderboard__container__left-column__post">
-                            <h2>"Funeral Fog" (Norway, 2025) - Pure kvlt lo-fi necrotones for the real connoisseurs!</h2>
-                        </div>
-                    </div>
-                    <!-- uphail btn -->
-                    <div class="leaderboard__container__uphail">
-                        <span class="clr-primary-300">2</span>
-                        <UphailIcon
-                            size="24px"
-                            fillColor="#A0DD05"
-                            hoverColor="#BFF625"
-                            style="margin-right: .4rem;"
-                        />
-                    </div>
-                </article>
+                    </Link>
+                </div>
             </section>
 
             <!-- posts secundarios -->
-            <section class="secondary-posts" aria-label="Featured posts">
-                <div class="secondary-posts__post-card">
-                    <div class="secondary-posts__post-card__image-wrapper">
-                        <img src="images/albums/deftones.webp" alt="">
-                    </div>
-                    <h2>Bestial Devastation 2: Apocalypse now with riffs in High Definition</h2>
-                </div>
-
-                <div class="secondary-posts__post-card">
-                    <div class="secondary-posts__post-card__image-wrapper">
-                        <img src="images/albums/terrasite.webp" alt="">
-                    </div>
-                    <h2>Mastodon in chaos as Brent Hinds quits to pursue career as space blues outlaw</h2>
-                </div>
-
-                <div class="secondary-posts__post-card">
-                    <div class="secondary-posts__post-card__image-wrapper">
-                        <img src="images/albums/deftones.webp" alt="">
-                    </div>
-                    <h2>Bestial Devastation 2: Apocalypse now with riffs in High Definition</h2>
-                </div>
-
-                <div class="secondary-posts__post-card">
-                    <div class="secondary-posts__post-card__image-wrapper">
-                        <img src="images/albums/terrasite.webp" alt="">
-                    </div>
-                    <h2>Mastodon in chaos as Brent Hinds quits to pursue career as space blues outlaw</h2>
-                </div>
+            <section
+                v-if="recent?.length"
+                class="secondary-posts"
+                aria-label="Featured posts"
+            >
+                <article v-for="(post, index) in recent?.slice(0, 4)" :key="post.id">
+                    <Link :href="route('post.show', post.slug)" class="secondary-posts__post-card">
+                        <div class="secondary-posts__post-card__image-wrapper">
+                            <picture>
+                                <source media="(min-width: 768px)" :srcset="post?.thumbnail_urls?.max">
+                                <source media="(max-width: 767px)" :srcset="post?.thumbnail_urls?.md">
+                                <img 
+                                    :src="post?.thumbnail_urls?.lg" 
+                                    :alt="post?.title"
+                                    class="post-thumbnail"
+                                >
+                            </picture>
+                        </div>
+                        <h2>{{ post.title }}</h2>
+                    </Link>
+                </article>
             </section>
-
             <!-- community feed -->
         </section>
     </SiteLayout>

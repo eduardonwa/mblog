@@ -1,7 +1,12 @@
 @use '../abstracts/' as *;
 
 .leaderboard {
-    margin-block: $size-8;
+    margin: $size-8 $size-3;
+    padding-inline: $size-2;
+
+    @include mq(large) {
+        padding-inline: 0;
+    }
 
     h2 {
         padding-inline: $size-3;
@@ -11,7 +16,7 @@
         display: flex;
         margin-block: $size-8;
         align-items: center;
-        transition: all 0.3s ease;
+        transition: all 0.1s ease;
         border-radius: .3rem;
 
         &:hover {
@@ -20,7 +25,8 @@
         }
 
         @include mq(large) {
-            padding: $size-3;
+            padding-inline: .4rem;
+            margin: 0;
         }
 
         &__left-column {

@@ -1,10 +1,11 @@
 @use '../abstracts' as *;
 
 .main-post {
-    margin-block: $size-8;
-    gap: $size-4;
-    padding-inline: $size-1;
-        
+    display: block;
+    margin: $size-8 $size-3;
+    padding-inline: $size-2;
+
+
     &:hover {
         background-color: $color-primary-700;
         border-radius: .3rem;
@@ -17,16 +18,25 @@
 
     @include mq(large) {
         display: flex;
-        margin-block-end: 0;
+        margin-block-end: $size-8;
         padding-inline: 0;
         padding: $size-3;
         transition: all 0.1s ease-in;
     }
 
     &__info {
+        flex: 1;
+
         &__header {
+            h2 {
+                color: $color-neutral-100;
+                text-decoration: none;
+            }
+
             p {
                 padding-block: $size-4;
+                color: $color-primary-200;
+                text-decoration: none;
             }
         }
 
@@ -59,20 +69,34 @@
                         }
                     }
                 }
+
+                .uphail-count {
+                    &::after {
+                        content: "";
+                    }
+                    
+                    @include mq(medium) {
+                        &::after {
+                            content: " uphails";
+                        }
+                    }
+                }
             }
         }
     }
 
     &__image {
+        flex: 1;
         padding-block: $size-4;
+        height: 100%;
+        width: 100%;
 
         @include mq(large) {
             padding-block: 0;
+            padding-inline-start: $size-4;
         }
 
         @include mq(extraLarge) {
-            height: 400px;
-            width: 100%;
             position: relative;
             overflow: hidden;
 
@@ -90,10 +114,13 @@
 }
 
 .secondary-posts {
-    margin-block: $size-8;
+    margin: $size-8 $size-3;
+    padding-inline: $size-2;
     position: relative;
 
     @include mq(medium) {
+        margin: 0;
+        padding-inline: 0;
         display: flex;
         gap: $size-4;
         overflow-x: auto;
@@ -120,6 +147,7 @@
         border-radius: .3rem;
         transition: all 0.1s ease;
         height: fit-content;
+        text-decoration: none;
 
         &:hover {
             background: $color-primary-700;
@@ -139,6 +167,7 @@
             padding-block: $size-4;
             margin: 0;
             flex: 0 0 auto;
+            color: $color-primary-200;
 
             @include mq(medium) {
                 flex-shrink: 0;
@@ -152,16 +181,28 @@
 
         &__image-wrapper {
             order: 2;
-            height: 270px;
+            overflow: hidden;
+            border-radius: $border-radius-1;
+            height: 240px;
 
             @include mq(medium)  {
                 order: 1;
-                height: calc(300px - 80px);
-                min-height: 0;
+                aspect-ratio: 1;
+                height: 240px;
             }
 
             @include mq(large) {
-                height: calc(240px - 80px);
+                height: calc(250px - 80px);
+            }
+
+            @include mq(extraLarge) {
+                height: calc(300px - 80px);
+            }
+
+            picture {
+                display: block;
+                width: 100%;
+                height: 100%;
             }
 
             img {
