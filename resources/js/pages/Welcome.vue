@@ -52,7 +52,7 @@
                                 size="24px"
                                 style="margin-right: .4rem;"
                             />
-                            <span class="comment-count">comments</span>
+                            <span class="comment-count">2</span>
                         </div>
     
                         <div>

@@ -1,5 +1,17 @@
 @use '../abstracts' as *;
 
+@mixin hide-text-on-mobile($text: "") {
+  &::after {
+    content: "";
+  }
+
+  @include mq(medium) {
+    &::after {
+      content: $text;
+    }
+  }
+}
+
 .main-post {
     display: block;
     margin: $size-8 $size-3;
@@ -71,15 +83,11 @@
                 }
 
                 .uphail-count {
-                    &::after {
-                        content: "";
-                    }
-                    
-                    @include mq(medium) {
-                        &::after {
-                            content: " uphails";
-                        }
-                    }
+                    @include hide-text-on-mobile(" uphails");
+                }
+
+                .comment-count {
+                    @include hide-text-on-mobile(" comments");
                 }
             }
         }
