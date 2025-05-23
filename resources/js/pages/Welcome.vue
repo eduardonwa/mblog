@@ -184,8 +184,14 @@ const user = usePage().props.auth.user;
             </section>
         </section>
 
-        <section>
-            
+        <!-- community feed -->
+        <section v-if="communityFeed?.length">
+            <article v-for="(post, index) in communityFeed">
+                <Link :href="route('post.show', post.slug)">
+                    <h2>titulo</h2>
+                </Link>
+            </article>
         </section>
+
     </SiteLayout>
 </template>

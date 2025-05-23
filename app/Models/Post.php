@@ -154,11 +154,23 @@ class Post extends Model implements HasMedia
         return $limit ? $query->take($limit) : $query;
     }
 
-    // 4. Community feed (posts en grupos o sin categoría - cualquier rol)
+    // 4. Community feed
     public function scopeCommunityFeed($query, $limit = null)
     {
         $query = $query->published()
-                    ->whereNull('category_id')
+                    ->where(function($q) {
+                        // 1. Todos los posts de miembros (rol 'member')
+                        $q->whereHas('user', function($q) {
+                            $q->role('member');
+                        })
+                        // 2. O posts SIN categoría de staff/admin
+                        ->orWhere(function($q) {
+                            $q->whereNull('category_id')
+                            ->whereHas('user', function($q) {
+                                $q->role(['staff', 'admin']);
+                            });
+                        });
+                    })
                     ->latest();
 
         return $limit ? $query->take($limit) : $query;
