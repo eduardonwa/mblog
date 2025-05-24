@@ -8,25 +8,23 @@
         padding-inline: 0;
     }
 
-    h2 {
-        padding-inline: $size-3;
-    }
-
     &__container {
         display: flex;
         margin-block: $size-8;
         align-items: center;
         transition: all 0.1s ease;
         border-radius: .3rem;
-
-        &:hover {
-            background-color: $color-primary-700;
-            cursor: pointer;
-        }
+        border: 1px solid $color-primary-500;
+        padding: $size-2;
 
         @include mq(large) {
             padding-inline: .4rem;
             margin: 0;
+
+            &:hover {
+                background-color: $color-primary-700;
+                cursor: pointer;
+            }
         }
 
         &__left-column {
@@ -46,9 +44,9 @@
                 }
             }
 
-            &__post {
+            &__post-title {
                 color: $color-neutral-100;
-
+                
                 @include mq(large) {
                     font-size: $font-size-300;
                 }

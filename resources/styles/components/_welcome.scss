@@ -5,7 +5,6 @@
         display: grid;
         grid-template-columns: .7fr 1fr;
         grid-template-rows: auto minmax(0, 1fr);
-        gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
             "leaderboard     main-post"
@@ -23,5 +22,30 @@
             "main-post       leaderboard"
             "secondary-posts leaderboard";
         margin-inline: $size-6;
+    }
+}
+
+.community-layout {
+    @include mq(large) {
+        display: grid;
+        grid-template-columns: .7fr 2fr 1fr;
+        grid-template-areas:
+            ". header header"
+            ". posts groups"
+        ;
+        grid-template-rows: auto 1fr;
+        gap: $size-4;
+
+        &__header {
+            grid-area: header;
+        }
+
+        &__post-wrapper {
+            grid-area: posts;
+        }
+
+        &__groups {
+            grid-area: groups;
+        }
     }
 }

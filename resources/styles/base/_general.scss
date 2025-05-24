@@ -31,7 +31,16 @@ hr {
   background: $color-primary-800;
 }
 
-.hr-leaderboard, .hr-secondary {
+.hr-straight-mobile {
+  border-bottom: 1px solid $color-primary-400;
+}
+
+.hr-straight-desktop {
+  border-bottom: 1px solid $color-primary-400;
+  opacity: .4;
+}
+
+.hr-leaderboard, .hr-secondary, .hr-straight-mobile {
   @include mq(medium) {
     display: none;
   }

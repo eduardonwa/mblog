@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Models\Like;
 use App\Models\Category;
 use Spatie\Tags\HasTags;
+use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\Conversions\Manipulations;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -24,9 +22,16 @@ class Post extends Model implements HasMedia
     protected $appends = [
         'smart_date',
         'short_date',
-        'thumbnail_urls'
+        'thumbnail_urls',
+        'excerpt'
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    /* RELACIONES */
     public function member(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -42,27 +47,25 @@ class Post extends Model implements HasMedia
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    /* LIKES */
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function getRouteKeyName(): string
+    public function likesCount()
     {
-        return 'slug';
+        return $this->likes()->count();
     }
 
-    // utiliza el formato largo
-    public function getSmartDateAttribute()
+    public function isLikedByUser()
     {
-        return $this->formatDate(false);
+        return $this->likes()->where('user_id', Auth::id())->exists();
     }
-    
-    public function getShortDateAttribute()
-    {
-        return $this->formatDate(true);
-    }
-    
+
+    /* FORMATEOS */
+
+    // FECHAS
     protected function formatDate($short)
     {
         $createdAt = $this->created_at;
@@ -92,24 +95,37 @@ class Post extends Model implements HasMedia
         return $createdAt->diffForHumans();
     }
 
-    public function likesCount()
+    // formato largo
+    public function getSmartDateAttribute()
     {
-        return $this->likes()->count();
+        return $this->formatDate(false);
+    }
+    
+    // formato corto
+    public function getShortDateAttribute()
+    {
+        return $this->formatDate(true);
+    }
+    
+    // Extracto del body
+    public function getExcerptAttribute(): string
+    {
+        $words = 30;
+        $stripped = strip_tags($this->body);
+        $excerpt = Str::words($stripped, $words);
+        
+        return $excerpt;
     }
 
-    public function isLikedByUser()
-    {
-        return $this->likes()->where('user_id', Auth::id())->exists();
-    }
-
-    // scope base para relaciones y condiciones comunes
+    // SCOPES
+    // relaciones y condiciones comunes
     public function scopeWithCommonRelations($query)
     {
         return $query->with(['user', 'category', 'media'])
                     ->withCount('likes');
     }
 
-    // scope base para posts publicados
+    // posts publicados
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
@@ -188,6 +204,7 @@ class Post extends Model implements HasMedia
         return $limit ? $query->take($limit) : $query;
     }
 
+    // IMAGENES, colecciones y conversiones
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('thumbnails')

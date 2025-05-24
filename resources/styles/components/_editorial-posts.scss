@@ -12,17 +12,28 @@
   }
 }
 
+@mixin hover-container-large($breakpoint: null) {
+  @if $breakpoint {
+    @include mq($breakpoint) {
+      &:hover {
+        background: $color-primary-700;
+        cursor: pointer;
+        border-radius: 0.3rem;
+      }
+    }
+  } @else {
+    &:hover {
+      background: $color-primary-700;
+      cursor: pointer;
+      border-radius: 0.3rem;
+    }
+  }
+}
+
 .main-post {
     display: block;
     margin: $size-8 $size-3;
     padding-inline: $size-2;
-
-
-    &:hover {
-        background-color: $color-primary-700;
-        border-radius: .3rem;
-        cursor: pointer;
-    }
 
     @include mq(medium) {
         padding-inline: $size-4;
@@ -34,6 +45,8 @@
         padding-inline: 0;
         padding: $size-3;
         transition: all 0.1s ease-in;
+        
+        @include hover-container-large(null);
     }
 
     &__info {
@@ -149,21 +162,12 @@
     
     /* tarjetas */
     &__post-card {
-        // border: 1px solid;
-        // margin-block-end: $size-10;
-
         display: flex;
         flex-direction: column;
         padding: $size-3;
-        border-radius: .3rem;
         transition: all 0.1s ease;
         height: fit-content;
         text-decoration: none;
-
-        &:hover {
-            background: $color-primary-700;
-            cursor: pointer;
-        }
 
         @include mq(medium) {
             flex: 0 0 calc(30% - #{$size-1});
@@ -171,6 +175,8 @@
             min-width: 0;
             min-height: 0;
         }
+
+        @include hover-container-large(large);
 
         &__info {
             order: 1;
@@ -194,7 +200,7 @@
                 }
 
                 @include mq(large) {
-                    font-size: $font-size-500;
+                    font-size: $font-size-600;
                 }
             }
         }

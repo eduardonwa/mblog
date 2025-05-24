@@ -1,8 +1,9 @@
 @use '../abstracts' as *;
 
 .avatar {
+    display: block;
     border-radius: 50%;
-    
+
     &__sm {
         width: 30px;
         height: 30px;

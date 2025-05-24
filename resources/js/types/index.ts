@@ -36,18 +36,28 @@ export interface User {
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
+interface ThumbnailUrls {
+  max: string
+  lg: string
+  md?: string
+}
+
 export interface Post {
     id: number;
     title: string;
     extract?: string;
+    excerpt?: string;
     body?: string;
     is_liked_by_user: boolean;
     likes_count: number;
-    author: {
+    user?: User
+    author?: {
         name: string;
     };
+    slug: string;
     smart_date: string;
-    category: {
+    short_date?: string;
+    category?: {
         slug: string;
         name: string;
     };
@@ -56,10 +66,7 @@ export interface Post {
         slug: { en: string };
         name: { en: string };
     }>;
-    thumbnail_urls?: {
-        max?: string;
-        lg?: string;
-    };
+    thumbnail_urls?: ThumbnailUrls
 }
 
 export interface Meta {

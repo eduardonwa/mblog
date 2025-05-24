@@ -7,7 +7,7 @@
     }
 
     const props = withDefaults(defineProps<Props>(), {
-        fillColor: '#d9d9de',
+        fillColor: 'currentColor',
         size: '24px',
     });
 
@@ -31,7 +31,7 @@
             <path
                 d="M12 21a2 2 0 0 1-1.6-.8l-1.5-2a1 1 0 0 0-.4-.2H7a7 7 0 0 1-7-7V7a7 7 0 0 1 7-7h10a7 7 0 0 1 7 7v5a7 7 0 0 1-7 7h-1.5a1 1 0 0 0-.8.3l-1.5 2a2 2 0 0 1-1.2.7Z"
                 :stroke="props.fillColor"
-                stroke-width="1.9"
+                stroke-width="1.8"
                 fill="none"
                 style="fill: none;"
             />
