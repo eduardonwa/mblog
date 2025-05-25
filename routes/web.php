@@ -13,9 +13,9 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/captcha/generate', [CaptchaController::class, 'generateMetalCaptcha']);
 Route::post('/captcha/validate', [CaptchaController::class, 'validateCaptcha']);
-Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('posts', [PostController::class, 'index'])->name('post.index');
 Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');

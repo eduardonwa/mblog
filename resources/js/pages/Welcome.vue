@@ -5,8 +5,7 @@ import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
 import AuthorIcon from '@/components/ui/icons/AuthorIcon.vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
-
-const { props } = usePage();
+import InfiniteScroll from '@/components/InfiniteScroll.vue';
 
 const {
     featuredPost,
@@ -189,34 +188,40 @@ const {
             </section>
         </section>
 
-
         <!-- community -->
         <div
             class="community-grid"
-            v-if="communityFeed?.length"
+            v-if="communityFeed?.data?.length"
         >
             <section class="community-layout">
                 <h2 class="community-layout__header | uppercase clr-secondary-200 fw-semibold">community</h2>
-
                 <main class="community-layout__post-wrapper">
-                    <article
-                        v-for="(post, index) in communityFeed"
-                        :key="post.id"
+                    
+                    <InfiniteScroll
+                        endpoint="/?json=true"
+                        dataKey="data"
+                        :initialItems="communityFeed.data"
+                        :initialNextPage="communityFeed.next_page_url"
                     >
-                        <Link
-                            :href="route('post.show', post.slug)"
-                            class="feed-post | no-decor"
-                        >
-                            <!-- info del autor y fecha -->
-                            <div
-                                class="feed-post__top"
-                                role="group"
-                                aria-label="More about this author"
+                        <template #default="{ items }">
+                            <article
+                                v-for="post in items"
+                                :key="post.id"
                             >
                                 <Link
-                                    class="no-decor"
-                                    :href="route('author.posts', post?.user?.name)"
+                                    :href="route('post.show', post.slug)"
+                                    class="feed-post | no-decor"
                                 >
+                                <!-- info del autor y fecha -->
+                                <div
+                                    class="feed-post__top"
+                                    role="group"
+                                    aria-label="More about this author"
+                                >
+                                    <Link
+                                        class="no-decor"
+                                        :href="route('author.posts', post?.user?.name)"
+                                    >
                                     <Avatar
                                         size="sm"
                                         shape="circle"
@@ -228,45 +233,46 @@ const {
                                         >
                                     </Avatar>
                                     <span class="feed-post-author">{{ post.user?.name }}</span>
+                                    </Link>
+        
+                                    <!-- fecha -->
+                                    <span class="feed-post__top__date">{{ post?.short_date }}</span>
+                                </div>
+                                <!-- info del post -->
+                                <div class="feed-post__middle">
+                                    <h2 class="post-title">{{ post.title }}</h2>
+                                    <p class="post-excerpt">{{ post.excerpt }}</p>
+                                </div>
+        
+                                <hr class="hr-straight-mobile">
+        
+                                <!-- interacciones -->
+                                <div class="feed-post__bottom">
+                                    <div class="feed-uphail-count">
+                                        <UphailIcon
+                                            size="22px"
+                                            fillColor="#d9d9de"
+                                            style="margin-right: .4rem;"
+                                        />
+                                        <span class="clr-primary-300">{{ post.likes_count }}</span>
+                                    </div>
+        
+                                    <div class="feed-comment-count">
+                                        <CommentIcon
+                                            size="22px"
+                                            style="margin-right: .4rem;"
+                                        />
+                                        <span class="comment-count">2</span>
+                                    </div>
+                                </div>
                                 </Link>
-
-                                <!-- fecha -->
-                                <span class="feed-post__top__date">{{ post?.short_date }}</span>
-                            </div>
-                            <!-- info del post -->
-                            <div class="feed-post__middle">
-                                <h2 class="post-title">{{ post.title }}</h2>
-                                <p class="post-excerpt">{{ post.excerpt }}</p>
-                            </div>
-                            
-                            <hr class="hr-straight-mobile">
-                            
-                            <!-- interacciones -->
-                            <div class="feed-post__bottom">
-                                <div class="feed-uphail-count">
-                                    <UphailIcon
-                                        size="22px"
-                                        fillColor="#d9d9de"
-                                        style="margin-right: .4rem;"
-                                    />
-                                    <span class="clr-primary-300">{{ post.likes_count }}</span>
-                                </div>
-
-                                <div class="feed-comment-count">
-                                    <CommentIcon
-                                        size="22px"
-                                        style="margin-right: .4rem;"
-                                    />
-                                    <span class="comment-count">2</span>
-                                </div>
-                            </div>
-                        </Link>
-
-                    <hr class="hr-straight-desktop">
-                    
-                    </article>
+        
+                                <hr class="hr-straight-desktop">
+                            </article>
+                        </template>
+                    </InfiniteScroll>
                 </main>
-
+                
                 <aside class="community-layout__groups">
                     <h2 class="community-layout__groups__header | uppercase clr-secondary-200 fw-semibold">
                         following
@@ -274,7 +280,10 @@ const {
 
                     <div class="group-card">
                         <h2 class="group-card__group-name | uppercase fs-200 clr-primary-300">nombre del grupo</h2>
-                        <a href="#" class="group-card__post-title | no-decor">titulo del post</a>
+                        <a
+                            href="#"
+                            class="group-card__post-title | no-decor"
+                        >titulo del post</a>
                         <div class="group-card__interactions">
                             <div class="group-uphail">
                                 <UphailIcon
@@ -293,7 +302,7 @@ const {
                                 <span class="comment-count">2</span>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </aside>
             </section>
         </div>
