@@ -5,11 +5,13 @@
     import NavigationTopBarInvisible from '@/components/ui/navigation-menu/NavigationTopBarInvisible.vue';
     import HomeIcon from './ui/icons/HomeIcon.vue';
     import GroupsIcon from './ui/icons/GroupsIcon.vue';
+    import type { Category } from '@/types';
 
     const currentRoute = computed(() => usePage().url);
-
     const isMenuOpen = ref(false);
-
+    // importamos las categories tipadas desde el middleware de inertia
+    const categories = computed<Category[]>(() => usePage().props.categories as Category[]);
+    
     // todo esto para quitar la clase "overflow" del body.
     // Función específica para abrir
     const openMenu = () => {
@@ -18,7 +20,7 @@
         document.body.classList.add('menu-open');
     };
 
-    // Función específica para cerrar
+    // Función específica para cerrar el menu con un boton
     const closeMenu = () => {
         isMenuOpen.value = false;
         document.body.style.overflow = '';
@@ -50,6 +52,7 @@
                 <NavigationTopBarVisible
                     :isMenuOpen="isMenuOpen"
                     @open-menu="openMenu"
+                    :categories="categories"
                 />
             </div>
 
@@ -83,16 +86,16 @@
 
                     <div class="nav__hidden__menu__blog">
                         <h2 class="uppercase clr-secondary-300">blog</h2>
-                        
-                        <Link
-                            href="/posts"
-                            :class="{ 'active-link': currentRoute === '/posts' }"
-                            class="no-decor"
-                        >
-                            Category 1
-                        </Link>
-                        <Link class="no-decor" href="#">Category 2</Link>
-                        <Link class="no-decor" href="#">Category 3</Link>
+                        <template v-if="categories?.length">
+                            <Link
+                                v-for="category in categories"
+                                :key="category.id"
+                                href="#"
+                                class="clr-primary-100 no-decor"
+                            >
+                                {{ category.name }}
+                            </Link>
+                        </template>
                     </div>
 
                     <div class="nav__hidden__menu__groups">

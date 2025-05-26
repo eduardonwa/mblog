@@ -69,6 +69,18 @@ export interface Post {
     thumbnail_urls?: ThumbnailUrls
 }
 
+export interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    parent_id: number | null;
+    children?: Category[];
+}
+
+export interface CategoryTree extends Category {
+    children: Category[];
+}
+
 export interface Meta {
     title?: string;
     description?: string;

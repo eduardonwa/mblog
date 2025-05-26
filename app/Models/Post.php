@@ -158,13 +158,13 @@ class Post extends Model implements HasMedia
         return $limit ? $query->take($limit) : $query;
     }
     
-    // 3. Top member posts (por likes)
+    // 3. Top member posts (lo que aparece en leaderboard)
     public function scopeTopMemberPosts($query, $limit = null)
     {
         $query = $query->published()
-                    ->whereHas('user', function($q) {
-                        $q->role('member');
-                    })
+                    ->whereHas('user', fn($q) => $q->role('member'))
+                    ->withCount('likes')
+                    ->having('likes_count', '>', 0)
                     ->orderByDesc('likes_count');
 
         return $limit ? $query->take($limit) : $query;

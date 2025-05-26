@@ -1,8 +1,12 @@
 <script setup lang="ts">
-  import { Head, Link } from '@inertiajs/vue3';
+  import { Head, Link, usePage } from '@inertiajs/vue3';
   import SiteLayout from '@/layouts/SiteLayout.vue';
   import LikeButton from '@/components/LikeButton.vue';
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
+
+  const page = usePage();
+
+  const categories = computed(() => page.props.categories);
 
   const { post, meta } = defineProps({
       post: Object,
@@ -14,7 +18,7 @@
 </script>
 
 <template>
-  <SiteLayout>
+  <SiteLayout :categories="categories">
     <Head>
       <title>{{ meta?.title }}</title>
       <meta name="description" :content="meta?.description">

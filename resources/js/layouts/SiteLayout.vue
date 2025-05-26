@@ -1,5 +1,8 @@
 <script setup lang="ts">
-  import { Head } from '@inertiajs/vue3';
+  import { Head, usePage } from '@inertiajs/vue3';
+  import { computed } from 'vue';
+  
+  const categories = computed(() => usePage().props.categories);
 </script>
 
 <template>
@@ -14,7 +17,7 @@
       <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
     </Head>
 
-    <AppNavigation />
+    <AppNavigation :categories="categories" />
 
     <main>
       <slot />

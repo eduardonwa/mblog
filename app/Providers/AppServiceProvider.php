@@ -24,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
 
+        Model::preventLazyLoading(! app()->isProduction());
+
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage)
                 ->subject('Verify your account at ' . config('app.name'))

@@ -6,18 +6,20 @@ import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
 import AuthorIcon from '@/components/ui/icons/AuthorIcon.vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
+import type { Post } from '@/types';
 
-const {
-    featuredPost,
-    staffPosts,
-    leaderboard,
-    communityFeed
-} = defineProps({
-    featuredPost: Object,
-    staffPosts: Object,
-    leaderboard: Object,
-    communityFeed: Object,
-});
+interface WelcomePageProps {
+    featuredPost: Post[];
+    staffPosts: Post[];
+    leaderboard: Post[];
+    communityFeed: {
+        data: Post[];
+        next_page_url: string | null;
+    };
+}
+
+const props = defineProps<WelcomePageProps>();
+const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
 </script>
 
 <template>
@@ -29,7 +31,7 @@ const {
         <section class="main-editorial-grid">
             <!-- post principal -->
             <Link
-                :href="route('post.show', featuredPost?.[0].slug)"
+                :href="route('post.show', { slug: featuredPost[0]?.slug })"
                 class="main-post | no-decor"
                 aria-label="Main Post"
             >
@@ -108,7 +110,7 @@ const {
                 >
                     <Link
                         class="leaderboard__container | no-decor"
-                        :href="route('post.show', post.slug)"
+                        :href="route('post.show', { slug: featuredPost[0]?.slug })"
                     >
                     <div class="leaderboard__container__left-column">
                         <div class="leaderboard__container__left-column__user">
@@ -155,7 +157,7 @@ const {
                     :key="post.id"
                 >
                     <Link
-                        :href="route('post.show', post.slug)"
+                        :href="route('post.show', {slug: post.slug })"
                         class="secondary-posts__post-card"
                     >
                     <div class="secondary-posts__post-card__image-wrapper">
@@ -201,15 +203,12 @@ const {
                         endpoint="/?json=true"
                         dataKey="data"
                         :initialItems="communityFeed.data"
-                        :initialNextPage="communityFeed.next_page_url"
+                        :initialNextPage="communityFeed.next_page_url ?? undefined"
                     >
                         <template #default="{ items }">
-                            <article
-                                v-for="post in items"
-                                :key="post.id"
-                            >
+                            <article v-for="post in items as Post[]" :key="post.id">
                                 <Link
-                                    :href="route('post.show', post.slug)"
+                                    :href="route('post.show', { slug:post.slug })"
                                     class="feed-post | no-decor"
                                 >
                                 <!-- info del autor y fecha -->
@@ -220,7 +219,7 @@ const {
                                 >
                                     <Link
                                         class="no-decor"
-                                        :href="route('author.posts', post?.user?.name)"
+                                        :href="route('author.posts', { name: post?.user?.name })"
                                     >
                                     <Avatar
                                         size="sm"

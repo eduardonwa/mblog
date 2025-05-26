@@ -2,10 +2,14 @@
     import UserIcon from '../icons/UserIcon.vue';
     import { Link } from '@inertiajs/vue3';
     import MenuIcon from '../icons/MenuIcon.vue';
+    import type { Category } from '@/types/index';
     
-    defineProps({
-        isMenuOpen: Boolean
-    });
+    interface Props {
+        categories: Category[];
+        isMenuOpen: Boolean,
+    }
+
+    defineProps<Props>();
 
     defineEmits(['openMenu']);
 </script>
@@ -21,45 +25,16 @@
 
     <!-- categories -->
     <div class="nav__visible__links">
-        <Link
-            href="/"
-            class="clr-primary-100 no-decor"
-        >
-            Category 1
-        </Link>
-
-        <Link
-            href="#"
-            class="clr-primary-100 no-decor"
-        >
-            Category 2
-        </Link>
-                <Link
-            href="/"
-            class="clr-primary-100 no-decor"
-        >
-            Category 1
-        </Link>
-
-        <Link
-            href="#"
-            class="clr-primary-100 no-decor"
-        >
-            Category 2
-        </Link>
-                <Link
-            href="/"
-            class="clr-primary-100 no-decor"
-        >
-            Category 1
-        </Link>
-
-        <Link
-            href="#"
-            class="clr-primary-100 no-decor"
-        >
-            Category 2
-        </Link>
+        <template v-if="categories?.length">
+            <Link
+                v-for="category in categories"
+                :key="category.id"
+                href="#"
+                class="clr-primary-100 no-decor"
+            >
+                {{ category.name }}
+            </Link>
+        </template>
     </div>
     
     <!-- login/register -->

@@ -5,11 +5,9 @@ namespace Database\Seeders;
 use App\Models\Post;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
-use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
-use Spatie\Permission\Models\Role;
-use Database\Seeders\InterestSeeder;
+use Database\Seeders\CategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,11 +18,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RoleSeeder::class
+            RoleSeeder::class,
+            CategorySeeder::class,
         ]);
-        
-        // Crear categorías primero
-        Category::factory()->count(3)->create();
 
         // Crear 1 admin
         $adminUser = User::factory()->create([
