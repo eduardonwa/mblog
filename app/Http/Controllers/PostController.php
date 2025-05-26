@@ -62,22 +62,6 @@ class PostController extends Controller
         ]);
     }
 
-    public function postByCategory($slug)
-    {
-        $category = Category::where('slug', $slug)->firstOrFail();
-        
-        $posts = Post::with('category')
-            ->where('category_id', $category->id)
-            ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        return Inertia::render('post/categories', [
-            'posts' => $posts,
-            'category' => $category
-        ]);
-    }
-
     public function postByAuthor(User $user)
     {
         $posts = Post::with(['category', 'tags', 'user'])

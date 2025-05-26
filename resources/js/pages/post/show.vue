@@ -43,7 +43,7 @@
 
             <p>{{ post?.smart_date }}</p>
 
-            <Link :href="route('category.show', post?.category.slug)">
+            <Link :href="route('category.index', post?.category.slug)">
               {{ post?.category.name }}
             </Link>
           </div>
