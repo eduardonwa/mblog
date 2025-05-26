@@ -1,7 +1,7 @@
 @use '../abstracts/' as *;
 
 .main-editorial-grid {
-    margin-block-start: $size-12;
+    margin-block-start: $size-13;
     
     @include mq(medium) {
         display: grid;

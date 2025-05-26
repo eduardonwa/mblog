@@ -1,7 +1,7 @@
 @use '../abstracts/' as *;
 
 .blog-post {
-    margin-block: $size-12;
+    margin-block: $size-13;
 
     @include mq(large) {
         margin-block-start: $size-13;
