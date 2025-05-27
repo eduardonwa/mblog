@@ -1,0 +1,175 @@
+@use '../abstracts/' as *;
+
+.categories-wrapper {
+    margin-block: $size-13;
+
+    &__header {
+        margin-block-end: $size-10;
+        font-size: $font-size-600;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: $size-2;
+
+        @include mq(medium) {
+            margin-inline: $size-4;
+            margin-block-end: $size-13;
+            
+            h2 {
+                font-size: $font-size-800;
+            }
+        }
+    }
+}
+
+.categories {
+    display: block;
+    padding: $size-4;
+    color: $color-primary-300;
+    border: 1px solid $color-primary-400;
+    border-radius: $size-1;
+    transition: all 0.2s ease;
+
+    @include mq(medium) {
+        border: none;
+        border: 1px solid transparent;
+        min-height: 100px;
+        display: grid;
+        grid-template-columns: .5fr 2fr .5fr;
+        grid-template-rows: auto;
+        grid-template-areas: 
+            "date post interactions";
+        gap: $size-3;
+
+        &:hover {
+            background: $color-primary-700;
+            color: $color-primary-300;
+        }
+
+        & > * { // Esto seleccionará los slots renderizados
+            @include mq(medium) {
+                &:first-child { grid-area: interactions; }
+                &:nth-child(2) { grid-area: post; }
+                &:last-child { grid-area: date; }
+            }
+        }
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        @include mq(medium) {
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            gap: $size-4;
+        }
+
+        .uphail-icon > span {
+            margin-inline-end: $size-3;
+
+            @include mq(medium) {
+                margin-inline-end: 0;
+            }
+        }
+
+        .uphail-icon, .comment-icon {
+            display: flex;
+            align-items: center;
+            gap: $size-2;
+            order: 1;
+            color: $color-primary-300;
+
+            button {
+                border: none;
+            }
+            
+            span {
+                order: 2;
+            }
+
+            @include mq(medium) {
+                flex-direction: column;
+                align-content: flex-end;
+                order: 2;
+                border-radius: $size-1;
+                width: 50px;
+                padding-block: $size-1;
+                border: 1px solid;
+
+                &:hover {
+                    color: $color-accent-100;
+                    background: $color-primary-900;
+                    border-color: transparent;
+                    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+
+                    button > svg {
+                        transform: scale(1.10);
+                        transition: transform 0.3s ease;
+                        color: $color-accent-100;
+                    }
+                }
+
+                span {
+                    order: 1;
+                }
+            }
+
+            &:nth-child(2) {
+                margin-inline: $size-3;
+
+                @include mq(medium) {
+                    margin-inline: 0;
+                }
+            }
+        }
+
+        h2 {
+            color: $color-primary-100;
+            font-size: $font-size-600;
+        }
+    }
+
+    &__middle {
+        color: $color-primary-400;
+        padding-block-start: $size-3;
+
+        @include mq(medium) {
+            padding-block-start: 0;
+        }
+
+        h2 {
+            color: $color-secondary-200;
+            font-size: $font-size-600;
+            padding-block-end: $size-2;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        color: $color-primary-200;
+        margin-block-start: $size-4;
+
+        @include mq(medium) {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-block-start: 0;
+
+            svg {
+                display: none;
+            }
+        }
+
+        a {
+            color: $color-primary-100;
+            padding-inline-end: $size-2;
+        }
+
+        span {
+            color: $color-primary-400;
+        }
+    }
+}

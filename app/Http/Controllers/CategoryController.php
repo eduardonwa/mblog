@@ -13,7 +13,8 @@ class CategoryController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
         
-        $posts = Post::with('category')
+        $posts = Post::with('category', 'user')
+            ->withCount('likes')
             ->where('category_id', $category->id)
             ->where('status', 'published')
             ->orderBy('created_at', 'desc')

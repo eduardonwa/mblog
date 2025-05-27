@@ -122,4 +122,8 @@
       }
     }
   }
+
+  &[data-type="pagination"] {
+    border: 1px solid;
+  }
 }

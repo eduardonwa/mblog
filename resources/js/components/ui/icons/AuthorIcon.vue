@@ -8,7 +8,7 @@
   }
 
   const props = withDefaults(defineProps<Props>(), {
-    color: 'var(--icon-color, #d9d9de)',
+    color: 'var(--icon-color, #D3D7EA)',
     hoverColor: 'var(--icon-hover, #1e90ff)',
     size: '24px'
   });

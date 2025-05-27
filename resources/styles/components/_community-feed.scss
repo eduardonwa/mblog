@@ -83,7 +83,7 @@
                 }
                 
                 .post-excerpt {
-                    color: $color-primary-200;
+                    color: $color-primary-300;
 
                     @include mq(large) {
                         font-size: $font-size-400;
@@ -136,14 +136,21 @@
         }
     }
 
-    &__groups {
+    &__groups-wrapper {
+        overflow: visible;
+
+        &__following {
         display: none;
         
         @include mq(large) {
+            top: calc(80px + 20px);
             display: block;
             color: $color-primary-300;
+            position: sticky;
+            position: -webkit-sticky;
+            z-index: 100;
 
-            &__header {
+            .following-header {
                 width: 80%;
                 margin-inline: auto;
             }
@@ -185,5 +192,6 @@
                 
             }
         }
+    }
     }
 }

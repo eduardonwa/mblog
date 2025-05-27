@@ -90,7 +90,7 @@
                             <Link
                                 v-for="category in categories"
                                 :key="category.id"
-                                href="#"
+                                :href="route('category.index', { slug: category.slug })"
                                 class="clr-primary-100 no-decor"
                             >
                                 {{ category.name }}

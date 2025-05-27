@@ -24,6 +24,7 @@
             "main-post       leaderboard"
             "secondary-posts leaderboard";
         margin-inline: $size-6;
+        margin-block-start: $size-11;
     }
 }
 
@@ -53,7 +54,7 @@
             }
         }
 
-        &__groups {
+        &__groups-wrapper {
             grid-area: groups;
         }
     }

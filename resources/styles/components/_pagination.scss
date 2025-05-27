@@ -1,0 +1,8 @@
+@use '../abstracts/' as *;
+
+.pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $size-4;
+}

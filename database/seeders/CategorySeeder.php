@@ -18,6 +18,7 @@ class CategorySeeder extends Seeder
         $metall = Category::create([
             'name' => 'MetAll',
             'slug' => 'metal',
+            'description' => 'Music, movies, reviews, gear... anything related to metal.',
             'parent_id' => null,
         ]);
 

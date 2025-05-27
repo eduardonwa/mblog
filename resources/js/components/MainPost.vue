@@ -28,6 +28,7 @@ const props = defineProps<MainPostProps>();
                     {{ featuredPost?.[0].extract }}
                 </p>
             </div>
+            
             <!-- uphails, comentarios, autor -->
             <div class="main-post__info__details">
                 <div>
