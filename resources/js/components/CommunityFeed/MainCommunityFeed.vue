@@ -87,7 +87,7 @@ const props = defineProps<MainCommunityFeedProps>();
                                 </div>
                             </template>
                         </CommunityPostCard>
-                        <hr class="hr-straight-desktop">
+                        <hr class="hr-straight-large">
                     </article>
                 </template>
             </InfiniteScroll>

@@ -77,7 +77,7 @@ const { posts, category } = defineProps({
                             </div>
                         </template>
                     </CommunityPostCard>
-                    <hr class="hr-straight-desktop">
+                    <hr class="hr-straight-medium">
                 </div>
             </div>
 

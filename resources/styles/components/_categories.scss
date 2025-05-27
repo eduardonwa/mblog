@@ -14,8 +14,12 @@
         @include mq(medium) {
             margin-inline: $size-4;
             margin-block-end: $size-13;
-            
-            h2 {
+        }
+
+        h2 {
+            font-size: $font-size-700;
+
+            @include mq(large) {
                 font-size: $font-size-800;
             }
         }
@@ -29,8 +33,10 @@
     border: 1px solid $color-primary-400;
     border-radius: $size-1;
     transition: all 0.2s ease;
+    margin-block-end: $size-10;
 
     @include mq(medium) {
+        margin-block-end: 0;
         border: none;
         border: 1px solid transparent;
         min-height: 100px;
@@ -44,6 +50,7 @@
         &:hover {
             background: $color-primary-700;
             color: $color-primary-300;
+            scale: 1.03;
         }
 
         & > * { // Esto seleccionará los slots renderizados
@@ -105,10 +112,12 @@
                     border-color: transparent;
                     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 
-                    button > svg {
-                        transform: scale(1.10);
-                        transition: transform 0.3s ease;
-                        color: $color-accent-100;
+                    button {
+                        background: transparent;
+                                                
+                        svg {
+                            color: $color-accent-100;
+                        }
                     }
                 }
 
@@ -166,6 +175,13 @@
         a {
             color: $color-primary-100;
             padding-inline-end: $size-2;
+            
+            @include mq(large) {
+                &:hover {
+                    color: $color-secondary-200;
+                    transition: all 0.3s ease;
+                }
+            }
         }
 
         span {

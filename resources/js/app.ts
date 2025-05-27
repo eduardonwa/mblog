@@ -10,12 +10,6 @@ import AppNavigation from './components/AppNavigation.vue';
 
 /// <reference types="vite/client" />
 
-// Extiende solo lo que necesites adicionalmente
-interface ImportMetaEnv {
-    readonly VITE_APP_NAME: string;
-    // Agrega aquí otras variables de entorno personalizadas si las tienes
-}
-
 declare global {
     interface Window {
         Inertia: {
@@ -58,7 +52,7 @@ createInertiaApp({
         app.mount(el);
     },
     progress: {
-        color: '#4B5563',
+        color: '#BFF625',
         showSpinner: false
     },
 });

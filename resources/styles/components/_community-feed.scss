@@ -38,6 +38,7 @@
                     background: $color-primary-700;
                     cursor: pointer;
                     border-radius: 0.3rem;
+                    scale: 1.03;
                 }
             }
 
@@ -100,11 +101,11 @@
                 .feed-comment-count {
                     &:hover {
                         // puntitos
-                        stroke: $color-secondary-300;
+                        stroke: $color-accent-100;
 
                         // globo
                         path {
-                            stroke: $color-secondary-300;
+                            stroke: $color-accent-100;
                         }
                     }
                 }
@@ -117,7 +118,7 @@
                     height: 30px;
 
                     &:not(.feed-comment-count):hover {
-                        color: $color-secondary-300;
+                        color: $color-accent-100;
                     }
 
                     @include mq(large) {

@@ -35,9 +35,24 @@ hr {
   border-bottom: 1px solid $color-primary-400;
 }
 
-.hr-straight-desktop {
+.hr-straight-medium {
+    border-bottom: 1px solid $color-primary-400;
+    opacity: .4;
+    display: none;
+
+    @include mq(medium) {
+      display: block
+    }
+}
+
+.hr-straight-large {
   border-bottom: 1px solid $color-primary-400;
   opacity: .4;
+  display: none;
+
+  @include mq(large) {
+    display: block
+  }
 }
 
 .hr-leaderboard, .hr-secondary, .hr-straight-mobile {

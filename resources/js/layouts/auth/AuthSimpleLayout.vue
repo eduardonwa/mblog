@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
     <div class="text-center flow margin-block-8">
-        <Link :href="route('home')" class="no-decoration">
+        <Link :href="route('home')" class="no-decor">
             <AppLogoIcon />
         </Link>
         <div class="flow">

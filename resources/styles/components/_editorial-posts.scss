@@ -80,17 +80,17 @@
                 
                 &:hover {
                     background-color: $color-primary-800;
-                    color: $color-secondary-200;
+                    color: $color-accent-100;
 
                     span {
-                        color: $color-primary-200; // se aplica a todos los textos
+                        color: $color-primary-100; // se aplica a todos los textos
                     }
                 
                     .main-post-comment-icon, .main-post-author-icon {
-                        stroke: $color-secondary-200; // la puse por los puntitos del icono del comentario
+                        stroke: $color-accent-100; // la puse por los puntitos del icono del comentario
 
                         path {
-                            stroke: $color-secondary-200; // por la forma del globo
+                            stroke: $color-accent-100; // por la forma del globo
                         }
                     }
                 }
