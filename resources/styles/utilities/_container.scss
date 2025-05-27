@@ -22,3 +22,11 @@
   justify-content: center;
   grid-template-columns: minmax(auto, 64ch);
 }
+.container[data-type="extra-wide"]{
+  --max-width: #{$container-max-width-extra-wide};
+  --padding: 0;
+
+  @include mq(medium) {
+    --padding: #{$container-min-margin-inline} * 2;
+  }
+}

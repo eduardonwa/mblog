@@ -2,72 +2,125 @@
 
 .blog-post {
     margin-block: $size-13;
+    position: relative;
 
     @include mq(large) {
         margin-block-start: $size-13;
-    }
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas:
+            "info body";
+        align-items: stretch;
 
-    .post-header {
-        &__meta-group {
-            .post-title-group {
-                h1 {
-                    font-size: $font-size-800;
-                    font-family: $font-family-medium;
-                }
-
-                .extract {
-                    font-size: $font-size-500;
-                    margin-block-start: $size-3;
-                    line-height: 33px;
-                }
-            }
-            .meta-primary {
-                display: flex;
-                gap: $size-4;
-                margin-block: $size-4;
-                
-                a {
-                    text-decoration: none;
-                    color: $color-secondary-300;
-                }
-            }
+        &__header {
+            grid-area: info;
+            justify-content: end;
+            height: 100%;
+        }
+        
+        &__body {
+            grid-area: body;
         }
     }
 
-    &__subheader {
-        margin-block: $size-8;
 
-        @include mq(medium) {
-            .image {
-                display: block;
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-                position: relative;
-                overflow: hidden;
-                cursor: zoom-in;
-
-                .post-thumbnail {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    display: block;
-                }
-            }
-
-            .extract {
-                margin: 0 auto;
-            }
-        }
+    &__header {
+        margin-block: $size-5;
 
         @include mq(large) {
+            margin-block: 0;
+        }
 
+        .post-header {
+            &__meta-group {
+                .post-title {
+                    margin-block-end: $size-6;
+
+                    h2 {
+                        font-size: $font-size-800;
+                        font-family: $font-family-medium;
+                    }
+                }
+
+                .meta-primary {
+                    display: flex;
+                    flex-direction: column;
+                    gap: $size-6;
+                    font-size: $font-size-500;
+                    
+                    @include mq(large) {
+                        margin-block-end: $size-6;
+
+                        .author {
+                            &:hover {
+                                color: $color-secondary-200;
+                            }
+                        }
+                    }
+                                        
+                    .author, .category, .date {
+                        text-decoration: none;
+                        color: $color-primary-300;
+                    }
+
+                    .category {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .uphail-post-wrapper {
+            display: none;
+
+            @include mq(large) {
+                display: block;
+                position: sticky;
+                top: calc(80px + 20px);
+                padding-inline-start: $size-4;
+            }
+
+            @include mq(extraLarge) {
+                margin-block-start: $size-12;
+            }
         }
     }
 
     &__body {
-        margin-block-start: 0;
         font-size: $font-size-500;
         line-height: 33px;
+        color: $color-primary-200;
+        
+        &__subheader {
+            .extract {
+                padding-block-end: $size-4;
+            }
+
+            .image {
+                margin-block: $size-10;
+                
+                @include mq(medium) {
+                    margin-block: $size-5;
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    height: auto;
+                    position: relative;
+                    overflow: hidden;
+                    cursor: zoom-in;
+    
+                    .post-thumbnail {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    }
+                }
+                @include mq(large) {
+                    margin-block: 0;
+                }
+            }
+
+        }
     }
 }

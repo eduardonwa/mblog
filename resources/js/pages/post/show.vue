@@ -25,50 +25,69 @@
       <meta name="user" :content="meta?.user">
     </Head>
 
-    <section class="blog-post | container" data-type="blog-post">
-      <header class="post-header">
-
-        <div class="post-header__meta-group">
-          <!-- titulo y extracto -->
-          <div class="post-title-group">
-              <h1>{{ post?.title }}</h1>
-              <p class="extract">{{ post?.extract }}</p>
+    <main class="blog-post container" data-type="extra-wide">
+      <section class="blog-post__header">
+        <header class="post-header container" data-type="blog-post">
+          <div class="post-header__meta-group">
+            <!-- titulo -->
+            <div class="post-title">
+                <h2>{{ post?.title }}</h2>
+            </div>
+  
+            <!-- autor fecha y categoria -->
+            <div class="meta-primary">
+              <div class="no-decor clr-primary-300">
+                by
+                <Link class="author" :href="route('author.posts', post?.user?.name)">
+                  {{ post?.user?.name || 'Rattlehead' }}
+                </Link>
+              </div>
+             
+  
+              <p class="date">{{ post?.smart_date }}</p>
+  
+              <Link class="category" :href="route('category.index', post?.category.slug)">
+                {{ post?.category.name }}
+              </Link>
+            </div>
           </div>
-
-          <!-- autor fecha y categoria -->
-          <div class="meta-primary">
-            <Link :href="route('author.posts', post?.user?.name)">
-              <p>{{ post?.user?.name || 'Rattlehead' }}</p>
-            </Link>
-
-            <p>{{ post?.smart_date }}</p>
-
-            <Link :href="route('category.index', post?.category.slug)">
-              {{ post?.category.name }}
+  
+          <!-- Tags -->
+          <div v-if="post?.tags?.length">
+            <Link 
+              v-for="tag in post?.tags" 
+              :key="tag.id"
+              :href="route('tag.show', tag.slug.en)"
+            >
+              #{{ tag.name.en }}
             </Link>
           </div>
-        </div>
-        
-        <LikeButton
-            :post="localPost" 
-            @update:post="updatedPost => localPost = updatedPost" 
-        />
+          
+          <!-- uphail post -->
+          <!-- <div class="uphail-post-wrapper">
+              <LikeButton
+                  variant="mobile"
+                  :post="localPost"
+                  class="stick-this"
+                  @update:post="updatedPost => localPost = updatedPost" 
+              />
+          </div> -->
+        </header>
 
-        <!-- Tags -->
-        <div v-if="post?.tags?.length">
-          <Link 
-            v-for="tag in post?.tags" 
-            :key="tag.id"
-            :href="route('tag.show', tag.slug.en)"
-          >
-            #{{ tag.name.en }}
-          </Link>
+        <div class="uphail-post-wrapper">
+            <LikeButton
+                variant="mobile"
+                :post="localPost"
+                class="stick-this"
+                @update:post="updatedPost => localPost = updatedPost" 
+            />
         </div>
-      </header>
+      </section>
 
-      <!-- Imagen y extracto -->
-      <article class="blog-post__subheader">
-        <section>
+      <!-- Contenido principal -->
+      <section class="blog-post__body | container" data-type="blog-post">
+        <!-- Imagen y extracto -->
+        <article class="blog-post__body__subheader | flow">
           <picture class="image" @click="openLightbox = true">
               <source media="(min-width: 1536px)" :srcset="post?.thumbnail_urls?.max">
               <source media="(min-width: 1280px)" :srcset="post?.thumbnail_urls?.lg">
@@ -92,15 +111,12 @@
               class="lightbox-image"
             >
           </div>
-        </section>
-      </article>
+          <p class="extract">{{ post?.extract }}</p>
+        </article>
 
-      <!-- Contenido principal -->
-      <section class="blog-post__body | flow">
         <div v-html="post?.body"></div>
       </section>
-
-    </section>
+    </main>
 
   </SiteLayout>
 </template>

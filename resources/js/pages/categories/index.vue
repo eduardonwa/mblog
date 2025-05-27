@@ -73,7 +73,7 @@ const { posts, category } = defineProps({
                                     class="no-decor"
                                     aria-label="More about this author"
                                 >{{ post.user?.name }}</Link>
-                                <span>{{ post.smart_date }}</span>
+                                <span class="date">{{ post.smart_date }}</span>
                             </div>
                         </template>
                     </CommunityPostCard>
