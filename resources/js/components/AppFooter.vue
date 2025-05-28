@@ -14,15 +14,15 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
 </script>
 
 <template>
-    <footer
-        class="site-footer"
-    >
+    <footer class="site-footer">
         <section
             v-if="categories?.length"
             class="site-footer__container"
         >
             <header class="site-footer__container__logo">
-                <Link href="/"><AppLogoIcon /></Link>
+                <Link href="/">
+                <AppLogoIcon />
+                </Link>
                 <div class="icons-group">
                     <YoutubeIcon size="28" />
 
@@ -48,25 +48,41 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
                         </li>
                     </ul>
                 </div>
-    
+
                 <div class="footer-group">
                     <h2 class="uppercase">links</h2>
                     <ul class="no-list-style">
                         <li>
-                            <Link href="https://metalstudies.org">metalstudies.org</Link>
+                            <a
+                                href="https://metalstudies.org"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >metalstudies.org</a>
                         </li>
                         <li>
-                            <Link href="https://metal-archives.com">metal-archives.com</Link>
+                            <a
+                                href="https://metal-archives.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >metal-archives.com</a>
                         </li>
                         <li>
-                            <Link href="https://metalinjection.net">metalinjection.net</Link>
+                            <a
+                                href="https://metalinjection.net"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >metalinjection.net</a>
                         </li>
                         <li>
-                            <Link href="https://thisdayinmetal.com">thisdayinmetal.com</Link>
+                            <a
+                                href="https://thisdayinmetal.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >thisdayinmetal.com</a>
                         </li>
                     </ul>
                 </div>
-    
+
                 <div class="footer-group">
                     <h2 class="uppercase">support</h2>
                     <div>
