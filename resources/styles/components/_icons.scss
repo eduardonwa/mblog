@@ -6,12 +6,18 @@
 .menu-icon,
 .user-icon,
 .home-icon,
-.groups-icon {
+.groups-icon,
+.youtube-icon,
+.instagram-icon,
+.threads-icon,
+.tiktok-icon {
   background: transparent;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   color: inherit;
+  display: block;
+  width: fit-content;
   
   svg {
     transition: fill 0.2s ease;

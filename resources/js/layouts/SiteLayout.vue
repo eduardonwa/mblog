@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { Head, usePage } from '@inertiajs/vue3';
   import { computed } from 'vue';
+  import AppFooter from '@/components/AppFooter.vue';
   
   const categories = computed(() => usePage().props.categories);
 </script>
@@ -22,5 +23,7 @@
     <main>
       <slot />
     </main>
+
+    <AppFooter />
   </div>
 </template>

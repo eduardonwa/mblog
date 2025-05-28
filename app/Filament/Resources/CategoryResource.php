@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CategoryResource\RelationManagers;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Filters\SelectFilter;
 
 class CategoryResource extends Resource
@@ -49,6 +50,10 @@ class CategoryResource extends Resource
                         return \App\Models\Category::whereNull('parent_id')
                             ->pluck('name', 'id');
                     }),
+                Textarea::make('description')
+                    ->nullable()
+                    ->maxLength(255)
+                    ->helperText('Optional description for the category'),
             ]);
     }
 
