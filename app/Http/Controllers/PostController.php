@@ -20,12 +20,16 @@ class PostController extends Controller
             'user',
             'tags:id,name,slug',
             'likes',
-            'media'
+            'media',
+            'comments' => function ($query) {
+                $query->with(['commentator:id,name,created_at'])
+                    ->latest();
+            }
         ])
         ->where('slug', $slug)
         ->where('status', 'published')
         ->firstOrFail();
-    
+            
         $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
         $post->setAttribute('likes_count', $post->likesCount());
     

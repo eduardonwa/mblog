@@ -123,4 +123,89 @@
 
         }
     }
+
+    &__comments {
+        margin-block: $size-4;
+        display: flex;
+        flex-direction: column;
+
+        &__form {
+            margin-block: $size-8;
+            display: flex;
+            flex-direction: column;
+
+            textarea {
+                border: 2px solid $color-primary-700;
+                border-radius: $size-1;
+                background: $color-primary-900;
+                padding: $size-2;
+                color: $color-primary-100;
+                font-size: $font-size-400;
+
+                &:focus-visible {
+                    outline: 2px solid $color-primary-600;
+                }
+
+                &::placeholder {
+                    font-size: $font-size-300;
+                }
+            }
+        }
+
+        &__thread {
+            @include mq(large) {
+                margin-block-start: $size-8;
+            }
+
+            .comment {
+                display: flex;
+                flex-direction: column;
+                margin-block-end: $size-8;
+
+                &__header {
+                    display: flex;
+                    gap: $size-2;
+                    align-items: center;
+
+                    .delete-icon-wrapper {
+                        border: none;
+                        margin-left: auto;
+                        margin-right: $size-4;
+                        background: transparent;
+                        
+                        button {
+                            path {
+                                stroke: #F83B3B;
+                            }
+                        }
+                    }
+
+                    &__author {
+                        display: flex;
+                        gap: $size-2;
+                        align-items: center;
+                        font-size: $font-size-400;
+                        color: $color-primary-200;
+
+                        @include mq(large) {
+                            &:hover {
+                                color: $color-secondary-200;
+                            }
+                        }
+                    }
+
+                    &__date {
+                        color: $color-primary-200;
+                        font-size: $font-size-300;
+                    }
+                }
+
+                &__body {
+                    font-size: $font-size-400;
+                    padding-block: $size-2;
+                    color: $color-primary-200;
+                }
+            }
+        }
+    }
 }

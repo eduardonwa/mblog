@@ -7,6 +7,8 @@
 .user-icon,
 .home-icon,
 .groups-icon,
+.reply-icon,
+.delete-icon,
 .youtube-icon,
 .instagram-icon,
 .threads-icon,
@@ -18,12 +20,29 @@
   color: inherit;
   display: block;
   width: fit-content;
+  transform: all 0.2s ease;
   
   svg {
     transition: fill 0.2s ease;
   }
   
   path {
-    fill: currentColor; /* Usa el color del botón */
+    fill: currentColor;
+  }
+}
+
+.uphail-icon {
+  path {
+    fill: currentColor;
+  }
+}
+
+.delete-icon {
+  background-color: transparent;
+}
+
+.reply-icon, .delete-icon {
+  path{
+    fill: transparent;
   }
 }

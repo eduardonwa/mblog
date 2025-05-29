@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "42ebe127666f8cf278e6b889f8b99860",
+=======
+    "content-hash": "27507484d9dd015fbbe3324cd75e6f49",
+>>>>>>> 9396dd0714002223a069d69c4db4a8d8c5ac8eff
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -153,6 +157,66 @@
                 }
             ],
             "time": "2025-05-15T15:50:41+00:00"
+        },
+        {
+            "name": "beyondcode/laravel-comments",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beyondcode/laravel-comments.git",
+                "reference": "4635f98118c611e55ada82bc9d8044ee3fc66e33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beyondcode/laravel-comments/zipball/4635f98118c611e55ada82bc9d8044ee3fc66e33",
+                "reference": "4635f98118c611e55ada82bc9d8044ee3fc66e33",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.6|^5.0|^6.0|^7.0|^8.0",
+                "phpunit/phpunit": "^9.5.8|^10.0.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BeyondCode\\Comments\\CommentsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BeyondCode\\Comments\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Pociot",
+                    "email": "marcel@beyondco.de",
+                    "homepage": "https://beyondcode.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add comments to your Laravel application",
+            "homepage": "https://github.com/beyondcode/laravel-comments",
+            "keywords": [
+                "beyondcode",
+                "comments",
+                "laravel-comments"
+            ],
+            "support": {
+                "issues": "https://github.com/beyondcode/laravel-comments/issues",
+                "source": "https://github.com/beyondcode/laravel-comments/tree/1.8.0"
+            },
+            "time": "2025-03-02T18:47:27+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",

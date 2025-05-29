@@ -10,6 +10,7 @@ export const avatarVariant = cva(
         variants: {
             size: {
                 sm: 'avatar__sm',
+                md: 'avatar__md',
                 base: 'avatar__base',
                 lg: 'avatar__lg',
             },
