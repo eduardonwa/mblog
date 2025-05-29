@@ -119,6 +119,14 @@
                             color: $color-accent-100;
                         }
                     }
+
+                    .comment-icon {
+                        stroke: $color-accent-100; // la puse por los puntitos del icono del comentario
+                        
+                        path {
+                            stroke: $color-accent-100; // por la forma del globo
+                        }
+                    }
                 }
 
                 span {

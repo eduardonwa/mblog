@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use BeyondCode\Comments\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -31,6 +32,13 @@ class AppServiceProvider extends ServiceProvider
                 ->subject('Verify your account at ' . config('app.name'))
                 ->line('Click the link below to verify your email')
                 ->action('Verify Email', $url);
+        });
+
+        // solo usuarios autenticados pueden comentar
+        Comment::creating(function ($comment) {
+            if (!$comment->commentator->hasVerifiedEmail()) {
+                return false; // Rechazar silenciosamente
+            }
         });
     }
 }

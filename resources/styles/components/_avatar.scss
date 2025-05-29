@@ -5,13 +5,34 @@
     border-radius: 50%;
 
     &__sm {
-        width: 30px;
-        height: 30px;
+        width: 24px;
+        height: 24px;
+        border: 1px solid;
+
+        @include mq(medium) {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    &__md {
+        width: 32px;
+        height: 32px;
         border: 1px solid;
 
         img {
             max-width: 32px;
             max-height: 32px;
+        }
+
+        @include mq(large) {
+            width: 40px;
+            height: 40px;
+            
+            img {
+                max-width: 40px;
+                max-height: 40px;
+            }
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Filament\Panel;
 use App\Models\Like;
+use BeyondCode\Comments\Traits\CanComment;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, CanComment;
 
     /**
      * The attributes that are mass assignable.
@@ -53,12 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     public function assignMember(): void
     {
-        // Verificar si ya tiene el rol de "kreator"
-        if ($this->hasRole('kreator')) {
+        // Verificar si ya tiene el rol de "member"
+        if ($this->hasRole('member')) {
             throw new \Exception('User already has "member" role.');
         }
     
-        // Asignar el rol de "kreator"
+        // Asignar el rol de "member"
         $this->assignRole('member');
     }
 
@@ -87,5 +88,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return str_ends_with($this->email, '@sickofmetal.net') && 
                $this->hasVerifiedEmail() && 
                $this->hasRole('admin');
+    }
+
+    public function needsCommentApproval($model): bool
+    {
+        return false;
     }
 }

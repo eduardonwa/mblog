@@ -30,7 +30,7 @@ const { posts, category } = defineProps({
                                 <div class="uphail-icon">
                                     <UphailIcon
                                         color="#D3D7EA"
-                                        hoverColor="#1e90ff"
+                                        hoverColor="#F4FFC7"
                                         viewBox="0 4 25 26"
                                         size="28px"
                                     ></UphailIcon>
@@ -39,8 +39,9 @@ const { posts, category } = defineProps({
 
                                 <div class="comment-icon">
                                     <CommentIcon
+                                        class="comment-icon"
                                         color="#D3D7EA"
-                                        hoverColor="#1e90ff"
+                                        hoverColor="#F4FFC7"
                                         viewBox="0 0 29 29"
                                     ></CommentIcon>
                                     <span>2</span>
@@ -63,7 +64,6 @@ const { posts, category } = defineProps({
                             <div class="categories__footer">
                                 <AuthorIcon
                                     color="#D3D7EA"
-                                    hoverColor="#1e90ff"
                                     size="24px"
                                     style="margin-right: .4rem;"
                                 />

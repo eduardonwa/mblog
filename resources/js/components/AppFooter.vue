@@ -117,6 +117,6 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
             </article>
         </section>
 
-        <span class="thank-you">Thank you for your visit!</span>
+        <span class="thank-you">Thanks for stopping by!</span>
     </footer>
 </template>

@@ -34,7 +34,8 @@ const props = defineProps<MainPostProps>();
                 <div>
                     <UphailIcon
                         size="24px"
-                        fillColor="#D3D7EA"
+                        color="#D3D7EA"
+                        hoverColor="#F4FFC7"
                         style="margin-right: .4rem;"
                     />
                     <span class="uphail-count">{{ featuredPost?.[0].likes_count }}</span>
@@ -52,8 +53,8 @@ const props = defineProps<MainPostProps>();
                 <div>
                     <AuthorIcon
                         class="main-post-author-icon"
-                        color="#d9d9de"
-                        hoverColor="#1e90ff"
+                        color="#D3D7EA"
+                        hoverColor="#F4FFC7"
                         size="24px"
                         style="margin-right: .4rem;"
                     />

@@ -1,19 +1,17 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
+import { ref } from 'vue';
 
-    interface Props {
-        color?: string;
-        hoverColor?: string;
-        size?: string | number;
-    }
-
-    const props = withDefaults(defineProps<Props>(), {
-        color: '#d9d9de',
-        hoverColor: '#ffffff',
-        size: '24px'
-    });
-
-    const isHovered = ref(false);
+interface Props {
+    color?: string;
+    hoverColor?: string;
+    size?: string | number;
+}
+const props = withDefaults(defineProps<Props>(), {
+    color: '#d9d9de',
+    hoverColor: '#ffffff',
+    size: '24px'
+});
+const isHovered = ref(false);
 </script>
 
 <template>

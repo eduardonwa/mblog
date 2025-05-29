@@ -17,6 +17,11 @@
   &[data-type="accent"] {
     background-color: $button-accent-background;
     color: $button-accent-color;
+    border-radius: $size-1;
+
+    @include mq(large) {
+      width: fit-content;
+    }
 
     &:is(:hover, :focus) {
       background-color: $button-accent-background-hover;
@@ -125,5 +130,13 @@
 
   &[data-type="pagination"] {
     border: 1px solid;
+  }
+
+  &[data-type="reply-btn"] {
+    border-radius: $size-1;
+    padding: 0;
+    font-size: $font-size-300;
+    background: transparent;
+    color: $color-neutral-100;
   }
 }

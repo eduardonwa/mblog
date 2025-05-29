@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "awcodes/filament-tiptap-editor": "^3.0",
+        "beyondcode/laravel-comments": "^1.8",
         "blade-ui-kit/blade-icons": "*",
         "filament/filament": "^3.2",
         "filament/forms": "^3.2",
