@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
     Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/comments/{comment}/replies', [CommentController::class, 'storeReply'])->name('comments.replies.store');
 });
 
 Route::middleware('redirect.to.register')->group(function () {

@@ -32,6 +32,7 @@ const submitComment = () => {
             name="comment"
             rows="4"
             placeholder="What's on your mind?"
+            class="textarea"
             :class="{'is-invalid': form.errors.comment }"
         ></textarea>
 

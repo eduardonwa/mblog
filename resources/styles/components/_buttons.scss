@@ -134,9 +134,11 @@
 
   &[data-type="reply-btn"] {
     border-radius: $size-1;
-    padding: 0;
+    // padding: 0;
     font-size: $font-size-300;
-    background: transparent;
     color: $color-neutral-100;
+    background: $color-primary-600;
+    border: 2px solid $color-primary-700;
+    padding: 0.5em 1em;
   }
 }

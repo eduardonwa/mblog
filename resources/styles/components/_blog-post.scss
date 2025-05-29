@@ -133,77 +133,158 @@
             margin-block: $size-8;
             display: flex;
             flex-direction: column;
-
-            textarea {
-                border: 2px solid $color-primary-700;
-                border-radius: $size-1;
-                background: $color-primary-900;
-                padding: $size-2;
-                color: $color-primary-100;
-                font-size: $font-size-400;
-
-                &:focus-visible {
-                    outline: 2px solid $color-primary-600;
-                }
-
-                &::placeholder {
-                    font-size: $font-size-300;
-                }
-            }
         }
 
         &__thread {
+            padding-inline: $size-3;
+
             @include mq(large) {
                 margin-block-start: $size-8;
             }
 
-            .comment {
+            .comment-container {
                 display: flex;
                 flex-direction: column;
                 margin-block-end: $size-8;
+                position: relative;
 
-                &__header {
-                    display: flex;
-                    gap: $size-2;
-                    align-items: center;
+                .comment-wrapper {
+                    position: relative;
 
-                    .delete-icon-wrapper {
-                        border: none;
-                        margin-left: auto;
-                        margin-right: $size-4;
-                        background: transparent;
-                        
-                        button {
-                            path {
-                                stroke: #F83B3B;
+                    // la linea horizontal
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        left: -42px;
+                        top: 24px;
+                        width: 30px;
+                        height: 1px;
+                        background: $color-primary-500;
+                    }
+
+                    // le quita la linea horizontal al comentario original
+                    &.is-root::after {
+                        display: none;
+                        content: none;
+                    }
+
+                    .comment-content {
+                        // la linea vertical
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            left: -12px;
+                            top: 0;
+                            bottom: 0;
+                            width: 1px;
+                            background: $color-primary-500;
+                        }
+
+                        &:last-child::before {
+                            height: 24px;
+                        }
+
+                        &__header {
+                            display: flex;
+                            gap: $size-2;
+                            align-items: center;
+
+                            .delete-icon-wrapper {
+                                border: none;
+                                margin-left: auto;
+                                margin-right: $size-4;
+                                background: transparent;
+                                
+                                button {
+                                    path {
+                                        stroke: #F83B3B;
+                                    }
+                                }
+                            }
+
+                            &__author {
+                                display: flex;
+                                gap: $size-2;
+                                align-items: center;
+                                font-size: $font-size-400;
+                                color: $color-accent-300;
+                                cursor: pointer;
+                            }
+
+                            &__date {
+                                color: $color-primary-200;
+                                font-size: $font-size-300;
+                            }
+                        }
+
+                        &__body {
+                            font-size: $font-size-400;
+                            padding-block: $size-2;
+                            color: $color-primary-200;
+                        }
+
+                        &__actions {
+                            display: flex;
+                            align-items: center;
+                            gap: $size-2;
+
+                            .reply-icon {
+                                display: flex;
+                                align-items: center;
+                                gap: $size-1;
+                                padding: 0 $size-2;
+                                border-radius: $size-1;
+                                transition: 0;
+                                border: 1px solid $color-primary-700;
+
+                                &::after {
+                                    content: 'reply';
+                                    font-size: 12px;
+                                    text-transform: uppercase;
+                                }
+
+                                &:hover {
+                                    background: $color-primary-900;
+                                }
+                            }
+
+                            .delete-icon-wrapper {
+                                display: flex;
+                                align-items: center;
+                                gap: $size-1;
+                                padding: 0 $size-2;
+                                border-radius: $size-1;
+                                transition: 0;
+                                font-size: 12px;
+                                text-transform: uppercase;
+                                border: 1px solid $color-primary-700;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background: $color-primary-900;
+                                }
                             }
                         }
                     }
 
-                    &__author {
-                        display: flex;
-                        gap: $size-2;
-                        align-items: center;
-                        font-size: $font-size-400;
-                        color: $color-primary-200;
+                    .comment-replies {
+                        position: relative;
 
-                        @include mq(large) {
-                            &:hover {
-                                color: $color-secondary-200;
+                        .reply-form {
+                            margin-block: $size-2;
+                            display: flex;
+                            flex-direction: column;
+                            
+                            button {
+                                width: fit-content;
+                                border-radius: .5rem;
                             }
                         }
-                    }
 
-                    &__date {
-                        color: $color-primary-200;
-                        font-size: $font-size-300;
+                        .replies {
+                            margin-block-start: $size-6;
+                        }
                     }
-                }
-
-                &__body {
-                    font-size: $font-size-400;
-                    padding-block: $size-2;
-                    color: $color-primary-200;
                 }
             }
         }

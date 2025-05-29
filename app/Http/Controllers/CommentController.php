@@ -34,4 +34,18 @@ class CommentController extends Controller
 
         return back()->with('success', 'Comment deleted.');
     }
+
+    public function storeReply(Request $request, Comment $comment)
+    {
+        if (!$request->user()->hasVerifiedEmail()) {
+            return back()->with('error', 'You must verify your email before replying.');
+        }
+
+        $request->validate(['reply' => 'required|string']);
+        
+        $reply = $comment->commentAsUser(Auth::user(), $request->reply);
+        $reply->approve();
+
+        return back()->with('success', 'Reply added.');
+    }
 }

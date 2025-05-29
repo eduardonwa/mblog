@@ -169,16 +169,15 @@ const openLightbox = ref(false);
         </article>
 
         <article v-html="post?.body"></article>
-        
+
         <hr class="straight-large">
         <!-- comentarios -->
         <article class="blog-post__comments">
           <!-- Formulario para comentar -->
-          <CommentForm :post="post"/>
+          <CommentForm :post="post" />
           <!-- contenedor general de comentarios -->
-          <CommentBox :post="post"/>
+          <CommentBox :post="post" />
         </article>
-
       </section>
     </main>
   </SiteLayout>

@@ -22,7 +22,8 @@ class PostController extends Controller
             'likes',
             'media',
             'comments' => function ($query) {
-                $query->with(['commentator:id,name,created_at'])
+                $query->with(['commentator:id,name,created_at', 'comments.commentator:id,name'])
+                    ->where('commentable_type', Post::class)
                     ->latest();
             }
         ])

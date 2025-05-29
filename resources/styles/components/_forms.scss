@@ -99,3 +99,24 @@ input:not(.button) {
     padding: $size-3;
   }
 }
+
+.textarea {
+    border: 2px solid $color-primary-700;
+    border-radius: $size-1;
+    background: $color-primary-900;
+    padding: $size-2;
+    color: $color-primary-100;
+    font-size: $font-size-400;
+
+    &:focus-visible {
+        outline: 2px solid $color-primary-600;
+    }
+
+    &::placeholder {
+        font-size: $font-size-300;
+    }
+
+    &[data-type="reply-box"] {
+      margin-block-end: $size-4;
+    }
+}
