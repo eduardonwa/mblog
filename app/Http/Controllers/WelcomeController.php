@@ -10,7 +10,7 @@ class WelcomeController extends Controller
 {
     public function index()
     {   
-        $communityFeed = Post::communityFeed()->paginate(12);
+        $communityFeed = Post::communityFeed()->withCount('comments')->paginate(12);
         $communityFeed->appends(['json' => 'true']);
 
         if (request()->wantsJson()) {
@@ -18,7 +18,7 @@ class WelcomeController extends Controller
         }
 
         return Inertia::render('Welcome', [
-            'featuredPost' => Post::featured(limit: 1)->get(),
+            'featuredPost' => Post::featured(limit: 1)->withCount('comments')->get(),
             'staffPosts' => Post::staffPosts(4)->get(),
             'leaderboard' => Post::topMemberPosts(5)->get(),
             'communityFeed' => $communityFeed,

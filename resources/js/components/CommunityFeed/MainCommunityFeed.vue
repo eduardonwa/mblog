@@ -82,7 +82,7 @@ const props = defineProps<MainCommunityFeedProps>();
                                             size="22px"
                                             style="margin-right: .4rem;"
                                         />
-                                        <span class="comment-count">2</span>
+                                        <span class="comment-count">{{ post.comments_count }}</span>
                                     </div>
                                 </div>
                             </template>

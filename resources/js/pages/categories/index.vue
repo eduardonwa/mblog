@@ -44,7 +44,7 @@ const { posts, category } = defineProps({
                                         hoverColor="#F4FFC7"
                                         viewBox="0 0 29 29"
                                     ></CommentIcon>
-                                    <span>2</span>
+                                    <span>{{ post.comments_count }}</span>
                                 </div>
                             </div>
                         </template>

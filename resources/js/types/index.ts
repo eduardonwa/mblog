@@ -67,6 +67,8 @@ export interface Post {
         name: { en: string };
     }>;
     thumbnail_urls?: ThumbnailUrls
+    comments: Comment[];
+    comments_count: number;
 }
 
 export interface Category {
@@ -85,6 +87,13 @@ export interface Meta {
     title?: string;
     description?: string;
     author?: string;
+}
+
+interface Comment {
+    id: number;
+    comment: string;
+    user: User;
+    created_at: string;
 }
 
 export {};

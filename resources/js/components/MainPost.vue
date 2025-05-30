@@ -9,7 +9,6 @@ import AuthorIcon from './ui/icons/AuthorIcon.vue';
 interface MainPostProps {
     featuredPost: Post[];
 }
-
 const props = defineProps<MainPostProps>();
 </script>
 
@@ -47,7 +46,7 @@ const props = defineProps<MainPostProps>();
                         size="24px"
                         style="margin-right: .4rem;"
                     />
-                    <span class="comment-count">2</span>
+                    <span class="comment-count">{{ featuredPost[0].comments_count }}</span>
                 </div>
 
                 <div>
