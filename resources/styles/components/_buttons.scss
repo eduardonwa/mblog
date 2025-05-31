@@ -18,6 +18,8 @@
     background-color: $button-accent-background;
     color: $button-accent-color;
     border-radius: $size-1;
+    display: flex;
+    align-items: center;
 
     @include mq(large) {
       width: fit-content;
@@ -36,34 +38,6 @@
     &:is(:hover, :focus) {
       background-color: $button-primary-background-hover;
       color: $button-primary-color-hover;
-    }
-  }
-
-  &[data-type="form-login"],
-  &[data-type="form-register"],
-  &[data-type="verify-captcha"],
-  &[data-type="reset-password"],
-  &[data-type="recover-password"] {
-    margin: auto;
-    color: $color-neutral-800;
-    background: linear-gradient(to right, $color-accent-400, $color-secondary-400);
-    background-size: 200% 100%;
-    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-
-    &:hover {
-        background-position: 100% 0%;
-    }
-  }
-
-  &[data-type="form-register"] {
-    background: linear-gradient(to right, $color-secondary-300, $color-secondary-100);
-    width: 100%;
-
-    @include mq(medium) {
-      width: fit-content;
     }
   }
 
@@ -130,6 +104,22 @@
 
   &[data-type="pagination"] {
     border: 1px solid;
+  }
+
+  &[data-type="comment"] {
+    color: $color-neutral-900;
+    background: linear-gradient(to right, $color-accent-400, $color-secondary-400);
+    background-size: 200% 100%;
+    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    gap: .5rem;
+    border-radius: $size-1;
+
+    &:hover {
+        background-position: 100% 0%;
+    }
   }
 
   &[data-type="reply-btn"] {

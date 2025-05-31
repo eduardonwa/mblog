@@ -38,7 +38,7 @@ const submit = () => {
                 </div>
 
                 <div class="margin-block-start-8">
-                    <Button class="button" data-type="reset-password" :disabled="form.processing">
+                    <Button style="margin: auto;" class="button" data-type="accent" :disabled="form.processing">
                         <LoaderCircle v-if="form.processing" />
                         Email password reset link
                     </Button>

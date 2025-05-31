@@ -7,6 +7,8 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use BeyondCode\Comments\Comment;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,20 +24,52 @@ class PostController extends Controller
             'likes',
             'media',
             'comments' => function ($query) {
-                $query->with(['commentator:id,name,created_at', 'comments.commentator:id,name'])
-                    ->where('commentable_type', Post::class)
-                    ->latest();
+                $query->where('is_approved', true)
+                    ->with('commentator')
+                    ->with('comments.commentator');
             }
         ])
         ->where('slug', $slug)
         ->where('status', 'published')
         ->firstOrFail();
+
+        // Obtener todos los IDs de usuarios que han comentado
+        $commenterIds = collect();
+        
+        // IDs de comentarios principales
+        $commenterIds = $commenterIds->merge(
+            $post->comments->pluck('user_id')
+        );
+        
+        // IDs de respuestas (comentarios anidados)
+        foreach ($post->comments as $comment) {
+            $commenterIds = $commenterIds->merge(
+                $comment->comments->pluck('user_id')
+            );
+        }
+        
+        // Filtrar IDs únicos y eliminar nulos
+        $commenterIds = $commenterIds->filter()->unique();
+
+        // Obtener usuarios mencionables (solo los que han comentado)
+        $mentionableUsers = User::whereIn('id', $commenterIds)
+            ->select('id', 'name')
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name
+                ];
+            })
+            ->toArray();
             
         $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
         $post->setAttribute('likes_count', $post->likesCount());
     
         return Inertia::render('post/show', [
             'post' => $post->append('thumbnail_urls'),
+            'comments' => $post->comments->whereNull('parent_id'),
+            'mentionableUsers' => $mentionableUsers,
             'meta' => [
                 'title' => $post->meta_title ?? $post->title,
                 'description' => $post->meta_description ?? $post->description,

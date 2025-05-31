@@ -45,30 +45,36 @@ interface ThumbnailUrls {
 export interface Post {
     id: number;
     title: string;
-    extract?: string;
-    excerpt?: string;
-    body?: string;
+    extract: string;
+    excerpt: string;
+    body: string;
     is_liked_by_user: boolean;
     likes_count: number;
-    user?: User
-    author?: {
+    user: User
+    author: {
         name: string;
     };
     slug: string;
     smart_date: string;
-    short_date?: string;
-    category?: {
+    short_date: string;
+    category: {
         slug: string;
         name: string;
     };
-    tags?: Array<{
+    tags: Array<{
         id: number;
         slug: { en: string };
         name: { en: string };
     }>;
     thumbnail_urls?: ThumbnailUrls
-    comments: Comment[];
+    comments?: Comment[];
     comments_count: number;
+}
+
+interface ShowPost extends Post {
+    title: string;
+    body: string;
+    thumbnails_urls: ThumbnailUrls;
 }
 
 export interface Category {
@@ -89,11 +95,21 @@ export interface Meta {
     author?: string;
 }
 
-interface Comment {
+export interface Comment {
+    replies: any;
     id: number;
     comment: string;
-    user: User;
+    user_id: number;
+    commentable_type: string;
+    commentable_id: number;
+    is_approved: boolean;
     created_at: string;
+    updated_at: string;
+    comments?: Comment[];
+    commentator?: {
+        id: number;
+        name: string;
+    };
 }
 
 export {};

@@ -52,7 +52,7 @@ const submit = () => {
             </div>
 
             <div class="form-group flow">
-                <div class="">
+                <div>
                     <Label for="password">Password</Label>
                     <TextLink class="system-link | fs-300 margin-inline-2" v-if="canResetPassword" :href="route('password.request')" :tabindex="5">
                         Forgot password?
@@ -71,7 +71,7 @@ const submit = () => {
             </div>
 
             <div class="checkbox | form-group flow" :tabindex="3">
-                <Label for="remember" class="">
+                <Label for="remember">
                     <Checkbox id="remember" v-model:checked="form.remember" :tabindex="4" />
                     <span>Remember me</span>
                 </Label>
@@ -80,9 +80,10 @@ const submit = () => {
             <Button
                 type="submit"
                 class="button"
-                data-type="form-login"
+                data-type="accent"
                 :tabindex="4"
                 :disabled="form.processing"
+                style="margin: auto; width: 100%;"
             >
                 <LoaderCircle v-if="form.processing" class="spinning-loader" />
                 Log in

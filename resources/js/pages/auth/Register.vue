@@ -240,7 +240,7 @@ const handleImageLoad = () => {
                                 type="button"
                                 @click="submit"
                                 class="fw-base button mx-auto"
-                                data-type="verify-captcha"
+                                data-type="accent"
                                 :disabled="!captchaAnswer.valueOf()"
                                 :class="{ 'disabled': !captchaAnswer.valueOf() }"
                             >
@@ -332,20 +332,13 @@ const handleImageLoad = () => {
                         type="submit"
                         class="fw-base button mx-auto"
                         :disabled="form.processing"
-                        data-type="form-login"
+                        data-type="accent"
                         tabindex="5"
                     >
                         <LoaderCircle v-if="form.processing" class="spinning-loader" />
                         Create account
                     </Button>
                 </section>
-
-<!--                 <div style="font-size: 14px;" class="text-center padding-4 margin-block-10">
-                    Already have an account? <br>
-                    <TextLink class="clr-extra-400" :href="route('login')" :tabindex="6">
-                        Log in
-                    </TextLink>
-                </div> -->
             </form>
         </section>
 

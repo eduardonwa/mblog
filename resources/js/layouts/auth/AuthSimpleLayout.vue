@@ -13,9 +13,9 @@ defineProps<{
         <Link :href="route('home')" class="no-decor">
             <AppLogoIcon />
         </Link>
-        <div class="flow">
-            <!-- <h2 class="clr-primary-300">{{ title }}</h2> -->
-            <p class="margin-block-end-5 fs-600 padding-inline-5 clr-primary-100">{{ description }}</p>
+        <div class="flow margin-block-13">
+            <h2 class="clr-accent-300 fs-500">{{ title }}</h2>
+            <p class=" fs-500 padding-inline-5 clr-primary-100">{{ description }}</p>
         </div>
     </div>
     <slot />

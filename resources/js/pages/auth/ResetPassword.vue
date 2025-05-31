@@ -66,7 +66,7 @@ const submit = () => {
                 />
                 <InputError :message="form.errors.password_confirmation" />
 
-                <Button type="submit" class="button" data-type="recover-password" :disabled="form.processing">
+                <Button type="submit" class="button" data-type="accent" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                     Reset password
                 </Button>

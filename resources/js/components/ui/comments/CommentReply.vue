@@ -1,56 +1,89 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref, nextTick } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 import { useDateFormat } from '@/composables/useDateFormat';
-import { RouteParams } from '../../../../../vendor/tightenco/ziggy/src/js';
+import { Comment } from '@/types';
 import CommentReply from './CommentReply.vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
 import ReplyIcon from '@/components/ui/icons/ReplyIcon.vue';
 import DeleteIcon from '@/components/ui/icons/DeleteIcon.vue';
+import CommentMention from './CommentMention.vue';
+
+interface Props {
+  comment: Comment;
+  depth?: number;
+  isFirstLevel?: boolean;
+  isRoot?: boolean;
+}
+
+const props = defineProps<{
+  comment: Comment;
+  depth: number;
+  isFirstLevel?: boolean;
+  isRoot?: boolean;
+  users: MentionableUser[];
+}>();
+
+interface MentionableUser {
+  id: number;
+  name: string;
+}
 
 const { shortDate } = useDateFormat();
-
-const props = defineProps({
-  comment: Object,
-  depth: {
-    type: Number,
-    default: 0
-  },
-  isFirstLevel: {
-    type: Boolean,
-    default: true,
-  },
-  isRoot: {
-    type: Boolean,
-    default: false,
-  }
-});
-
 const showReplyForm = ref(false);
+
 const replyForm = useForm({
-  reply: ''
+  comment: ''
 });
 
 const submitReply = () => {
-  replyForm.post(route('comments.replies.store', props.comment?.id), {
+  replyForm.post(route('comments.replies.store', { comment: props.comment.id }), {
     preserveScroll: true,
     onSuccess: () => {
       replyForm.reset();
       showReplyForm.value = false;
+      router.reload({only: ['comments']});
     }
   });
 };
 
-const deleteComment = (commentId: RouteParams<string> | undefined) => {
+const hasReplies = computed(() => {
+  return (props.comment?.comments?.length || 0) > 0;
+});
+
+const deleteComment = (commentId: number) => {
     if (confirm('Are you sure you want to delete this comment?')) {
-        router.delete(route('comments.destroy', commentId), {
+        router.delete(route('comments.destroy', {comment: commentId}), {
             preserveScroll: true,
-            onSuccess: () => {
-                // Optionally, you can show a success message or perform other actions
-            },
         })
         console.log(`Comentario con ID ${commentId} eliminado`);
     }
+};
+
+const commentMentionRef = ref();
+
+const handleReplyClick = () => {
+  showReplyForm.value = !showReplyForm.value;
+  
+  // Si estamos abriendo el formulario
+  if (showReplyForm.value) {
+    nextTick(() => {
+      // Obtener el nombre del usuario del comentario
+      const username = props.comment?.commentator?.name || '';
+      
+      if (username) {
+        // Autoetiquetar al usuario
+        replyForm.comment = `@${username} `;
+        
+        // Enfocar el textarea después de un pequeño retraso
+        setTimeout(() => {
+          if (commentMentionRef.value) {
+            commentMentionRef.value.focusTextarea();
+          }
+        }, 100);
+      }
+    });
+  }
 };
 </script>
 
@@ -80,7 +113,7 @@ const deleteComment = (commentId: RouteParams<string> | undefined) => {
             v-if="$page.props.auth.user && $page.props.auth.user.id !== comment?.user_id"
             class="reply-icon"
             hoverColor="#D3D7EA"
-            @click="showReplyForm = !showReplyForm"
+            @click="handleReplyClick"
           />
           <!-- boton de eliminar (solo para el autor)-->
           <div 
@@ -96,19 +129,19 @@ const deleteComment = (commentId: RouteParams<string> | undefined) => {
           </div>
         </div>
       </div>
-  
       <div class="comment-replies">
         <!-- Formulario para responder -->
         <div
           v-if="showReplyForm"
           class="reply-form"
         >
-          <textarea
-            v-model="replyForm.reply"
-            rows="2"
-            class="textarea"
-            data-type="reply-box"
-          ></textarea>
+          <CommentMention
+            ref="commentMentionRef"
+            v-model="replyForm.comment"
+            :users="users"
+            row="2"
+            class="comment-suggestion"
+          />
           <button
             @click="submitReply"
             :disabled="replyForm.processing"
@@ -121,14 +154,15 @@ const deleteComment = (commentId: RouteParams<string> | undefined) => {
     
         <!-- Mostrar réplicas existentes -->
         <div
-          v-if="comment?.comments && comment?.comments.length"
+          v-if="hasReplies"
           class="replies"
         >
           <CommentReply
-            v-for="reply in comment?.comments"
+            v-for="reply in comment.comments"
             :key="reply.id"
-            :comment="reply"
+            :comment="reply || {}"
             :depth="depth + 1"
+            :users="users"
           />
         </div>
       </div>

@@ -36,9 +36,9 @@ const submitComment = () => {
             :class="{'is-invalid': form.errors.comment }"
         ></textarea>
 
-        <div v-if="form.errors.comment">{{ form.errors.comment }}</div>
+        <div style="color: crimson; font-size: 16px;" v-if="form.errors.comment">{{ form.errors.comment }}</div>
 
-        <button type="submit" class="button" data-type="accent">
+        <button type="submit" class="button" data-type="comment">
             <span
             v-if="form.processing"
             :disabled="form.processing"

@@ -107,6 +107,7 @@ input:not(.button) {
     padding: $size-2;
     color: $color-primary-100;
     font-size: $font-size-400;
+    width: 100%;
 
     &:focus-visible {
         outline: 2px solid $color-primary-600;
@@ -117,6 +118,6 @@ input:not(.button) {
     }
 
     &[data-type="reply-box"] {
-      margin-block-end: $size-4;
+      margin-block-end: $size-1;
     }
 }
