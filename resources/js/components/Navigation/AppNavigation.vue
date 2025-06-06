@@ -1,48 +1,53 @@
 <script setup lang="ts">
-    import { ref, computed, onMounted, onUnmounted } from 'vue';
-    import { Link, usePage, router } from '@inertiajs/vue3';
-    import NavigationTopBarVisible from '@/components/ui/navigation-menu/NavigationTopBarVisible.vue';
-    import NavigationTopBarInvisible from '@/components/ui/navigation-menu/NavigationTopBarInvisible.vue';
-    import HomeIcon from './ui/icons/HomeIcon.vue';
-    import GroupsIcon from './ui/icons/GroupsIcon.vue';
-    import type { Category } from '@/types';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { Link, usePage, router } from '@inertiajs/vue3';
+import NavigationTopBarVisible from '@/components/ui/navigation-menu/NavigationTopBarVisible.vue';
+import NavigationTopBarInvisible from '@/components/ui/navigation-menu/NavigationTopBarInvisible.vue';
+import HomeIcon from './../ui/icons/HomeIcon.vue';
+import GroupsIcon from './../ui/icons/GroupsIcon.vue';
+import type { Category } from '@/types';
 
-    const currentRoute = computed(() => usePage().url);
-    const isMenuOpen = ref(false);
-    // importamos las categories tipadas desde el middleware de inertia
-    const categories = computed<Category[]>(() => usePage().props.categories as Category[]);
-    
-    // todo esto para quitar la clase "overflow" del body.
-    // Función específica para abrir
-    const openMenu = () => {
-        isMenuOpen.value = true;
-        document.body.style.overflow = 'hidden';
-        document.body.classList.add('menu-open');
-    };
+const logout = () => {
+  router.post(route('logout'))
+}
 
-    // Función específica para cerrar el menu con un boton
-    const closeMenu = () => {
-        isMenuOpen.value = false;
-        document.body.style.overflow = '';
-        document.body.classList.remove('menu-open');
-    };
+const currentRoute = computed(() => usePage().url);
 
-    // Función para alternar el menú
-    onMounted(() => {
-    window.addEventListener('popstate', closeMenu);
-        // Escuchar el evento de clic en el documento
-        const removeListener = router.on('navigate', () => {
-            closeMenu();
-            return () => removeListener();
-        });
+const isMenuOpen = ref(false);
+// importamos las categories tipadas desde el middleware de inertia
+const categories = computed<Category[]>(() => usePage().props.categories as Category[]);
+
+// todo esto para quitar la clase "overflow" del body.
+// Función específica para abrir
+const openMenu = () => {
+    isMenuOpen.value = true;
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('menu-open');
+};
+
+// Función específica para cerrar el menu con un boton
+const closeMenu = () => {
+    isMenuOpen.value = false;
+    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
+};
+
+// Función para alternar el menú
+onMounted(() => {
+window.addEventListener('popstate', closeMenu);
+    // Escuchar el evento de clic en el documento
+    const removeListener = router.on('navigate', () => {
+        closeMenu();
+        return () => removeListener();
     });
+});
 
-    // Cerrar el menú al hacer clic fuera de él
-    onUnmounted(() => {
-        window.removeEventListener('popstate', closeMenu);
-        document.body.style.overflow = '';
-        document.body.classList.remove('menu-open');
-    });
+// Cerrar el menú al hacer clic fuera de él
+onUnmounted(() => {
+    window.removeEventListener('popstate', closeMenu);
+    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
+});
 </script>
 
 <template>
@@ -108,7 +113,21 @@
 
                     <div class="nav__hidden__menu__settings">
                         <h2 class="uppercase clr-secondary-300">settings</h2>
-                        <Link class="no-decor" href="#">Logout</Link>
+                        <form class="logout" v-if="$page.props.auth.user" @submit.prevent="logout">
+                            <button
+                                type="submit"
+                                class="button no-decor"
+                                data-type="logout-btn"
+                            >Logout
+                            </button>
+                        </form>
+                        <Link
+                            v-else :href="route('login')"
+                            class="button no-decor"
+                            data-type="login-btn"
+                        >
+                            Login
+                        </Link>
                     </div>
                  </div>
             </div>

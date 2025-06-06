@@ -65,7 +65,7 @@ const localPost = ref({ ...post });
                 by
                 <Link
                   class="author"
-                  :href="post?.user ? route('author.posts', {user: post.user.name}) : '#'"
+                  :href="post?.user ? route('author.posts', { user: post.user.slug }) : '#'"
                 >
                 {{ post?.user?.name || 'Rattlehead' }}
                 </Link>

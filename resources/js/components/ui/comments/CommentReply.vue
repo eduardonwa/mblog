@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
-import { router, useForm } from '@inertiajs/vue3';
+import { router, useForm, Link } from '@inertiajs/vue3';
 import { useDateFormat } from '@/composables/useDateFormat';
 import { Comment } from '@/types';
 import CommentReply from './CommentReply.vue';
@@ -97,9 +97,12 @@ const handleReplyClick = () => {
       <div class="comment-content">
         <header class="comment-content__header">
           <Avatar size="sm" />
-          <span class="comment-content__header__author">
+          <Link 
+            :href="route('author.posts', { slug: comment.commentator?.slug })"
+            class="comment-content__header__author | no-decor"
+          >
             {{ comment?.commentator?.name || 'Rattlehead' }}
-          </span>
+          </Link>
           <p class="comment-content__header__date">{{ shortDate(comment?.created_at) }}</p>
         </header>
     

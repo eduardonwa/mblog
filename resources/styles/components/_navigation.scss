@@ -163,8 +163,7 @@
       }
 
       &__blog,
-      &__groups,
-      &__settings {
+      &__groups {
         display: flex;
         flex-direction: column;
 
@@ -182,6 +181,15 @@
           font-family: $font-family-semi-bold;
         }
       }
+
+      &__settings {
+        h2 {
+          padding-block-end: 4px;
+          padding-inline-start: $size-5;
+          font-family: $font-family-semi-bold;
+        }
+      }
+
     }
   }
 }

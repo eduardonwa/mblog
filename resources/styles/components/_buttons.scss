@@ -131,4 +131,13 @@
     border: 2px solid $color-primary-700;
     padding: 0.5em 1em;
   }
+
+  &[data-type="logout-btn"],
+  &[data-type="login-btn"] {
+    color: $color-primary-200;
+    background: transparent;
+    margin-block-start: $size-5;
+    margin-inline-start: $size-5;
+    padding: 0;
+  }
 }

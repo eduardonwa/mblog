@@ -80,7 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     public function getRouteKeyName()
     {
-        return 'name';
+        return 'slug';
     }
 
     public function canAccessPanel(Panel $panel): bool

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $adminUser = User::factory()->create([
             'name' => 'eduardo',
             'email' => 'admin@sickofmetal.net',
+            'slug' => 'eduardo',
             'password' => bcrypt('password'),
         ])->assignRole('admin');
 
@@ -40,6 +41,15 @@ class DatabaseSeeder extends Seeder
             ->count(5)
             ->create()
             ->each(fn($user) => $user->assignRole('member'));
+        
+        // Crear cuenta con member
+        User::factory()
+            ->create([
+                'name' => 'ecoello',
+                'email' => 'eduardo@mail.com',
+                'slug' => 'ecoello',
+                'password' => bcrypt('pass123456')
+            ]);
 
         // Crear posts para admin (5 normales + 3 destacados)
         Post::factory()

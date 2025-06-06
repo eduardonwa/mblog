@@ -22,7 +22,7 @@ Route::get('posts', [PostController::class, 'index'])->name('post.index');
 Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');
 Route::get('category/{slug}', [CategoryController::class, 'index'])->name('category.index');
-Route::get('author/{user:name}/posts', [PostController::class, 'postByAuthor'])->name('author.posts');
+Route::get('author/{user:slug}/posts', [PostController::class, 'postByAuthor'])->name('author.posts');
 
 // grupo para invitados (no autenticados)
 Route::middleware('guest')->group(function () {

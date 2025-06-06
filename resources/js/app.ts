@@ -6,7 +6,7 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';
-import AppNavigation from './components/AppNavigation.vue';
+import AppNavigation from './components/Navigation/AppNavigation.vue';
 
 /// <reference types="vite/client" />
 

@@ -36,7 +36,7 @@ const props = defineProps<MainCommunityFeedProps>();
                                 <div class="feed-post__top">
                                     <Link
                                         class="no-decor"
-                                        :href="route('author.posts', { user: post?.user?.name })"
+                                        :href="route('author.posts', { user: post?.user?.slug })"
                                         aria-label="More about this author"
                                     >
                                         <Avatar
