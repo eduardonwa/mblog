@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import type { Post } from '@/types';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, defineEmits, defineProps, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps<{ 
   users?: MentionableUser[],

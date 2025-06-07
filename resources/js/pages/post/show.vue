@@ -109,6 +109,7 @@ const localPost = ref({ ...post });
       <section
         class="blog-post__body | container"
         data-type="blog-post"
+        data-align="start"
       >
         <!-- Imagen y extracto -->
         <article class="blog-post__body__subheader | flow">
