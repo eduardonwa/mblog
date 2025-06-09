@@ -108,7 +108,7 @@ class Post extends Model implements HasMedia
         return $this->formatDate(true);
     }
     
-    // Extracto del body
+    // crear extracto corto
     public function getExcerptAttribute(): string
     {
         $words = 30;

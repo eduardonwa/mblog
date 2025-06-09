@@ -56,7 +56,7 @@ const localPost = ref({ ...post });
           <div class="post-header__meta-group">
             <!-- titulo -->
             <div class="post-title">
-              <h2>{{ post?.title }}</h2>
+              <h1>{{ post?.title }}</h1>
             </div>
 
             <!-- autor fecha y categoria -->
@@ -115,7 +115,7 @@ const localPost = ref({ ...post });
         <article class="blog-post__body__subheader | flow">
           <Lightbox :post="post"/> 
 
-          <p class="extract">{{ post?.extract }}</p>
+          <p class="extract" v-html="post?.extract"></p>
         </article>
 
         <article v-html="post?.body"></article>

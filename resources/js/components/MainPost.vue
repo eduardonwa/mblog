@@ -20,9 +20,9 @@ const props = defineProps<MainPostProps>();
     >
         <div class="main-post__info">
             <div class="main-post__info__header">
-                <h2 class="fs-700">
+                <h1 class="">
                     {{ featuredPost?.[0].title }}
-                </h2>
+                </h1>
                 <p class="fs-500">
                     {{ featuredPost?.[0].extract }}
                 </p>

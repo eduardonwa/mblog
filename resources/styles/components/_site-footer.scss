@@ -3,7 +3,7 @@
 .site-footer {
   background-color: $footer-background-color;
   color: $footer-text-color;
-  padding: $size-8;
+  padding: $size-4;
 
   a {
     color: $footer-link-color;
@@ -64,6 +64,7 @@
         h2 {
           font-size: $font-size-500;
           padding-block: $size-2;
+          font-family: $font-family-bold;
         }
     
         ul > li {

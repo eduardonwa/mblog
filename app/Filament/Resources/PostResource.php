@@ -53,6 +53,7 @@ class PostResource extends Resource
                                     ->columnStart(1)
                                     ->required(),
                                 TipTapEditor::make('body')
+                                    ->profile('simple')
                                     ->extraInputAttributes(['style' => 'min-height: 50vh;'])
                                     ->required(),
                             ]),
