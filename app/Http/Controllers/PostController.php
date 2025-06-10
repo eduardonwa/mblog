@@ -7,7 +7,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use BeyondCode\Comments\Comment;
+use App\Models\CustomComment;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -22,37 +22,20 @@ class PostController extends Controller
             'user',
             'tags:id,name,slug',
             'likes',
-            'media',
-            'comments' => function ($query) {
-                $query->where('is_approved', true)
-                    ->with('commentator')
-                    ->with('comments.commentator');
-            }
+            'media'
         ])
         ->where('slug', $slug)
         ->where('status', 'published')
         ->firstOrFail();
 
-        // Obtener todos los IDs de usuarios que han comentado
-        $commenterIds = collect();
-        
-        // IDs de comentarios principales
-        $commenterIds = $commenterIds->merge(
-            $post->comments->pluck('user_id')
-        );
-        
-        // IDs de respuestas (comentarios anidados)
-        foreach ($post->comments as $comment) {
-            $commenterIds = $commenterIds->merge(
-                $comment->comments->pluck('user_id')
-            );
-        }
-        
-        // Filtrar IDs únicos y eliminar nulos
-        $commenterIds = $commenterIds->filter()->unique();
-
-        // Obtener usuarios mencionables (solo los que han comentado)
-        $mentionableUsers = User::whereIn('id', $commenterIds)
+        // Cargar comentarios principales y sus descendientes de forma eficiente
+        $comments = $this->getCommentTreeForPost($post);
+        // dd($comments);
+        // Obtener usuarios mencionables de forma más eficiente
+        $mentionableUsers = User::whereHas('comments', function($query) use ($post) {
+                $query->where('commentable_type', Post::class)
+                    ->where('commentable_id', $post->id);
+            })
             ->select('id', 'name')
             ->get()
             ->map(function ($user) {
@@ -62,13 +45,13 @@ class PostController extends Controller
                 ];
             })
             ->toArray();
-            
+
         $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
         $post->setAttribute('likes_count', $post->likesCount());
-    
+
         return Inertia::render('post/show', [
             'post' => $post->append('thumbnail_urls'),
-            'comments' => $post->comments->whereNull('parent_id'),
+            'comments' => $comments,
             'mentionableUsers' => $mentionableUsers,
             'meta' => [
                 'title' => $post->meta_title ?? $post->title,
@@ -155,5 +138,29 @@ class PostController extends Controller
                 'message' => 'Error al remover el like'
             ], 500);
         }
+    }
+    
+    protected function getCommentTreeForPost(Post $post)
+    {
+        // Obtener TODOS los comentarios del post (incluyendo respuestas)
+        $allComments = CustomComment::with(['commentator'])
+            ->where('commentable_type', Post::class)
+            ->where('commentable_id', $post->id)
+            ->approved()
+            ->get();
+
+        // Construir el árbol manualmente
+        $grouped = $allComments->groupBy('comment_id');
+        
+        foreach ($allComments as $comment) {
+            if ($grouped->has($comment->id)) {
+                $comment->setRelation('children', $grouped[$comment->id]);
+            } else {
+                $comment->setRelation('children', collect()); // envia coleccion vacia
+            }
+        }
+        
+        // Retornar solo los comentarios raíz (comment_id = null)
+        return $grouped->get(null, collect());
     }
 }

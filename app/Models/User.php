@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Filament\Panel;
 use App\Models\Like;
-use BeyondCode\Comments\Traits\CanComment;
-use Filament\Models\Contracts\FilamentUser;
+use App\Models\CustomComment;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use BeyondCode\Comments\Traits\CanComment;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -93,5 +94,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function needsCommentApproval($model): bool
     {
         return false;
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(CustomComment::class, 'user_id');
     }
 }

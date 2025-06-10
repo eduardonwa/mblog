@@ -107,11 +107,10 @@ export interface Comment {
     created_at: string;
     updated_at: string;
     comments?: Comment[];
-    commentator?: {
-        id: number;
-        name: string;
-        slug: string;
-    };
+    commentator?: User;
+    children: Comment[];
+    _lft?: number;
+    _rgt?: number;
 }
 
 export {};

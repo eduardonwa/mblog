@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-use BeyondCode\Comments\Comment;
+use App\Models\CustomComment;
 use App\Notifications\UserMention;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +26,7 @@ class CommentController extends Controller
 
     public function destroy($comment)
     {
-        $comment = Comment::findOrFail($comment);
+        $comment = CustomComment::findOrFail($comment);
         
         if (Auth::id() !== $comment->user_id) {
             abort(403, 'Unauthorized action.');
@@ -39,16 +39,28 @@ class CommentController extends Controller
 
     public function storeReply(Request $request, $commentId)
     {
-        $parentComment = Comment::findOrFail($commentId);
+        $parentComment = CustomComment::findOrFail($commentId);
 
         // Validación básica
         $validated = $request->validate([
             'comment' => 'required|string|max:2000',
         ]);
 
-        // Crea la réplica usando el método del paquete
-        $reply = $parentComment->commentAsUser(Auth::user(), $validated['comment']);
-        
+        // Crea la réplica manualmente para controlar todos los campos
+        $reply = new CustomComment([
+            'comment' => $validated['comment'],
+            'commentable_type' => $parentComment->commentable_type,
+            'commentable_id' => $parentComment->commentable_id,
+            'comment_id' => $parentComment->id,
+            'user_id' => Auth::id(),
+            'is_approved' => true
+        ]);
+
+        $reply->save();
+
+        // Opcional: Reconstruir el árbol si es necesario
+        CustomComment::fixTree();
+
         // Si necesitas aprobación automática:
         $reply->update(['is_approved' => true]);
         

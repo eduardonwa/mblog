@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick } from 'vue';
+import { computed, ref, nextTick, onMounted, toRaw } from 'vue';
 import { router, useForm, Link } from '@inertiajs/vue3';
 import { useDateFormat } from '@/composables/useDateFormat';
 import { Comment } from '@/types';
@@ -23,6 +23,9 @@ const props = defineProps<{
   isRoot?: boolean;
   users: MentionableUser[];
 }>();
+
+// Convertimos el comentario a objeto plano
+const rawComment = computed(() => toRaw(props.comment));
 
 interface MentionableUser {
   id: number;
@@ -48,8 +51,13 @@ const submitReply = () => {
 };
 
 const hasReplies = computed(() => {
-  return (props.comment?.comments?.length || 0) > 0;
+  return rawComment.value.children?.length > 0;
 });
+
+console.log('Comentario actual:', rawComment.value);
+if (hasReplies.value) {
+  console.log('Respuestas encontradas:', rawComment.value.children);
+}
 
 const deleteComment = (commentId: number) => {
     if (confirm('Are you sure you want to delete this comment?')) {
@@ -98,7 +106,8 @@ const handleReplyClick = () => {
         <header class="comment-content__header">
           <Avatar size="sm" />
           <Link 
-            :href="route('author.posts', { slug: comment.commentator?.slug })"
+            v-if="comment.commentator?.slug"
+            :href="route('author.posts', { user: comment.commentator.slug })"
             class="comment-content__header__author | no-decor"
           >
             {{ comment?.commentator?.name || 'Rattlehead' }}
@@ -107,7 +116,7 @@ const handleReplyClick = () => {
         </header>
     
         <div class="comment-content__body">
-          <p>{{ comment?.comment }}</p>
+          <p>{{ rawComment.comment }}</p>
         </div>
     
         <div class="comment-content__actions">
@@ -156,14 +165,11 @@ const handleReplyClick = () => {
         </div>
     
         <!-- Mostrar réplicas existentes -->
-        <div
-          v-if="hasReplies"
-          class="replies"
-        >
+        <div v-if="hasReplies" class="replies">
           <CommentReply
-            v-for="reply in comment.comments"
+            v-for="reply in rawComment.children"
             :key="reply.id"
-            :comment="reply || {}"
+            :comment="reply"
             :depth="depth + 1"
             :users="users"
           />
