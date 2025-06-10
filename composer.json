@@ -16,6 +16,7 @@
         "filament/spatie-laravel-tags-plugin": "^3.2",
         "inertiajs/inertia-laravel": "^2.0",
         "intervention/image": "^3.11",
+        "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "pboivin/filament-peek": "^2.0",
