@@ -115,7 +115,6 @@ class PostResource extends Resource
                                             ->options([
                                                 'draft' => 'Draft',
                                                 'published' => 'Published',
-                                                //->disableOptionWhen(fn (string $value): bool => $value === 'published')
                                             ]),
                                     ]),
                             ]),
