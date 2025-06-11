@@ -54,6 +54,7 @@ export interface Post {
     user: User
     author: {
         name: string;
+        id: number;
     };
     slug: string;
     smart_date: string;

@@ -92,7 +92,7 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return Inertia::render('post/author', [
+        return Inertia::render('public-profile/index', [
             'posts' => $posts,
             'author' => $user,
         ]);

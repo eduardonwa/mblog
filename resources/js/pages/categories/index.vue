@@ -69,7 +69,7 @@ const { posts, category } = defineProps({
                                 />
 
                                 <Link
-                                    :href="route('author.posts', { user: post?.user?.name })"
+                                    :href="route('author.posts', { user: post?.user?.slug })"
                                     class="no-decor"
                                     aria-label="More about this author"
                                 >{{ post.user?.name }}</Link>

@@ -6,8 +6,22 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property User $user
+ */
 class ProfileUpdateRequest extends FormRequest
 {
+    /**
+     * Get the authenticated user.
+     *
+     * @param string|null $guard
+     * @return \App\Models\User|null
+     */
+    public function user($guard = null)
+    {
+        return auth($guard)->user();
+    }
+    
     /**
      * Get the validation rules that apply to the request.
      *

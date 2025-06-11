@@ -54,11 +54,6 @@ const hasReplies = computed(() => {
   return rawComment.value.children?.length > 0;
 });
 
-console.log('Comentario actual:', rawComment.value);
-if (hasReplies.value) {
-  console.log('Respuestas encontradas:', rawComment.value.children);
-}
-
 const deleteComment = (commentId: number) => {
     if (confirm('Are you sure you want to delete this comment?')) {
         router.delete(route('comments.destroy', {comment: commentId}), {
