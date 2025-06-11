@@ -16,6 +16,7 @@
         .leaderboard { grid-area: leaderboard; }
         .secondary-posts { grid-area: secondary-posts; }
         .community-feed { grid-area: community-feed; }
+        margin-block-start: $size-10;
     }
 
     @include mq(large) {

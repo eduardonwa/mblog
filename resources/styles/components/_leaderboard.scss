@@ -36,8 +36,13 @@
 
             &__user {
                 display: flex;
+                align-items: center;
                 gap: $size-2;
                 color: $color-primary-300;
+
+                @include mq(medium) {
+                    font-size: 15px;
+                }
 
                 @include mq(large) {
                     font-size: $font-size-300;
