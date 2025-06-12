@@ -41,6 +41,7 @@ interface ThumbnailUrls {
   max: string
   lg: string
   md?: string
+  sm: string;
 }
 
 export interface Post {
@@ -112,6 +113,11 @@ export interface Comment {
     children: Comment[];
     _lft?: number;
     _rgt?: number;
+}
+
+export interface MentionableUser {
+  id: number;
+  name: string;
 }
 
 export {};

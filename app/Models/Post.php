@@ -209,7 +209,8 @@ class Post extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('thumbnails')
-            ->singleFile();
+            ->singleFile()
+            ->useDisk('public');
     }
 
     public function registerMediaConversions(?Media $media = null): void
@@ -217,24 +218,30 @@ class Post extends Model implements HasMedia
         $this->addMediaConversion('max_thumb')
             ->fit(Fit::Max, 720, 720)
             ->format('webp')
-            ->nonQueued()
-            ->performOnCollections('thumbnails');
-
-        $this->addMediaConversion('lg_thumb')
-            ->fit(Fit::Crop, 560, 300)
-            ->format('webp')
+            ->optimize()
             ->performOnCollections('thumbnails')
             ->nonQueued();
-    
-        // Luego las más pequeñas
+
+        $this->addMediaConversion('lg_thumb')
+            ->fit(Fit::Max, 560, 300)
+            ->format('webp')
+            ->quality(90)
+            ->optimize()
+            ->performOnCollections('thumbnails')
+            ->nonQueued();
+
         $this->addMediaConversion('md_thumb')
             ->fit(Fit::Max, 300, 300)
             ->format('webp')
+            ->optimize()
+            ->performOnCollections('thumbnails')
             ->nonQueued();
     
         $this->addMediaConversion('sm_thumb')
-            ->fit(Fit::Contain, 150, 150)
+            ->fit(Fit::Max, 150, 150)
             ->format('webp')
+            ->optimize()
+            ->performOnCollections('thumbnails')
             ->nonQueued();
     }
 

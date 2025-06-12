@@ -1,20 +1,13 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, onMounted, toRaw } from 'vue';
+import { computed, ref, nextTick, toRaw } from 'vue';
 import { router, useForm, Link } from '@inertiajs/vue3';
 import { useDateFormat } from '@/composables/useDateFormat';
-import { Comment } from '@/types';
+import { Comment, MentionableUser } from '@/types';
 import CommentReply from './CommentReply.vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
 import ReplyIcon from '@/components/ui/icons/ReplyIcon.vue';
 import DeleteIcon from '@/components/ui/icons/DeleteIcon.vue';
 import CommentMention from './CommentMention.vue';
-
-interface Props {
-  comment: Comment;
-  depth?: number;
-  isFirstLevel?: boolean;
-  isRoot?: boolean;
-}
 
 const props = defineProps<{
   comment: Comment;
@@ -26,11 +19,6 @@ const props = defineProps<{
 
 // Convertimos el comentario a objeto plano
 const rawComment = computed(() => toRaw(props.comment));
-
-interface MentionableUser {
-  id: number;
-  name: string;
-}
 
 const { shortDate } = useDateFormat();
 const showReplyForm = ref(false);

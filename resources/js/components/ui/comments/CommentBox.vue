@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toRaw } from 'vue';
 import CommentReply from './CommentReply.vue';
-import type { Post, Comment } from '@/types';
+import type { Post, Comment, MentionableUser } from '@/types';
 
 const props = defineProps<{
     post: Post;
@@ -10,10 +10,6 @@ const props = defineProps<{
     users: MentionableUser[];
 }>();
 
-interface MentionableUser {
-  id: number;
-  name: string;
-}
 </script>
 
 <template>

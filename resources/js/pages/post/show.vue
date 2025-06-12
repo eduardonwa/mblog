@@ -6,15 +6,10 @@ import { ref, computed } from 'vue'
 import CommentForm from '@/components/ui/comments/CommentForm.vue';
 import CommentBox from '@/components/ui/comments/CommentBox.vue';
 import Lightbox from '@/components/Lightbox.vue';
-import type { Post, Comment } from '@/types/index';
+import type { Post, Comment, MentionableUser } from '@/types/index';
 
 const page = usePage();
 const categories = computed(() => page.props.categories);
-
-interface MentionableUser {
-  id: number;
-  name: string;
-}
 
 const { post, comments } = defineProps<{
   post: Post;
@@ -78,7 +73,7 @@ const localPost = ref({ ...post });
                 class="category"
                 :href="route('category.index', {slug: post?.category.slug})"
               >
-              {{ post?.category.name }}
+                {{ post?.category.name }}
               </Link>
             </div>
           </div>
@@ -113,7 +108,7 @@ const localPost = ref({ ...post });
       >
         <!-- Imagen y extracto -->
         <article class="blog-post__body__subheader | flow">
-          <Lightbox :post="post"/> 
+          <Lightbox :post="post"/>
 
           <p class="extract" v-html="post?.extract"></p>
         </article>
@@ -130,6 +125,7 @@ const localPost = ref({ ...post });
             :post="post"
             :comments="comments"
             :users="mentionableUsers"
+            :depth="0"
           />
         </article>
       </section>

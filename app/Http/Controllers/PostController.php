@@ -83,20 +83,6 @@ class PostController extends Controller
             'posts' => $posts
         ]);
     }
-
-    public function postByAuthor(User $user)
-    {
-        $posts = Post::with(['category', 'tags', 'user'])
-            ->where('user_id', $user->id)
-            ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return Inertia::render('public-profile/index', [
-            'posts' => $posts,
-            'author' => $user,
-        ]);
-    }
   
     public function like($postId)
     {
