@@ -3,7 +3,7 @@ import type { Post } from '@/types';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
-import CommunityPostCard from './CommunityPostCard.vue';
+import CommunityPostCard from '../ArticleCardHorizontal.vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
 import { Link } from '@inertiajs/vue3';
 

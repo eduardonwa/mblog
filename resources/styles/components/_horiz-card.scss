@@ -1,6 +1,6 @@
 @use '../abstracts/' as *;
 
-.categories-wrapper {
+.horiz-card-wrapper {
     margin-block: $size-13;
 
     &__header {
@@ -26,7 +26,7 @@
     }
 }
 
-.categories {
+.horiz-card {
     display: block;
     padding: $size-4;
     color: $color-primary-300;

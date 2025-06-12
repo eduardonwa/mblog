@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
-import CommunityPostCard from '@/components/CommunityFeed/CommunityPostCard.vue';
+import ArticleCardHorizontal from '@/components/CommunityFeed/ArticleCardHorizontal.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
@@ -20,9 +20,9 @@ const { posts: initialPosts, author } = defineProps<{
 
 <template>
     <SiteLayout>
-        <section class="categories-wrapper | container">
+        <section class="horiz-card-wrapper | container">
             <!-- autor -->
-            <div class="categories-wrapper__header">
+            <div class="horiz-card-wrapper__header">
                 <h1>Posts by {{ author?.name }}</h1>                
             </div>
 
@@ -34,9 +34,9 @@ const { posts: initialPosts, author } = defineProps<{
             >
                 <template #default="{items}">
                     <div v-for="post in items as Post[]" :key="post.id">
-                        <CommunityPostCard :post="post" class="categories | no-decor">
+                        <ArticleCardHorizontal :post="post" class="horiz-card | no-decor">
                             <template #header="{ post }">
-                                <div class="categories__header">
+                                <div class="horiz-card__header">
                                     <div class="uphail-icon">
                                         <UphailIcon
                                             color="#D3D7EA"
@@ -60,14 +60,14 @@ const { posts: initialPosts, author } = defineProps<{
                             </template>
 
                             <template #middle="{ post }">
-                                <div class="categories__middle">
+                                <div class="horiz-card__middle">
                                     <h2>{{ post.title }}</h2>
                                     <p>{{ post.extract }}</p>
                                 </div>
                             </template>
 
                             <template #footer="{ post }">
-                                <div class="categories__footer">
+                                <div class="horiz-card__footer">
                                     <span class="date">{{ post.smart_date }}</span>
                                     <Link
                                         class="no-decor"
@@ -78,7 +78,7 @@ const { posts: initialPosts, author } = defineProps<{
                                     </Link>
                                 </div>
                             </template>
-                        </CommunityPostCard>
+                        </ArticleCardHorizontal>
                     </div>
                 </template>
             </InfiniteScroll>

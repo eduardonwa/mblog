@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
-import CommunityPostCard from '@/components/CommunityFeed/CommunityPostCard.vue';
+import ArticleCardHorizontal from '@/components/ArticleCardHorizontal.vue';
 import AuthorIcon from '@/components/ui/icons/AuthorIcon.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
@@ -14,9 +14,9 @@ const { posts, category } = defineProps({
 
 <template>
     <SiteLayout>
-        <section class="categories-wrapper | container">
+        <section class="horiz-card-wrapper | container">
             <!-- Título de la categoría -->
-            <div class="categories-wrapper__header">
+            <div class="horiz-card-wrapper__header">
                 <h2 class="clr-neutral-100">{{ category?.name }}</h2>
                 <p class="fs-400 clr-primary-300">{{ category?.description }}</p>
             </div>
@@ -24,9 +24,9 @@ const { posts, category } = defineProps({
             <!-- Lista de posts -->
             <div v-if="posts?.data.length">
                 <div v-for="post in posts?.data" :key="post.id">
-                    <CommunityPostCard :post="post" class="categories | no-decor">
+                    <ArticleCardHorizontal :post="post" class="horiz-card | no-decor">
                         <template #header="{ post }">
-                            <div class="categories__header">
+                            <div class="horiz-card__header">
                                 <div class="uphail-icon">
                                     <UphailIcon
                                         color="#D3D7EA"
@@ -50,7 +50,7 @@ const { posts, category } = defineProps({
                         </template>
 
                         <template #middle="{ post }">
-                            <div class="categories__middle">
+                            <div class="horiz-card__middle">
                                 <h2>
                                     {{ post.title }}
                                 </h2>
@@ -61,7 +61,7 @@ const { posts, category } = defineProps({
                         </template>
 
                         <template #footer="{ post }">
-                            <div class="categories__footer">
+                            <div class="horiz-card__footer">
                                 <AuthorIcon
                                     color="#D3D7EA"
                                     size="24px"
@@ -76,7 +76,7 @@ const { posts, category } = defineProps({
                                 <span class="date">{{ post.smart_date }}</span>
                             </div>
                         </template>
-                    </CommunityPostCard>
+                    </ArticleCardHorizontal>
                     <hr class="hr-straight-medium">
                 </div>
             </div>
