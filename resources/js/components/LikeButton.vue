@@ -8,6 +8,11 @@
       post: {
           type: Object,
           required: true,
+      },
+      variant: {
+        type: String,
+        default: 'default',
+        validator: (value: string) => ['default', 'mobile'].includes(value)
       }
   });
 
@@ -74,6 +79,7 @@
       :class="{
         'like-button--active': post.is_liked_by_user,
         'like-button--inactive': !post.is_liked_by_user,
+        [`like-button--${variant}`]: variant
       }"
       :aria-label="post.is_liked_by_user ? 'Unlike' : 'Like'"
       class="button"

@@ -5,6 +5,10 @@
   color: $footer-text-color;
   padding: $size-4;
 
+  @include mq(large) {
+    padding-inline: $size-11;
+  }
+
   a {
     color: $footer-link-color;
     text-decoration: $footer-link-text-decoration;

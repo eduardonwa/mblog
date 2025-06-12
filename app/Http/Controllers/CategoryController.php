@@ -18,7 +18,11 @@ class CategoryController extends Controller
             ->where('category_id', $category->id)
             ->where('status', 'published')
             ->orderBy('created_at', 'desc')
-            ->paginate(20);
+            ->paginate(12);
+
+        if (request()->wantsJson()) {
+            return response()->json($posts);
+        }
 
         return Inertia::render('categories/index', [
             'posts' => $posts,

@@ -2,7 +2,7 @@
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import LikeButton from '@/components/LikeButton.vue';
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import CommentForm from '@/components/ui/comments/CommentForm.vue';
 import CommentBox from '@/components/ui/comments/CommentBox.vue';
 import Lightbox from '@/components/Lightbox.vue';
@@ -17,7 +17,6 @@ const { post, comments } = defineProps<{
   meta?: Record<string, any>;
 }>();
 
-
 const mentionableUsers = computed<MentionableUser[]>(() => {
   try {
     return (page.props.mentionableUsers as unknown as MentionableUser[]) || [];
@@ -27,21 +26,42 @@ const mentionableUsers = computed<MentionableUser[]>(() => {
 });
 
 const localPost = ref({ ...post });
+
+const shouldShowInteractions = ref(false);
+const lastScrollPosition = ref(0);
+
+const handleScroll = () => {
+  const currentScrollPosition = window.scrollY || window.pageYOffset;
+  
+  // Muestra la barra solo cuando se hace scroll hacia abajo
+  if (currentScrollPosition > lastScrollPosition.value && currentScrollPosition > 100) {
+    shouldShowInteractions.value = true;
+  } else if (currentScrollPosition <= 100) {
+    // Oculta cuando está cerca del top
+    shouldShowInteractions.value = false;
+  }
+  
+  lastScrollPosition.value = currentScrollPosition;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
   <SiteLayout :categories="categories">
-
     <Head>
       <title>{{ meta?.title }}</title>
       <meta name="description" :content="meta?.description">
       <meta name="user" :content="meta?.user">
     </Head>
 
-    <main
-      class="blog-post container"
-      data-type="extra-wide"
-    >
+    <main class="blog-post | container" data-type="extra-wide">
       <!-- info del post -->
       <section class="blog-post__header">
         <header
@@ -53,7 +73,6 @@ const localPost = ref({ ...post });
             <div class="post-title">
               <h1>{{ post?.title }}</h1>
             </div>
-
             <!-- autor fecha y categoria -->
             <div class="meta-primary">
               <div class="no-decor clr-primary-300">
@@ -65,7 +84,6 @@ const localPost = ref({ ...post });
                 {{ post?.user?.name || 'Rattlehead' }}
                 </Link>
               </div>
-
 
               <p class="date">{{ post?.smart_date }}</p>
 
@@ -90,9 +108,8 @@ const localPost = ref({ ...post });
           </div>
         </header>
 
-        <div class="uphail-post-wrapper">
+        <div class="post-interactions-wrapper">
           <LikeButton
-            variant="mobile"
             :post="localPost"
             class="stick-this"
             @update:post="updatedPost => localPost = updatedPost"
@@ -130,5 +147,13 @@ const localPost = ref({ ...post });
         </article>
       </section>
     </main>
-  </SiteLayout>
+    
+    <section class="mobile-interactions-wrapper">
+      <LikeButton
+          variant="mobile"
+          :post="localPost"
+          @update:post="updatedPost => localPost = updatedPost"
+      />
+    </section>
+  </SiteLayout>  
 </template>

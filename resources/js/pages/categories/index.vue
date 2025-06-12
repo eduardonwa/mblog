@@ -5,11 +5,18 @@ import ArticleCardHorizontal from '@/components/ArticleCardHorizontal.vue';
 import AuthorIcon from '@/components/ui/icons/AuthorIcon.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
+import InfiniteScroll from '@/components/InfiniteScroll.vue';
+import type { Post, Category } from '@/types';
 
-const { posts, category } = defineProps({
-    posts: Object,
-    category: Object
-});
+interface categoryPosts {
+    data: Post[];
+    next_page_url: string | null;
+}
+
+const { posts: initialPosts, category } = defineProps<{
+    posts: categoryPosts;
+    category: Category;
+}>();
 </script>
 
 <template>
@@ -22,89 +29,71 @@ const { posts, category } = defineProps({
             </div>
 
             <!-- Lista de posts -->
-            <div v-if="posts?.data.length">
-                <div v-for="post in posts?.data" :key="post.id">
-                    <ArticleCardHorizontal :post="post" class="horiz-card | no-decor">
-                        <template #header="{ post }">
-                            <div class="horiz-card__header">
-                                <div class="uphail-icon">
-                                    <UphailIcon
-                                        color="#D3D7EA"
-                                        hoverColor="#F4FFC7"
-                                        viewBox="0 4 25 26"
-                                        size="28px"
-                                    ></UphailIcon>
-                                    <span>{{ post.likes_count }}</span>
+            <InfiniteScroll
+                :endpoint="`/category/${category.slug}?json=true`"
+                data-key="data"
+                :initial-items="initialPosts.data"
+                :initial-next-page="initialPosts.next_page_url ?? undefined"
+            >
+                <template #default="{ items }">
+                    <div v-for="post in items as Post[]" :key="post.id">
+                        <ArticleCardHorizontal :post="post" class="horiz-card | no-decor">
+                            <template #header="{ post }">
+                                <div class="horiz-card__header">
+                                    <div class="uphail-icon">
+                                        <UphailIcon
+                                            color="#D3D7EA"
+                                            hoverColor="#F4FFC7"
+                                            viewBox="0 4 25 26"
+                                            size="28px"
+                                        ></UphailIcon>
+                                        <span>{{ post.likes_count }}</span>
+                                    </div>
+    
+                                    <div class="comment-icon">
+                                        <CommentIcon
+                                            class="comment-icon"
+                                            color="#D3D7EA"
+                                            hoverColor="#F4FFC7"
+                                            viewBox="0 0 29 29"
+                                        ></CommentIcon>
+                                        <span>{{ post.comments_count }}</span>
+                                    </div>
                                 </div>
-
-                                <div class="comment-icon">
-                                    <CommentIcon
-                                        class="comment-icon"
-                                        color="#D3D7EA"
-                                        hoverColor="#F4FFC7"
-                                        viewBox="0 0 29 29"
-                                    ></CommentIcon>
-                                    <span>{{ post.comments_count }}</span>
+                            </template>
+    
+                            <template #middle="{ post }">
+                                <div class="horiz-card__middle">
+                                    <h2>
+                                        {{ post.title }}
+                                    </h2>
+                                    <p>
+                                        {{ post.excerpt }}
+                                    </p>
                                 </div>
-                            </div>
-                        </template>
-
-                        <template #middle="{ post }">
-                            <div class="horiz-card__middle">
-                                <h2>
-                                    {{ post.title }}
-                                </h2>
-                                <p>
-                                    {{ post.excerpt }}
-                                </p>
-                            </div>
-                        </template>
-
-                        <template #footer="{ post }">
-                            <div class="horiz-card__footer">
-                                <AuthorIcon
-                                    color="#D3D7EA"
-                                    size="24px"
-                                    style="margin-right: .4rem;"
-                                />
-
-                                <Link
-                                    :href="route('author.posts', { user: post?.user?.slug })"
-                                    class="no-decor"
-                                    aria-label="More about this author"
-                                >{{ post.user?.name }}</Link>
-                                <span class="date">{{ post.smart_date }}</span>
-                            </div>
-                        </template>
-                    </ArticleCardHorizontal>
-                    <hr class="hr-straight-medium">
-                </div>
-            </div>
-
-            <div v-else>
-                Nothing to see here... yet!
-            </div>
-
-            <!-- Paginación -->
-            <div class="pagination-wrapper" v-if="posts?.links">
-                <template
-                    v-for="(link, index) in posts?.links"
-                    :key="index"
-                >
-                    <Link
-                        v-if="link.url"
-                        :href="link.url"
-                        :class="{ '': link.active }"
-                        class="button"
-                        data-type="pagination"
-                        :innerHTML="link.label"
-                    />
-                    <span
-                        v-else
-                        :innerHTML="link.label"
-                    />
+                            </template>
+    
+                            <template #footer="{ post }">
+                                <div class="horiz-card__footer">
+                                    <AuthorIcon
+                                        color="#D3D7EA"
+                                        size="24px"
+                                        style="margin-right: .4rem;"
+                                    />
+    
+                                    <Link
+                                        :href="route('author.posts', { user: post?.user?.slug })"
+                                        class="no-decor"
+                                        aria-label="More about this author"
+                                    >{{ post.user?.name }}</Link>
+                                    <span class="date">{{ post.smart_date }}</span>
+                                </div>
+                            </template>
+                        </ArticleCardHorizontal>
+                    </div>
                 </template>
-            </div>
+            </InfiniteScroll>
+            <hr class="hr-straight-medium">
         </section>
     </SiteLayout>
 </template>

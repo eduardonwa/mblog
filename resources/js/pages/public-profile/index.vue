@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
-import ArticleCardHorizontal from '@/components/CommunityFeed/ArticleCardHorizontal.vue';
+import ArticleCardHorizontal from '@/components/ArticleCardHorizontal.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
@@ -68,13 +68,13 @@ const { posts: initialPosts, author } = defineProps<{
 
                             <template #footer="{ post }">
                                 <div class="horiz-card__footer">
-                                    <span class="date">{{ post.smart_date }}</span>
+                                    <span class="date | padding-inline-end-2">{{ post.smart_date }}</span>
                                     <Link
                                         class="no-decor"
                                         v-if="post.category"
                                         :href="route('category.index', { slug: post.category.slug })"
                                     >
-                                        <span>{{ post.category?.name }}</span>
+                                        <span class="fs-300">{{ post.category?.name }}</span>
                                     </Link>
                                 </div>
                             </template>
