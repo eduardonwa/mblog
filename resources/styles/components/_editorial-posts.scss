@@ -84,7 +84,7 @@
                 }
 
                 @include mq(large) {
-                    font-size: 16px;
+                    font-size: 15px;
                 }
 
                 &:first-child {
@@ -211,10 +211,7 @@
                 @include mq(medium) {
                     flex-shrink: 0;
                     order: 2;
-                }
-
-                @include mq(large) {
-                    font-size: $font-size-600;
+                    font-size: $font-size-500;
                 }
             }
         }
