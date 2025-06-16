@@ -8,7 +8,9 @@ const props = defineProps<{
 </script>
 
 <template>
+    <!-- sidebar inset -->
     <main
+        class="container" data-type="dashboard"
         :class="
             cn(
                 '',

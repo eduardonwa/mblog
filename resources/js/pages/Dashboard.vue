@@ -2,7 +2,6 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,9 +18,8 @@ defineProps<{
 <template>
     <Head title="Dashboard" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <!-- Grid responsivo -->
-        <div class="">
-            
+        <div>
+            <p>hola Dios</p>
         </div>
     </AppLayout>
 </template>

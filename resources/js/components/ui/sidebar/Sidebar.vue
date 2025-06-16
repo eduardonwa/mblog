@@ -67,8 +67,6 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
             :class="
                 cn(
                     '',
-                    '',
-                    '',
                     variant === 'floating' || variant === 'inset'
                         ? ''
                         : '',
@@ -93,10 +91,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
             v-bind="$attrs"
         >
             <!-- es el espacio real del contenido -->
-            <div
-                data-sidebar="sidebar"
-                class=""
-            >
+            <div data-sidebar="sidebar">
                 <slot />
             </div>
         </div>

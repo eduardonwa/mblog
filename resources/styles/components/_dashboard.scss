@@ -26,9 +26,13 @@
           display: flex;
           align-items: center;
           gap: $size-2;
-          margin-block: 10px;
+          margin-block: 20px;
           text-decoration: none;
           color: $color-neutral-200;
+
+          @include mq(medium) {
+            padding-inline: 1.3rem;
+          }
           
           &:hover {
             color: $color-secondary-200;
@@ -77,7 +81,7 @@
       transform: translateY(-50%);
       transition: all 0.3s ease;
       
-      @include mq(large) {
+      @include mq(medium) {
         display: block;
         opacity: 0.7;
         width: fit-content;
@@ -116,4 +120,16 @@
       background: transparent;
       color: $color-secondary-200;
     }
+}
+
+.sidebar-header {
+  .trigger {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    @include mq(medium) {
+      display: none;
+    }
+  }
 }

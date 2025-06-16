@@ -25,7 +25,7 @@ const marginStyle = computed(() => {
 </script>
 
 <template>
-  <main class="pusher" :data-state="state">
+  <main class="sidebar-header" :data-state="state">
     <SidebarInset v-if="variant === 'sidebar'">
       <slot />
     </SidebarInset>

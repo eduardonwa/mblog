@@ -24,8 +24,7 @@ const currentPath = window.location.pathname;
 </script>
 
 <template>
-    <div class="container" data-type="">
-        
+    <div>
         <div class="heading-settings">
             <p>Settings</p>
             <p>Manage your profile and account settings</p>

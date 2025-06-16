@@ -1,0 +1,15 @@
+@use '../abstracts/' as *;
+
+.breadcrumbs {
+    margin-block-start: $size-10;
+
+    &__list {
+        list-style: none;
+
+        .item {
+            color: $color-primary-300;
+            font-size: $font-size-600;
+            margin-bottom: $size-8;
+        }
+    }
+}

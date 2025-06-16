@@ -36,3 +36,11 @@
     --padding: #{$container-min-margin-inline} * 2;
   }
 }
+.container[data-type="dashboard"] {
+  --max-width: #{$container-max-width-wide};
+  --padding: #{$container-min-margin-inline} * 2;
+
+  @include mq(medium) {
+    --padding: #{$container-min-margin-inline} * 12;
+  }
+}

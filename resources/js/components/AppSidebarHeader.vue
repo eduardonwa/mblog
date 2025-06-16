@@ -10,11 +10,9 @@ defineProps<{
 
 <template>
     <header>
-        <div>
-            <SidebarTrigger />
-            <template v-if="breadcrumbs.length > 0">
-                <Breadcrumbs :breadcrumbs="breadcrumbs" />
-            </template>
-        </div>
+        <SidebarTrigger />
+        <template v-if="breadcrumbs.length > 0">
+            <Breadcrumbs class="breadcrumbs" :breadcrumbs="breadcrumbs" />
+        </template>
     </header>
 </template>
