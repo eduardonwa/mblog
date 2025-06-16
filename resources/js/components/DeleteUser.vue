@@ -43,12 +43,17 @@ const closeModal = () => {
 </script>
 
 <template>
-    <div class="space-y-6">
-        <HeadingSmall title="Delete account" description="Delete your account and all of its resources" />
-        <div class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
-            <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
-                <p class="font-medium">Warning</p>
-                <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
+    <div class="flow margin-block-6">
+
+        <div class="margin-inline-start-4">
+            <p class="ff-medium clr-primary-100">Delete account</p>
+            <p class="fs-300 padding-block-2">Delete your account and all of its resources</p>
+        </div>
+        
+        <div class="card">
+            <div>
+                <p class="card__heading | clr-error-100">Warning</p>
+                <p class="fs-300 padding-block-2">Please proceed with caution, this cannot be undone.</p>
             </div>
             <Dialog>
                 <DialogTrigger as-child>
@@ -64,18 +69,18 @@ const closeModal = () => {
                             </DialogDescription>
                         </DialogHeader>
 
-                        <div class="grid gap-2">
+                        <div>
                             <Label for="password" class="sr-only">Password</Label>
                             <Input id="password" type="password" name="password" ref="passwordInput" v-model="form.password" placeholder="Password" />
                             <InputError :message="form.errors.password" />
                         </div>
 
-                        <DialogFooter class="gap-2">
+                        <DialogFooter>
                             <DialogClose as-child>
                                 <Button variant="secondary" @click="closeModal"> Cancel </Button>
                             </DialogClose>
 
-                            <Button variant="destructive" :disabled="form.processing">
+                            <Button data-type="destructive" :disabled="form.processing">
                                 <button type="submit">Delete account</button>
                             </Button>
                         </DialogFooter>

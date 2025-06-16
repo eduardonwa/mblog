@@ -24,16 +24,21 @@ const currentPath = window.location.pathname;
 </script>
 
 <template>
-    <div class="px-4 py-6">
-        <Heading title="Settings" description="Manage your profile and account settings" />
+    <div class="container" data-type="">
+        
+        <div class="heading-settings">
+            <p>Settings</p>
+            <p>Manage your profile and account settings</p>
+        </div>
 
-        <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside class="w-full max-w-xl lg:w-48">
-                <nav class="flex flex-col space-x-0 space-y-1">
+        <div>
+            <!-- botones profile, pw y appearance -->
+            <aside class="margin-block-7">
+                <nav class="flex-group">
                     <Button
                         v-for="item in sidebarNavItems"
                         :key="item.href"
-                        variant="ghost"
+                        data-type="ghost"
                         :class="['w-full justify-start', { 'bg-muted': currentPath === item.href }]"
                         as-child
                     >
@@ -48,6 +53,7 @@ const currentPath = window.location.pathname;
 
             <div class="flex-1 md:max-w-2xl">
                 <section class="max-w-xl space-y-12">
+                    <!-- contenido de cada seccion -->
                     <slot />
                 </section>
             </div>

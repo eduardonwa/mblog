@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Inertia\Inertia;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\CustomComment;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 

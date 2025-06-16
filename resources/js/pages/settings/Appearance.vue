@@ -22,8 +22,9 @@ const breadcrumbItems: BreadcrumbItem[] = [
 
         <SettingsLayout>
             <div>
-                <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
-                <AppearanceTabs />
+                <!-- <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" /> -->
+                <!-- <AppearanceTabs /> -->
+                <p class="uppercase fw-bold">coming soon</p>
             </div>
         </SettingsLayout>
     </AppLayout>

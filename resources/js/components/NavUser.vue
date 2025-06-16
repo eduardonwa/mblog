@@ -13,17 +13,24 @@ const user = page.props.auth.user as User;
 
 <template>
     <SidebarMenu>
+        <!-- wrapper del boton -->
         <SidebarMenuItem>
+            <!-- wrapper de algo -->
             <DropdownMenu>
-                <DropdownMenuTrigger as-child>
-                    <SidebarMenuButton size="lg" class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-                        <UserInfo :user="user" />
-                        <ChevronsUpDown class="ml-auto size-4" />
-                    </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent class="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg" side="bottom" align="end" :side-offset="4">
-                    <UserMenuContent :user="user" />
-                </DropdownMenuContent>
+                <!-- el boton -->
+                <div class="dropdown-menu">
+                    <DropdownMenuTrigger as-child>
+                        <!-- abarca toda la info del boton -->
+                        <SidebarMenuButton class="dropdown-menu__trigger" size="lg">
+                            <UserInfo :user="user" />
+                            <ChevronsUpDown />
+                        </SidebarMenuButton>
+                    </DropdownMenuTrigger>
+                    <!-- contenido (wrapper) -->
+                    <DropdownMenuContent class="dropdown-menu__content" side="bottom" align="end" :side-offset="4">
+                        <UserMenuContent :user="user" />
+                    </DropdownMenuContent>
+                </div>
             </DropdownMenu>
         </SidebarMenuItem>
     </SidebarMenu>

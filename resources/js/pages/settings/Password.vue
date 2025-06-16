@@ -62,11 +62,14 @@ const updatePassword = () => {
         <Head title="Profile settings" />
 
         <SettingsLayout>
-            <div>
-                <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
+            <div class="card margin-block-end-9">
+                <div>
+                    <p class="card__heading | clr-primary-200">Update password</p>
+                    <p class="fs-300 padding-block-2">Ensure your account is using a long, random password to stay secure</p>
+                </div>
 
-                <form @submit.prevent="updatePassword">
-                    <div>
+                <form class="register-form | margin-block-start-4" @submit.prevent="updatePassword">
+                    <div class="form-group">
                         <Label for="current_password">Current password</Label>
                         <Input
                             id="current_password"
@@ -79,7 +82,7 @@ const updatePassword = () => {
                         <InputError :message="form.errors.current_password" />
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <Label for="password">New password</Label>
                         <Input
                             id="password"
@@ -92,7 +95,7 @@ const updatePassword = () => {
                         <InputError :message="form.errors.password" />
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <Label for="password_confirmation">Confirm password</Label>
                         <Input
                             id="password_confirmation"
@@ -104,8 +107,8 @@ const updatePassword = () => {
                         <InputError :message="form.errors.password_confirmation" />
                     </div>
 
-                    <div>
-                        <Button :disabled="form.processing">Save password</Button>
+                    <div class="flex-group" style="align-items: center;">
+                        <Button data-type="secondary" :disabled="form.processing">Save password</Button>
 
                         <TransitionRoot
                             :show="form.recentlySuccessful"
@@ -114,7 +117,7 @@ const updatePassword = () => {
                             leave="transition ease-in-out"
                             leave-to="opacity-0"
                         >
-                            <p>Saved</p>
+                            <p class="padding-inline-start-4 clr-accent-400">Saved.</p>
                         </TransitionRoot>
                     </div>
                 </form>

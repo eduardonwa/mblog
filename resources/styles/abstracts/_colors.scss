@@ -42,7 +42,10 @@ $-clr-verde-600: hsla(73, 100%, 35%, 1);
 $-clr-verde-700: hsla(74, 93%, 27%, 1); 
 $-clr-verde-800: hsla(75, 82%, 23%, 1); 
 $-clr-verde-900: hsla(76, 73%, 20%, 1); 
-$-clr-verde-950: hsla(78, 89%, 10%, 1); 
+$-clr-verde-950: hsla(78, 89%, 10%, 1);
+
+$-clr-rojo-100: hsl(0, 93.1%, 60.2%);
+$-clr-rojo-200: hsl(0, 81.22%, 41.76%);
 
 $base: (
   "neutral": (
@@ -91,6 +94,10 @@ $base: (
     "800": $-clr-verde-800,
     "900": $-clr-verde-900,
   ),
+  "error": (
+    "100": $-clr-rojo-100,
+    "200": $-clr-rojo-200,
+  )
 );
 
 /* $dark: (
@@ -173,3 +180,6 @@ $color-accent-600: var(--accent-600);
 $color-accent-700: var(--accent-700);
 $color-accent-800: var(--accent-800);
 $color-accent-900: var(--accent-900);
+
+$color-error-100: var(--error-100);
+$color-error-200: var(--error-200);

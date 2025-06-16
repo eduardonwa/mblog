@@ -121,4 +121,6 @@ export interface MentionableUser {
   name: string;
 }
 
+export type SidebarState = 'expanded' | 'collapsed' | undefined;
+
 export {};

@@ -22,7 +22,7 @@ class UserPublicProfileController extends Controller
             return response()->json($posts);
         }
 
-        return Inertia::render('public-profile/index', [
+        return Inertia::render('member/profile/index', [
             'posts' => $posts,
             'author' => $user,
         ]);

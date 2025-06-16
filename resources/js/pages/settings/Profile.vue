@@ -47,17 +47,20 @@ const submit = () => {
         <Head title="Profile settings" />
 
         <SettingsLayout>
-            <div>
-                <HeadingSmall title="Profile information" description="Update your name and email address" />
+            <div class="card margin-block-end-9">
+                <div>
+                    <p class="card__heading | clr-primary-200">Profile information</p>
+                    <p class="fs-300 padding-block-2">Update your name and email address</p>
+                </div>
 
-                <form @submit.prevent="submit">
-                    <div>
+                <form class="register-form | margin-block-start-4" @submit.prevent="submit">
+                    <div class="form-group">
                         <Label for="name">Name</Label>
                         <Input id="name" v-model="form.name" required autocomplete="name" placeholder="Full name" />
                         <InputError :message="form.errors.name" />
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <Label for="email">Email address</Label>
                         <Input
                             id="email"
@@ -87,8 +90,8 @@ const submit = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <Button :disabled="form.processing">Save</Button>
+                    <div class="flex-group" style="align-items: center;">
+                        <Button class="button" data-type="secondary" :disabled="form.processing">Save</Button>
 
                         <TransitionRoot
                             :show="form.recentlySuccessful"
@@ -97,7 +100,7 @@ const submit = () => {
                             leave="transition ease-in-out"
                             leave-to="opacity-0"
                         >
-                            <p>Saved.</p>
+                            <p class="padding-inline-start-4 clr-accent-400">Saved.</p>
                         </TransitionRoot>
                     </div>
                 </form>

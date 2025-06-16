@@ -13,6 +13,30 @@
   border: $button-border;
   border-radius: $button-border-radius;
   transition: 275ms ease;
+  width: 100%;
+
+  @include mq(medium) {
+    width: fit-content;
+  }
+
+  &[data-type="primary"] {
+    background-color: $button-primary-background;
+    color: $button-primary-color;
+
+    &:is(:hover, :focus) {
+      background-color: $button-primary-background-hover;
+      color: $button-primary-color-hover;
+    }
+  }
+
+  &[data-type="secondary"] {
+    background: $color-primary-900;
+    color: $color-neutral-100;
+
+    &:is(:hover, :focus) {
+      background: $color-neutral-900;
+    }
+  }
 
   &[data-type="accent"] {
     background-color: $button-accent-background;
@@ -31,12 +55,23 @@
     }
   }
 
-  &[data-type="primary"] {
-    background-color: $button-primary-background;
-    color: $button-primary-color;
+  &[data-type="ghost"] {
+    width: fit-content;
+    text-transform: none;
+    padding: $size-2;
+    background: transparent;  
+
+    svg {
+      stroke: $color-neutral-100;
+    }
+  }
+
+  &[data-type="destructive"] {
+    background-color: $color-error-200;
+    color: $color-neutral-100;
 
     &:is(:hover, :focus) {
-      background-color: $button-primary-background-hover;
+      background-color: $color-error-100;
       color: $button-primary-color-hover;
     }
   }
@@ -139,5 +174,11 @@
     margin-block-start: $size-5;
     margin-inline-start: $size-5;
     padding: 0;
+  }
+
+  &[data-type="close-btn"] {
+    padding: $size-1;
+    height: 30px;
+    width: 30px;
   }
 }
