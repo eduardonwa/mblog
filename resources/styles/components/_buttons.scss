@@ -32,6 +32,7 @@
   &[data-type="secondary"] {
     color: $color-neutral-100;
     background: $color-neutral-900;
+    padding-block: $size-4;
 
     @include mq(medium) {
       background: $color-primary-900;

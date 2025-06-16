@@ -91,17 +91,17 @@ const submit = () => {
                     </div>
 
                     <div class="flex-group" style="align-items: center;">
-                        <Button class="button" data-type="secondary" :disabled="form.processing">Save</Button>
-
-                        <TransitionRoot
-                            :show="form.recentlySuccessful"
-                            enter="transition ease-in-out"
-                            enter-from="opacity-0"
-                            leave="transition ease-in-out"
-                            leave-to="opacity-0"
-                        >
-                            <p class="padding-inline-start-4 clr-accent-400">Saved.</p>
-                        </TransitionRoot>
+                        <Button class="button" data-type="secondary" :disabled="form.processing">Save
+                            <TransitionRoot
+                                :show="form.recentlySuccessful"
+                                enter="transition ease-in-out"
+                                enter-from="opacity-0"
+                                leave="transition ease-in-out"
+                                leave-to="opacity-0"
+                            >
+                                <p class="padding-inline-start-4 clr-accent-400">&#10003;</p>
+                            </TransitionRoot>
+                        </Button>
                     </div>
                 </form>
             </div>
