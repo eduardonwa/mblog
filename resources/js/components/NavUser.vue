@@ -16,21 +16,19 @@ const user = page.props.auth.user as User;
         <!-- wrapper del boton -->
         <SidebarMenuItem>
             <!-- wrapper de algo -->
-            <DropdownMenu>
+            <DropdownMenu class="dropdown-menu">
                 <!-- el boton -->
-                <div class="dropdown-menu">
-                    <DropdownMenuTrigger as-child>
-                        <!-- abarca toda la info del boton -->
-                        <SidebarMenuButton class="dropdown-menu__trigger" size="lg">
-                            <UserInfo :user="user" />
-                            <ChevronsUpDown />
-                        </SidebarMenuButton>
-                    </DropdownMenuTrigger>
-                    <!-- contenido (wrapper) -->
-                    <DropdownMenuContent class="dropdown-menu__content" side="bottom" align="end" :side-offset="4">
-                        <UserMenuContent :user="user" />
-                    </DropdownMenuContent>
-                </div>
+                <DropdownMenuTrigger as-child>
+                    <!-- abarca toda la info del boton -->
+                    <SidebarMenuButton class="dropdown-menu__trigger" size="lg">
+                        <UserInfo :user="user" />
+                        <ChevronsUpDown />
+                    </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <!-- contenido (wrapper) -->
+                <DropdownMenuContent class="dropdown-menu__content" side="bottom" align="end" :side-offset="4">
+                    <UserMenuContent :user="user" />
+                </DropdownMenuContent>
             </DropdownMenu>
         </SidebarMenuItem>
     </SidebarMenu>

@@ -1,0 +1,88 @@
+@use '../abstracts/' as *;
+
+.dropdown-menu {
+
+    &__trigger {
+        // abre el dropdown
+        display: flex;
+        gap: 3rem;
+        margin-block: $size-8;
+        background: $color-primary-800;
+        border: none;
+        border-radius: $size-2;
+        color: $color-neutral-200;
+        padding: .5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: $color-primary-700;
+        }
+
+        .userinfo {
+            display: flex;
+            flex-direction: column;
+            color: $color-neutral-200;
+        }
+
+        .avatar {
+            color: $color-neutral-200;
+        }
+    }
+
+    &__content {
+        padding: 1.3rem;
+        border-radius: $size-2;
+        background: $color-primary-700;
+        gap: $size-2;
+        display: flex;
+        flex-direction: column;
+        z-index: 101;
+
+        .avatar {
+            display: none;
+        }
+
+        .userinfo {
+            display: flex;
+            flex-direction: column;
+            color: $color-neutral-200;
+            
+            .name {
+                display: none;
+            }
+        }
+    }
+
+    &__group {
+        // "settings" y "logout"
+        .button {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+
+            &:hover {
+                background: $color-primary-500;
+                color: $color-neutral-100;
+
+                svg {
+                    stroke: $color-neutral-100;
+                }
+            }
+
+            &:first-child {
+                margin-block: $size-2;
+            }
+        }
+
+        &__item {
+            // botones
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-block: $size-4;
+            background: transparent;
+            color: $color-neutral-200;
+        }
+    }
+}
