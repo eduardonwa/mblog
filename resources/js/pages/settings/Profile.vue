@@ -99,7 +99,11 @@ const submit = () => {
                                 leave="transition ease-in-out"
                                 leave-to="opacity-0"
                             >
-                                <p class="padding-inline-start-4 clr-accent-400">&#10003;</p>
+                                <div class="padding-inline-start-4 clr-accent-400">
+                                    <svg viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                </div>
                             </TransitionRoot>
                         </Button>
                     </div>
