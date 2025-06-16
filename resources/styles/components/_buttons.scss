@@ -30,8 +30,12 @@
   }
 
   &[data-type="secondary"] {
-    background: $color-primary-900;
     color: $color-neutral-100;
+    background: $color-neutral-900;
+
+    @include mq(medium) {
+      background: $color-primary-900;
+    }
 
     &:is(:hover, :focus) {
       background: $color-neutral-900;
