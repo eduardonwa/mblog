@@ -70,6 +70,10 @@
             display: flex;
             color: $color-primary-200;
             padding-block: $size-2;
+
+            .uphail:hover path {
+                fill: $color-accent-100;
+            }
     
             div {
                 display: flex;

@@ -21,19 +21,13 @@
   display: block;
   width: fit-content;
   
-  svg {
-    transition: fill 0.2s ease;
+  svg, path {
+    transition: all 0.2s ease;
   }
   
-  path {
+  /* path {
     fill: currentColor;
-  }
-}
-
-.uphail-icon {
-  path {
-    fill: currentColor;
-  }
+  } */
 }
 
 .delete-icon {

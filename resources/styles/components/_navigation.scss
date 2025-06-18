@@ -34,6 +34,14 @@
   }
 }
 
+@mixin auth-links {
+  width: fit-content;
+  margin-block-start: $size-4;
+  margin-inline-start: $size-3;
+  color: $color-primary-200;
+  font-size: $font-size-500;
+}
+
 .nav {
   position: fixed;
   z-index: 1000;
@@ -187,6 +195,16 @@
           padding-block-end: 4px;
           padding-inline-start: $size-5;
           font-family: $font-family-semi-bold;
+        }
+
+        .login-btn {
+          @include auth-links();
+        }
+
+        form {
+          .logout-btn {
+            @include auth-links();
+          }
         }
       }
 

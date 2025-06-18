@@ -3,7 +3,6 @@ import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 // Components
-import HeadingSmall from '@/components/HeadingSmall.vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -60,8 +59,8 @@ const closeModal = () => {
                     <Button variant="destructive">Delete account</Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <form class="space-y-6" @submit="deleteUser">
-                        <DialogHeader class="space-y-3">
+                    <form class="" @submit="deleteUser">
+                        <DialogHeader class="">
                             <DialogTitle>Are you sure you want to delete your account?</DialogTitle>
                             <DialogDescription>
                                 Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your
@@ -70,7 +69,7 @@ const closeModal = () => {
                         </DialogHeader>
 
                         <div>
-                            <Label for="password" class="sr-only">Password</Label>
+                            <Label for="password" class="">Password</Label>
                             <Input id="password" type="password" name="password" ref="passwordInput" v-model="form.password" placeholder="Password" />
                             <InputError :message="form.errors.password" />
                         </div>

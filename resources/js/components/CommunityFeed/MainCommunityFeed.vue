@@ -70,7 +70,6 @@ const props = defineProps<MainCommunityFeedProps>();
                                     <div class="feed-uphail-count">
                                         <UphailIcon
                                             size="22px"
-                                            fillColor="#d9d9de"
                                             style="margin-right: .4rem;"
                                         />
                                         <span class="clr-primary-300">{{ post.likes_count }}</span>

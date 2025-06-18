@@ -121,6 +121,10 @@
                         color: $color-accent-100;
                     }
 
+                    &:hover path {
+                        fill: $color-accent-100;
+                    }
+
                     @include mq(large) {
                         background: $color-primary-900;
                         height: 40px;

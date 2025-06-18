@@ -62,7 +62,7 @@
     </div>
     
     <div class="nav__visible__auth">
-        <Link v-if="$page.props.auth.user" :href="route('dashboard')">
+        <Link v-if="$page.props.auth.user" :href="route('dashboard.index')">
             <UserIcon/>
         </Link>
         <Link v-else :href="route('register')">Sign Up</Link>

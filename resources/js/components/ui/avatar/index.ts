@@ -11,8 +11,9 @@ export const avatarVariant = cva(
             size: {
                 sm: 'avatar__sm',
                 md: 'avatar__md',
-                base: 'avatar__base',
                 lg: 'avatar__lg',
+                xl: 'avatar__xl',
+                base: 'avatar__base',
             },
             shape: {
                 circle: 'round',

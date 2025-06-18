@@ -60,7 +60,6 @@
         opacity: 1 !important;
         width: fit-content !important;
         display: block !important;
-
       }
 
       [data-sidebar="sidebar"] {
@@ -125,8 +124,8 @@
 .sidebar-header {
   .trigger {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 10px;
+    top: 10px;
 
     @include mq(medium) {
       display: none;

@@ -31,13 +31,14 @@
     }
 
     &__content {
+        display: flex;
+        flex-direction: column;
         padding: 1.3rem;
         border-radius: $size-2;
         background: $color-primary-700;
-        gap: $size-2;
-        display: flex;
-        flex-direction: column;
         z-index: 101;
+        position: relative;
+        width: 100%;
 
         .avatar {
             display: none;
@@ -56,6 +57,7 @@
 
     &__group {
         // "settings" y "logout"
+        margin-block-start: $size-4;
         .button {
             width: 100%;
             display: flex;
@@ -71,7 +73,7 @@
             }
 
             &:first-child {
-                margin-block: $size-2;
+                margin-block-end: $size-2;
             }
         }
 

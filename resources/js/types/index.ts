@@ -30,9 +30,24 @@ export interface User {
     slug: string;
     email: string;
     avatar?: string;
+    avatar_url?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+}
+
+export interface UserStats {
+  posts_count: number;
+  likes_received_count: number;
+  comments_count: number;
+}
+
+export interface ProfileForm {
+    [key: string]: any;
+    name: string;
+    email: string;
+    avatar: File | null;
+    avatarPreview: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

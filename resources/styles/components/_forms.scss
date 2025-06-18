@@ -42,6 +42,10 @@ input:not(.button) {
   font-family: $form-placeholder-font-family;
 }
 
+.hidden-input {
+  display: none;
+}
+
 .register-form {
   .form-group {
     display: grid;
@@ -67,6 +71,64 @@ input:not(.button) {
     gap: 1rem;
     padding: $size-3;
   }
+}
+
+.profile-form {
+  .form-group {
+    display: grid;
+    @include form-input-styles($margin-block-end: $size-8);
+  }
+  
+  @include button-spinner();
+
+  .avatar-upload-label {
+    display: inline-block;
+    cursor: pointer;
+    width: fit-content;
+    margin-block-end: $size-7;
+
+    .hidden-input {
+      display: none;
+    }
+
+    .avatar-container {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      display: inline-block;
+    }
+  
+    .avatar-container:hover .avatar-overlay {
+      opacity: 1;
+    }
+  
+    .avatar-image {
+      display: block;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  
+    .avatar-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-size: 12px;
+    }
+  }
+
+
 }
 
 .forgot-pw-form {

@@ -120,6 +120,10 @@
                         }
                     }
 
+                    path {
+                        fill: $color-accent-100;
+                    }
+
                     .comment-icon {
                         stroke: $color-accent-100; // la puse por los puntitos del icono del comentario
                         

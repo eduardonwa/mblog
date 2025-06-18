@@ -1,44 +1,68 @@
 @use '../abstracts' as *;
 
+@mixin avatar-sizes($base-size, $medium-size: null, $large-size: null) {
+    width: $base-size;
+    height: $base-size;
+    border: 1px solid transparent;
+
+    img {
+        max-width: $base-size;
+        max-height: $base-size;
+    }
+
+    @if $medium-size {
+        @include mq(medium) {
+            width: $medium-size;
+            height: $medium-size;
+
+            img {
+                max-width: $medium-size;
+                max-height: $medium-size;
+            }
+        }
+    }
+
+    @if $large-size {
+        @include mq(large) {
+            width: $large-size;
+            height: $large-size;
+            
+            img {
+                max-width: $large-size;
+                max-height: $large-size;
+            }
+        }
+    }
+}
+
 .avatar {
     display: block;
     border-radius: 50%;
 
     &__sm {
-        width: 24px;
-        height: 24px;
-        border: 1px solid;
-
-        @include mq(medium) {
-            width: 28px;
-            height: 28px;
-        }
+        @include avatar-sizes(24px, 28px);
     }
 
     &__md {
-        width: 32px;
-        height: 32px;
-        border: 1px solid;
+        @include avatar-sizes(32px, null, 40px);
+    }
 
-        img {
-            max-width: 32px;
-            max-height: 32px;
-        }
+    &__lg {
+        @include avatar-sizes(72px, 80px)
+    }
 
-        @include mq(large) {
-            width: 40px;
-            height: 40px;
-            
-            img {
-                max-width: 40px;
-                max-height: 40px;
-            }
-        }
+    &__xl {
+        @include avatar-sizes(88px, 96px);
+    }
+
+    &__base {
+        @include avatar-sizes(50px);
     }
 
     &__image {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: 50%;
     }
 }

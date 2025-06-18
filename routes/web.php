@@ -10,6 +10,7 @@ use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserPublicProfileController;
 
 Route::get('/', function () {
@@ -25,40 +26,28 @@ Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show')
 Route::get('category/{slug}', [CategoryController::class, 'index'])->name('category.index');
 Route::get('author/{user:slug}/posts', [UserPublicProfileController::class, 'index'])->name('author.posts');
 
-// grupo para invitados (no autenticados)
+// Grupo para invitados (no autenticados)
 Route::middleware('guest')->group(function () {
-    // Ruta de login (vista Inertia)
-    Route::get('/login', function () {
-        return Inertia::render('auth/Login');
-    })->name('login');
-    
-    // Ruta de registro (opcional)
-    Route::get('/register', function () {
-        return Inertia::render('auth/Register');
-    })->name('register');
+    Route::inertia('/login', 'auth/Login')->name('login');
+    Route::inertia('/register', 'auth/Register')->name('register');
 });
 
-// Grupo para usuarios autenticados
-Route::middleware('auth')->group(function () {
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-    
+// Grupo consolidado para usuarios autenticados y verificados
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard    
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
     // Logout
     Route::post('/logout', function () {
         Auth::logout();
         return redirect('/');
     })->name('logout');
-});
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware(['auth'])->group(function () {
+    // Interacciones con posts (versión única)
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
+    
+    // Comentarios (versión única)
     Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('/comments/{comment}/replies', [CommentController::class, 'storeReply'])->name('comments.replies.store');
@@ -67,10 +56,6 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware('redirect.to.register')->group(function () {
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
-});
-
-Route::middleware(['auth', 'member'])->group(function () {
-    //
 });
 
 require __DIR__.'/settings.php';

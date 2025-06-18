@@ -14,6 +14,7 @@
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
+        @routes
         @filamentScripts
         @inertia
     </body>

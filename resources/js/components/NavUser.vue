@@ -26,10 +26,11 @@ const user = page.props.auth.user as User;
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <!-- contenido (wrapper) -->
-                <DropdownMenuContent class="dropdown-menu__content" side="bottom" align="end" :side-offset="4">
+                <DropdownMenuContent class="dropdown-menu__content" side="bottom" align="start" :side-offset="4">
                     <UserMenuContent :user="user" />
                 </DropdownMenuContent>
             </DropdownMenu>
+
         </SidebarMenuItem>
     </SidebarMenu>
 </template>

@@ -113,18 +113,18 @@ onUnmounted(() => {
 
                     <div class="nav__hidden__menu__settings">
                         <h2 class="uppercase clr-secondary-300">settings</h2>
-                        <form class="logout" v-if="$page.props.auth.user" @submit.prevent="logout">
+                        <form v-if="$page.props.auth.user" @submit.prevent="logout">
                             <button
                                 type="submit"
-                                class="button no-decor"
-                                data-type="logout-btn"
+                                class="logout-btn | button no-decor"
+                                data-type="ghost"
                             >Logout
                             </button>
                         </form>
                         <Link
                             v-else :href="route('login')"
-                            class="button no-decor"
-                            data-type="login-btn"
+                            class="login-btn | button no-decor"
+                            data-type="ghost"
                         >
                             Login
                         </Link>

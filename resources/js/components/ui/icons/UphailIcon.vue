@@ -7,12 +7,14 @@ interface Props {
   viewBox?: string;
   size?: string | number; // Tamaño del contenedor (ajustará automáticamente el SVG)
 }
+
 const props = withDefaults(defineProps<Props>(), {
   color: '#D3D7EA',
   hoverColor: '#F4FFC7',
   size: '24px',
   viewBox: '0 4 24 24',
 });
+
 const isHovered = ref(false);
 </script>
 

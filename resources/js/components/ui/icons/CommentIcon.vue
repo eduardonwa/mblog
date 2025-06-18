@@ -8,7 +8,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    color: 'currentColor',
+    color: '#D3D7EA',
     hoverColor: '#F4FFC7',
     size: '24px',
 });

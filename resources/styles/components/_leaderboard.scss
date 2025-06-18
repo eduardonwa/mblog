@@ -80,7 +80,11 @@
                     color: $color-accent-100;
 
                     span {
-                        color: $color-accent-100 !important;
+                        color: $color-accent-100;
+                    }
+
+                    path {
+                        fill: $color-accent-100;
                     }
                 }
             }
