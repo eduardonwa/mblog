@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import LikeButton from '@/components/LikeButton.vue';
@@ -62,18 +62,16 @@ onUnmounted(() => {
     </Head>
 
     <main class="blog-post | container" data-type="extra-wide">
-      <!-- info del post -->
       <section class="blog-post__header">
         <header
           class="post-header container"
           data-type="blog-post"
         >
           <div class="post-header__meta-group">
-            <!-- titulo -->
             <div class="post-title">
               <h1>{{ post?.title }}</h1>
             </div>
-            <!-- autor fecha y categoria -->
+            
             <div class="meta-primary">
               <div class="no-decor clr-primary-300">
                 by
@@ -96,7 +94,6 @@ onUnmounted(() => {
             </div>
           </div>
 
-          <!-- Tags -->
           <div v-if="post?.tags?.length">
             <Link
               v-for="tag in post?.tags"
@@ -117,13 +114,11 @@ onUnmounted(() => {
         </div>
       </section>
 
-      <!-- Contenido principal -->
       <section
         class="blog-post__body | container"
         data-type="blog-post"
         data-align="start"
       >
-        <!-- Imagen y extracto -->
         <article class="blog-post__body__subheader | flow">
           <Lightbox :post="post"/>
 
@@ -133,11 +128,8 @@ onUnmounted(() => {
         <article v-html="post?.body"></article>
 
         <hr class="straight-large">
-        <!-- comentarios -->
         <article class="blog-post__comments">
-          <!-- Formulario para comentar -->
           <CommentForm :post="post" />
-          <!-- contenedor general de comentarios -->
           <CommentBox
             :post="post"
             :comments="comments"
@@ -156,4 +148,14 @@ onUnmounted(() => {
       />
     </section>
   </SiteLayout>  
+</template> -->
+
+<script setup lang="ts">
+import BlogPostRoot, { type BlogPostProps } from '@/components/ui/blog-post/';
+
+defineProps<BlogPostProps>();
+</script>
+
+<template>
+  <BlogPostRoot v-bind="$props" />
 </template>

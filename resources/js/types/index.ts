@@ -134,6 +134,7 @@ export interface Comment {
 export interface MentionableUser {
   id: number;
   name: string;
+  avatar: string;
 }
 
 export type SidebarState = 'expanded' | 'collapsed' | undefined;

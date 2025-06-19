@@ -183,4 +183,9 @@
     height: 30px;
     width: 30px;
   }
+
+  &[data-type="toggle"] {
+    padding: $size-1 $size-4;
+    border-radius: 0;
+  }
 }
