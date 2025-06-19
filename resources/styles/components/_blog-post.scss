@@ -3,7 +3,6 @@
 // EXPANDED y COLLAPSED, se refieren a "media"
 // expanded media = collapsed header
 // collapsed media = expanded header
-
 .blog-post {
     margin-block: $size-13;
     position: relative;
@@ -15,36 +14,7 @@
         grid-template-areas:
             "info body media";
         align-items: stretch;
-        transition: grid-template-columns 0.2s ease-in-out;
-
-        &[data-state="expanded"] {
-           grid-template-columns: 50px 2fr 1.5fr;
-        }
-
-        &[data-state="expanded"] {
-            .post-header-sticky-wrapper {
-                height: 0;
-
-                .post-header {                                        
-                    &__meta-group {
-                        opacity: 0;
-                        pointer-events: none;
-                        transition: opacity 0.3s ease;
-                    }
-
-                    .toggle-media-button {
-                        left: -17px;
-                        right: auto;
-                    }
-                }
-
-                .post-interactions-wrapper {
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.3s ease;
-                }
-            }
-        }
+        transition: grid-template-columns 0.2s cubic-bezier(0.5, 0.8, 0.6, 1);
 
         &__header {
             grid-area: info;
@@ -75,6 +45,8 @@
                 position: sticky;
                 top: calc(80px + 20px);
                 z-index: 10;
+                transform: translateX(0);
+                transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.4, 1);
             }
 
             .post-header {
@@ -449,5 +421,52 @@
 
     &.is-visible {
         transform: translateY(0);
+    }
+}
+
+// transiciones
+.blog-post {
+    @include mq(large) {
+        // header
+        &[data-state="expanded"] {
+            grid-template-columns: 50px 2fr 1.5fr;
+            // contenedor principal que se traslada horizontalmente
+            .post-header-sticky-wrapper {
+                transform: translateX(-20%);
+                transition: transform 0.4s cubic-bezier(0.5, 0.8, 0.6, 1);
+
+                .post-header {
+                    &__meta-group {
+                        opacity: 0;
+                        pointer-events: none;
+                        transition: opacity 0.2s cubic-bezier(0.5, 0.8, 0.6, 1) 0.1s;
+
+                        .post-title {
+                            font-size: $font-size-400;
+                            height: fit-content;
+                            width: fit-content;
+                        }
+                    }
+
+                    .toggle-media-button {
+                        left: -17px;
+                        right: auto;
+                    }
+                }
+
+                .post-interactions-wrapper {
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s cubic-bezier(0.5, 0.8, 0.6, 1);
+                }
+            }
+        }
+
+        // body
+        &[data-state="expanded"] {
+            .blog-post__body {
+                transition: transform 0.3s cubic-bezier(0.5, 0.8, 0.6, 1);
+            }
+        }
     }
 }
