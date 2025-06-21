@@ -109,6 +109,18 @@
         font-size: $font-size-500;
         line-height: 33px;
         color: $color-primary-200;
+        
+        img {
+            width: fit-content;
+            margin: auto;
+            height: auto;
+            margin-block: $size-8;
+        }
+
+        iframe {
+            border: none;
+            margin-block: $size-8;
+        }
 
         &__subheader {
             .extract {
@@ -127,6 +139,7 @@
                     height: 100%;
                     object-position: top;
                     object-fit: cover;
+                    margin-block: 0;
                 }
 
                 @include mq(medium) {
@@ -143,21 +156,23 @@
     }
 
     .media-sticky {
-        display: none;
+        // Estilos por defecto para mobile
+        display: block;
+        position: relative;
 
+        // Estilos para desktop (sticky + scrolltrigger)
         @include mq(large) {
-            display: block;
             position: sticky;
             top: 100px;
             height: calc(100vh - 100px);
-
+        
             .blog-post__media {
                 .media-container {
                     position: sticky;
                     top: 0;
                     height: calc(100vh - 100px);
                     overflow: hidden;
-                    
+
                     .media-item {
                         position: absolute;
                         top: 0;
@@ -170,17 +185,17 @@
                         align-items: flex-start;
                         justify-content: center;
                         padding: $size-10;
-    
+
                         iframe {
                             width: 100%;
                             aspect-ratio: 16 / 9;
                             border: none;
                         }
-                    }
 
-                    .media-item.visible {
-                        opacity: 1;
-                        z-index: 1;
+                        &.visible {
+                            opacity: 1;
+                            z-index: 1;
+                        }
                     }
                 }
             }

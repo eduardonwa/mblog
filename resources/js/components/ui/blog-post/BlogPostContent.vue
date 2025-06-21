@@ -14,10 +14,12 @@ const props = defineProps<{
   mentionableUsers?: BlogPostProps['mentionableUsers'];
   meta?: BlogPostProps['meta'];
   textBlocks: Array<{ html: string; seqIdx: number }>;
+  rawBody?: string;
+  isDesktop?: boolean;
 }>();
 
 const post = inject('postData') as BlogPostProps['post'];
-const textBlocks = inject('textBlocks') as Array<{ html: string; seqIdx: number }>
+// const textBlocks = inject('textBlocks') as Array<{ html: string; seqIdx: number }>
 
 const mentionableUsersArr = computed<MentionableUser[]>(() =>
   Array.isArray(props.mentionableUsers) ? props.mentionableUsers : []
@@ -40,17 +42,19 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
     <article class="blog-post__body__subheader | flow">
       <Lightbox :post="post"/>
       <p class="extract" v-html="post?.extract"></p>
-      <!-- <div v-html="post?.body"></div> -->
     </article>
 
-    <div>
+    <div v-if="isDesktop">
       <ParagraphBlock
-        v-for="block in textBlocks"
+        v-for="block in props.textBlocks"
         :key="block.seqIdx"
         :html="block.html"
         :index="block.seqIdx"
+        :is-desktop="isDesktop"
       />
     </div>
+    
+    <div v-else v-html="props.rawBody" />
 
     <hr class="straight-large">
     

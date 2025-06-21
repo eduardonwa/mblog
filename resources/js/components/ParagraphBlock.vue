@@ -9,6 +9,11 @@ const props = defineProps({
   index: {
     type: Number,
     required: true
+  },
+  isDesktop: {
+    type: Boolean,
+    required: false,
+    default: false,
   }
 })
 
@@ -21,10 +26,16 @@ const textBlocks = computed(() => {
 
 <template>
   <div
+    v-if="!isDesktop"
     ref="el"
+    v-html="html"
+    class="paragraph-block"
+  ></div>
+  <div
+    v-else
     v-html="html"
     :data-index="props.index"
     :data-paragraph="index"
-    class="paragraph-block"
-  ></div>
+  >
+  </div>
 </template>

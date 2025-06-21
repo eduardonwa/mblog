@@ -13,7 +13,9 @@ interface MediaItem {
 export function useMediaScrollTrigger() {
   const activeIdx = ref<number | null>(null)
 
-  function initTriggers(mediaItems: MediaItem[], mediaEls?: HTMLElement[]) {
+  function initTriggers(mediaItems: MediaItem[]) {
+    if (window.innerWidth < 1280) return;
+    
     ScrollTrigger.getAll().forEach(t => t.kill()) // limpia anteriores
     
     mediaItems.forEach((item, i) => {
