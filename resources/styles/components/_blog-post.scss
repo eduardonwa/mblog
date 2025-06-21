@@ -1,8 +1,5 @@
 @use '../abstracts/' as *;
 
-// EXPANDED y COLLAPSED, se refieren a "media"
-// expanded media = collapsed header
-// collapsed media = expanded header
 .blog-post {
     margin-block: $size-13;
     position: relative;
@@ -14,7 +11,6 @@
         grid-template-areas:
             "info body media";
         align-items: stretch;
-        transition: grid-template-columns 0.2s cubic-bezier(0.5, 0.8, 0.6, 1);
 
         &__header {
             grid-area: info;
@@ -50,7 +46,7 @@
             }
 
             .post-header {
-                position: sticky;
+                position: relative;
 
                 &__meta-group {
 
@@ -141,6 +137,51 @@
                 @include mq(large) {
                     width: 100%;
                     margin-block: 0;
+                }
+            }
+        }
+    }
+
+    .media-sticky {
+        display: none;
+
+        @include mq(large) {
+            display: block;
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 100px);
+
+            .blog-post__media {
+                .media-container {
+                    position: sticky;
+                    top: 0;
+                    height: calc(100vh - 100px);
+                    overflow: hidden;
+                    
+                    .media-item {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        opacity: 0;
+                        transition: opacity 0.6s ease;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: flex-start;
+                        justify-content: center;
+                        padding: $size-10;
+    
+                        iframe {
+                            width: 100%;
+                            aspect-ratio: 16 / 9;
+                            border: none;
+                        }
+                    }
+
+                    .media-item.visible {
+                        opacity: 1;
+                        z-index: 1;
+                    }
                 }
             }
         }
@@ -335,60 +376,6 @@
             }
         }
     }
-
-    &__media {
-        border: 1px solid;
-        transition: width 0.3s ease;
-
-
-    /* .blog-post-media {
-            position: sticky;
-            top: 1rem;
-            height: 80vh;
-            overflow: hidden;
-            transition: width 0.3s ease;
-
-            &.collapsed {
-                width: 50px;
-            }
-
-            .media-container {
-                position: relative;
-                height: 100%;
-            }
-
-            .media-item {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-                &.active {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                z-index: 10;
-                }
-
-                &.past {
-                opacity: 0.3;
-                transform: translateY(-20px) scale(0.95);
-                }
-
-                &.future {
-                opacity: 0.3;
-                transform: translateY(20px) scale(0.95);
-                }
-            }
-
-            .media-element {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
-        } */
-    }
 }
 
 .mobile-interactions-wrapper {
@@ -424,16 +411,26 @@
     }
 }
 
-// transiciones
+// TRANSICIONES
+// "Expanded" y "Collapsed", se refieren a "Media"
+// Expanded Media -> Collapsed Header
+// Collapsed Media -> Expanded Header
 .blog-post {
+    transition: grid-template-columns 0.2s cubic-bezier(0.5, 0.8, 0.6, 1);
+    
     @include mq(large) {
         // header
         &[data-state="expanded"] {
-            grid-template-columns: 50px 2fr 1.5fr;
+            grid-template-columns: 20px 2fr 1.5fr;
             // contenedor principal que se traslada horizontalmente
             .post-header-sticky-wrapper {
-                transform: translateX(-20%);
                 transition: transform 0.4s cubic-bezier(0.5, 0.8, 0.6, 1);
+                
+                .post-interactions-wrapper {
+                    opacity: 0;
+                    pointer-events: none;
+                    // transition: opacity 0.3s cubic-bezier(0.5, 0.8, 0.6, 1);
+                }
 
                 .post-header {
                     &__meta-group {
@@ -442,30 +439,20 @@
                         transition: opacity 0.2s cubic-bezier(0.5, 0.8, 0.6, 1) 0.1s;
 
                         .post-title {
+                            opacity: 0;
                             font-size: $font-size-400;
                             height: fit-content;
                             width: fit-content;
+                        }
+                        .meta-primary {
+                            opacity: 0;
                         }
                     }
 
                     .toggle-media-button {
                         left: -17px;
-                        right: auto;
                     }
                 }
-
-                .post-interactions-wrapper {
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.3s cubic-bezier(0.5, 0.8, 0.6, 1);
-                }
-            }
-        }
-
-        // body
-        &[data-state="expanded"] {
-            .blog-post__body {
-                transition: transform 0.3s cubic-bezier(0.5, 0.8, 0.6, 1);
             }
         }
     }

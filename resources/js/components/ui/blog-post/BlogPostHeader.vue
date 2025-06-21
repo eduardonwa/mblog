@@ -2,7 +2,6 @@
 import { inject, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import LikeButton from '@/components/LikeButton.vue';
-import Button from '../button/Button.vue';
 import type { BlogPostProps } from './index';
 import ToggleIcon from '../icons/ToggleIcon.vue';
 

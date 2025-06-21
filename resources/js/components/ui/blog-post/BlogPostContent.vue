@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import CommentForm from '@/components/ui/comments/CommentForm.vue';
 import CommentBox from '@/components/ui/comments/CommentBox.vue';
 import Lightbox from '@/components/Lightbox.vue';
+import ParagraphBlock from '@/components/ParagraphBlock.vue';
 import type { BlogPostProps } from './index';
 import { MentionableUser } from '@/types';
 
@@ -12,9 +13,11 @@ const props = defineProps<{
   comments: BlogPostProps['comments'];
   mentionableUsers?: BlogPostProps['mentionableUsers'];
   meta?: BlogPostProps['meta'];
+  textBlocks: Array<{ html: string; seqIdx: number }>;
 }>();
 
 const post = inject('postData') as BlogPostProps['post'];
+const textBlocks = inject('textBlocks') as Array<{ html: string; seqIdx: number }>
 
 const mentionableUsersArr = computed<MentionableUser[]>(() =>
   Array.isArray(props.mentionableUsers) ? props.mentionableUsers : []
@@ -37,8 +40,17 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
     <article class="blog-post__body__subheader | flow">
       <Lightbox :post="post"/>
       <p class="extract" v-html="post?.extract"></p>
-      <div v-html="post?.body"></div>
+      <!-- <div v-html="post?.body"></div> -->
     </article>
+
+    <div>
+      <ParagraphBlock
+        v-for="block in textBlocks"
+        :key="block.seqIdx"
+        :html="block.html"
+        :index="block.seqIdx"
+      />
+    </div>
 
     <hr class="straight-large">
     

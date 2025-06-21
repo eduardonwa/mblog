@@ -1,58 +1,42 @@
 <script setup lang="ts">
-import { ref, provide, computed, onMounted, onUnmounted } from 'vue';
-import SiteLayout from '@/layouts/SiteLayout.vue';
-import LikeButton from '@/components/LikeButton.vue';
-import { 
-  BlogPostHeader, 
-  BlogPostContent, 
-  BlogPostMedia,
-  type BlogPostProps,
-  type LayoutState
-} from './index';
+import { nextTick, onUnmounted, provide, ref, onMounted } from 'vue'
+import SiteLayout from '@/layouts/SiteLayout.vue'
+import LikeButton from '@/components/LikeButton.vue'
+import { BlogPostHeader, BlogPostContent, BlogPostMedia, type BlogPostProps } from './index'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+import { usePostBlocks } from '@/composables/usePostBlocks'
+import { useLayoutState } from '@/composables/useLayoutState'
+import { useStickyUI } from '@/composables/useStickyUI'
+import { useMediaScrollTrigger } from '@/composables/useMediaScroller';
 
 const props = defineProps<BlogPostProps>();
-
-// Estado del layout
-const layoutState = ref<LayoutState>('collapsed');
-const isCollapsed = computed(() => layoutState.value === 'collapsed');
-
-// Proveer estado a componentes hijos
-provide('layoutState', {
-  state: layoutState,
-  toggle: () => {
-    layoutState.value = layoutState.value === 'expanded' 
-      ? 'collapsed' 
-      : 'expanded';
-  }
-});
-
-// Proveer datos del post
-provide('postData', props.post);
-
+const { layoutState, toggle } = useLayoutState();
+const { activeIdx, initTriggers, destroyTriggers } = useMediaScrollTrigger();
+const { blocks, textBlocks, mediaItems } = usePostBlocks(props.post.body);
+const { shouldShow: shouldShowInteractions } = useStickyUI();
 const localPost = ref({ ...props.post });
 
-const shouldShowInteractions = ref(false);
-const lastScrollPosition = ref(0);
+provide('layoutState', { state: layoutState, toggle });
+provide('postData', props.post);
+provide('textBlocks', textBlocks)
 
-const handleScroll = () => {
-  const currentScrollPosition = window.scrollY || window.pageYOffset;
-  // Muestra la barra solo cuando se hace scroll hacia abajo
-  if (currentScrollPosition > lastScrollPosition.value && currentScrollPosition > 100) {
-    shouldShowInteractions.value = true;
-  } else if (currentScrollPosition <= 100) {
-    // Oculta cuando está cerca del top
-    shouldShowInteractions.value = false;
-  }
-  lastScrollPosition.value = currentScrollPosition;
-};
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll, { passive: true });
-});
+  nextTick(() => {
+    setTimeout(() => {
+      initTriggers(mediaItems.value)
+    }, 100)
+  })
+})
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  destroyTriggers();
+})
+
+function onVisible(idx: number) {
+  activeIdx.value = idx
+};
 </script>
 
 <template>
@@ -67,8 +51,15 @@ onUnmounted(() => {
         :comments="props.comments"
         :mentionableUsers="props.mentionableUsers"
         :meta="props.meta"
+        :text-blocks="textBlocks"
+        @paragraph-visible="onVisible"
       />
-      <BlogPostMedia />
+      <div class="media-sticky">
+        <BlogPostMedia 
+          :items="mediaItems"
+          :active-index="activeIdx"
+        />
+      </div>
     </main>
 
     <section class="mobile-interactions-wrapper">
@@ -80,3 +71,15 @@ onUnmounted(() => {
     </section>
   </SiteLayout>
 </template>
+
+<style>
+.debug {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  background: black;
+  color: lime;
+  font-size: 12px;
+  z-index: 9999;
+}
+</style>
