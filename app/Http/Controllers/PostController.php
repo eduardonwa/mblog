@@ -58,10 +58,10 @@ class PostController extends Controller
 
         // detecta si es un bot
         if ($this->isBot($request)) {
-            return view('post.meta-preview', [
-                'meta' => $meta,
-                'post' => $post,
-            ]);
+            return response()
+                ->view('post.meta-preview', ['meta' => $meta, 'post' => $post])
+                ->header('Cache-Control', 'public, max-age=3600')
+                ->header('X-Frame-Options', 'ALLOW-FROM https://www.facebook.com');
         }
 
         return Inertia::render('post/show', [
@@ -164,7 +164,7 @@ class PostController extends Controller
 
     private function isBot(Request $request): bool
     {
-        $userAgent = strtolower($request->header('User-Agent') ?? '');
+        $userAgent = $request->header('User-Agent', '');
         
         return preg_match(
             '/facebookexternalhit|facebot|twitterbot|slackbot|linkedinbot|discordbot|telegrambot|googlebot/i', 
