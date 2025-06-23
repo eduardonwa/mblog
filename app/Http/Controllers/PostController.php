@@ -58,17 +58,14 @@ class PostController extends Controller
 
         // detecta si es un bot
         if ($this->isBot($request)) {
-            // Respuesta para bots (sin Inertia)
-            $response = response()->view('post.meta-preview', [
-                'meta' => $meta,
-                'post' => $post
-            ]);
-            
-            // Elimina cookies y añade cabeceras para bots
-            return $response->withoutCookie('sickofmetal_session')
+            return response()
+                ->view('post.meta-preview', compact('meta', 'post'))
+                ->withoutCookie('sickofmetal_session')
                 ->withoutCookie('XSRF-TOKEN')
-                ->header('Cache-Control', 'public, max-age=3600')
-                ->header('X-Frame-Options', 'ALLOW-FROM https://www.facebook.com');
+                ->withHeaders([
+                    'Cache-Control' => 'public, max-age=3600',
+                    'X-Frame-Options' => 'ALLOW-FROM https://www.facebook.com'
+                ]);
         }
 
         return Inertia::render('post/show', [

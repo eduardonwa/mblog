@@ -33,19 +33,12 @@ export function useShare(url: string, title = '', text = '') {
   }
 
   function shareOnFacebook() {
-    // 1. Usa URL canónica absoluta (sin parámetros de sesión)
-    const canonicalUrl = window.location.origin + window.location.pathname;
-    
-    // 2. Construye URL de Facebook con parámetros anti-caché
-    const fbUrl = new URL('https://www.facebook.com/dialog/share');
-    fbUrl.searchParams.append('app_id', '145634995501895'); // App ID público
-    fbUrl.searchParams.append('href', canonicalUrl);
-    fbUrl.searchParams.append('display', 'popup');
-    fbUrl.searchParams.append('redirect_uri', 'https://www.facebook.com');
-    
-    // 3. Abre ventana con características específicas
-    const windowFeatures = 'width=600,height=400,noopener,noreferrer,resizable=yes';
-    window.open(fbUrl.toString(), 'fb_share', windowFeatures);
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(
+      fbUrl,
+      'fb-share-dialog',
+      'width=600,height=400,noopener,noreferrer'
+    );
   }
 
   return {
