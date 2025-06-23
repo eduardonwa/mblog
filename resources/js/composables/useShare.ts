@@ -32,10 +32,16 @@ export function useShare(url: string, title = '', text = '') {
     window.open(shareUrl, "_blank", "noopener,noreferrer");
   }
 
+  function shareOnFacebook() {
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(fbUrl, '_blank', 'noopener,noreferrer');
+  }
+
   return {
     showMenu,
     copyLink,
     share,
-    openShare
+    openShare,
+    shareOnFacebook
   };
 }

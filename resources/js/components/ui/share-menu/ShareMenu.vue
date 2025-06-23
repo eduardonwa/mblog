@@ -9,7 +9,7 @@ const props = defineProps<{
     variant?: 'desktop' | 'mobile';
 }>()
 
-const { showMenu, copyLink, openShare } = useShare(props.url);
+const { showMenu, copyLink, openShare, shareOnFacebook } = useShare(props.url);
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const { showMenu, copyLink, openShare } = useShare(props.url);
 
         <div v-if="showMenu" :class="['share-menu', `share-menu--${variant}`]">
             <div class="button fw-bold" data-type="ghost" @click="copyLink" style="text-transform: uppercase;">url</div>
-            <div class="button" data-type="ghost" @click="openShare(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(props.url)}`)">
+            <div class="button" data-type="ghost" @click="shareOnFacebook()">
                 <FacebookIcon />
             </div>
             <div class="button" data-type="ghost" @click="openShare(`https://twitter.com/intent/tweet?url=${encodeURIComponent(props.url)}`)">
