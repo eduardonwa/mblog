@@ -6,7 +6,6 @@ import Lightbox from '@/components/Lightbox.vue';
 import ParagraphBlock from '@/components/ParagraphBlock.vue';
 import type { BlogPostProps } from './index';
 import { MentionableUser } from '@/types';
-import BlogPostMeta from './BlogPostMeta.vue';
 
 // Obtener datos mediante inyección
 const props = defineProps<{
@@ -33,7 +32,7 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
     data-align="start"
     grid-area="content"
   >
-    <BlogPostMeta :meta="props.meta" />
+    <!-- <BlogPostMeta :meta="props.meta" /> -->
 
     <article class="blog-post__body__subheader | flow">
       <Lightbox :post="post"/>

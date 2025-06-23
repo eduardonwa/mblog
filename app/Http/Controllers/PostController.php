@@ -47,18 +47,28 @@ class PostController extends Controller
         $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
         $post->setAttribute('likes_count', $post->likesCount());
 
-        // obtener la url del post
+        // datos para los meta tags
+        $meta = [
+            'title' => $post->meta_title ?? $post->title,
+            'description' => $post->meta_description ?? $post->extract,
+            'author' => $post->user?->name,
+            'url' => route('post.show', $post->slug),
+            'thumbnail' => $post->getFirstMediaUrl('thumbnails', 'lg_thumb'),
+        ];
+
+        // detecta si es un bot
+        if ($this->isBot($request)) {
+            return view('post.meta-preview', [
+                'meta' => $meta,
+                'post' => $post,
+            ]);
+        }
 
         return Inertia::render('post/show', [
             'post' => $post->append('thumbnail_urls'),
             'comments' => $comments,
             'mentionableUsers' => $mentionableUsers,
-            'meta' => [
-                'title' => $post->meta_title ?? $post->title,
-                'description' => $post->meta_description ?? $post->description,
-                'author' => $post->user?->name,
-                'thumbnail' => $post->thumbnail_urls['lg']
-            ],
+            'meta' => $meta,
             'url' => route('post.show', $post->slug)
         ]);
     }
@@ -150,5 +160,22 @@ class PostController extends Controller
         
         // Retornar solo los comentarios raíz (comment_id = null)
         return $grouped->get(null, collect());
+    }
+
+    private function isBot(Request $request): bool
+    {
+        $bots = [
+            'facebookexternalhit', 'Twitterbot', 'Slackbot', 'LinkedInBot', 'Discordbot', 'TelegramBot', 'Googlebot'
+        ];
+
+        $userAgent = strtolower($request->header('User-Agent') ?? '');
+
+        foreach ($bots as $bot) {
+            if (str_contains($userAgent, strtolower($bot))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

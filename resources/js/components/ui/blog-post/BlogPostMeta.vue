@@ -3,6 +3,7 @@ import { BlogPostProps } from '.';
 import { Head } from '@inertiajs/vue3';
 
 const { meta } = defineProps<{ meta?: BlogPostProps['meta'] }>();
+console.log("🧠 META:", meta);
 </script>
 
 <template>
@@ -21,12 +22,6 @@ const { meta } = defineProps<{ meta?: BlogPostProps['meta'] }>();
       <meta property="og:locale" content="es_MX" />
 
       <!-- Twitter Cards -->
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" :content="meta?.title" />
-      <meta name="twitter:description" :content="meta?.extract" />
-      <meta name="twitter:image" :content="meta?.thumbnail" />
-
-      <!-- Bluesky -->
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" :content="meta?.title" />
       <meta name="twitter:description" :content="meta?.extract" />
