@@ -164,18 +164,11 @@ class PostController extends Controller
 
     private function isBot(Request $request): bool
     {
-        $bots = [
-            'facebookexternalhit', 'Twitterbot', 'Slackbot', 'LinkedInBot', 'Discordbot', 'TelegramBot', 'Googlebot'
-        ];
-
         $userAgent = strtolower($request->header('User-Agent') ?? '');
-
-        foreach ($bots as $bot) {
-            if (str_contains($userAgent, strtolower($bot))) {
-                return true;
-            }
-        }
-
-        return false;
+        
+        return preg_match(
+            '/facebookexternalhit|facebot|twitterbot|slackbot|linkedinbot|discordbot|telegrambot|googlebot/i', 
+            $userAgent
+        );
     }
 }

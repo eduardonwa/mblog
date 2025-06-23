@@ -33,8 +33,8 @@ export function useShare(url: string, title = '', text = '') {
   }
 
   function shareOnFacebook() {
-    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    window.open(fbUrl, '_blank', 'noopener,noreferrer');
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&display=popup`;
+    window.open(fbUrl, '_blank', 'width=600,height=400,noopener,noreferrer');
   }
 
   return {

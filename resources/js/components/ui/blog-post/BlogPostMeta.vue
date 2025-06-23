@@ -3,7 +3,6 @@ import { BlogPostProps } from '.';
 import { Head } from '@inertiajs/vue3';
 
 const { meta } = defineProps<{ meta?: BlogPostProps['meta'] }>();
-console.log("🧠 META:", meta);
 </script>
 
 <template>
