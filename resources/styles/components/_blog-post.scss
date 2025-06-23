@@ -98,8 +98,30 @@
                 display: none;
 
                 @include mq(large) {
-                    display: block;
+                    display: flex;
+                    align-items: center;
                     padding-inline-start: $size-4;
+                    gap: $size-4;
+
+                    .share-wrapper {
+                        @include mq(large) {
+                            display: flex;
+                            align-items: center;
+
+                            .share-icon {
+                                padding: $size-4;
+
+                                &:hover {
+                                    background: $color-primary-900;
+                                }
+                            }
+                            
+                            .share-menu--desktop {
+                                @include share-menu-base;
+                                @include share-menu-desktop;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -414,15 +436,41 @@
 
         .like-button--mobile {
             height: 50px;
+            color: $color-neutral-100;
+            font-size: 14px;
         }
     }
 
-    @include mq(large) {
-        display: none;
+    .share-wrapper {
+        position: relative;
+        
+        .share-icon {
+            padding: $size-2;
+            display: flex;
+            align-items: center;
+            flex-direction: column-reverse;
+            text-transform: uppercase;
+            font-size: 14px;
+            gap: .2rem;
+
+            &:after {
+                content: 'share';
+                color: $color-neutral-100;
+            }
+        }
+
+        .share-menu--mobile {
+            @include share-menu-base;
+            @include share-menu-mobile;
+        }
     }
 
     &.is-visible {
         transform: translateY(0);
+    }
+
+    @include mq(large) {
+        display: none;
     }
 }
 

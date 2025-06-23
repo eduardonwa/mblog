@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
-import { Head } from '@inertiajs/vue3';
 import CommentForm from '@/components/ui/comments/CommentForm.vue';
 import CommentBox from '@/components/ui/comments/CommentBox.vue';
 import Lightbox from '@/components/Lightbox.vue';
 import ParagraphBlock from '@/components/ParagraphBlock.vue';
 import type { BlogPostProps } from './index';
 import { MentionableUser } from '@/types';
+import BlogPostMeta from './BlogPostMeta.vue';
 
 // Obtener datos mediante inyección
 const props = defineProps<{
@@ -33,11 +33,7 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
     data-align="start"
     grid-area="content"
   >
-    <Head>
-      <title>{{ meta?.title }}</title>
-      <meta name="description" :content="meta?.description">
-      <meta name="user" :content="meta?.author">
-    </Head>
+    <BlogPostMeta :meta="props.meta" />
 
     <article class="blog-post__body__subheader | flow">
       <Lightbox :post="post"/>
@@ -55,7 +51,6 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
     </div>
     
     <div v-else v-html="props.rawBody" />
-
     <hr class="straight-large">
     
     <article class="blog-post__comments">

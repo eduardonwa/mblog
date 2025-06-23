@@ -30,6 +30,7 @@ export interface BlogPostProps {
     comments: Comment[];
     meta: Meta;
     mentionableUsers: MentionableUser;
+    url: string;
 }
 
 export type LayoutState = 'expanded' | 'collapsed';

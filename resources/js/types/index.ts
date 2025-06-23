@@ -109,9 +109,11 @@ export interface CategoryTree extends Category {
 }
 
 export interface Meta {
-    title?: string;
-    description?: string;
-    author?: string;
+    title: string;
+    extract: string;
+    author: string;
+    url: string;
+    thumbnail: string;
 }
 
 export interface Comment {

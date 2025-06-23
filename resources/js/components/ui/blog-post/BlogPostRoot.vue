@@ -7,9 +7,12 @@ import { useResponsivePostBlocks } from '@/composables/useResponsivePostBlocks'
 import { useMediaScrollTrigger } from '@/composables/useMediaScroller'
 import { useLayoutState } from '@/composables/useLayoutState';
 import type { BlogPostProps } from '.';
+import ShareMenu from '../share-menu/ShareMenu.vue';
 
 const props = defineProps<BlogPostProps>()
+
 const localPost = ref({ ...props.post })
+
 const { activeIdx, initTriggers, destroyTriggers } = useMediaScrollTrigger()
 
 const {
@@ -55,7 +58,7 @@ function onVisible(idx: number) {
       data-type="extra-wide"
       :data-state="layoutState"
     >
-      <BlogPostHeader />
+      <BlogPostHeader :url="props.url" />
       <BlogPostContent
         :comments="props.comments"
         :mentionableUsers="props.mentionableUsers"
@@ -73,7 +76,6 @@ function onVisible(idx: number) {
         />
       </div>
     <!-- <pre>{{ textBlocks }}</pre> -->
-
     </main>
 
     <section class="mobile-interactions-wrapper">
@@ -82,7 +84,9 @@ function onVisible(idx: number) {
           :post="localPost"
           @update:post="(updatedPost: typeof props.post) => localPost = updatedPost"
       />
+      <ShareMenu class="share-menu share-menu--mobile" :url="props.url" variant="mobile"/>
     </section>
+    
   </SiteLayout>
 </template>
 

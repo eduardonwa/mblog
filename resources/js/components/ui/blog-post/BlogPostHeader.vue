@@ -4,6 +4,9 @@ import { Link } from '@inertiajs/vue3';
 import LikeButton from '@/components/LikeButton.vue';
 import type { BlogPostProps } from './index';
 import ToggleIcon from '../icons/ToggleIcon.vue';
+import ShareMenu from '../share-menu/ShareMenu.vue';
+
+const props = defineProps<{ url: string }>()
 
 // Obtener datos del post mediante inyección
 const post = inject('postData') as BlogPostProps['post'];
@@ -48,14 +51,15 @@ const localPost = ref({ ...post });
         </article>
       </header>
       
-      <div class="post-interactions-wrapper">
+      <section class="post-interactions-wrapper">
         <LikeButton
           :post="localPost"
           class="stick-this"
           @update:post="updatedPost => localPost = updatedPost"
         />
-      </div>
-      
+        <ShareMenu class="share-menu share-menu--desktop" :url="props.url" variant="desktop" />
+      </section>
+
     </div>
   </section>
 </template>

@@ -47,6 +47,8 @@ class PostController extends Controller
         $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
         $post->setAttribute('likes_count', $post->likesCount());
 
+        // obtener la url del post
+
         return Inertia::render('post/show', [
             'post' => $post->append('thumbnail_urls'),
             'comments' => $comments,
@@ -56,6 +58,7 @@ class PostController extends Controller
                 'description' => $post->meta_description ?? $post->description,
                 'author' => $post->user?->name,
             ],
+            'url' => route('post.show', $post->slug)
         ]);
     }
 

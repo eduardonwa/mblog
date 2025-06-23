@@ -68,3 +68,41 @@
     background-color: $form-input-background-color-focused !important;
   }
 }
+
+@mixin share-menu-base {
+}
+
+@mixin share-menu-mobile {
+  position: absolute;
+  bottom: 68px;
+  right: 0;
+  background-color: $footer-background-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: .5rem;
+
+  div {
+    color: $footer-text-color;
+    margin-block: .3rem;
+  }
+}
+
+@mixin share-menu-desktop {
+  display: flex;
+  margin-inline: 1.5rem;
+  margin-block: .5rem;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin-inline-start: 1.5rem;
+    padding: 1rem;
+
+    &:hover {
+      background: $footer-background-color;
+      color: #F4FFC7;
+    }
+  }
+}
