@@ -57,17 +57,19 @@ class PostController extends Controller
         ];
 
         // detecta si es un bot
-        $response = $this->isBot($request)
-            ? response()->view('post.meta-preview', ['meta' => $meta, 'post' => $post])
-            : Inertia::render('post/show', ['meta' => $meta]);
-
-        // Elimina cookies para bots
         if ($this->isBot($request)) {
-            $response->withoutCookie('sickofmetal_session')
-                    ->withoutCookie('XSRF-TOKEN');
+            // Respuesta para bots (sin Inertia)
+            $response = response()->view('post.meta-preview', [
+                'meta' => $meta,
+                'post' => $post
+            ]);
+            
+            // Elimina cookies y añade cabeceras para bots
+            return $response->withoutCookie('sickofmetal_session')
+                ->withoutCookie('XSRF-TOKEN')
+                ->header('Cache-Control', 'public, max-age=3600')
+                ->header('X-Frame-Options', 'ALLOW-FROM https://www.facebook.com');
         }
-
-        return $response->header('Cache-Control', 'public, max-age=3600');
 
         return Inertia::render('post/show', [
             'post' => $post->append('thumbnail_urls'),
