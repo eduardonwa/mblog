@@ -6,12 +6,12 @@ export function useShare(url: string, title = '', text = '') {
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(url);
-      alert("¡Enlace copiado!");
+      alert("Copied to clipboard");
     } catch (e) {
       if (import.meta.env.DEV) {
-        alert("No se pudo copiar el enlace. ¿Estás en desarrollo? Prueba en producción o usa HTTPS.");
+        alert("Couldn't copy link. Are you in development? Try in production or use HTTPS.");
       } else {
-        alert("No se pudo copiar el enlace.");
+        alert("Failed to copy link.");
       }
     }
   }

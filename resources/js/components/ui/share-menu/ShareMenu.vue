@@ -17,7 +17,7 @@ const { showMenu, copyLink, openShare, shareOnFacebook } = useShare(props.url);
         <ShareIcon color="#fff" @click="showMenu = !showMenu" />
 
         <div v-if="showMenu" :class="['share-menu', `share-menu--${variant}`]">
-            <div class="button fw-bold" data-type="ghost" @click="copyLink" style="text-transform: uppercase;">url</div>
+            <div class="button fw-semi-bold underline" data-type="ghost" @click="copyLink" style="text-transform: uppercase;">link</div>
             <div class="button" data-type="ghost" @click="shareOnFacebook()">
                 <FacebookIcon />
             </div>
