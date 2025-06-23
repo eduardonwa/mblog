@@ -57,6 +57,7 @@ class PostController extends Controller
                 'title' => $post->meta_title ?? $post->title,
                 'description' => $post->meta_description ?? $post->description,
                 'author' => $post->user?->name,
+                'thumbnail' => $post->thumbnail_urls['lg']
             ],
             'url' => route('post.show', $post->slug)
         ]);
