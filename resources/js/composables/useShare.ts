@@ -34,29 +34,20 @@ export function useShare(url: string, title = '', text = '') {
 
   function shareOnFacebook() {
     const encodedUrl = encodeURIComponent(url);
+
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    if (isMobile) {
-      // Intentar abrir app Facebook
-      const appLink = `fb://facewebmodal/f?href=https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-      window.location.href = appLink;
+    // Por ahora, misma lógica para ambos: abrir en nueva pestaña
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
 
-      // Fallback: abrir el navegador después de 1.5 segundos si no funcionó
-      setTimeout(() => {
-        window.open(
-          `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-          '_blank',
-          'noopener,noreferrer'
-        );
-      }, 1500);
-    } else {
-      // Escritorio: nueva pestaña
-      window.open(
-        `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-        '_blank',
-        'noopener,noreferrer'
-      );
-    }
+    window.open(
+      shareUrl,
+      '_blank',
+      'noopener,noreferrer'
+    );
+
+    // Puedes hacer logs o analytics si quieres diferenciar
+    console.log(`Compartiendo en Facebook desde ${isMobile ? 'móvil' : 'escritorio'}`);
   }
 
   return {
