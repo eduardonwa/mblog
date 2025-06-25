@@ -33,7 +33,7 @@ export function useShare(url: string, title = '', text = '') {
   }
 
   function shareOnFacebook() {
-    const url = "https://sickofmetal.net/tu-articulo"; // URL a compartir
+    // const url = "https://sickofmetal.net/tu-articulo"; // URL a compartir
     const encodedUrl = encodeURIComponent(url);
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
