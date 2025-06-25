@@ -33,12 +33,28 @@ export function useShare(url: string, title = '', text = '') {
   }
 
   function shareOnFacebook() {
-    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    window.open(
-      fbUrl,
-      'fb-share-dialog',
-      'width=600,height=400,noopener,noreferrer'
-    );
+    const encodedUrl = encodeURIComponent(url);
+
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // Intenta abrir la app
+      const appLink = `fb://facewebmodal/f?href=${encodedUrl}`;
+      window.location.href = appLink;
+
+      // Opcional: Fallback si falla (muy breve delay)
+      setTimeout(() => {
+        // Abre la versión web si no funcionó
+        window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+      }, 1500); // Le da chance al sistema de abrir la app
+    } else {
+      // En escritorio: abrir en nueva pestaña
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
   }
 
   return {
