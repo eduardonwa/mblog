@@ -5,6 +5,7 @@
     <title>{{ $meta['title'] }}</title>
     <meta name="description" content="{{ $meta['description'] }}">
     <meta name="author" content="{{ $meta['author'] }}">
+    <meta property="fb:app_id" content="1156351909629945" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="{{ $meta['title'] }}">

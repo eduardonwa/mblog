@@ -13,7 +13,6 @@ const { meta } = defineProps<{ meta?: BlogPostProps['meta'] }>();
       <meta name="author" :content="meta?.author" />
 
       <!-- Open Graph (Facebook, WhatsApp, LinkedIn...) -->
-      <meta property="fb:app_id" content="1156351909629945" />
       <meta property="og:title" :content="meta?.title" />
       <meta property="og:description" :content="meta?.extract" />
       <meta property="og:image" :content="meta?.thumbnail" />
