@@ -33,23 +33,31 @@ export function useShare(url: string, title = '', text = '') {
   }
 
   function shareOnFacebook() {
+    const url = "https://sickofmetal.net/tu-articulo"; // URL a compartir
     const encodedUrl = encodeURIComponent(url);
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const webUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
+    // 1. Intenta abrir la app de Facebook en móvil
     if (isMobile) {
-      // 1° Intento: Abrir la app de Facebook (si está instalada)
-      window.location.href = `fb://share?href=${encodedUrl}`;
+      window.location.href = `fb://facewebmodal/f?href=${encodedUrl}`;
       
-      // 2° Intento (fallback): Si no se abre la app en 300ms, abre la web
+      // 2. Fallback después de 500ms (si no se abrió la app)
       setTimeout(() => {
-        if (!document.hidden) { // Si la app no interceptó la navegación
-          window.open(webUrl, '_blank', 'noopener,noreferrer');
+        if (!document.hidden) {
+          window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+            '_blank',
+            'noopener,noreferrer'
+          );
         }
-      }, 300);
+      }, 500);
     } else {
-      // Escritorio: Abre en nueva pestaña
-      window.open(webUrl, '_blank', 'noopener,noreferrer');
+      // 3. En desktop: abre directamente en nueva pestaña
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        '_blank',
+        'noopener,noreferrer'
+      );
     }
   }
 
