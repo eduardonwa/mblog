@@ -47,7 +47,7 @@ export function useShare(url: string, title = '', text = '') {
     );
 
     // Puedes hacer logs o analytics si quieres diferenciar
-    console.log(`Compartiendo en Facebook desde ${isMobile ? 'móvil' : 'escritorio'}`);
+    console.log(`Compartiendo ${shareUrl} en Facebook desde ${isMobile ? 'móvil' : 'escritorio'}`);
   }
 
   return {
