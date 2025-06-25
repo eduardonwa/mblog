@@ -17,6 +17,5 @@
         @routes
         @filamentScripts
         @inertia
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0&appId=1156351909629945"></script>
     </body>
 </html>

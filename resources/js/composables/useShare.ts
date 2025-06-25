@@ -1,11 +1,5 @@
 import { ref } from 'vue';
 
-declare global {
-  interface Window {
-    FB: any;
-  }
-}
-
 export function useShare(url: string, title = '', text = '') {
   const showMenu = ref(false);
 
@@ -38,28 +32,29 @@ export function useShare(url: string, title = '', text = '') {
     window.open(shareUrl, "_blank", "noopener,noreferrer");
   }
 
-  function waitForFB(): Promise<void> {
-    return new Promise((resolve) => {
-      const check = () => {
-        if (window.FB) {
-          resolve();
-        } else {
-          setTimeout(check, 100); // espera 100ms y vuelve a intentar
-        }
-      };
-      check();
-    });
-  }
+  function shareOnFacebook() {
+    const encodedUrl = encodeURIComponent(url);
 
-  async function shareOnFacebook() {
-    await waitForFB();
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    window.FB.ui({
-      method: 'share',
-      href: url,
-    }, () => {
-      // callback opcional
-    });
+    if (isMobile) {
+      // Intenta abrir la app
+      const appLink = `fb://facewebmodal/f?href=${encodedUrl}`;
+      window.location.href = appLink;
+
+      // Opcional: Fallback si falla (muy breve delay)
+      setTimeout(() => {
+        // Abre la versión web si no funcionó
+        window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+      }, 1500); // Le da chance al sistema de abrir la app
+    } else {
+      // En escritorio: abrir en nueva pestaña
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
   }
 
   return {
