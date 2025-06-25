@@ -34,26 +34,22 @@ export function useShare(url: string, title = '', text = '') {
 
   function shareOnFacebook() {
     const encodedUrl = encodeURIComponent(url);
-
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const webUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
 
     if (isMobile) {
-      // Intenta abrir la app
-      const appLink = `fb://facewebmodal/f?href=${encodedUrl}`;
-      window.location.href = appLink;
-
-      // Opcional: Fallback si falla (muy breve delay)
+      // 1° Intento: Abrir la app de Facebook (si está instalada)
+      window.location.href = `fb://share?href=${encodedUrl}`;
+      
+      // 2° Intento (fallback): Si no se abre la app en 300ms, abre la web
       setTimeout(() => {
-        // Abre la versión web si no funcionó
-        window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-      }, 1500); // Le da chance al sistema de abrir la app
+        if (!document.hidden) { // Si la app no interceptó la navegación
+          window.open(webUrl, '_blank', 'noopener,noreferrer');
+        }
+      }, 300);
     } else {
-      // En escritorio: abrir en nueva pestaña
-      window.open(
-        `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-        '_blank',
-        'noopener,noreferrer'
-      );
+      // Escritorio: Abre en nueva pestaña
+      window.open(webUrl, '_blank', 'noopener,noreferrer');
     }
   }
 
