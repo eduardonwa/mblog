@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="facebook-domain-verification" content="ya9dx7u6o4lf2mne0n9tkk8yau8jph" />
-        <meta property="fb:app_id" content="1156351909629945" />
         <title inertia>{{ config('app.name', 's1ck0fm3t4L') }}</title>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
