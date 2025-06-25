@@ -33,26 +33,22 @@ export function useShare(url: string, title = '', text = '') {
   }
 
   function shareOnFacebook() {
-    // const url = "https://sickofmetal.net/tu-articulo"; // URL a compartir
     const encodedUrl = encodeURIComponent(url);
-    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-    // 1. Intenta abrir la app de Facebook en móvil
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
     if (isMobile) {
-      window.location.href = `fb://facewebmodal/f?href=${encodedUrl}`;
-      
-      // 2. Fallback después de 500ms (si no se abrió la app)
+      // Intenta abrir la app
+      const appLink = `fb://facewebmodal/f?href=${encodedUrl}`;
+      window.location.href = appLink;
+
+      // Opcional: Fallback si falla (muy breve delay)
       setTimeout(() => {
-        if (!document.hidden) {
-          window.open(
-            `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-            '_blank',
-            'noopener,noreferrer'
-          );
-        }
-      }, 500);
+        // Abre la versión web si no funcionó
+        window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+      }, 1500); // Le da chance al sistema de abrir la app
     } else {
-      // 3. En desktop: abre directamente en nueva pestaña
+      // En escritorio: abrir en nueva pestaña
       window.open(
         `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
         '_blank',
