@@ -13,6 +13,15 @@ class ChannelSeeder extends Seeder
      */
     public function run(): void
     {
+        $path = public_path('images/groups/g-metal.png');
+
+        if (!file_exists($path)) {
+            if ($this->command) {
+                $this->command->info('Saltando ChannelSeeder porque no existe la imagen requerida.');
+            }
+            return; // Salta el seeder
+        }
+
         $channel = Channel::firstOrCreate(
             ['slug' => 'lists'],
             [
@@ -22,9 +31,7 @@ class ChannelSeeder extends Seeder
             ]
         );
 
-        $path = public_path('images/groups/g-metal.png');
-
-        if (file_exists($path) && ! $channel->getFirstMedia('channel_sticker')) {
+        if (! $channel->getFirstMedia('channel_sticker')) {
             $channel
                 ->addMedia($path)
                 ->preservingOriginal()
