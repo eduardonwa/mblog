@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
+use Database\Seeders\ChannelSeeder;
 use Database\Seeders\CategorySeeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             CategorySeeder::class,
+            ChannelSeeder::class,
         ]);
 
         // Crear 1 admin

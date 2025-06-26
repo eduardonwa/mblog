@@ -139,6 +139,22 @@ export interface MentionableUser {
   avatar: string;
 }
 
+export interface Channel {
+    name: string;
+    slug: string;
+    description: string;
+    is_active: boolean;
+    url: string;
+    sticker_url: ThumbnailUrls;
+}
+
+export interface ChannelListProps {
+  channels: Channel[];
+}
+
+export interface SingleChannelProps {
+  channel: Channel;
+}
 export type SidebarState = 'expanded' | 'collapsed' | undefined;
 
 export {};

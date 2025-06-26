@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
@@ -25,6 +26,8 @@ Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show
 Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');
 Route::get('category/{slug}', [CategoryController::class, 'index'])->name('category.index');
 Route::get('author/{user:slug}/posts', [UserPublicProfileController::class, 'index'])->name('author.posts');
+Route::get('channels', [ChannelController::class, 'index'])->name('channel.index');
+Route::get('/channels/{channel:slug}', [ChannelController::class, 'show'])->name('channel.show');
 
 // Grupo para invitados (no autenticados)
 Route::middleware('guest')->group(function () {

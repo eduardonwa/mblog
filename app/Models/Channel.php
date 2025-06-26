@@ -13,11 +13,23 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Channel extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
+    
+    protected $appends = [
+        'url',
+        'sticker_url'
+    ];
 
     // RELACIONES
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    // HELPERS
+    // la url de un canal
+    public function getUrlAttribute(): string
+    {
+        return url("/channels/{$this->slug}");
     }
 
     // IMAGENES, colecciones y conversiones
@@ -28,30 +40,30 @@ class Channel extends Model implements HasMedia
             ->useDisk('public');
     }
 
-        public function registerMediaConversions(?Media $media = null): void
-        {
-            $this->addMediaConversion('lg_thumb')
-                ->fit(Fit::Max, 560, 300)
-                ->format('webp')
-                ->quality(90)
-                ->optimize()
-                ->performOnCollections('channel_sticker')
-                ->nonQueued();
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('lg_thumb')
+            ->fit(Fit::Max, 560, 300)
+            ->format('webp')
+            ->quality(90)
+            ->optimize()
+            ->performOnCollections('channel_sticker')
+            ->nonQueued();
 
-            $this->addMediaConversion('sm_thumb')
-                ->fit(Fit::Max, 150, 150)
-                ->format('webp')
-                ->optimize()
-                ->performOnCollections('channel_sticker')
-                ->nonQueued();
-        }
-        
-        public function getThumbnailUrlsAttribute()
-        {
-            return [
-                'lg' => $this->getFirstMediaUrl('channel_sticker', 'lg_thumb'),
-                'sm' => $this->getFirstMediaUrl('channel_sticker', 'sm_thumb')
-            ];
-        }
+        $this->addMediaConversion('sm_thumb')
+            ->fit(Fit::Max, 150, 150)
+            ->format('webp')
+            ->optimize()
+            ->performOnCollections('channel_sticker')
+            ->nonQueued();
+    }
+    
+    public function getStickerUrlAttribute(): array
+    {
+        return [
+            'lg' => $this->getFirstMediaUrl('channel_sticker', 'lg_thumb'),
+            'sm' => $this->getFirstMediaUrl('channel_sticker', 'sm_thumb'),
+        ];
+    }
 
 }
