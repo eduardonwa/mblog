@@ -22,9 +22,11 @@ class ChannelSeeder extends Seeder
             ]
         );
 
-        if (! $channel->getFirstMedia('channel_sticker')) {
+        $path = public_path('images/groups/g-metal.png');
+
+        if (file_exists($path) && ! $channel->getFirstMedia('channel_sticker')) {
             $channel
-                ->addMedia(public_path('images/groups/g-metal.png'))
+                ->addMedia($path)
                 ->preservingOriginal()
                 ->toMediaCollection('channel_sticker');
         }

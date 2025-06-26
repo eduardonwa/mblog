@@ -81,11 +81,11 @@ onUnmounted(() => {
                         </Link>
 
                         <Link
-                            href="#"
+                            :href="route('channel.index')"
                             class="clr-primary-100"
                         >
                             <GroupsIcon />
-                            Groups
+                            Channels
                         </Link>
                     </div>
 
