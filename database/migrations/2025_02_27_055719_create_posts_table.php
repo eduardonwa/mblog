@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('status')->default('draft');
             $table->boolean('featured')->default(false);
             $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('channel_id')->nullable()->constrained('channels')->nullOnDelete();
             // visitas
             $table->timestamps();
         });
