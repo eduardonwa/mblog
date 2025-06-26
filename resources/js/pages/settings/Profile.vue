@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { type ProfileForm, type BreadcrumbItem, type SharedData, type User } from '@/types';
+import { avatarVariant } from '@/components/ui/avatar';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -33,7 +34,7 @@ const form = useForm<ProfileForm>({
     name: user.name,
     email: user.email,
     avatar: null,
-    avatarPreview: String(page.props.avatarUrl || ''),
+    avatarPreview: String(page.props.avatarUrl || user.avatar_url),
 });
 
 function handleAvatarChange(event: Event) {

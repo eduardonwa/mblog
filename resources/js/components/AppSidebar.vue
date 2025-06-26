@@ -31,14 +31,11 @@ const footerNavItems: NavItem[] = [
 
 <template>
     <Sidebar collapsible="icon" variant="sidebar" :data-state="props.state">
-        <SidebarTrigger class="sidebar-trigger" />
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link class="no-decor" :href="route('dashboard.index')">
-                            <AppLogo />
-                        </Link>
+                        <!-- algo -->
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>

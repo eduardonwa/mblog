@@ -41,9 +41,9 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
         <DialogContent class="dialog-content" :class="cn(sheetVariants({ side }), props.class)" v-bind="{ ...forwarded, ...$attrs }">
             <slot />
 
-            <DialogClose class="close-btn-wrapper">
+            <!-- <DialogClose class="close-btn-wrapper">
                 <X class="button" data-type="close-btn" />
-            </DialogClose>
+            </DialogClose> -->
         </DialogContent>
     </DialogPortal>
 </template>

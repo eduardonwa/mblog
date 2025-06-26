@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
-import type { HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@/lib/utils'
 
 const props = defineProps<{
-    class?: HTMLAttributes['class'];
-}>();
+  class?: HTMLAttributes['class']
+}>()
 </script>
 
 <template>
-    <!-- sidebar inset -->
+    <!-- hermano de sidebar -->
     <main
-        class="container" data-type="dashboard"
-        :class="
-            cn(
-                '',
-                props.class,
-            )
-        "
+        data-slot="sidebar-inset"
+        :class="cn(
+            'sidebar-inset',
+            props.class,
+        )"
     >
         <slot />
     </main>

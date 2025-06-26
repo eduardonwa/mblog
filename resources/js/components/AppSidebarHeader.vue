@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
     <header>
-        <SidebarTrigger />
+        <SidebarTrigger class="mobile-trigger"/>
         <template v-if="breadcrumbs.length > 0">
             <Breadcrumbs class="breadcrumbs" :breadcrumbs="breadcrumbs" />
         </template>

@@ -16,7 +16,6 @@ const props = defineProps<
         data-sidebar="group-label"
         :as="as"
         :as-child="asChild"
-        class="dashbar__mobile"
         :class="
             cn(
                 '',

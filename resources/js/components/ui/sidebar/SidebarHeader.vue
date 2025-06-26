@@ -8,7 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div data-sidebar="header" class="dashbar__mobile" :class="cn('', props.class)">
+    <div data-sidebar="header" :class="cn('', props.class)">
         <slot />
     </div>
 </template>
