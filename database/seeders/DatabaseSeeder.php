@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             CategorySeeder::class,
-            // ChannelSeeder::class,
+            ChannelSeeder::class,
         ]);
 
         // Crear 1 admin
