@@ -43,7 +43,7 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
                             :key="category.id"
                         >
                             <Link :href="route('category.index', { slug: category.slug })">
-                            {{ category.name }}
+                                {{ category.name }}
                             </Link>
                         </li>
                     </ul>

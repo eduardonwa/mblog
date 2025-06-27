@@ -2,9 +2,7 @@
 import type { SidebarProps } from '.'
 import { cn } from '@/lib/utils'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
-import SheetDescription from '@/components/ui/sheet/SheetDescription.vue'
 import SheetHeader from '@/components/ui/sheet/SheetHeader.vue'
-import SheetTitle from '@/components/ui/sheet/SheetTitle.vue'
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from './utils'
 import AppLogo from '@/components/AppLogo.vue'
 import { Link } from '@inertiajs/vue3'
@@ -24,31 +22,33 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
 
 <template>
   <div
-    v-if="collapsible === 'none'"
+    v-show="collapsible === 'none'"
     data-slot="sidebar"
-    :class="cn('bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col', props.class)"
+    :class="cn(props.class)"
     v-bind="$attrs"
   >
     <slot />
   </div>
 
-  <Sheet v-else-if="isMobile" :open="openMobile" v-bind="$attrs" @update:open="setOpenMobile">
+  <Sheet v-show="isMobile" :open="openMobile" v-bind="$attrs" @update:open="setOpenMobile">
     <SheetContent
       class="dashbar-mobile"
       data-sidebar="sidebar"
       data-slot="sidebar"
       data-mobile="true"
+      :class="{ 'is-open': openMobile }"
       :side="side"
       :style="{
         '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
       }"
     >
-      <SheetHeader class="sr-only">
+      <SheetHeader>
         <Link class="no-decor" :href="route('dashboard.index')">
             <AppLogo />
         </Link>
       </SheetHeader>
-      <div class="flex h-full w-full flex-col">
+      <!-- sidebar items -->
+      <div>
         <slot />
       </div>
     </SheetContent>
@@ -56,8 +56,8 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
 
   <!-- hermano de sidebar inset -->
   <div
-    v-else
-    class="group peer text-sidebar-foreground hidden md:block"
+    v-show="!isMobile && collapsible !== 'none'"
+    class="group peer"
     data-slot="sidebar"
     :data-state="state"
     :data-collapsible="state === 'collapsed' ? collapsible : ''"
@@ -67,31 +67,31 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
     <!-- This is what handles the sidebar gap on desktop  -->
     <div
       :class="cn(
-        'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
-        'group-data-[collapsible=offcanvas]:w-0',
-        'group-data-[side=right]:rotate-180',
+        // 'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
+        'group-data-[collapsible=offcanvas]',
+        'group-data-[side=right]',
         variant === 'floating' || variant === 'inset'
-          ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]'
-          : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon)',
+          ? 'group-data-[collapsible=icon]'
+          : 'group-data-[collapsible=icon]',
       )"
     />
     <div
       :class="cn(
-        'sidebar-wrapper fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
+        'sidebar-wrapper',
         side === 'left'
-          ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
-          : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
+          ? 'group-data-[collapsible=offcanvas]'
+          : 'group-data-[collapsible=offcanvas]',
         // Adjust the padding for floating and inset variants.
         variant === 'floating' || variant === 'inset'
-          ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]'
-          : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
+          ? 'group-data-[collapsible=icon]'
+          : 'group-data-[collapsible=icon] group-data-[side=left] group-data-[side=right]',
         props.class,
       )"
       v-bind="$attrs"
     >
       <div
         data-sidebar="sidebar"
-        class="dashbar-desktop bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
+        class="dashbar-desktop group-data-[variant=floating] group-data-[variant=floating] group-data-[variant=floating] group-data-[variant=floating]"
       >
         <slot />
       </div>

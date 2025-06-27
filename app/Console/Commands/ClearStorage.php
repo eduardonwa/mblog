@@ -20,7 +20,7 @@ class ClearStorage extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Deletes storage/app/public';
 
     /**
      * Execute the console command.

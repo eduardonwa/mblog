@@ -18,25 +18,7 @@ class DashboardController extends Controller
             ->where('user_id', Auth::id())
             ->latest()
             ->withCount('likes', 'comments')
-            ->get()
-            ->map(function ($post) {
-                return [
-                    'id' => $post->id,
-                    'title' => $post->title,
-                    'extract' => $post->extract,
-                    'published_at' => $post->smart_date,
-                    'category' => $post->category->name,
-                    'likes_count' => $post->likes_count,
-                    'comments_count' => $post->comments_count,
-                ];
-            });
-
-/*             dd([
-                'posts_count' => $user->posts_count,
-                'comments_count' => $user->comments_count,
-                'likes_given_count' => $user->likes_count,
-                'likes_received_count' => $user->likesReceivedCount()
-            ]); */
+            ->get();
 
             return Inertia::render('Dashboard', [
                 'posts' => $posts,

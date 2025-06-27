@@ -3,7 +3,7 @@ import type { Post } from '@/types';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
-import CommunityPostCard from '../ArticleCardHorizontal.vue';
+import ArticleCardHorizontal from '../ArticleCardHorizontal.vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
 import { Link } from '@inertiajs/vue3';
 
@@ -30,7 +30,7 @@ const props = defineProps<MainCommunityFeedProps>();
             >
                 <template #default="{ items }">
                     <article v-for="post in items as Post[]" :key="post.id">   
-                        <CommunityPostCard :post="post" class="feed-post | no-decor">
+                        <ArticleCardHorizontal :post="post" class="feed-post | no-decor">
                             <template #header="{post}">
                                 <div class="feed-post__top">
                                     <Link
@@ -84,7 +84,7 @@ const props = defineProps<MainCommunityFeedProps>();
                                     </div>
                                 </div>
                             </template>
-                        </CommunityPostCard>
+                        </ArticleCardHorizontal>
                         <hr class="hr-straight-large">
                     </article>
                 </template>

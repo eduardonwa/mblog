@@ -2,16 +2,14 @@
 import { Link } from '@inertiajs/vue3';
 import type { Post } from '@/types';
 
-defineProps<{
+const { post } = defineProps<{
   post: Post;
   variant?: 'default' | 'compact';
 }>();
 </script>
 
 <template>
-    <Link
-        :href="route('post.show', { slug:post.slug })"
-    >
+    <Link :href="route('post.show', { post: post.slug })">
         <!-- header -->
         <div
             v-if="$slots.header"

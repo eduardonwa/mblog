@@ -1,0 +1,164 @@
+@use '../abstracts' as *;
+
+// ESTILOS MOVIL
+.dashbar-mobile {
+  background: $color-primary-900;
+  color: $color-primary-200;
+  width: $sidebar-width;
+  padding: $size-4;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 50;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 275ms ease, opacity 275ms ease;
+  will-change: transform, opacity;
+  border-right: 1px solid $color-primary-500;
+  box-shadow: $box-shadow-1;
+}
+
+.dashbar-mobile.is-open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.dashbar-desktop {
+  display: none;
+  height: 100%;
+  background: $color-primary-900;
+  transition: width 275ms ease;
+  padding: $size-4;
+
+  @include mq(medium) {
+    display: block;
+    width: $sidebar-width;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .peer[data-variant='inset'][data-state='collapsed'] & {
+      width: $sidebar-width-collapsed;      
+    }
+  }
+}
+
+.sidebar-inset {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 275ms ease;
+  padding: $size-4;
+
+  .group[data-variant='inset'][data-state='expanded'] + & {
+    margin-left: 250px;
+  }
+
+  .group[data-variant='inset'][data-state='collapsed'] + & {
+    margin-left: 60px;
+  }
+
+  @include mq(medium) {
+    margin-left: $sidebar-width-collapsed;
+    padding: 0;
+
+    .peer[data-variant="inset"][data-state="expanded"] + & {
+      margin: 0.5rem;
+      margin-left: $sidebar-width;
+      border-radius: $border-radius-1;
+      box-shadow: $box-shadow-1;
+    }
+  }
+}
+
+[data-slot="sidebar-wrapper"] {
+  display: flex;
+  height: 100vh;
+}
+
+.group {
+  width: 250px;
+  transition: width 275ms ease;
+
+  &[data-state='collapsed'] {
+    width: 60px;
+  }
+}
+
+.group .dashbar-desktop {
+  > div {
+    transition: opacity 275ms ease;
+    opacity: 1;
+  }
+}
+
+// Ajustes según estado y variante (group)
+.group[data-state='collapsed'] .dashbar-desktop {
+  width: $sidebar-width-collapsed;
+
+  > div {
+    opacity: 0;
+  }
+}
+
+.group[data-state='expanded'] .dashbar-desktop {
+  width: $sidebar-width;
+}
+
+.group[data-variant='inset'][data-state='collapsed'] .dashbar-desktop {
+  width: $sidebar-width-collapsed;
+
+  & > * {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.group[data-variant='inset'][data-state='expanded'] .dashbar-desktop {
+  width: $sidebar-width;
+
+  & > * {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+// Ajustes según estado y variante (peer con sibling .sidebar-wrapper)
+.peer[data-variant='inset'][data-state='collapsed'] + .sidebar-wrapper {
+  .dashbar-desktop {
+    width: $sidebar-width-collapsed;
+
+    & > * {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+}
+
+.peer[data-variant='inset'][data-state='expanded'] + .sidebar-wrapper {
+  .dashbar-desktop {
+    width: $sidebar-width;
+
+    & > * {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+}
+
+// ESTILOS DE LA LISTA DE ITEMS
+.sidebar-group {
+    margin-block: 2rem;
+    
+    .sidebar-group__link {
+        display: flex;
+        gap: 1rem;
+        color: $color-neutral-200;
+    }
+}

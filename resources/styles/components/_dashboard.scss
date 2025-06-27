@@ -1,138 +1,149 @@
-@use '../abstracts' as *;
+@use '../abstracts/' as *;
 
-// ESTILOS MOVIL
-.dashbar-mobile {
-  background: $color-primary-900;
-  color: $color-primary-200;
-  width: $sidebar-width;
-  padding: $size-4;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-}
+.dashboard-user {
+    @include mq(medium) {
+        max-width: calc(100vw - $sidebar-width-collapsed - $size-4 * 2);
+        margin-inline-end: 60px;
 
-.dashbar-desktop {
-  display: none;
-  height: 100vh;
-  background: $color-primary-900;
-  transition: width 275ms ease;
-  padding: $size-4;
-
-  @include mq(medium) {
-    display: block;
-    width: $sidebar-width;
-
-    .peer[data-variant='inset'][data-state='collapsed'] & {
-      width: $sidebar-width-collapsed;      
+        .peer[data-variant="inset"][data-state="expanded"] + .sidebar-inset & {
+            max-width: calc(100vw - $sidebar-width - $size-4 * 2);
+        }
     }
-  }
-}
+    
+    &__info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: $size-4;
+        padding: $size-4;
+        width: fit-content;
+        margin: auto;
+        
+        @include mq(large) {
+            flex-direction: row;
+            justify-content: flex-start;
+            margin: 0;
 
-.sidebar-inset {
-  flex: 1;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  transition: margin-left 275ms ease;
-  padding: $size-4;
-
-  .group[data-variant='inset'][data-state='expanded'] + & {
-    margin-left: 250px;
-  }
-
-  .group[data-variant='inset'][data-state='collapsed'] + & {
-    margin-left: 60px;
-  }
-
-  @include mq(medium) {
-    margin-left: $sidebar-width-collapsed;
-    padding: 0;
-
-    .peer[data-variant="inset"][data-state="expanded"] + & {
-      margin: 0.5rem;
-      margin-left: $sidebar-width;
-      border-radius: $border-radius-1;
-      box-shadow: $box-shadow-1;
+            h2:hover {
+                text-decoration: underline;
+            }
+        }
+    
+        h2 {
+            font-size: $font-size-600;
+            color: $color-primary-100;
+        }
     }
-  }
-}
+    
+    &__stats {
+        margin-block: $size-7;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: $card-flow-spacing;
 
-[data-slot="sidebar-wrapper"] {
-  display: flex;
-  height: 100vh;
-}
+        @include mq(large) {
+            grid-template-columns: repeat(3, 1fr);
+        }
 
-.group {
-  width: 250px;
-  transition: width 275ms ease;
+        .card {
+            width: 100%;
+            
+            @include mq(medium) {
+                width: 100%;
+            }
 
-  &[data-state='collapsed'] {
-    width: 60px;
-  }
-}
-
-.group .dashbar-desktop {
-  > div {
-    transition: opacity 275ms ease;
-    opacity: 1;
-  }
-}
-
-// Ajustes según estado y variante (group)
-.group[data-state='collapsed'] .dashbar-desktop {
-  width: $sidebar-width-collapsed;
-
-  > div {
-    opacity: 0;
-  }
-}
-
-.group[data-state='expanded'] .dashbar-desktop {
-  width: $sidebar-width;
-}
-
-.group[data-variant='inset'][data-state='collapsed'] .dashbar-desktop {
-  width: $sidebar-width-collapsed;
-
-  & > * {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-}
-
-.group[data-variant='inset'][data-state='expanded'] .dashbar-desktop {
-  width: $sidebar-width;
-
-  & > * {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-}
-
-// Ajustes según estado y variante (peer con sibling .sidebar-wrapper)
-.peer[data-variant='inset'][data-state='collapsed'] + .sidebar-wrapper {
-  .dashbar-desktop {
-    width: $sidebar-width-collapsed;
-
-    & > * {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+            @include mq(large) {
+            }
+            
+            h2 {
+                font-weight: bold;
+                font-size: $font-size-700;
+                
+                @include mq(large) {
+                    font-size: $font-size-600;
+                }
+            }
+            
+            p {
+                font-size: $font-size-500;
+                
+                @include mq(large) {
+                    font-size: $font-size-400;
+                }
+            }
+        }
     }
-  }
-}
 
-.peer[data-variant='inset'][data-state='expanded'] + .sidebar-wrapper {
-  .dashbar-desktop {
-    width: $sidebar-width;
+    &__posts {
+        margin-block-start: $size-13;
 
-    & > * {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
+        @include mq(large) {
+            margin-block-start: 0;
+            margin-block: $size-11;
+        }
+
+        &__wrapper {
+            margin-block: $size-10;
+            display: block;
+            padding: $size-4;
+            color: $color-primary-300;
+            border: 1px solid $color-primary-400;
+            border-radius: $size-1;
+            transition: all 0.2s ease;
+            outline: 2px solid transparent;
+            transition: all 275ms ease;
+
+            @include mq(medium) {
+                margin-block: $size-5;
+                display: grid;
+                place-items: center;
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            &:hover, &:focus {
+                outline: 2px solid $color-accent-300;
+                outline-offset: 2px;
+                border: 1px solid transparent;
+                color: $color-primary-200;
+                scale: 1.03;
+            } 
+
+            .header {
+                font-size: $font-size-500;
+                color: $color-primary-100;
+                justify-self: start;
+                margin-inline-start: $size-4;
+
+                @include mq(large) {
+                    font-size: $font-size-400;
+                }
+            }
+
+            .middle {
+                margin-block: $size-6;
+                display: flex;
+                gap: $size-5;
+
+                @include mq(medium) {
+                    margin-block: 0;
+                }
+
+                .uphail-count, .comment-count {
+                    display: flex;
+                    gap: $size-3;
+                }
+            }
+
+            .footer {
+                margin-block-start: $size-7;
+                display: flex;
+                gap: $size-5;
+
+                @include mq(medium) {
+                    margin-block-start: 0;
+                }
+            }
+        }
     }
-  }
 }
