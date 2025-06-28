@@ -6,13 +6,13 @@
     .fi-body, .fi-panel-member {
         min-height: 100vh;
 
-        .fi-layout { // <- div
+        .fi-layout {
             display: flex;
             min-height: 100vh;
             width: 100%;
             flex-direction: row-reverse;
         
-            .fi-main-ctn { // <- div
+            .fi-main-ctn {
                 width: 100vw;
                 flex: 1;
                 flex-direction: column;
@@ -27,6 +27,15 @@
                 .fi-main {
                     padding-inline: $size-12;
                     width: 100%;
+
+                    .fi-page {
+                        section {
+                            .fi-header {
+                                font-size: $font-size-500;
+                                margin-block: $size-8;
+                            }
+                        }
+                    }
                 }
 
                 &.fi-main-ctn-sidebar-open {
@@ -36,9 +45,125 @@
                         margin-left: 250px;
                     }
                 }
+
+                .fi-topbar {
+                    background: $color-primary-900;
+                    padding: $size-4;
+                    overflow-x: clip;
+                    position: sticky;
+                    top: 0;
+
+                    nav {
+                        display: flex;
+                        align-items: center;
+                        height: $size-8;
+                        justify-content: flex-end;
+
+                        // boton del sidebar
+                        .fi-icon-btn {
+                            display: none;
+                        }
+
+                        div {
+                            display: flex;
+                            align-items: center;
+
+                            @include mq(large) {
+                                padding-inline: $size-4;
+                            }
+                            
+                            .fi-dropdown {
+                                .fi-dropdown-trigger {
+                                    display: flex;
+                                    align-items: center;
+                                    cursor: pointer;
+                    
+                                    button {
+                                        flex-shrink: 0;
+                                        border: none;
+                                        background: transparent;
+                    
+                                        .fi-avatar {
+                                            object-fit: cover;
+                                            cursor: pointer;
+                                            object-position: center;
+                                            border-radius: 50%;
+                                            height: $size-9;
+                                            width: $size-9;
+                                        }
+                                    }
+                                }
+
+                                .fi-dropdown-panel {
+                                    position: absolute;
+                                    z-index: 10;
+                                    border-radius: $border-radius-1;
+                                    background: $color-primary-900;
+                                    border: 1px solid $color-primary-500;
+
+                                    .fi-dropdown-header {
+                                        display: flex;
+                                        width: 100%;
+                                        gap: $size-2;
+                                        padding: $size-3;
+                                        
+                                        .fi-dropdown-header-icon {
+                                            height: $size-5;
+                                            width: $size-5;
+                                        }
+
+                                        .fi-dropdown-header-label {
+                                            flex: 1;
+                                            text-align: start;
+                                            font-weight: $font-weight-semi-bold;
+                                        }
+                                    }
+
+                                    .fi-dropdown-list {
+                                        margin-block-end: $size-3;
+                                        padding: 0;
+
+                                        .fi-dropdown-list-item {
+                                            height: 24px;
+                                            background: transparent;
+                                            border: none;
+                                            color: $color-neutral-100;
+                                            display: flex;
+                                            width: 100%;
+                                            align-items: center;
+                                            gap: $size-2;	
+                                            white-space: nowrap;
+                                            border-radius: .5rem;
+                                            padding: $size-2;
+                                            font-size: 14px;
+                                            transition: color, background-color, border, 75ms cubic-bezier(0.4, 0, 0.2, 1);
+                                            outline: none;
+                                            cursor: pointer;
+
+                                            &:hover, &:focus {
+                                                background: $color-primary-800;
+                                                color: $color-neutral-100;
+                                                padding: $size-2;
+                                            }
+
+                                            .fi-dropdown-list-item-icon {
+                                                height: 18px;
+                                                width: 18px;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .fi-dropdown-panel > *:nth-child(2) { // theme-switcher
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         
-            .fi-main-ctn-sidebar-open { // clase dinamica cuando esta abierto el sidebar
+            .fi-main-ctn-sidebar-open {
                 margin-left: 0px;
             }
 
@@ -87,7 +212,12 @@
                         align-items: center;
                         justify-content: space-between;
                         margin: $size-4;
-        
+
+                        a {
+                            display: block;
+                            text-decoration: none;
+                        }
+
                         .fi-icon-btn {
                             position: relative;
                             display: flex;
@@ -100,10 +230,11 @@
                             width: 30px;
                             cursor: pointer;
                             border: none;
-                            background: $color-primary-900;
+                            background: transparent;
         
                             &:hover, :focus {
                                 outline: 2px solid $color-accent-200;
+                                background: $color-primary-900;
                             }
                             
                             .fi-icon-btn-icon {
@@ -171,7 +302,7 @@
                                         svg.fi-sidebar-item-icon{
                                             height: 24px;
                                             width: 24px;
-                                            color: $color-neutral-100;
+                                            color: $color-accent-200;
                                         }
         
                                         .fi-sidebar-item-label {
@@ -203,58 +334,6 @@
                 transform: translateX(0);
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             }
-        }
-    }
-}
-
-.fi-topbar { // <- div
-    background: $color-primary-900;
-    padding: $size-4;
-    overflow-x: clip;
-    position: sticky;
-    top: 0;
-
-    nav {
-        display: flex;
-        align-items: center;
-        gap: $size-4;
-        padding-inline: $size-4;
-        height: $size-8;
-        justify-content: flex-end;
-
-        // boton del sidebar
-        .fi-icon-btn {
-            display: none;
-        }
-
-        .fi-dropdown {
-            .fi-dropdown-trigger {
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-
-                button {
-                    flex-shrink: 0;
-                    border: none;
-                    background: transparent;
-
-                    .fi-avatar {
-                        object-fit: cover;
-                        cursor: pointer;
-                        object-position: center;
-                        border-radius: 50%;
-                        height: $size-9;
-                        width: $size-9;
-                    }
-                }
-            }
-        }
-
-        .fi-topbar-open-sidebar-btn {
-        }
-        
-    
-        .fi-topbar-close-sidebar-btn {
         }
     }
 }

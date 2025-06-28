@@ -1,0 +1,1 @@
+<h2 class="ff-display clr-neutral-100 no-decor">Sick of Metal</h2>

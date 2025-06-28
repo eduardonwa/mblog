@@ -57,6 +57,7 @@ class MemberPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->spa()
+            ->brandLogo(fn () => view('filament.member.logo'))
             ->sidebarCollapsibleOnDesktop();
     }
 }
