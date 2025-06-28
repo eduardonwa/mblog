@@ -7,6 +7,7 @@ use App\Models\Like;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use App\Models\CustomComment;
+use App\Traits\UserHasSameSlug;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -22,7 +23,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, CanComment, InteractsWithMedia;
+    use HasFactory, Notifiable, HasRoles, CanComment, InteractsWithMedia, UserHasSameSlug;
 
     protected $appends = [
         'avatar_url',

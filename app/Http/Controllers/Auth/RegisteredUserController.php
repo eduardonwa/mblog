@@ -37,18 +37,10 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $baseSlug = Str::slug($request->name);
-        $slug = $baseSlug;
-        $counter = 1;
-
-        while (User::where('slug', $slug)->exists()) {
-            $slug = $baseSlug . '-' . $counter++;
-        }
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'slug' => $slug,
+            'slug' => User::generateSlug($request->name),
             'password' => Hash::make($request->password),
         ]);
 

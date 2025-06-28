@@ -47,11 +47,11 @@ class DatabaseSeeder extends Seeder
         // Crear cuenta con member
         User::factory()
             ->create([
-                'name' => 'ecoello',
+                'name' => 'eduardo',
                 'email' => 'eduardo@mail.com',
-                'slug' => 'ecoello',
+                'slug' => User::generateSlug('eduardo'),
                 'password' => bcrypt('pass123456')
-            ]);
+            ])->assignRole('member');
 
         // Crear posts para admin (5 normales + 3 destacados)
         Post::factory()
