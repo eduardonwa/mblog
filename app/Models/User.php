@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Filament\Panel;
 use App\Models\Like;
+use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use App\Models\CustomComment;
 use Spatie\MediaLibrary\HasMedia;
@@ -60,15 +61,18 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         ];
     }
 
-    public function assignMember(): void
+    public function getRouteKeyName()
     {
-        // Verificar si ya tiene el rol de "member"
-        if ($this->hasRole('member')) {
-            throw new \Exception('User already has "member" role.');
-        }
-    
-        // Asignar el rol de "member"
-        $this->assignRole('member');
+        return 'slug';
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            if (empty($user->slug)) {
+                $user->slug = Str::slug($user->name);
+            }
+        });
     }
 
     public function posts(): HasMany
@@ -85,6 +89,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     {
         return $this->morphedByMany(Post::class, 'likeable', 'likes');
     }
+    
+    public function comments()
+    {
+        return $this->hasMany(CustomComment::class, 'user_id');
+    }
 
     public function likesReceivedCount()
     {
@@ -98,16 +107,25 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         )->where('likeable_type', Post::class)->count();
     }
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
-    public function canAccessPanel(Panel $panel): bool
+    /* public function canAccessPanel(Panel $panel): bool
     {
         return str_ends_with($this->email, '@sickofmetal.net') && 
                $this->hasVerifiedEmail() && 
                $this->hasRole('admin');
+    } */
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return match ($panel->getId()) {
+            'admin' => str_ends_with($this->email, '@sickofmetal.net') &&
+                    $this->hasVerifiedEmail() &&
+                    $this->hasRole('admin'),
+
+            'member' => $this->hasVerifiedEmail() &&
+                        $this->hasRole('member'),
+
+            default => false, // ← muy importante
+        };
     }
 
     public function needsCommentApproval($model): bool
@@ -115,9 +133,15 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return false;
     }
 
-    public function comments()
+    public function assignMember(): void
     {
-        return $this->hasMany(CustomComment::class, 'user_id');
+        // Verificar si ya tiene el rol de "member"
+        if ($this->hasRole('member')) {
+            throw new \Exception('User already has "member" role.');
+        }
+    
+        // Asignar el rol de "member"
+        $this->assignRole('member');
     }
 
     public function registerMediaCollections(): void

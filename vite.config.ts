@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/app.ts',
                 'resources/styles/main.scss',
                 'resources/css/filament/admin/theme.css',
+                // 'resources/css/filament/member/theme.css',
             ],
             refresh: true,
         }),

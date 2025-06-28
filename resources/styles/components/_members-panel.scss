@@ -1,0 +1,260 @@
+@use '../abstracts/' as *;
+
+.fi {
+    min-height: 100vh;
+
+    .fi-body, .fi-panel-member {
+        min-height: 100vh;
+
+        .fi-layout { // <- div
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+            flex-direction: row-reverse;
+        
+            .fi-main-ctn { // <- div
+                width: 100vw;
+                flex: 1;
+                flex-direction: column;
+                height: 100%;
+                opacity: 0;
+                margin-left: 0px;
+
+                @include mq(large) {
+                    margin-left: 0px;
+                }
+        
+                .fi-main {
+                    padding-inline: $size-12;
+                    width: 100%;
+                }
+
+                &.fi-main-ctn-sidebar-open {
+                    width: 250px;
+                    
+                    @include mq(large) {
+                        margin-left: 250px;
+                    }
+                }
+            }
+        
+            .fi-main-ctn-sidebar-open { // clase dinamica cuando esta abierto el sidebar
+                margin-left: 0px;
+            }
+
+           .fi-sidebar-close-overlay {
+                position: fixed;
+                inset: 0;
+                z-index: 30;
+                transition-duration: 375ms;
+                
+                @include mq(large) {
+                    display: none;
+                }
+            }
+
+            .fi-sidebar {
+                position: fixed;
+                inset-block: 0;
+                inset-inline-start: 0;
+                align-content: flex-start;
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                z-index: 30;
+                transition-property: all;
+                transition: width 375ms ease;
+                border-right: 1px solid $color-primary-500;
+                box-shadow: $box-shadow-5;
+        
+                &.fi-sidebar-open {
+                    width: 250px;
+                }
+
+                @include mq(large) {
+                    position: sticky;
+                    z-index: 0;
+                    transition: none;
+                }
+        
+                & > div {
+                    overflow-x: clip;
+                    display: flex;
+        
+                    .fi-sidebar-header {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        margin: $size-4;
+        
+                        .fi-icon-btn {
+                            position: relative;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: $border-radius-1;
+                            outline: none;
+                            transition-duration: 75ms;
+                            height: 30px;
+                            width: 30px;
+                            cursor: pointer;
+                            border: none;
+                            background: $color-primary-900;
+        
+                            &:hover, :focus {
+                                outline: 2px solid $color-accent-200;
+                            }
+                            
+                            .fi-icon-btn-icon {
+                                height: $size-6;
+                                width: $size-6;
+                                stroke: $color-neutral-100;
+                            }
+                        }
+                    }
+                }
+        
+                .fi-sidebar-nav {
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    
+                    @include mq(large) {
+                        padding: 0;
+                        margin-block: $size-4;
+                    }
+        
+                    .fi-sidebar-nav-groups {
+                        display: flex;
+                        flex-direction: column;
+                        margin-left: 0;
+
+                        @include mq(large) {
+                            margin-left: 15px;
+                        }
+        
+                        .fi-sidebar-group {
+                            display: flex;
+                            flex-direction: column;
+        
+                            .fi-sidebar-group-items {
+                                display: flex;
+                                flex-direction: column;
+        
+                                .fi-sidebar-item {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+        
+                                    .fi-sidebar-item-button {
+                                        position: relative;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        outline: none;
+                                        transition-duration: 75ms;
+                                        margin-block: $size-4;
+                                        width: 100%;
+                                        border-radius: .5rem;
+                                        padding: $size-2;
+                                        text-decoration: none;
+        
+                                        @include mq(large) {
+                                            &:hover, &:focus {
+                                                background: $color-primary-900;
+                                            }
+                                        }
+                                        
+                                        svg.fi-sidebar-item-icon{
+                                            height: 24px;
+                                            width: 24px;
+                                            color: $color-neutral-100;
+                                        }
+        
+                                        .fi-sidebar-item-label {
+                                            font-size: $font-size-300;
+                                            margin-left: $size-2;
+                                            color: $color-neutral-100;
+                                            flex: 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        
+            .fi-main-sidebar {
+                background: $color-primary-900;
+                
+                @include mq(large) {
+                    background: transparent;
+                }
+            }
+        
+            .fi-sidebar-open {
+                position: absolute;
+                z-index: 50;
+                width: 250px;
+                transform: translateX(0);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+}
+
+.fi-topbar { // <- div
+    background: $color-primary-900;
+    padding: $size-4;
+    overflow-x: clip;
+    position: sticky;
+    top: 0;
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: $size-4;
+        padding-inline: $size-4;
+        height: $size-8;
+        justify-content: flex-end;
+
+        // boton del sidebar
+        .fi-icon-btn {
+            display: none;
+        }
+
+        .fi-dropdown {
+            .fi-dropdown-trigger {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+
+                button {
+                    flex-shrink: 0;
+                    border: none;
+                    background: transparent;
+
+                    .fi-avatar {
+                        object-fit: cover;
+                        cursor: pointer;
+                        object-position: center;
+                        border-radius: 50%;
+                        height: $size-9;
+                        width: $size-9;
+                    }
+                }
+            }
+        }
+
+        .fi-topbar-open-sidebar-btn {
+        }
+        
+    
+        .fi-topbar-close-sidebar-btn {
+        }
+    }
+}

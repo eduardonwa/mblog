@@ -3,3 +3,5 @@
 @use "layout";
 @use "utilities";
 @use "vendor";
+@use 'components/members-panel';
+@import 'vendor/filament/theme.css';
