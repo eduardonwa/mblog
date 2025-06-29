@@ -25,8 +25,12 @@
                 }
         
                 .fi-main {
-                    padding-inline: $size-12;
+                    padding-inline-start: $size-11;
                     width: 100%;
+
+                    @include mq(large) {
+                        padding-inline: $size-12;
+                    }
 
                     .fi-page {
                         section {

@@ -10,10 +10,12 @@ class MemberDashboard extends Page
 {
     protected static string $panel = 'member';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-home';
 
     protected static string $view = 'filament.member.pages.member-dashboard';
 
+    protected static ?string $navigationLabel = 'Dashboard';
+    
     public function getViewData(): array
     {
         $user = Auth::user()->loadCount(['posts', 'comments', 'likes']);

@@ -1,11 +1,11 @@
 <x-filament::page>
     <div class="dashboard-user">
         @if ($user)
-            <section>
+            <section class="dashboard-user__info">
                 <a href="{{ route('profile.edit') }}" class="no-decor">
-                    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" />
-                    <h2>{{ $user->name }}</h2>
+                    <img class="avatar" src="{{ $user->avatar_url }}" alt="{{ $user->name }}" />
                 </a>
+                <h2>{{ $user->slug }}</h2>
             </section>
         @endif
 

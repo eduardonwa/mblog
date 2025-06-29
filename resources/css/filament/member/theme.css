@@ -2,3 +2,20 @@
 
 @config 'tailwind.config.js';
 
+.fi-body {
+    background-color: hsla(242.61, 21.5%, 20.98%, 1) !important;
+}
+
+.fi-topbar > nav,
+.fi-dropdown-panel,
+.fi-simple-main /* edit profile */ {
+    background: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+.fi-sidebar, .fi-sidebar-header {
+    background: hsla(242.61, 21.5%, 20.98%, 1) !important;
+}
+
+.fi-ta-ctn {
+    background-color: transparent !important;
+}

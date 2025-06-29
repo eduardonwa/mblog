@@ -1,15 +1,6 @@
 @use '../abstracts/' as *;
 
 .dashboard-user {
-    @include mq(medium) {
-        max-width: calc(100vw - $sidebar-width-collapsed - $size-4 * 2);
-        margin-inline-end: 60px;
-
-        .peer[data-variant="inset"][data-state="expanded"] + .sidebar-inset & {
-            max-width: calc(100vw - $sidebar-width - $size-4 * 2);
-        }
-    }
-    
     &__info {
         display: flex;
         justify-content: center;
@@ -21,12 +12,14 @@
         margin: auto;
         
         @include mq(large) {
-            flex-direction: row;
+            flex-direction: row !important;
             justify-content: flex-start;
             margin: 0;
+            width: 100%;
 
             h2:hover {
                 text-decoration: underline;
+                cursor: pointer;
             }
         }
     
@@ -38,12 +31,12 @@
     
     &__stats {
         margin-block: $size-7;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: $card-flow-spacing;
 
         @include mq(large) {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr) !important;
         }
 
         .card {
