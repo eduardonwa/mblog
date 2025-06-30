@@ -5,7 +5,10 @@ import NavigationTopBarVisible from '@/components/ui/navigation-menu/NavigationT
 import NavigationTopBarInvisible from '@/components/ui/navigation-menu/NavigationTopBarInvisible.vue';
 import HomeIcon from './../ui/icons/HomeIcon.vue';
 import GroupsIcon from './../ui/icons/GroupsIcon.vue';
-import type { Category } from '@/types';
+import type { Category, SharedData } from '@/types';
+
+
+const page = usePage<SharedData>();
 
 const logout = () => {
   router.post(route('logout'))
@@ -55,6 +58,7 @@ onUnmounted(() => {
         <nav class="nav" aria-label="Main navigation">
             <div class="nav__visible">
                 <NavigationTopBarVisible
+                    :auth="page.props.auth"
                     :isMenuOpen="isMenuOpen"
                     @open-menu="openMenu"
                     :categories="categories"

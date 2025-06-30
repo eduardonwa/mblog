@@ -2,8 +2,15 @@ import type { LucideIcon } from 'lucide-vue-next';
 import type { PageProps } from '@inertiajs/core';
 import './types/inertia'
 
+declare module '@inertiajs/core' {
+  interface PageProps {
+    [key: string]: any; // Firma de índice para propiedades dinámicas
+  }
+}
+
 export interface Auth {
-    user: User;
+    user: User | null;
+    roles: string[];
 }
 
 export interface BreadcrumbItem {

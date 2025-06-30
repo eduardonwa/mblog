@@ -25,7 +25,7 @@ const submit = () => {
         </div>
 
         <form @submit.prevent="submit" class="text-center container" data-type="narrow">
-            <Button class="button margin-inline-end-5" data-type="" :disabled="form.processing" variant="secondary">
+            <Button class="button margin-inline-end-4" :disabled="form.processing" variant="secondary">
                 <LoaderCircle v-if="form.processing" class="" />
                 Resend verification email
             </Button>

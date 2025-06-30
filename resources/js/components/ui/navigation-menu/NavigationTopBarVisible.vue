@@ -1,17 +1,28 @@
 <script setup lang="ts">
-    import UserIcon from '../icons/UserIcon.vue';
-    import { Link } from '@inertiajs/vue3';
-    import MenuIcon from '../icons/MenuIcon.vue';
-    import type { Category } from '@/types/index';
-    
-    interface Props {
-        categories: Category[];
-        isMenuOpen: Boolean,
-    }
+import UserIcon from '../icons/UserIcon.vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import MenuIcon from '../icons/MenuIcon.vue';
+import type { Auth, Category } from '@/types/index';
+import { onMounted } from 'vue';
 
-    defineProps<Props>();
+interface Props {
+    categories: Category[];
+    isMenuOpen: Boolean,
+    auth: Auth;
+}
 
-    defineEmits(['openMenu']);
+defineProps<Props>();
+
+defineEmits(['openMenu']);
+
+const page = usePage()
+const auth = page.props.auth as Auth;
+const isAdmin = auth.roles?.includes('admin')
+const isMember = auth.roles.includes('member')
+
+function goTo(url: string) {
+  window.location.href = url
+}
 </script>
 
 <template>
@@ -39,9 +50,12 @@
     
     <!-- login/register -->
     <div class="nav__visible__auth">
-        <Link v-if="$page.props.auth.user" :href="route('dashboard.index')">
-            <UserIcon/>
-        </Link>
+        <button class="button" data-type="ghost" v-if="isAdmin" @click="goTo('/admin')">
+            <UserIcon />
+        </button>
+        <button class="button" data-type="ghost" v-else-if="isMember" @click="goTo('/member')">
+            <UserIcon />
+        </button>
         <Link v-else :href="route('register')">Sign Up</Link>
     </div>
 </template>

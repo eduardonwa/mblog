@@ -2,7 +2,6 @@
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use BeyondCode\Comments\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -18,6 +17,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
+// Grupo para rutas públicas
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/captcha/generate', [CaptchaController::class, 'generateMetalCaptcha']);
 Route::post('/captcha/validate', [CaptchaController::class, 'validateCaptcha']);
@@ -35,7 +35,7 @@ Route::middleware('guest')->group(function () {
     Route::inertia('/register', 'auth/Register')->name('register');
 });
 
-// Grupo consolidado para usuarios autenticados y verificados
+// Grupo para usuarios autenticados y verificados
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard    
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
