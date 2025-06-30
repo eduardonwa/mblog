@@ -15,6 +15,8 @@ class MemberDashboard extends Page
     protected static string $view = 'filament.member.pages.member-dashboard';
 
     protected static ?string $navigationLabel = 'Dashboard';
+
+    protected ?string $heading = 'Welcome';
     
     public function getViewData(): array
     {
