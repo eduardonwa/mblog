@@ -21,7 +21,7 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
         >
             <header class="site-footer__container__logo">
                 <Link href="/">
-                <AppLogoIcon />
+                    <AppLogoIcon />
                 </Link>
                 <div class="icons-group">
                     <YoutubeIcon size="28" />

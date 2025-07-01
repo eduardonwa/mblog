@@ -71,12 +71,6 @@ class AdminPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-arrow-left')
             ])
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Members')
-                    ->icon('heroicon-o-user-group')
-                    ->collapsible(),
-            ])
             ;
     }
 }

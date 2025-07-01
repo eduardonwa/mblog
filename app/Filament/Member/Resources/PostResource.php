@@ -2,7 +2,6 @@
 
 namespace App\Filament\Member\Resources;
 
-use Filament\Forms;
 use App\Models\Post;
 use Filament\Tables;
 use Filament\Forms\Get;
@@ -13,21 +12,18 @@ use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use FilamentTiptapEditor\TiptapEditor;
 use Filament\Forms\Components\Tabs\Tab;
-use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Member\Resources\PostResource\Pages;
-use App\Filament\Member\Resources\PostResource\RelationManagers;
+use App\Filament\RelationManagers\CommentsRelationManager;
 
 class PostResource extends Resource
 {
@@ -71,20 +67,36 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        Toggle::make('status_toggle') // Campo temporal NO guardado en BD
+                                        Toggle::make('publish_now')
                                             ->label('Publish now')
-                                            ->default(true)
+                                            ->default(fn (Get $get) => $get('status') === 'published')
+                                            ->dehydrated(false) // no lo guardamos directamente
                                             ->live()
                                             ->afterStateUpdated(function (Set $set, $state) {
-                                                // Convertir el estado del toggle a los valores string
-                                                $set('status', $state ? 'published' : 'draft');
-                                                // Manejar la fecha automáticamente
-                                                $set('published_at', $state ? now() : null);
-                                            })
-                                            ->dehydrated(false), // No guardar este campo en la BD
-                                        // Mantén tu campo status real como Hidden
+                                                if ($state) {
+                                                    $set('status', 'published');
+                                                    $set('published_at', now());
+                                                } else {
+                                                    $set('status', 'draft');
+                                                    $set('published_at', null);
+                                                }
+                                            }),
                                         Hidden::make('status')
-                                            ->default('published')
+                                            ->default('draft')
+                                            ->required(),
+                                        DateTimePicker::make('published_at')
+                                            ->label('Schedule for later')
+                                            ->timezone('UTC')
+                                            ->visible(fn (Get $get) => $get('publish_now') === false)
+                                            ->afterStateUpdated(function (Set $set, $state) {
+                                                if ($state) {
+                                                    $set('status', 'scheduled');
+                                                } else {
+                                                    $set('status', 'draft');
+                                                }
+                                            })
+                                            ->minDate(now()->addMinutes(5))
+                                            ->helperText('Published automatically if you activate "publish now."'),
                                     ]),
                             ]),
                         ]),
@@ -134,7 +146,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // CommentsRelationManager::class,
         ];
     }
 

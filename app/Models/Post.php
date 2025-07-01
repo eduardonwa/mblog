@@ -29,6 +29,12 @@ class Post extends Model implements HasMedia
         'excerpt'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'published_at' => 'datetime',
+    ];
+
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -81,33 +87,28 @@ class Post extends Model implements HasMedia
 
     // FECHAS
     // mostrar formato de fechas 
-    protected function formatDate($short)
+    protected function formatDate($short = false)
     {
-        $createdAt = $this->created_at;
+        $date = $this->published_at ?? $this->created_at;
         $now = now();
 
-        // calcular todos los valores con floor
-        $minutes = floor($createdAt->diffInMinutes($now));
-        $hours = floor($createdAt->diffInHours($now));
-        $days = floor($createdAt->diffInDays($now));
-    
-        if ($short) {
-            if ($minutes < 1) {
-                return 'Now';
-            }
-            if ($minutes < 60) {
-                return $minutes . 'm';
-            }
-            if ($hours < 24) {
-                return $hours . 'h';
-            }
-            if ($days < 7) {
-                return $days . 'd';
-            }
-            return $createdAt->isoFormat('D MMM');
+        if (!$date || !$date instanceof \Carbon\Carbon) {
+            return $short ? '—' : 'Not available';
         }
-        // Versión larga
-        return $createdAt->diffForHumans();
+
+        $minutes = $date->diffInMinutes($now);
+        $hours = $date->diffInHours($now);
+        $days = $date->diffInDays($now);
+
+        if ($short) {
+            if ($minutes < 1) return 'Now';
+            if ($minutes < 60) return $minutes . 'm';
+            if ($hours < 24) return $hours . 'h';
+            if ($days < 7) return $days . 'd';
+            return $date->isoFormat('D MMM');
+        }
+
+        return $date->diffForHumans();
     }
 
     // formato largo
@@ -128,17 +129,26 @@ class Post extends Model implements HasMedia
         parent::boot();
 
         static::saving(function ($post) {
-            // Asegura coherencia entre status y published_at
-            if ($post->status === 'published' && is_null($post->published_at)) {
-                $post->published_at = now();
+            // created_at siempre debe tener valor
+            if (is_null($post->created_at)) {
+                $post->created_at = now();
             }
 
-            if ($post->status === 'draft') {
+            if ($post->status === 'published') {
+                $post->published_at = now();
+            } elseif ($post->status === 'scheduled') {
+                // si no hay published_at, asignar fecha futura
+                if (is_null($post->published_at)) {
+                    $post->published_at = now()->addHour();
+                }
+            } elseif ($post->status === 'draft') {
+                // no debería tener fecha de publicación
                 $post->published_at = null;
             }
         });
     }
-    
+
+
     // crear extracto corto
     public function getExcerptAttribute(): string
     {

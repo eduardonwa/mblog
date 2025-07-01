@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -28,6 +27,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PostResource\Pages;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -111,19 +111,36 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        Toggle::make('status')
+                                        Toggle::make('publish_now')
                                             ->label('Publish now')
-                                            ->default(true)
+                                            ->default(fn (Get $get) => $get('status') === 'published')
+                                            ->dehydrated(false) // no lo guardamos directamente
                                             ->live()
                                             ->afterStateUpdated(function (Set $set, $state) {
-                                                // Si se activa "Publicar ahora", establece created_at = now()
-                                                $set('created_at', $state ? now() : null);
+                                                if ($state) {
+                                                    $set('status', 'published');
+                                                    $set('published_at', now());
+                                                } else {
+                                                    $set('status', 'draft');
+                                                    $set('published_at', null);
+                                                }
                                             }),
-                                        DateTimePicker::make('created_at')
-                                            ->label('Schedule post')
-                                            ->displayFormat('m/d/Y H:i')
+                                        Hidden::make('status')
+                                            ->default('draft')
+                                            ->required(),
+                                        DateTimePicker::make('published_at')
+                                            ->label('Schedule for later')
                                             ->timezone('UTC')
-                                            ->hidden(fn (Get $get): bool => $get('status')),
+                                            ->visible(fn (Get $get) => $get('publish_now') === false)
+                                            ->afterStateUpdated(function (Set $set, $state) {
+                                                if ($state) {
+                                                    $set('status', 'scheduled');
+                                                } else {
+                                                    $set('status', 'draft');
+                                                }
+                                            })
+                                            ->minDate(now()->addMinutes(5))
+                                            ->helperText('Published automatically if you activate "publish now."'),
                                     ]),
                             ]),
                         ])->columnSpan([
@@ -150,11 +167,12 @@ class PostResource extends Resource
                     ->label('User')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('status')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('category.name')
                     ->numeric()
+                    ->sortable(),
+                IconColumn::make('status')
+                    ->boolean()
+                    ->searchable()
                     ->sortable(),
                 IconColumn::make('featured')
                     ->boolean()
@@ -173,6 +191,7 @@ class PostResource extends Resource
                     ->options([
                         'admin' => 'Admin',
                         'staff' => 'Staff',
+                        'member' => 'Member',
                     ])
                     ->query(function (Builder $query, array $data) {
                         if (!empty($data['value'])) {
@@ -207,7 +226,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class,
         ];
     }
 
@@ -229,9 +248,6 @@ class PostResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->whereHas('user', function($q) {
-                $q->role(['staff', 'admin']);
-            })
             ->where(function($query) {
                 $query->whereNotNull('user_id')
                     ->orWhereNotNull('original_user_id');

@@ -25,7 +25,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -52,7 +52,7 @@ class UserResource extends Resource
                     ->circular()
                     ->defaultImageUrl(fn ($record) => 'https://www.gravatar.com/avatar/'.md5($record->email).'?d=identicon'),
                 TextColumn::make('slug')
-                    ->label('User')
+                    ->label('Username')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -61,41 +61,41 @@ class UserResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
-                SelectFilter::make('user_role')
-                    ->options([
-                        'admin' => 'Admin',
-                        'staff' => 'Staff',
-                        'member' => 'Member',
-                    ])
-                    ->query(function (Builder $query, array $data) {
-                        if (!empty($data['value'])) {
-                            $query->role($data['value']); // Usa el método role() directamente
-                        }
-                    }),
+                    SelectFilter::make('user_role')
+                        ->options([
+                            'admin' => 'Admin',
+                            'staff' => 'Staff',
+                            'member' => 'Member',
+                        ])
+                        ->query(function (Builder $query, array $data) {
+                            if (!empty($data['value'])) {
+                                $query->role($data['value']); // Usa el método role() directamente
+                            }
+                        }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
-                Action::make('restore')
-                    ->icon('heroicon-o-arrow-uturn-left')
-                    ->action(fn ($record) => $record->restore())
-                    ->visible(fn ($record) => $record->trashed())
-                    ->requiresConfirmation()
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title('Reactivated')
-                            ->body('The user has been reactivated with their posts.')
-                    ),
-                
-                DeleteAction::make()
-                    ->icon('heroicon-o-trash')
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title('Deleted')
-                            ->body('The user has been deleted.')
-                    ),
+                    Action::make('restore')
+                        ->icon('heroicon-o-arrow-uturn-left')
+                        ->action(fn ($record) => $record->restore())
+                        ->visible(fn ($record) => $record->trashed())
+                        ->requiresConfirmation()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Reactivated')
+                                ->body('The user has been reactivated with their posts.')
+                        ),
+                    
+                    DeleteAction::make()
+                        ->icon('heroicon-o-trash')
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Deleted')
+                                ->body('The user has been deleted.')
+                        ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -128,10 +128,5 @@ class UserResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public static function getNavigationGroup(): ?string
-    {
-        return 'Members';
     }
 }
