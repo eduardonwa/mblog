@@ -30,6 +30,7 @@ return new class extends Migration
             $table->softDeletes();
             // vistas
             $table->timestamps();
+            $table->timestamp('published_at')->nullable();
         });
     }
 

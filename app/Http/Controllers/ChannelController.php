@@ -24,7 +24,7 @@ class ChannelController extends Controller
             ->with(['user:id,name', 'media'])
             ->withCount(['likes', 'comments'])
             ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('published_at', 'desc')
             ->paginate(12);
         
         if ($request->wantsJson() || $request->query('json')) {
@@ -54,10 +54,5 @@ class ChannelController extends Controller
             'channel' => $channel,
             'post' => $post->load('channel')
         ]);
-    }
-
-    private function getChannelBySlug(string $slug)
-    {
-        return Channel::with('media')->where('slug', $slug)->firstOrFail();
     }
 }

@@ -17,7 +17,7 @@ class CategoryController extends Controller
             ->withCount('likes', 'comments')
             ->where('category_id', $category->id)
             ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('published_at', 'desc')
             ->paginate(12);
 
         if (request()->wantsJson()) {

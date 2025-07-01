@@ -71,21 +71,20 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-Toggle::make('status_toggle') // Campo temporal NO guardado en BD
-    ->label('Publicar ahora')
-    ->default(true)
-    ->live()
-    ->afterStateUpdated(function (Set $set, $state) {
-        // Convertir el estado del toggle a los valores string
-        $set('status', $state ? 'published' : 'draft');
-        // Manejar la fecha automáticamente
-        $set('created_at', $state ? now() : null);
-    })
-    ->dehydrated(false), // No guardar este campo en la BD
-
-// Mantén tu campo status real como Hidden
-Hidden::make('status')
-    ->default('published')
+                                        Toggle::make('status_toggle') // Campo temporal NO guardado en BD
+                                            ->label('Publish now')
+                                            ->default(true)
+                                            ->live()
+                                            ->afterStateUpdated(function (Set $set, $state) {
+                                                // Convertir el estado del toggle a los valores string
+                                                $set('status', $state ? 'published' : 'draft');
+                                                // Manejar la fecha automáticamente
+                                                $set('published_at', $state ? now() : null);
+                                            })
+                                            ->dehydrated(false), // No guardar este campo en la BD
+                                        // Mantén tu campo status real como Hidden
+                                        Hidden::make('status')
+                                            ->default('published')
                                     ]),
                             ]),
                         ]),

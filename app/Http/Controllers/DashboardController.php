@@ -16,7 +16,7 @@ class DashboardController extends Controller
         
         $posts = Post::with(['user', 'category', 'likes'])
             ->where('user_id', Auth::id())
-            ->latest()
+            ->latest('published_at')
             ->withCount('likes', 'comments')
             ->get();
 

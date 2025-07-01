@@ -15,7 +15,7 @@ class UserPublicProfileController extends Controller
             ->where('user_id', $user->id)
             ->where('status', 'published')
             ->withCount('comments', 'likes')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('published_at', 'desc')
             ->paginate(12);
         
         if (request()->wantsJson()) {

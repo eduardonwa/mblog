@@ -125,7 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             'member' => $this->hasVerifiedEmail() &&
                         $this->hasRole('member'),
 
-            default => false, // ← muy importante
+            default => false,
         };
     }
 

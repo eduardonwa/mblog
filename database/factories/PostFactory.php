@@ -39,6 +39,7 @@ class PostFactory extends Factory
             'featured' => fake()->boolean(),
             'user_id' => User::inRandomOrder()->first()->id,
             'category_id' => Category::inRandomOrder()->first()->id,
+            'published_at' => now()
         ];
     }
 }

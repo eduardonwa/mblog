@@ -126,16 +126,15 @@ class Post extends Model implements HasMedia
     protected static function boot()
     {
         parent::boot();
-        
+
         static::saving(function ($post) {
-            // Si está como published y no tiene fecha, usa now()
-            if ($post->status === 'published' && empty($post->created_at)) {
-                $post->created_at = now();
+            // Asegura coherencia entre status y published_at
+            if ($post->status === 'published' && is_null($post->published_at)) {
+                $post->published_at = now();
             }
-            
-            // Si es draft, limpia la fecha (opcional)
+
             if ($post->status === 'draft') {
-                $post->created_at = null;
+                $post->published_at = null;
             }
         });
     }
@@ -190,7 +189,7 @@ class Post extends Model implements HasMedia
         $query = $query->published()
             ->where('featured', true)
             ->whereUserHasRole(['staff', 'admin'])
-            ->latest();
+            ->latest('published_at');
 
         return $limit ? $query->take($limit) : $query;
     }
@@ -201,7 +200,7 @@ class Post extends Model implements HasMedia
         $query = $query->published()
             ->where('featured', false)
             ->whereUserHasRole(['staff', 'admin'])
-            ->latest();
+            ->latest('published_at');
 
         return $limit ? $query->take($limit) : $query;
     }
@@ -243,7 +242,7 @@ class Post extends Model implements HasMedia
                         ->orWhereHas('category'); // O con categoría
                 });
             })
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('published_at', 'DESC')
             ->when($limit, fn($q) => $q->take($limit));
     }
 
@@ -252,7 +251,7 @@ class Post extends Model implements HasMedia
     {
         $query = $query->published()
             ->whereUserHasRole(['member'])
-            ->latest();
+            ->latest('published_at');
 
         return $limit ? $query->take($limit) : $query;
     }
