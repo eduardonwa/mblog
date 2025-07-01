@@ -64,6 +64,7 @@ class MemberPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-arrow-left')
             ])
+            ->brandLogo(fn () => view('filament.member.logo'));
             ;
     }
 }

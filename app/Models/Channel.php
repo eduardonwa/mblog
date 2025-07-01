@@ -31,6 +31,12 @@ class Channel extends Model implements HasMedia
     {
         return url("/channels/{$this->slug}");
     }
+    
+    // obtener el slug de un post, asociado con un "channel"
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     // IMAGENES, colecciones y conversiones
     public function registerMediaCollections(): void

@@ -17,13 +17,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, CanComment, InteractsWithMedia, UserHasSameSlug;
+    use HasFactory, SoftDeletes, Notifiable, HasRoles, CanComment, InteractsWithMedia, UserHasSameSlug;
 
     protected $appends = [
         'avatar_url',
@@ -81,6 +82,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return $this->hasMany(Post::class, 'user_id');
     }
 
+    // incluir posts eliminados al cargar la relacion
+    public function postsWithTrashed()
+    {
+        return $this->posts()->withTrashed();
+    }
+
     public function likes()
     {
         return $this->hasMany(Like::class);
@@ -107,13 +114,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             'id' // PK en posts
         )->where('likeable_type', Post::class)->count();
     }
-
-    /* public function canAccessPanel(Panel $panel): bool
-    {
-        return str_ends_with($this->email, '@sickofmetal.net') && 
-               $this->hasVerifiedEmail() && 
-               $this->hasRole('admin');
-    } */
 
     public function canAccessPanel(Panel $panel): bool
     {

@@ -1,1 +1,9 @@
-<h2 class="ff-display clr-neutral-100 no-decor">Sick of Metal</h2>
+<h2
+    style="
+        font-weight: bold;
+        font-family: 'Inter';
+        font-size: 18px;
+    "
+>
+    Sick of Metal
+</h2>

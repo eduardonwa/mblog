@@ -28,6 +28,7 @@ Route::get('category/{slug}', [CategoryController::class, 'index'])->name('categ
 Route::get('author/{user:slug}/posts', [UserPublicProfileController::class, 'index'])->name('author.posts');
 Route::get('channels', [ChannelController::class, 'index'])->name('channel.index');
 Route::get('/channels/{channel:slug}', [ChannelController::class, 'show'])->name('channel.show');
+Route::get('/channel/{channel:slug}/{post:slug}', [ChannelController::class, 'showPost'])->name('channel.post.show');
 
 // Grupo para invitados (no autenticados)
 Route::middleware('guest')->group(function () {
@@ -49,7 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Interacciones con posts (versión única)
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
-    
+
     // Comentarios (versión única)
     Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

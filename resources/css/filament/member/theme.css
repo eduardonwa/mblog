@@ -36,6 +36,11 @@
     background-color: transparent !important;
 }
 
+/* modals */
+.fi-modal-window {
+    background-color: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
 /* pages */
 .fi-section {
     background-color: hsla(240, 20.69%, 14.71%, 1) !important;

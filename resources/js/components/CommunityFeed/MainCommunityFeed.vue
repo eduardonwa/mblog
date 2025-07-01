@@ -29,13 +29,13 @@ const props = defineProps<MainCommunityFeedProps>();
                 :initialNextPage="communityFeed.next_page_url ?? undefined"
             >
                 <template #default="{ items }">
-                    <article v-for="post in items as Post[]" :key="post.id">   
+                    <article v-for="post in items as Post[]" :key="post.id">
                         <ArticleCardHorizontal :post="post" class="feed-post | no-decor">
                             <template #header="{post}">
                                 <div class="feed-post__top">
                                     <Link
                                         class="no-decor"
-                                        :href="route('author.posts', { user: post?.user?.slug })"
+                                        :href="post.user ? route('author.posts', { user: post.user.slug }) : '/'"
                                         aria-label="More about this author"
                                     >
                                         <Avatar
@@ -48,7 +48,7 @@ const props = defineProps<MainCommunityFeedProps>();
                                                 class="avatar__image"
                                             >
                                         </Avatar>
-                                        <span class="feed-post-author">{{ post.user?.name }}</span>
+                                        <span class="feed-post-author">{{ post.user?.name || 'Rattlehead' }}</span>
                                     </Link>
                                     <span class="feed-post__top__date">{{ post?.short_date }}</span>
                                 </div>

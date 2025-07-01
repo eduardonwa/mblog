@@ -15,11 +15,12 @@ use BeyondCode\Comments\Traits\HasComments;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, HasTags, HasComments;
+    use HasFactory, InteractsWithMedia, HasTags, HasComments, SoftDeletes;
 
     protected $appends = [
         'smart_date',
@@ -41,7 +42,7 @@ class Post extends Model implements HasMedia
     
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function category(): BelongsTo
@@ -71,6 +72,12 @@ class Post extends Model implements HasMedia
     }
 
     /* FORMATEOS */
+
+    // COLUMNAS
+    public function originalUser()
+    {
+        return $this->belongsTo(User::class, 'original_user_id')->withTrashed();
+    }
 
     // FECHAS
     protected function formatDate($short)
@@ -126,28 +133,45 @@ class Post extends Model implements HasMedia
 
     // SCOPES
     // relaciones y condiciones comunes
+
+    // obtiene posts de usuarios activos y eliminados segun el rol
+    protected function scopeWhereUserHasRole($query, array $roles)
+    {
+        return $query->where(function($q) use ($roles) {
+            // 1. Usuarios activos o borrados con el rol
+            $q->whereHas('user', function($q) use ($roles) {
+                $q->where(function($subQ) use ($roles) {
+                    $subQ->role($roles)
+                        ->orWhere(fn($q) => $q->onlyTrashed()->whereHas('roles', fn($q) => $q->whereIn('name', $roles)));
+                });
+            })
+            // 2. O posts huérfanos cuyo original_user tenía ese rol
+            ->orWhereHas('originalUser', function($q) use ($roles) {
+                $q->whereHas('roles', fn($q) => $q->whereIn('name', $roles));
+            });
+        });
+    }
+
     public function scopeWithCommonRelations($query)
     {
         return $query->with(['user', 'category', 'media'])
-                    ->withCount('likes');
+            ->withCount('likes');
     }
 
     // posts publicados
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
-                    ->withCommonRelations();
+            ->withCommonRelations();
     }
 
     // 1. Featured posts (solo staff/admin)
     public function scopeFeatured($query, $limit = null)
     {
         $query = $query->published()
-                    ->where('featured', true)
-                    ->whereHas('user', function($q) {
-                        $q->role(['staff', 'admin']);
-                    })
-                    ->latest();
+            ->where('featured', true)
+            ->whereUserHasRole(['staff', 'admin'])
+            ->latest();
 
         return $limit ? $query->take($limit) : $query;
     }
@@ -156,11 +180,9 @@ class Post extends Model implements HasMedia
     public function scopeStaffPosts($query, $limit = null)
     {
         $query = $query->published()
-                    ->where('featured', false)
-                    ->whereHas('user', function($q) {
-                        $q->role(['staff', 'admin']);
-                    })
-                    ->latest();
+            ->where('featured', false)
+            ->whereUserHasRole(['staff', 'admin'])
+            ->latest();
 
         return $limit ? $query->take($limit) : $query;
     }
@@ -169,10 +191,10 @@ class Post extends Model implements HasMedia
     public function scopeTopMemberPosts($query, $limit = null)
     {
         $query = $query->published()
-                    ->whereHas('user', fn($q) => $q->role('member'))
-                    ->withCount('likes')
-                    ->having('likes_count', '>', 0)
-                    ->orderByDesc('likes_count');
+            ->whereUserHasRole(['member'])
+            ->withCount('likes')
+            ->having('likes_count', '>', 0)
+            ->orderByDesc('likes_count');
 
         return $limit ? $query->take($limit) : $query;
     }
@@ -180,33 +202,40 @@ class Post extends Model implements HasMedia
     // 4. Community feed
     public function scopeCommunityFeed($query, $limit = null)
     {
-        $query = $query->published()
-                    ->where(function($q) {
-                        // 1. Todos los posts de miembros (rol 'member')
-                        $q->whereHas('user', function($q) {
-                            $q->role('member');
-                        })
-                        // 2. O posts SIN categoría de staff/admin
-                        ->orWhere(function($q) {
-                            $q->whereNull('category_id')
-                            ->whereHas('user', function($q) {
-                                $q->role(['staff', 'admin']);
-                            });
+        return $query->published()
+            ->where(function($q) {
+                $q->where(function($subQ) {
+                    // posts de miembros (activos o borrados)
+                    $subQ->whereHas('user', function($q) {
+                        $q->where(function($userQ) {
+                            $userQ->role('member')
+                                ->orWhere(fn($q) => $q->onlyTrashed()
+                                    ->whereHas('roles', fn($q) => $q->where('name', 'member')));
                         });
                     })
-                    ->latest();
-
-        return $limit ? $query->take($limit) : $query;
+                    // o posts donde user_id es null
+                    ->orWhereNull('user_id');
+                })
+                // o posts sin categoria de staff/admin (activos o borrados)
+                ->orWhere(function($q) {
+                    $q->whereNull('category_id')
+                        ->whereHas('user', function($q) {
+                            $q->where(function($userQ) {
+                                $userQ->role(['staff', 'admin'])
+                                    ->orWhere(fn($q) => $q->onlyTrashed()
+                                    ->whereHas('roles', fn($q) => $q->whereIn('name', ['staff', 'admin'])));
+                            });
+                        });
+                });
+            });
     }
 
     // 5. Posts recientes de miembros
     public function scopeRecentMemberPosts($query, $limit = null)
     {
         $query = $query->published()
-                    ->whereHas('user', function($q) {
-                        $q->role('member');
-                    })
-                    ->latest();
+            ->whereUserHasRole(['member'])
+            ->latest();
 
         return $limit ? $query->take($limit) : $query;
     }

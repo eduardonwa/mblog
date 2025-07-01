@@ -32,14 +32,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ])->assignRole('admin');
 
-        // Crear 2 staff (como mencionaste)
+        // Crear 2 usuarios staff
         $staffUsers = User::factory()
             ->count(2)
             ->create()
             ->each(fn($user) => $user->assignRole('staff'));
 
-        // Crear miembros con el rol member
-        $kreators = User::factory()
+        // Crear 5 miembros con el rol member
+        $member = User::factory()
             ->count(5)
             ->create()
             ->each(fn($user) => $user->assignRole('member'));
@@ -53,31 +53,23 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('pass123456')
             ])->assignRole('member');
 
-        // Crear posts para admin (5 normales + 3 destacados)
+        // Crear 1 post featured para el admin        
         Post::factory()
-            ->count(5)
-            ->create(['user_id' => $adminUser->id, 'featured' => false]);
-        
-        Post::factory()
-            ->count(2)
+            ->count(1)
             ->create(['user_id' => $adminUser->id, 'featured' => true, 'status' => 'published']);
 
-        // Crear posts para cada staff (3 normales + 2 destacados por staff)
+        // Crear 1 post por staff
         $staffUsers->each(function($staff) {
             Post::factory()
-                ->count(3)
-                ->create(['user_id' => $staff->id, 'featured' => false]);
-            
-            Post::factory()
                 ->count(2)
-                ->create(['user_id' => $staff->id, 'featured' => true, 'status' => 'published']);
+                ->create(['user_id' => $staff->id, 'featured' => false]);
         });
 
-        // Crear posts asignados a kreators aleatorios
+        // Crear posts asignados a "members" aleatorios
         Post::factory()
             ->count(20)
             ->state([
-                'user_id' => fn() => $kreators->random()->id,
+                'user_id' => fn() => $member->random()->id,
                 'featured' => false,
                 'status' => 'published'
             ])

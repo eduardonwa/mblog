@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('original_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('extract')->nullable();
@@ -24,9 +25,10 @@ return new class extends Migration
             $table->string('meta_description');
             $table->string('status')->default('draft');
             $table->boolean('featured')->default(false);
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->nullable()->constrained('categories');
             $table->foreignId('channel_id')->nullable()->constrained('channels')->nullOnDelete();
-            // visitas
+            $table->softDeletes();
+            // vistas
             $table->timestamps();
         });
     }

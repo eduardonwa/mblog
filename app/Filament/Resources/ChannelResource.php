@@ -28,15 +28,15 @@ class ChannelResource extends Resource
 {
     protected static ?string $model = Channel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-wifi';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Grid::make(2)->schema([
+                    
                     Grid::make()->schema([
-
                         TextInput::make('name')
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))

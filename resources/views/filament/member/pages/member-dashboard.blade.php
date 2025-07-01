@@ -22,7 +22,12 @@
 
         <section class="dashboard-user__posts">
             @foreach ($posts as $post)
-                <a href="{{ route('post.show', $post->slug) }}" class="dashboard-user__posts__wrapper no-decor">
+                <a href="{{ route('channel.post.show', [
+                    'channel' => $post->channel->slug,
+                    'post' => $post->slug
+                    ])}}"
+                    class="dashboard-user__posts__wrapper no-decor"
+                >
                     <h2>{{ $post->title }}</h2>
                     <div>{{ $post->likes_count }} likes</div>
                     <div>{{ $post->comments_count }} comments</div>

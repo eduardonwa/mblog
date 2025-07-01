@@ -41,6 +41,7 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    deleted_at?: string | null;
 }
 
 export interface UserStats {
@@ -74,7 +75,8 @@ export interface Post {
     body: string;
     is_liked_by_user: boolean;
     likes_count: number;
-    user: User
+    user_id: number | null;
+    user: User | null;
     author: {
         name: string;
         id: number;
@@ -82,6 +84,7 @@ export interface Post {
     slug: string;
     smart_date: string;
     short_date: string;
+    updated_at: string;
     category: {
         slug: string;
         name: string;
@@ -127,14 +130,14 @@ export interface Comment {
     replies: any;
     id: number;
     comment: string;
-    user_id: number;
+    user_id: number | null;
     commentable_type: string;
     commentable_id: number;
     is_approved: boolean;
     created_at: string;
     updated_at: string;
     comments?: Comment[];
-    commentator?: User;
+    commentator?: User | null;
     children: Comment[];
     _lft?: number;
     _rgt?: number;
@@ -147,12 +150,21 @@ export interface MentionableUser {
 }
 
 export interface Channel {
+    id: number;
     name: string;
     slug: string;
     description: string;
     is_active: boolean;
     url: string;
     sticker_url: ThumbnailUrls;
+    created_at?: string;
+    updated_at?: string;
+    posts_count?: number;
+}
+
+export interface ChannelPosts {
+    data: Post[];
+    next_page_url: string | null;
 }
 
 export interface ChannelListProps {
@@ -161,7 +173,9 @@ export interface ChannelListProps {
 
 export interface SingleChannelProps {
   channel: Channel;
+  posts: Post[];
 }
+
 export type SidebarState = 'expanded' | 'collapsed' | undefined;
 
 export {};

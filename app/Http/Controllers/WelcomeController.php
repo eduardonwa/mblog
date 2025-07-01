@@ -10,7 +10,13 @@ class WelcomeController extends Controller
 {
     public function index()
     {   
-        $communityFeed = Post::communityFeed()->withCount('comments')->paginate(12);
+        $communityFeed = Post::communityFeed()
+            ->with(['user' => function($q) {
+                $q->withTrashed();
+            }])
+            ->withCount('comments')
+            ->paginate(12);
+            
         $communityFeed->appends(['json' => 'true']);
 
         if (request()->wantsJson()) {
