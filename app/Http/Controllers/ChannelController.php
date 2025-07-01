@@ -19,14 +19,14 @@ class ChannelController extends Controller
     public function show($slug, Request $request)
     {
         $channel = Channel::where('slug', $slug)->firstOrFail();
-
+        
         $posts = $channel->posts()
             ->with(['user:id,name', 'media'])
             ->withCount(['likes', 'comments'])
             ->where('status', 'published')
             ->orderBy('created_at', 'desc')
             ->paginate(12);
-
+        
         if ($request->wantsJson() || $request->query('json')) {
             return $posts;
         }

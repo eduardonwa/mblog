@@ -80,6 +80,7 @@ class Post extends Model implements HasMedia
     }
 
     // FECHAS
+    // mostrar formato de fechas 
     protected function formatDate($short)
     {
         $createdAt = $this->created_at;
@@ -119,6 +120,24 @@ class Post extends Model implements HasMedia
     public function getShortDateAttribute()
     {
         return $this->formatDate(true);
+    }
+
+    // horario al crear
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::saving(function ($post) {
+            // Si está como published y no tiene fecha, usa now()
+            if ($post->status === 'published' && empty($post->created_at)) {
+                $post->created_at = now();
+            }
+            
+            // Si es draft, limpia la fecha (opcional)
+            if ($post->status === 'draft') {
+                $post->created_at = null;
+            }
+        });
     }
     
     // crear extracto corto
@@ -202,32 +221,30 @@ class Post extends Model implements HasMedia
     // 4. Community feed
     public function scopeCommunityFeed($query, $limit = null)
     {
-        return $query->published()
+        return $query->published() // Solo posts publicados
             ->where(function($q) {
-                $q->where(function($subQ) {
-                    // posts de miembros (activos o borrados)
-                    $subQ->whereHas('user', function($q) {
-                        $q->where(function($userQ) {
-                            $userQ->role('member')
-                                ->orWhere(fn($q) => $q->onlyTrashed()
-                                    ->whereHas('roles', fn($q) => $q->where('name', 'member')));
-                        });
-                    })
-                    // o posts donde user_id es null
-                    ->orWhereNull('user_id');
+                // Posts de MIEMBROS (users) en CHANNELS
+                $q->whereHas('user', function($userQ) {
+                    $userQ->role('member')
+                        ->orWhere(fn($q) => $q->onlyTrashed()
+                            ->whereHas('roles', fn($q) => $q->where('name', 'member')));
                 })
-                // o posts sin categoria de staff/admin (activos o borrados)
-                ->orWhere(function($q) {
-                    $q->whereNull('category_id')
-                        ->whereHas('user', function($q) {
-                            $q->where(function($userQ) {
-                                $userQ->role(['staff', 'admin'])
-                                    ->orWhere(fn($q) => $q->onlyTrashed()
-                                    ->whereHas('roles', fn($q) => $q->whereIn('name', ['staff', 'admin'])));
-                            });
-                        });
+                ->whereHas('channel'); // ¡Asegúrate de que pertenezca a un channel!
+            })
+            ->orWhere(function($q) {
+                // Posts de STAFF/ADMIN en CATEGORIES (o sin categoría)
+                $q->whereHas('user', function($userQ) {
+                    $userQ->role(['staff', 'admin'])
+                        ->orWhere(fn($q) => $q->onlyTrashed()
+                            ->whereHas('roles', fn($q) => $q->whereIn('name', ['staff', 'admin'])));
+                })
+                ->where(function($subQ) {
+                    $subQ->whereNull('category_id') // Posts sin categoría
+                        ->orWhereHas('category'); // O con categoría
                 });
-            });
+            })
+            ->orderBy('created_at', 'DESC')
+            ->when($limit, fn($q) => $q->take($limit));
     }
 
     // 5. Posts recientes de miembros

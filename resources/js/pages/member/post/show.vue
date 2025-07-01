@@ -2,5 +2,5 @@
 </script>
 
 <template>
-    
+    <h2>Hola Dios</h2>
 </template>

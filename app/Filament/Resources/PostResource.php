@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Models\Post;
 use Filament\Tables;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -23,13 +24,13 @@ use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PostResource\Pages;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Tables\Filters\SelectFilter;
 
 class PostResource extends Resource
 {
@@ -110,13 +111,19 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
+                                        Toggle::make('status')
+                                            ->label('Publish now')
+                                            ->default(true)
+                                            ->live()
+                                            ->afterStateUpdated(function (Set $set, $state) {
+                                                // Si se activa "Publicar ahora", establece created_at = now()
+                                                $set('created_at', $state ? now() : null);
+                                            }),
                                         DateTimePicker::make('created_at')
-                                            ->label('Publish date'),
-                                        Radio::make('status')
-                                            ->options([
-                                                'draft' => 'Draft',
-                                                'published' => 'Published',
-                                            ]),
+                                            ->label('Schedule post')
+                                            ->displayFormat('m/d/Y H:i')
+                                            ->timezone('UTC')
+                                            ->hidden(fn (Get $get): bool => $get('status')),
                                     ]),
                             ]),
                         ])->columnSpan([

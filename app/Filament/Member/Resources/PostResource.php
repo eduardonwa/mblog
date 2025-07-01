@@ -5,6 +5,7 @@ namespace App\Filament\Member\Resources;
 use Filament\Forms;
 use App\Models\Post;
 use Filament\Tables;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -16,6 +17,7 @@ use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use FilamentTiptapEditor\TiptapEditor;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
@@ -69,13 +71,21 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        DateTimePicker::make('created_at')
-                                            ->label('Publish date'),
-                                        Radio::make('status')
-                                            ->options([
-                                                'draft' => 'Draft',
-                                                'published' => 'Published',
-                                            ]),
+Toggle::make('status_toggle') // Campo temporal NO guardado en BD
+    ->label('Publicar ahora')
+    ->default(true)
+    ->live()
+    ->afterStateUpdated(function (Set $set, $state) {
+        // Convertir el estado del toggle a los valores string
+        $set('status', $state ? 'published' : 'draft');
+        // Manejar la fecha automáticamente
+        $set('created_at', $state ? now() : null);
+    })
+    ->dehydrated(false), // No guardar este campo en la BD
+
+// Mantén tu campo status real como Hidden
+Hidden::make('status')
+    ->default('published')
                                     ]),
                             ]),
                         ]),
