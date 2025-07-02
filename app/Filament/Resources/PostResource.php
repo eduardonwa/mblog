@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -27,10 +28,10 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 
 class PostResource extends Resource
 {
@@ -85,8 +86,6 @@ class PostResource extends Resource
                                         Select::make('language')
                                             ->options(config('languages'))
                                             ->searchable(),
-                                        SpatieTagsInput::make('tags')
-                                            ->separator(','),
                                         Hidden::make('user_id')
                                             ->default(Auth::id()),
                                     ]),
@@ -111,36 +110,30 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        Toggle::make('publish_now')
-                                            ->label('Publish now')
-                                            ->default(fn (Get $get) => $get('status') === 'published')
-                                            ->dehydrated(false) // no lo guardamos directamente
-                                            ->live()
+                                        Radio::make('status')
+                                            ->options([
+                                                'draft' => 'Draft',
+                                                'published' => 'Published',
+                                                'scheduled' => 'Scheduled',
+                                            ])
+                                            ->default('draft')
+                                            ->reactive()
+                                            ->required()
                                             ->afterStateUpdated(function (Set $set, $state) {
-                                                if ($state) {
-                                                    $set('status', 'published');
+                                                if ($state === 'published') {
                                                     $set('published_at', now());
-                                                } else {
-                                                    $set('status', 'draft');
+                                                } elseif ($state === 'draft') {
+                                                    $set('published_at', null);
+                                                } elseif ($state === 'scheduled') {
                                                     $set('published_at', null);
                                                 }
                                             }),
-                                        Hidden::make('status')
-                                            ->default('draft')
-                                            ->required(),
                                         DateTimePicker::make('published_at')
                                             ->label('Schedule for later')
-                                            ->timezone('UTC')
-                                            ->visible(fn (Get $get) => $get('publish_now') === false)
-                                            ->afterStateUpdated(function (Set $set, $state) {
-                                                if ($state) {
-                                                    $set('status', 'scheduled');
-                                                } else {
-                                                    $set('status', 'draft');
-                                                }
-                                            })
+                                            ->visible(fn (Get $get) => $get('status') === 'scheduled')
+                                            ->required(fn (Get $get) => $get('status') === 'scheduled')
                                             ->minDate(now()->addMinutes(5))
-                                            ->helperText('Published automatically if you activate "publish now."'),
+                                            ->helperText('Select the date and time to publish this post.'),
                                     ]),
                             ]),
                         ])->columnSpan([
