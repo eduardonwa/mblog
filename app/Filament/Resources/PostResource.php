@@ -113,8 +113,13 @@ class PostResource extends Resource
                                         Radio::make('status')
                                             ->options([
                                                 'draft' => 'Draft',
-                                                'published' => 'Published',
                                                 'scheduled' => 'Scheduled',
+                                                'published' => 'Published',
+                                            ])
+                                            ->descriptions([
+                                                'draft' => 'Is not visible.',
+                                                'published' => 'Is visible.',
+                                                'scheduled' => 'Will be visible.',
                                             ])
                                             ->default('draft')
                                             ->reactive()
