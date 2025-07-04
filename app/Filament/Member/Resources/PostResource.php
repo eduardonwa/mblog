@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -67,36 +68,35 @@ class PostResource extends Resource
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        Toggle::make('publish_now')
-                                            ->label('Publish now')
-                                            ->default(fn (Get $get) => $get('status') === 'published')
-                                            ->dehydrated(false) // no lo guardamos directamente
-                                            ->live()
+                                        Radio::make('status')
+                                            ->options([
+                                                'draft' => 'Draft',
+                                                'scheduled' => 'Scheduled',
+                                                'published' => 'Published',
+                                            ])
+                                            ->descriptions([
+                                                'draft' => 'Is not visible.',
+                                                'published' => 'Is visible.',
+                                                'scheduled' => 'Will be visible.',
+                                            ])
+                                            ->default('draft')
+                                            ->reactive()
+                                            ->required()
                                             ->afterStateUpdated(function (Set $set, $state) {
-                                                if ($state) {
-                                                    $set('status', 'published');
+                                                if ($state === 'published') {
                                                     $set('published_at', now());
-                                                } else {
-                                                    $set('status', 'draft');
+                                                } elseif ($state === 'draft') {
+                                                    $set('published_at', null);
+                                                } elseif ($state === 'scheduled') {
                                                     $set('published_at', null);
                                                 }
                                             }),
-                                        Hidden::make('status')
-                                            ->default('draft')
-                                            ->required(),
                                         DateTimePicker::make('published_at')
                                             ->label('Schedule for later')
-                                            ->timezone('UTC')
-                                            ->visible(fn (Get $get) => $get('publish_now') === false)
-                                            ->afterStateUpdated(function (Set $set, $state) {
-                                                if ($state) {
-                                                    $set('status', 'scheduled');
-                                                } else {
-                                                    $set('status', 'draft');
-                                                }
-                                            })
+                                            ->visible(fn (Get $get) => $get('status') === 'scheduled')
+                                            ->required(fn (Get $get) => $get('status') === 'scheduled')
                                             ->minDate(now()->addMinutes(5))
-                                            ->helperText('Published automatically if you activate "publish now."'),
+                                            ->helperText('Select the date and time to publish this post.'),
                                     ]),
                             ]),
                         ]),
