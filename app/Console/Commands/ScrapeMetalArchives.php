@@ -28,11 +28,14 @@ class ScrapeMetalArchives extends Command
     public function handle(MetalReleases $scraper)
     {
         $this->info('🚀 Iniciando scraper desde el comando...');
-
+        
         try {
+            Log::info('🧲 Iniciando servicio MetalArchivesScraper...');
             $albums = $scraper->scrape();
+
             $this->info("🎸 Se encontraron " . count($albums) . " álbumes");
             $albumsWithCover = collect($albums)->whereNotNull('cover')->count();
+            
             $this->info("🖼️ De esos, $albumsWithCover tienen portada");
             $this->info('📦 Guardados en cache.');
             $this->info('💾 Uso de memoria: ' . round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' MB');

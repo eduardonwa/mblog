@@ -13,8 +13,6 @@ class MetalReleases
 {
     public function scrape()
     {
-        Log::info('🧲 Iniciando servicio MetalArchivesScraper...');
-
         $response = Http::withoutVerifying()->get('https://www.metal-archives.com/release/ajax-upcoming/json/1');
         $data = $response->json();
 
