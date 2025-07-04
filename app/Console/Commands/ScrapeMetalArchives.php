@@ -13,7 +13,7 @@ class ScrapeMetalArchives extends Command
      *
      * @var string
      */
-    protected $signature = 'scrape:metal-archives';
+    protected $signature = 'scrape:metal-archives {--offset=0}';
 
     /**
      * The console command description.
@@ -21,24 +21,25 @@ class ScrapeMetalArchives extends Command
      * @var string
      */
     protected $description = 'Scrap metalarchives.com for the latest releases and save them as cache.';
-
+    
     /**
      * Execute the console command.
      */
     public function handle(MetalReleases $scraper)
     {
+        $offset = (int) $this->option('offset');
+        
         $this->info('🚀 Iniciando scraper desde el comando...');
         
         try {
-            Log::info('🧲 Iniciando servicio MetalArchivesScraper...');
-            $albums = $scraper->scrape();
+        Log::info('🧲 Iniciando servicio MetalArchivesScraper...');
+        $albums = $scraper->scrape($offset);
 
-            $this->info("🎸 Se encontraron " . count($albums) . " álbumes");
-            $albumsWithCover = collect($albums)->whereNotNull('cover')->count();
-            
-            $this->info("🖼️ De esos, $albumsWithCover tienen portada");
-            $this->info('📦 Guardados en cache.');
-            $this->info('💾 Uso de memoria: ' . round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' MB');
+        $this->info("🎸 Se encontraron " . count($albums) . " álbumes");
+        $albumsWithCover = collect($albums)->whereNotNull('cover')->count();
+        $this->info("🖼️ De esos, $albumsWithCover tienen portada");
+        $this->info('📦 Guardados en cache.');
+        $this->info('💾 Uso de memoria: ' . round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' MB');
         } catch (\Exception $e) {
             $this->error('💥 Error: ' . $e->getMessage());
             Log::error('Scraper error', ['error' => $e->getMessage()]);

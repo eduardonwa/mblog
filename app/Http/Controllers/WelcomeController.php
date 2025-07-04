@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Inertia\Inertia;
-use App\Services\SpotifyConnect;
 use Illuminate\Support\Facades\Cache;
 
 class WelcomeController extends Controller
@@ -26,7 +25,8 @@ class WelcomeController extends Controller
             return response()->json($communityFeed);
         }
 
-        $albums = Cache::get('metal.new_releases', []);
+        $activeBlock = Cache::get('metal.new_releases.active_block', 0);
+        $albums = Cache::get("metal.new_releases.block_{$activeBlock}", []);
         
         return Inertia::render('Welcome', [
             'featuredPost' => Post::featured(limit: 1)->withCount('comments')->get(),

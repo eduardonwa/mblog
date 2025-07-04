@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use GuzzleHttp\Client;
@@ -11,13 +10,13 @@ use Illuminate\Support\Facades\Http;
 
 class MetalReleases
 {
-    public function scrape()
+    public function scrape(int $offset = 0)
     {
         $response = Http::withoutVerifying()->get('https://www.metal-archives.com/release/ajax-upcoming/json/1');
         $data = $response->json();
 
         $client = new Client(['verify' => false]);
-        $albumsData = collect($data['aaData'])->take(20);
+        $albumsData = collect($data['aaData'])->slice($offset)->take(20);
 
         $promises = [];
         $albumUrls = [];
@@ -69,7 +68,17 @@ class MetalReleases
             ];
         }
 
-        Cache::put('metal.new_releases', $albums, now()->addHours(6));
+        // limpiar si es bloque 0
+        if ($offset === 0) {
+            Cache::forget('metal.new_releases.block_0');
+            Cache::forget('metal.new_releases.block_20');
+            Cache::forget('metal.new_releases.block_40');
+            Cache::forget('metal.new_releases.all');
+        }
+
+        // Guardar este bloque y marcar como activo
+        Cache::put("metal.new_releases.block_{$offset}", $albums, now()->addHours(6));
+        Cache::put('metal.new_releases.active_block', $offset, now()->addHours(6));
 
         return $albums;
     }

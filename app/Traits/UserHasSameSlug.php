@@ -19,7 +19,7 @@ trait UserHasSameSlug
         $counter = 1;
 
         while (static::where('slug', $slug)->exists()) {
-            $slug = $baseSlug . '-' . $counter++;
+            $slug = $baseSlug . '' . $counter++;
         }
 
         return $slug;
