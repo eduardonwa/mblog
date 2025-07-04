@@ -91,6 +91,8 @@ class ScrapeMetalArchives extends Command
                     'albumUrl' => $albumUrl,
                 ];
             }
+            
+            Log::info('🔥 Ejecutando scraper correctamente a las ' . now());
             $albumsWithCover = collect($albums)->whereNotNull('cover')->count();
             $this->info("From " . count($albums) . " albums, $albumsWithCover had cover art.");
             $this->info("🎸" . count($albums) . " albums found");
