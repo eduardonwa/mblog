@@ -69,12 +69,6 @@ interface ThumbnailUrls {
 
 export interface Post {
     id: number;
-    title: string;
-    extract: string;
-    excerpt: string;
-    body: string;
-    is_liked_by_user: boolean;
-    likes_count: number;
     user_id: number | null;
     user: User | null;
     author: {
@@ -82,22 +76,34 @@ export interface Post {
         id: number;
     };
     slug: string;
-    smart_date: string;
-    short_date: string;
-    published_at: string;
-    updated_at: string;
+    title: string;
+    extract: string;
+    excerpt: string;
+    body: string;
+    thumbnail_urls?: ThumbnailUrls
     category: {
         slug: string;
         name: string;
     };
+    channel: {
+      slug: string;
+      name: string;
+    };
+    created_at: string;
+    updated_at: string;
+    published_at: string;
+    deleted_at: string;
+    smart_date: string;
+    short_date: string;
+    is_liked_by_user: boolean;
+    likes_count: number;
+    comments?: Comment[];
+    comments_count: number;
     tags: Array<{
         id: number;
         slug: { en: string };
         name: { en: string };
     }>;
-    thumbnail_urls?: ThumbnailUrls
-    comments?: Comment[];
-    comments_count: number;
 }
 
 export interface Category {

@@ -16,7 +16,7 @@ class MetalReleases
         $data = $response->json();
 
         $client = new Client(['verify' => false]);
-        $albumsData = collect($data['aaData'])->slice($offset)->take(20);
+        $albumsData = collect($data['aaData'])->slice($offset)->take(20)->values();
 
         $promises = [];
         $albumUrls = [];
@@ -35,8 +35,8 @@ class MetalReleases
         }
 
         $responses = Utils::settle($promises)->wait();
-
         $albums = [];
+
         foreach ($albumsData as $i => $row) {
             $cover = null;
             $albumUrl = $albumUrls[$i];

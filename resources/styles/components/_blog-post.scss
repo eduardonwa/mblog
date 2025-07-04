@@ -66,6 +66,8 @@
                             margin-block-end: $size-6;
 
                             .author, .category {
+                                width: fit-content;
+                                
                                 &:hover {
                                     color: $color-secondary-200;
                                 }

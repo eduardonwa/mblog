@@ -48,7 +48,7 @@ class ChannelController extends Controller
             ->get();
     }
 
-    // muestra un post dentro de un canal
+    // muestra un post relacionado con un canal
     public function showPost(Channel $channel, Post $post)
     {
         if ($post->channel_id !== $channel->id) {
