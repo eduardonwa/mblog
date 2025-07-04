@@ -29,7 +29,7 @@
                         class="avatar__image"
                     >
                 </Avatar>
-                <p>{{ post.user?.name }}</p>
+                <p>{{ post.user?.slug }}</p>
             </div>
             <div class="leaderboard__container__left-column__post-title">
                 <h2>{{ post.title }}</h2>

@@ -9,7 +9,6 @@ const props = defineProps<ChannelListProps>()
 <template>
     <SiteLayout>
         <section class="container margin-block-start-10">
-            
             <article class="channel-cards-wrapper">
                 <h2>Channels</h2>
                 <ChannelCard v-for="channel in props.channels" :key="channel.slug" :channel="channel" />

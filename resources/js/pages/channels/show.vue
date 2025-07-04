@@ -52,6 +52,7 @@ const handleLoad = (newItems: Post[]) => {
                         >
                             <Link :href="`/channel/${channel.slug}/${post.slug}`">
                                 <h3>{{ post.title }}</h3>
+                                <h3>{{ post.user?.slug }}</h3>
                                 <p>{{ post.likes_count }} uphails</p>
                                 <p>{{ post.comments_count }} comments</p>
                             </Link>

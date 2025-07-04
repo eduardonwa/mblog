@@ -23,7 +23,7 @@ const { posts: initialPosts, author } = defineProps<{
         <section class="horiz-card-wrapper | container">
             <!-- autor -->
             <div class="horiz-card-wrapper__header">
-                <h1>Posts by {{ author?.name }}</h1>                
+                <h1>Posts by {{ author?.slug }}</h1>                
             </div>
 
             <InfiniteScroll

@@ -93,7 +93,7 @@ const handleReplyClick = () => {
             :href="route('author.posts', { user: comment.commentator.slug })"
             class="comment-content__header__author | no-decor"
           >
-            {{ comment?.commentator?.name || 'Rattlehead' }}
+            {{ comment?.commentator?.slug || 'Rattlehead' }}
           </Link>
           <p class="comment-content__header__date">{{ shortDate(comment?.created_at) }}</p>
         </header>

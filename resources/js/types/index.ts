@@ -100,12 +100,6 @@ export interface Post {
     comments_count: number;
 }
 
-interface ShowPost extends Post {
-    title: string;
-    body: string;
-    thumbnails_urls: ThumbnailUrls;
-}
-
 export interface Category {
     id: number;
     name: string;
@@ -160,6 +154,7 @@ export interface Channel {
     sticker_url: ThumbnailUrls;
     created_at?: string;
     updated_at?: string;
+    published_at?: string;
     posts_count?: number;
 }
 

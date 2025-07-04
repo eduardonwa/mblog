@@ -48,7 +48,7 @@ const props = defineProps<MainCommunityFeedProps>();
                                                 class="avatar__image"
                                             >
                                         </Avatar>
-                                        <span class="feed-post-author">{{ post.user?.name || 'Rattlehead' }}</span>
+                                        <span class="feed-post-author">{{ post.user?.slug || 'Rattlehead' }}</span>
                                     </Link>
                                     <span class="feed-post__top__date">{{ post?.short_date }}</span>
                                 </div>
