@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Post;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\Channel;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\ChannelSeeder;
@@ -15,7 +16,6 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    // En tu DatabaseSeeder
     public function run(): void
     {
         $this->call([
@@ -65,11 +65,14 @@ class DatabaseSeeder extends Seeder
                 ->create(['user_id' => $staff->id, 'featured' => false]);
         });
 
+        $channels = Channel::all();
+
         // Crear posts asignados a "members" aleatorios
         Post::factory()
             ->count(20)
             ->state([
                 'user_id' => fn() => $member->random()->id,
+                'channel_id' => fn() => $channels->random()->id,
                 'featured' => false,
                 'status' => 'published'
             ])

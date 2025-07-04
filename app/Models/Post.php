@@ -78,7 +78,6 @@ class Post extends Model implements HasMedia
     }
 
     /* FORMATEOS */
-
     // COLUMNAS
     public function originalUser()
     {
@@ -87,18 +86,18 @@ class Post extends Model implements HasMedia
 
     // FECHAS
     // mostrar formato de fechas 
-    protected function formatDate($short = false)
+    protected function formatDate($date, $short = false)
     {
-        $date = $this->published_at ?? $this->created_at;
+        // $date = $this->published_at ?? $this->created_at;
         $now = now();
 
         if (!$date || !$date instanceof \Carbon\Carbon) {
             return $short ? '—' : 'Not available';
         }
 
-        $minutes = $date->diffInMinutes($now);
-        $hours = $date->diffInHours($now);
-        $days = $date->diffInDays($now);
+        $minutes = floor($date->diffInMinutes($now));
+        $hours = floor($date->diffInHours($now));
+        $days = floor($date->diffInDays($now));
 
         if ($short) {
             if ($minutes < 1) return 'Now';
@@ -114,13 +113,17 @@ class Post extends Model implements HasMedia
     // formato largo
     public function getSmartDateAttribute()
     {
-        return $this->formatDate(false);
+        return $this->published_at
+            ? $this->formatDate($this->published_at, true)
+            : '-';
     }
     
     // formato corto
     public function getShortDateAttribute()
     {
-        return $this->formatDate(true);
+        return $this->published_at
+            ? $this->formatDate($this->published_at, true)
+            : '-';
     }
 
     // horario al crear
@@ -147,7 +150,6 @@ class Post extends Model implements HasMedia
             }
         });
     }
-
 
     // crear extracto corto
     public function getExcerptAttribute(): string
@@ -230,27 +232,13 @@ class Post extends Model implements HasMedia
     // 4. Community feed
     public function scopeCommunityFeed($query, $limit = null)
     {
-        return $query->published() // Solo posts publicados
-            ->where(function($q) {
-                // Posts de MIEMBROS (users) en CHANNELS
-                $q->whereHas('user', function($userQ) {
+        return $query->published()
+            ->where(function ($q) {
+                $q->whereHas('user', function ($userQ) {
                     $userQ->role('member')
                         ->orWhere(fn($q) => $q->onlyTrashed()
                             ->whereHas('roles', fn($q) => $q->where('name', 'member')));
-                })
-                ->whereHas('channel'); // ¡Asegúrate de que pertenezca a un channel!
-            })
-            ->orWhere(function($q) {
-                // Posts de STAFF/ADMIN en CATEGORIES (o sin categoría)
-                $q->whereHas('user', function($userQ) {
-                    $userQ->role(['staff', 'admin'])
-                        ->orWhere(fn($q) => $q->onlyTrashed()
-                            ->whereHas('roles', fn($q) => $q->whereIn('name', ['staff', 'admin'])));
-                })
-                ->where(function($subQ) {
-                    $subQ->whereNull('category_id') // Posts sin categoría
-                        ->orWhereHas('category'); // O con categoría
-                });
+                })->whereHas('channel');
             })
             ->orderBy('published_at', 'DESC')
             ->when($limit, fn($q) => $q->take($limit));

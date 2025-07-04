@@ -5,7 +5,6 @@ namespace App\Models;
 use Filament\Panel;
 use App\Models\Like;
 use Illuminate\Support\Str;
-use Spatie\Image\Enums\Fit;
 use App\Models\CustomComment;
 use App\Traits\UserHasSameSlug;
 use Spatie\MediaLibrary\HasMedia;

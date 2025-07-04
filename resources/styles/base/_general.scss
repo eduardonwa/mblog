@@ -7,6 +7,21 @@ body {
   color: $body-text-color;
   background-color: $body-background-color;
   line-height: $body-line-height;
+  // Webkit (Chrome, Edge, Safari)
+  &::-webkit-scrollbar {
+      height: 10px; // ancho de la barra horizontal
+      background: $color-primary-900; // color de fondo de la barra
+  }
+  &::-webkit-scrollbar-track {
+      background: $color-primary-900; // color del canal de la barra
+  }
+  &::-webkit-scrollbar-thumb {
+      background: $color-primary-500; // color del "pulgar" (la parte que se mueve)
+      border-radius: 8px;
+  }
+  // Firefox
+  scrollbar-color: $color-primary-500 $color-primary-900;
+  scrollbar-width: auto;
 }
 
 body.menu-open {

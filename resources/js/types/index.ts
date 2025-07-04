@@ -84,6 +84,7 @@ export interface Post {
     slug: string;
     smart_date: string;
     short_date: string;
+    published_at: string;
     updated_at: string;
     category: {
         slug: string;
@@ -174,6 +175,22 @@ export interface ChannelListProps {
 export interface SingleChannelProps {
   channel: Channel;
   posts: Post[];
+}
+
+export interface MAReleases {
+  band: string;
+  releaseTitle: string;
+  type: string;
+  genre: string;
+  releaseDate: string;
+  addedDate: string;
+  cover: string;
+  albumUrl: string;
+  bandUrl: string;
+}
+
+export interface MAAlbumsResponse {
+  albums: MAReleases[];
 }
 
 export type SidebarState = 'expanded' | 'collapsed' | undefined;

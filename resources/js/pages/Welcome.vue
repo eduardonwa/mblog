@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Post } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import type { Post, MAReleases } from '@/types';
+import { Head, Link } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import MainPost from '@/components/MainPost.vue';
 import MainLeaderboard from '@/components/Leaderboard/MainLeaderboard.vue';
@@ -15,6 +15,7 @@ interface WelcomePageProps {
         data: Post[];
         next_page_url: string | null;
     };
+    albums: MAReleases[];
 }
 
 const props = defineProps<WelcomePageProps>();
@@ -42,6 +43,41 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
                 v-if="staffPosts?.length"
                 :staffPosts="staffPosts"
             />
+
+            
+            <section class="new-albums">
+
+                <div class="new-albums-header">
+                    <h2 class="clr-secondary-200 fw-semibold uppercase">new & upcoming releases</h2>
+                    <p class="powered-string">by <a href="https://www.metal-archives.com" target="_blank" rel="noopener noreferrer" class="no-decor uppercase">metal-archives</a></p>
+                </div>
+
+                <ul class="new-albums__scroll-container">
+                    <li class="album" v-for="(album, index) in albums" :key="index">
+                        <a
+                            :href="album.albumUrl"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            class="album__info"
+                        >
+                            <div class="album__header">
+                                <div class="album-cover" v-if="album.cover">
+                                    <img :src="album.cover" :alt="album.releaseTitle" />
+                                </div>
+                            </div>
+                            <div class="album__content">
+                                <p class="band">{{ album.band }}</p>
+                                <p class="title">{{ album.releaseTitle }} ({{ album.type }})</p>
+                                <p class="date">{{ album.releaseDate }}</p>
+                            </div>
+                            <div class="album__footer">
+                                <hr>
+                                <p class="genre">{{ album.genre }}</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </section>
         </section>
 
         <section
