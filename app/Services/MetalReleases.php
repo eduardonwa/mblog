@@ -83,8 +83,8 @@ class MetalReleases
         }
 
         // Guardar este bloque y marcar como activo
-        $metalCache("metal.new_releases.block_{$offset}", $albums, now()->addHours(6));
-        $metalCache('metal.new_releases.active_block', $offset, now()->addHours(6));
+        $metalCache->put("metal.new_releases.block_{$offset}", $albums, now()->addHours(6));
+        $metalCache->put("metal.new_releases.active_block", $offset, now()->addHours(6));
 
         return $albums;
     }
