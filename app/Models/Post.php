@@ -26,7 +26,9 @@ class Post extends Model implements HasMedia
         'smart_date',
         'short_date',
         'thumbnail_urls',
-        'excerpt'
+        'excerpt',
+        'is_liked_by_user',
+        'likes_count'
     ];
 
     protected $casts = [
@@ -67,12 +69,23 @@ class Post extends Model implements HasMedia
         return $this->morphMany(Like::class, 'likeable');
     }
 
-    public function likesCount()
+/*     public function likesCount()
     {
         return $this->likes()->count();
     }
 
     public function isLikedByUser()
+    {
+        return $this->likes()->where('user_id', Auth::id())->exists();
+    } */
+
+    // accesores para obtener la cuenta y el usuario que le dio like
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->count();
+    }
+
+    public function getIsLikedByUserAttribute()
     {
         return $this->likes()->where('user_id', Auth::id())->exists();
     }

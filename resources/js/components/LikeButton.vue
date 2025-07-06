@@ -43,10 +43,11 @@
     const tempPost = {
         ...props.post,
         is_liked_by_user: !wasLiked,
-        likes_count: wasLiked 
+        likes_count: wasLiked
             ? props.post.likes_count - 1 
             : props.post.likes_count + 1
     };
+
     emit('update:post', tempPost);
 
     try {

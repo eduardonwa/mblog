@@ -53,6 +53,10 @@ class MetalReleases
                 }
             }
 
+            if (!$cover) {
+                $cover = asset('images/no-album-cover.webp');
+            }
+            
             $genre = $row[3] ?? '';
             $genre = Str::limit($genre, 22, '...');
 

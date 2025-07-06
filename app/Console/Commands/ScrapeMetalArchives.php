@@ -28,18 +28,15 @@ class ScrapeMetalArchives extends Command
     public function handle(MetalReleases $scraper)
     {
         $offset = (int) $this->option('offset');
-        
-        $this->info('🚀 Iniciando scraper desde el comando...');
-        
+    
         try {
-        Log::info('🧲 Iniciando servicio MetalArchivesScraper...');
-        $albums = $scraper->scrape($offset);
+            Log::info('🧲 Iniciando servicio MetalArchivesScraper a las ' . now()->toDateTimeString());
+            
+            $albums = $scraper->scrape($offset);
 
-        $this->info("🎸 Se encontraron " . count($albums) . " álbumes");
-        $albumsWithCover = collect($albums)->whereNotNull('cover')->count();
-        $this->info("🖼️ De esos, $albumsWithCover tienen portada");
-        $this->info('📦 Guardados en cache.');
-        $this->info('💾 Uso de memoria: ' . round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' MB');
+            $albumsWithCover = collect($albums)->whereNotNull('cover')->count();
+            Log::info("🎸 Se encontraron " . count($albums) . " álbumes, con $albumsWithCover portadas.");
+            Log::info('💾 Uso de memoria: ' . round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' MB');
         } catch (\Exception $e) {
             $this->error('💥 Error: ' . $e->getMessage());
             Log::error('Scraper error', ['error' => $e->getMessage()]);

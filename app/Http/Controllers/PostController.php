@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\User;
 use Inertia\Inertia;
+use App\Traits\HandlesLikes;
 use Illuminate\Http\Request;
-use App\Models\CustomComment;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\HandlesComments;
+use App\Traits\HandlesBotPreview;
+use App\Traits\FetchesMentionableUsers;
 
 class PostController extends Controller
 {
+    use HandlesLikes, HandlesComments, FetchesMentionableUsers, HandlesBotPreview;
 
     public function show(Request $request, string $slug)
     {
@@ -26,28 +27,13 @@ class PostController extends Controller
         ->where('status', 'published')
         ->firstOrFail();
 
-        // Cargar comentarios principales y sus descendientes de forma eficiente
+        // Cargar comentarios principales y sus descendientes
         $comments = $this->getCommentTreeForPost($post);
-        // dd($comments);
-        // Obtener usuarios mencionables de forma más eficiente
-        $mentionableUsers = User::whereHas('comments', function($query) use ($post) {
-                $query->where('commentable_type', Post::class)
-                    ->where('commentable_id', $post->id);
-            })
-            ->select('id', 'name')
-            ->get()
-            ->map(function ($user) {
-                return [
-                    'id' => $user->id,
-                    'name' => $user->name
-                ];
-            })
-            ->toArray();
+        
+        // Obtener usuarios mencionables
+        $mentionableUsers = $this->getMentionableUsersForPost($post);
 
-        $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
-        $post->setAttribute('likes_count', $post->likesCount());
-
-        // datos para los meta tags
+        // preparar metadatos
         $meta = [
             'title' => $post->meta_title ?? $post->title,
             'description' => $post->meta_description ?? $post->extract,
@@ -56,16 +42,9 @@ class PostController extends Controller
             'thumbnail' => $post->getFirstMediaUrl('thumbnails', 'lg_thumb'),
         ];
 
-        // detecta si es un bot
+        // respuesta si es un bot
         if ($this->isBot($request)) {
-            return response()
-                ->view('post.meta-preview', compact('meta', 'post'))
-                ->withoutCookie('sickofmetal_session')
-                ->withoutCookie('XSRF-TOKEN')
-                ->withHeaders([
-                    'Cache-Control' => 'public, max-age=3600',
-                    'X-Frame-Options' => 'ALLOW-FROM https://www.facebook.com'
-                ]);
+            return $this->respondWithBotPreview($meta, $post);
         }
 
         return Inertia::render('post/show', [
@@ -98,81 +77,5 @@ class PostController extends Controller
         return Inertia::render('post/tags', [
             'posts' => $posts
         ]);
-    }
-  
-    public function like($postId)
-    {
-        try {
-            $post = Post::findOrFail($postId);
-            $post->likes()->firstOrCreate(['user_id' => Auth::id()]);
-    
-            return response()->json([
-                'success' => true,
-                'likes_count' => $post->likes()->count(),
-                'is_liked_by_user' => true
-            ]);
-    
-        } catch (\Exception $e) {
-            Log::error('Error en like: '.$e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al procesar el like'
-            ], 500);
-        }
-    }
-    
-    public function unlike($postId)
-    {
-        try {
-            $post = Post::findOrFail($postId);
-            $post->likes()->where('user_id', Auth::id())->delete();
-    
-            return response()->json([
-                'success' => true,
-                'likes_count' => $post->likes()->count(),
-                'is_liked_by_user' => false
-            ]);
-    
-        } catch (\Exception $e) {
-            Log::error('Error en unlike: '.$e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al remover el like'
-            ], 500);
-        }
-    }
-    
-    protected function getCommentTreeForPost(Post $post)
-    {
-        // Obtener TODOS los comentarios del post (incluyendo respuestas)
-        $allComments = CustomComment::with(['commentator'])
-            ->where('commentable_type', Post::class)
-            ->where('commentable_id', $post->id)
-            ->approved()
-            ->get();
-
-        // Construir el árbol manualmente
-        $grouped = $allComments->groupBy('comment_id');
-        
-        foreach ($allComments as $comment) {
-            if ($grouped->has($comment->id)) {
-                $comment->setRelation('children', $grouped[$comment->id]);
-            } else {
-                $comment->setRelation('children', collect()); // envia coleccion vacia
-            }
-        }
-        
-        // Retornar solo los comentarios raíz (comment_id = null)
-        return $grouped->get(null, collect());
-    }
-
-    private function isBot(Request $request): bool
-    {
-        $userAgent = $request->header('User-Agent', '');
-        
-        return preg_match(
-            '/facebookexternalhit|facebot|twitterbot|slackbot|linkedinbot|discordbot|telegrambot|googlebot/i', 
-            $userAgent
-        );
     }
 }

@@ -60,7 +60,7 @@ const handleReplyClick = () => {
   if (showReplyForm.value) {
     nextTick(() => {
       // Obtener el nombre del usuario del comentario
-      const username = props.comment?.commentator?.name || '';
+      const username = props.comment?.commentator?.slug || '';
       
       if (username) {
         // Autoetiquetar al usuario

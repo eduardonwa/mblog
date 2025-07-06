@@ -1,5 +1,6 @@
 @use '../abstracts' as *;
 
+// indice de channel
 .channel-cards-wrapper {
     margin-block-start: $size-13;
     margin-block-end: $size-10;
@@ -84,4 +85,9 @@
             font-size: $font-size-500;
         }
     }
+}
+
+// post asociado con un "channel"
+.post-member {
+    margin-block: $size-13;
 }

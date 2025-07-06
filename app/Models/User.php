@@ -13,10 +13,10 @@ use Illuminate\Notifications\Notifiable;
 use BeyondCode\Comments\Traits\CanComment;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -97,11 +97,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return $this->morphedByMany(Post::class, 'likeable', 'likes');
     }
     
-    public function comments()
-    {
-        return $this->hasMany(CustomComment::class, 'user_id');
-    }
-
     public function likesReceivedCount()
     {
         return $this->hasManyThrough(
@@ -112,6 +107,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             'id', // PK en users
             'id' // PK en posts
         )->where('likeable_type', Post::class)->count();
+    }
+    
+    public function comments()
+    {
+        return $this->hasMany(CustomComment::class, 'user_id');
     }
 
     public function canAccessPanel(Panel $panel): bool

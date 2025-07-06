@@ -44,7 +44,6 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
                 :staffPosts="staffPosts"
             />
 
-            
             <section class="new-albums">
 
                 <div class="new-albums-header">
