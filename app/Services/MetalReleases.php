@@ -72,17 +72,19 @@ class MetalReleases
             ];
         }
 
+        $metalCache = Cache::store('metal-scraper');
+
         // limpiar si es bloque 0
         if ($offset === 0) {
-            Cache::forget('metal.new_releases.block_0');
-            Cache::forget('metal.new_releases.block_20');
-            Cache::forget('metal.new_releases.block_40');
-            Cache::forget('metal.new_releases.all');
+            $metalCache->forget('metal.new_releases.block_0');
+            $metalCache->forget('metal.new_releases.block_20');
+            $metalCache->forget('metal.new_releases.block_40');
+            $metalCache->forget('metal.new_releases.all');
         }
 
         // Guardar este bloque y marcar como activo
-        Cache::put("metal.new_releases.block_{$offset}", $albums, now()->addHours(6));
-        Cache::put('metal.new_releases.active_block', $offset, now()->addHours(6));
+        $metalCache("metal.new_releases.block_{$offset}", $albums, now()->addHours(6));
+        $metalCache('metal.new_releases.active_block', $offset, now()->addHours(6));
 
         return $albums;
     }
