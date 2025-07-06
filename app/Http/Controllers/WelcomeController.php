@@ -25,8 +25,8 @@ class WelcomeController extends Controller
             return response()->json($communityFeed);
         }
 
-        $activeBlock = Cache::get('metal.new_releases.active_block', 0);
-        $albums = Cache::get("metal.new_releases.block_{$activeBlock}", []);
+        $activeBlock = Cache::store('metal-scraper')->get('metal.new_releases.active_block', 0);
+        $albums = Cache::store('metal-scraper')->get("metal.new_releases.block_{$activeBlock}", []);
         
         return Inertia::render('Welcome', [
             'featuredPost' => Post::featured(limit: 1)->withCount('comments')->get(),

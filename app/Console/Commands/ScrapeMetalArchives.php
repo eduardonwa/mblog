@@ -28,7 +28,8 @@ class ScrapeMetalArchives extends Command
     public function handle(MetalReleases $scraper)
     {
         $offset = (int) $this->option('offset');
-    
+        $this->info("Iniciando scraping con offset: {$offset}");
+        
         try {
             Log::info('🧲 Iniciando servicio MetalArchivesScraper a las ' . now()->toDateTimeString());
             
