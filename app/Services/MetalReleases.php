@@ -74,17 +74,20 @@ class MetalReleases
 
         $metalCache = Cache::store('metal-scraper');
 
-        // limpiar si es bloque 0
+        // Guardar este bloque y marcar como activo
+        $metalCache->put("metal.new_releases.block_{$offset}", $albums, now()->addHours(6));
+        $metalCache->put("metal.new_releases.active_block", $offset, now()->addHours(6));
+
+        // Acumular en 'all'
+        // $allAlbums = $metalCache->get('metal.new_releases.all', []);
+        // $allAlbums = array_merge($allAlbums, $albums);
+        // $metalCache->put('metal.new_releases.all', $allAlbums, now()->addHours(6));
+
         if ($offset === 0) {
-            $metalCache->forget('metal.new_releases.block_0');
             $metalCache->forget('metal.new_releases.block_20');
             $metalCache->forget('metal.new_releases.block_40');
             $metalCache->forget('metal.new_releases.all');
         }
-
-        // Guardar este bloque y marcar como activo
-        $metalCache->put("metal.new_releases.block_{$offset}", $albums, now()->addHours(6));
-        $metalCache->put("metal.new_releases.active_block", $offset, now()->addHours(6));
 
         return $albums;
     }

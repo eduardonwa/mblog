@@ -17,5 +17,5 @@ Schedule::command('scrape:metal-archives --offset=40')
     ->timezone('America/Mazatlan');
 
 Schedule::command('scrape:metal-archives --offset=0')
-    ->dailyAt('00:00')
+    ->dailyAt('07:00')
     ->timezone('America/Mazatlan');
