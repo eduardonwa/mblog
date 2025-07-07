@@ -15,6 +15,7 @@ interface MainCommunityFeedProps {
 }
 
 const props = defineProps<MainCommunityFeedProps>();
+console.log(props);
 </script>
 
 <template>

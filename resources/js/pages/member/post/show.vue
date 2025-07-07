@@ -30,13 +30,13 @@ const localPost = ref<Post>(props.post);
             <header class="post-header">
                 <h2 class="title">{{ post.title }}</h2>
                 <div class="meta-primary">
-                    <p class="author">{{ post?.user?.slug || 'Rattlehead' }}</p>
+                    <Link :href="route('author.posts', {user: post.user?.slug})" class="author">{{ post?.user?.slug || 'Rattlehead' }}</Link>
                     <span class="date">{{ post.smart_date }}</span>
                     <Link
                         :href="route('channel.show', {slug: channel.slug})"
                         class="channel"
                     >
-                        {{ post.channel.name }}
+                        {{ post.channel?.name }}
                     </Link>
                 </div>
 

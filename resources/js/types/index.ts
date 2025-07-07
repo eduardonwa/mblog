@@ -81,11 +81,12 @@ export interface Post {
     excerpt: string;
     body: string;
     thumbnail_urls?: ThumbnailUrls
-    category: {
+    category?: {
         slug: string;
         name: string;
     };
-    channel: {
+    channel?: {
+      id: string;
       slug: string;
       name: string;
     };

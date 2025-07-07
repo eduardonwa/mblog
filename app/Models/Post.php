@@ -62,23 +62,13 @@ class Post extends Model implements HasMedia
     {
         return $this->belongsTo(Channel::class);
     }
-
-    /* LIKES */
+    
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
     }
-
-/*     public function likesCount()
-    {
-        return $this->likes()->count();
-    }
-
-    public function isLikedByUser()
-    {
-        return $this->likes()->where('user_id', Auth::id())->exists();
-    } */
-
+    
+    /* LIKES */
     // accesores para obtener la cuenta y el usuario que le dio like
     public function getLikesCountAttribute()
     {
@@ -175,8 +165,6 @@ class Post extends Model implements HasMedia
     }
 
     // SCOPES
-    // relaciones y condiciones comunes
-
     // obtiene posts de usuarios activos y eliminados segun el rol
     protected function scopeWhereUserHasRole($query, array $roles)
     {

@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import type { Post } from '@/types';
+import { computed } from 'vue';
 
 const { post } = defineProps<{
   post: Post;
   variant?: 'default' | 'compact';
 }>();
+
+const postRoute = computed(() => {
+    // si el post pertenece a un channel
+    if (post.channel?.slug) {
+        return route('channel.post.show', {
+            channel: post.channel.slug,
+            post: post.slug
+        });
+    }
+    return route('post.show', { post: post.slug });
+});
 </script>
 
 <template>
-    <Link :href="route('post.show', { post: post.slug })">
+    <Link :href="postRoute">
         <!-- header -->
         <div
             v-if="$slots.header"

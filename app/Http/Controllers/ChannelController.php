@@ -29,13 +29,11 @@ class ChannelController extends Controller
         $channel = Channel::where('slug', $slug)->firstOrFail();
         
         $posts = $channel->posts()
-            ->with(['user:id,slug', 'media'])
+            ->with(['user:id,slug', 'media', 'channel'])
             ->withCount(['likes', 'comments'])
             ->where('status', 'published')
             ->orderBy('published_at', 'desc')
             ->paginate(12);
-
-        // dd($posts);
         
         if ($request->wantsJson() || $request->query('json')) {
             return $posts;

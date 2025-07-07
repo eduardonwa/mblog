@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             ->create()
             ->each(fn($user) => $user->assignRole('member'));
         
-        // Crear cuenta con member
+        // Crear cuenta tipo "member" con un slug repetido 
         User::factory()
             ->create([
                 'name' => 'eduardo',
@@ -56,13 +56,22 @@ class DatabaseSeeder extends Seeder
         // Crear 1 post featured para el admin        
         Post::factory()
             ->count(1)
-            ->create(['user_id' => $adminUser->id, 'featured' => true, 'status' => 'published']);
+            ->create([
+                'user_id' => $adminUser->id,
+                'featured' => true,
+                'status' => 'published',
+                'channel_id' => null,
+            ]);
 
         // Crear 1 post por staff
         $staffUsers->each(function($staff) {
             Post::factory()
                 ->count(2)
-                ->create(['user_id' => $staff->id, 'featured' => false]);
+                ->create([
+                    'user_id' => $staff->id,
+                    'featured' => false,
+                    'channel_id' => null,
+                ]);
         });
 
         $channels = Channel::all();
@@ -74,6 +83,7 @@ class DatabaseSeeder extends Seeder
                 'user_id' => fn() => $member->random()->id,
                 'channel_id' => fn() => $channels->random()->id,
                 'featured' => false,
+                'category_id' => null,
                 'status' => 'published'
             ])
             ->create();

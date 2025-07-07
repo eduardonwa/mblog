@@ -13,9 +13,12 @@ class WelcomeController extends Controller
     public function index()
     {   
         $communityFeed = Post::communityFeed()
-            ->with(['user' => function($q) {
+            ->with([
+                'user' => function($q) {
                 $q->withTrashed();
-            }])
+            },
+                'channel',
+            ])
             ->withCount('comments')
             ->paginate(12);
             
