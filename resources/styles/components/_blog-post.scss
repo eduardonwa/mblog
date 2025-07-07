@@ -1,5 +1,79 @@
 @use '../abstracts/' as *;
 
+@mixin desktop-interactions {
+    .desktop-interactions-wrapper {
+        display: none;
+
+        @include mq(large) {
+            display: flex;
+            align-items: center;
+            padding-inline-start: $size-4;
+            gap: $size-4;
+
+            .share-wrapper {
+                @include mq(large) {
+                    display: flex;
+                    align-items: center;
+
+                    .share-icon {
+                        padding: $size-4;
+
+                        &:hover {
+                            background: $color-primary-900;
+                        }
+                    }
+                    
+                    .share-menu--desktop {
+                        @include share-menu-base;
+                        @include share-menu-desktop;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin post-styles {
+  // Estilos para el título
+  .title, &__meta-group .post-title {
+    margin-block-end: $size-6;
+    font-size: $font-size-800;
+    font-family: $font-family-medium;
+  }
+
+  // Estilos para meta-primary
+  .meta-primary {
+    display: flex;
+    flex-direction: column;
+    gap: $size-4;
+    font-size: $font-size-400;
+
+    .author, .category, .channel, .date {
+      text-decoration: none;
+      color: $color-primary-300;
+    }
+
+    @include mq(large) {
+      margin-block-end: $size-6;
+
+      .author, .category, .channel {
+        width: fit-content;
+        
+        &:hover {
+          color: $color-secondary-200;
+        }
+      }
+    }
+  }
+
+  // Estilos para el cuerpo del post
+  .post-body {
+    font-size: $font-size-500;
+    line-height: 33px;
+    color: $color-primary-200;
+  }
+}
+
 .blog-post {
     margin-block: $size-13;
     position: relative;
@@ -47,39 +121,7 @@
 
             .post-header {
                 position: relative;
-
-                &__meta-group {
-
-                    .post-title {
-                        margin-block-end: $size-6;
-                        font-size: $font-size-800;
-                        font-family: $font-family-medium;
-                    }
-
-                    .meta-primary {
-                        display: flex;
-                        flex-direction: column;
-                        gap: $size-4;
-                        font-size: $font-size-400;
-
-                        @include mq(large) {
-                            margin-block-end: $size-6;
-
-                            .author, .category {
-                                width: fit-content;
-                                
-                                &:hover {
-                                    color: $color-secondary-200;
-                                }
-                            }
-                        }
-
-                        .author, .category, .date {
-                            text-decoration: none;
-                            color: $color-primary-300;
-                        }
-                    }
-                }
+                @include post-styles;
 
                 .toggle-media-button {
                     display: none;
@@ -96,36 +138,7 @@
                 }
             }
 
-            .post-interactions-wrapper {
-                display: none;
-
-                @include mq(large) {
-                    display: flex;
-                    align-items: center;
-                    padding-inline-start: $size-4;
-                    gap: $size-4;
-
-                    .share-wrapper {
-                        @include mq(large) {
-                            display: flex;
-                            align-items: center;
-
-                            .share-icon {
-                                padding: $size-4;
-
-                                &:hover {
-                                    background: $color-primary-900;
-                                }
-                            }
-                            
-                            .share-menu--desktop {
-                                @include share-menu-base;
-                                @include share-menu-desktop;
-                            }
-                        }
-                    }
-                }
-            }
+            @include desktop-interactions;
         }
     }
 
@@ -491,7 +504,7 @@
             .post-header-sticky-wrapper {
                 transition: transform 0.4s cubic-bezier(0.5, 0.8, 0.6, 1);
                 
-                .post-interactions-wrapper {
+                .desktop-interactions-wrapper {
                     opacity: 0;
                     pointer-events: none;
                     // transition: opacity 0.3s cubic-bezier(0.5, 0.8, 0.6, 1);
@@ -520,5 +533,24 @@
                 }
             }
         }
+    }
+}
+
+// posts de un "member" asociados con un "channel"
+.post-member {
+    margin-block: $size-13;
+    @include post-styles;
+
+    .post-header {
+        @include desktop-interactions;
+        @include mq(large) {
+            .desktop-interactions-wrapper {
+                padding-inline-start: 0;
+            }
+        }
+    }
+
+    .post-body {
+        margin-block: $size-4;
     }
 }

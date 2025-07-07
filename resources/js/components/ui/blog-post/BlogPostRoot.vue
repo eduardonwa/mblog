@@ -75,7 +75,6 @@ function onVisible(idx: number) {
           :active-index="activeIdx"
         />
       </div>
-    <!-- <pre>{{ textBlocks }}</pre> -->
     </main>
 
     <section class="mobile-interactions-wrapper">

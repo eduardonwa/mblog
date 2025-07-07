@@ -43,7 +43,7 @@
             gap: $size-4;
         }
     }
-
+    
     // contenedor scroll
     &__scroll-container {
         display: flex;
@@ -55,12 +55,12 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            margin-inline: $size-2;
+            padding-inline: $size-2;
 
             // info para cada album
             &__info {
                 display: grid;
-                grid-template-rows: 180px 1fr auto;
+                grid-template-rows: auto 1fr;
                 min-height: 380px;
                 width: 100%;
                 padding: $size-2;
@@ -79,10 +79,28 @@
             &__header {
                 overflow: hidden;
 
+                .genres {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    hr {
+                        width: 100%;
+                        margin: 0 0 $size-1 0;
+                    }
+                    
+                    .genre {
+                        font-size: 13px;
+                        color: $color-secondary-200;
+                        text-transform: uppercase;
+                    }
+                }
+
                 .album-cover {
                     width: 100%;
                     height: 100%;
-
+                    padding-block: $size-2;
+                    
                     img {
                         width: 100%;
                         height: 100%;
@@ -111,23 +129,6 @@
                 .date {
                     color: $color-primary-300;
                     font-size: $font-size-300;
-                }
-            }
-
-            &__footer {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-
-                hr {
-                    width: 100%;
-                    margin: 0 0 $size-1 0;
-                }
-                
-                .genre {
-                    font-size: 13px;
-                    color: $color-secondary-200;
-                    text-transform: uppercase;
                 }
             }
         }

@@ -58,7 +58,7 @@ class MetalReleases
             }
             
             $genre = $row[3] ?? '';
-            $genre = Str::limit($genre, 22, '...');
+            $genre = Str::limit($genre, 18, '...');
 
             $albums[] = [
                 'band' => strip_tags($row[0] ?? ''),

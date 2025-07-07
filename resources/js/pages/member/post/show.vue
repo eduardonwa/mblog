@@ -7,12 +7,14 @@ import { BlogPostProps } from '@/components/ui/blog-post';
 import { computed, ref } from 'vue';
 import LikeButton from '@/components/LikeButton.vue';
 import { Link } from '@inertiajs/vue3';
+import ShareMenu from '@/components/ui/share-menu/ShareMenu.vue';
 
 const props = defineProps<{
     post: Post;
     comments: Comment[];
     channel: Channel;
     mentionableUsers?: BlogPostProps['mentionableUsers'];
+    url: string;
 }>();
 
 const mentionableUsersArr = computed<MentionableUser[]>(() => 
@@ -24,16 +26,32 @@ const localPost = ref<Post>(props.post);
 
 <template>
     <SiteLayout>
-        <section class="post-member container" data-type="blog-post" data-align="start">
-            <header>
-                <h2>{{ post.title }}</h2>
-                <p>{{ post?.user?.slug || 'Rattlehead' }}</p>
-                <span>{{ post.smart_date }}</span>
-                <Link :href="route('channel.show', {slug: channel.slug})">{{ post.channel.name }}</Link>
+        <section class="post-member container" data-type="blog-post">
+            <header class="post-header">
+                <h2 class="title">{{ post.title }}</h2>
+                <div class="meta-primary">
+                    <p class="author">{{ post?.user?.slug || 'Rattlehead' }}</p>
+                    <span class="date">{{ post.smart_date }}</span>
+                    <Link
+                        :href="route('channel.show', {slug: channel.slug})"
+                        class="channel"
+                    >
+                        {{ post.channel.name }}
+                    </Link>
+                </div>
+
+                <div class="desktop-interactions-wrapper">
+                    <LikeButton
+                        :post="localPost"
+                        class="stick-this"
+                        @update:post="updatedPost => localPost = updatedPost"
+                    />
+                    <ShareMenu class="share-menu share-menu--desktop" :url="props.url" variant="desktop" />
+                </div>
             </header>
 
             <!-- body -->
-            <article>
+            <article class="post-body">
                 <p>{{ post.body }}</p>
                 <CommentForm :post="post" />
                 <CommentBox
@@ -45,11 +63,12 @@ const localPost = ref<Post>(props.post);
             </article>
 
             <!-- interacciones -->
-            <footer>
+            <footer class="mobile-interactions-wrapper">
                 <LikeButton
                     :post="localPost"
                     @update:post="(newPost) => localPost = newPost"
                 />
+                <ShareMenu class="share-menu share-menu--mobile" :url="props.url" variant="mobile"/>
             </footer>
         </section>
     </SiteLayout>

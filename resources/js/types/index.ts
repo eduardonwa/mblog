@@ -104,7 +104,6 @@ export interface Post {
         slug: { en: string };
         name: { en: string };
     }>;
-    // value: string;
 }
 
 export interface Category {

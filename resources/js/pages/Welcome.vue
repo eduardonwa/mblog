@@ -45,9 +45,8 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
             />
 
             <section class="new-albums">
-
                 <div class="new-albums-header">
-                    <h2 class="clr-secondary-200 fw-semibold uppercase">new & upcoming releases</h2>
+                    <h2 class="clr-secondary-200 fw-semibold uppercase">metal releases</h2>
                     <p class="powered-string">by <a href="https://www.metal-archives.com" target="_blank" rel="noopener noreferrer" class="no-decor uppercase">metal-archives</a></p>
                 </div>
 
@@ -60,18 +59,20 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
                             class="album__info"
                         >
                             <div class="album__header">
+                                <div class="genres">
+                                    <p class="genre">{{ album.genre }}</p>
+                                    <hr>
+                                </div>
+
                                 <div class="album-cover" v-if="album.cover">
                                     <img :src="album.cover" :alt="album.releaseTitle" />
                                 </div>
                             </div>
+
                             <div class="album__content">
                                 <p class="band">{{ album.band }}</p>
                                 <p class="title">{{ album.releaseTitle }} ({{ album.type }})</p>
                                 <p class="date">{{ album.releaseDate }}</p>
-                            </div>
-                            <div class="album__footer">
-                                <hr>
-                                <p class="genre">{{ album.genre }}</p>
                             </div>
                         </a>
                     </li>

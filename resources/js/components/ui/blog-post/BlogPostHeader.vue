@@ -51,7 +51,7 @@ const localPost = ref({ ...post });
         </article>
       </header>
       
-      <section class="post-interactions-wrapper">
+      <section class="desktop-interactions-wrapper">
         <LikeButton
           :post="localPost"
           class="stick-this"
