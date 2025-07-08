@@ -30,7 +30,8 @@
   gap: $size-4;
 
   @include mq(large) {
-    font-size: $font-size-600;
+    font-size: $font-size-500;
+    padding-block: $size-5;
   }
 }
 
@@ -40,6 +41,16 @@
   margin-inline-start: $size-3;
   color: $color-primary-200;
   font-size: $font-size-500;
+  padding: $size-3;
+  color: $color-primary-100;
+  font-size: $font-size-400;
+  margin-block: $size-6;
+  margin-inline-start: $size-5;
+  text-transform: uppercase;
+  
+  &:hover {
+    background: $color-primary-900;
+  }
 }
 
 .nav {
@@ -160,7 +171,7 @@
           @include link-hover;
 
           & {
-            padding-block: $size-2;
+            padding-block: $size-4;
           }
 
           &:hover {
@@ -192,7 +203,6 @@
 
       &__settings {
         h2 {
-          padding-block-end: 4px;
           padding-inline-start: $size-5;
           font-family: $font-family-semi-bold;
         }
@@ -201,7 +211,7 @@
           @include auth-links();
         }
 
-        form {
+        form {          
           .logout-btn {
             @include auth-links();
           }

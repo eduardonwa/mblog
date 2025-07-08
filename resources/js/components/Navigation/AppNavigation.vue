@@ -107,13 +107,13 @@ onUnmounted(() => {
                         </template>
                     </div>
 
-                    <div class="nav__hidden__menu__groups">
+                    <!-- <div class="nav__hidden__menu__groups">
                         <h2 class="uppercase clr-secondary-300">following</h2>
                         <Link class="no-decor" href="#">metall</Link>
                         <Link class="no-decor" href="#">metall</Link>
                         <Link class="no-decor" href="#">metall</Link>
                         <Link class="no-decor" href="#">metall</Link>
-                    </div>
+                    </div> -->
 
                     <div class="nav__hidden__menu__settings">
                         <h2 class="uppercase clr-secondary-300">settings</h2>

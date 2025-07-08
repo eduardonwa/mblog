@@ -52,6 +52,10 @@ console.log(props);
                                         <span class="feed-post-author">{{ post.user?.username || 'Rattlehead' }}</span>
                                     </Link>
                                     <span class="feed-post__top__date">{{ post?.short_date }}</span>
+                                    <p class="clr-primary-300 fs-300 padding-inline-start-1">
+                                        &bull;
+                                        <span class="padding-inline-start-1">{{ post.channel?.name }}</span>
+                                    </p>
                                 </div>
                             </template>
             
@@ -92,7 +96,7 @@ console.log(props);
             </InfiniteScroll>
         </main>
         
-        <div class="community-layout__groups-wrapper">
+<!--         <div class="community-layout__groups-wrapper">
             <aside class="community-layout__groups-wrapper__following">
                 <h2 class="following-header | uppercase clr-secondary-200 fw-semibold">
                     following
@@ -124,6 +128,6 @@ console.log(props);
                     </div>
                 </div>
             </aside>
-        </div>
+        </div> -->
     </div>
 </template>
