@@ -55,7 +55,7 @@ const props = defineProps<MainPostProps>();
                         size="24px"
                         style="margin-right: .4rem;"
                     />
-                    <span>{{ featuredPost?.[0].user?.slug || 'Rattlehead' }}</span>
+                    <span>{{ featuredPost?.[0].user?.username || 'Rattlehead' }}</span>
                 </div>
             </div>
         </div>

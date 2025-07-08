@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         // Crear cuenta tipo "member" con un slug repetido 
         User::factory()
             ->create([
-                'username' => User::generateUsername('eduardo'),
+                'username' => User::generateUniqueUsername('eduardo'),
                 'email' => 'eduardo@mail.com',
                 'password' => bcrypt('pass123456')
             ])->assignRole('member');
@@ -81,7 +81,6 @@ class DatabaseSeeder extends Seeder
                 'user_id' => fn() => $member->random()->id,
                 'channel_id' => fn() => $channels->random()->id,
                 'featured' => false,
-                'category_id' => null,
                 'status' => 'published'
             ])
             ->create();

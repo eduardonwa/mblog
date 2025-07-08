@@ -8,7 +8,7 @@ interface Props extends PrimitiveProps {
     variant?: ButtonVariants['variant'];
     size?: ButtonVariants['size'];
     class?: HTMLAttributes['class'];
-    dataType?: 'primary' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'toggle';
+    dataType?: 'primary' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'toggle' | 'accent' | 'form-step-next' | 'form-step-prev';
 }
 
 const props = withDefaults(defineProps<Props>(), {

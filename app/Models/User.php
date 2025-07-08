@@ -5,7 +5,7 @@ namespace App\Models;
 use Filament\Panel;
 use App\Models\Like;
 use App\Models\CustomComment;
-use App\Traits\UserHasSameSlug;
+use App\Traits\UserHasSameName;
 use Spatie\MediaLibrary\HasMedia;
 use Filament\Models\Contracts\HasName;
 use Spatie\Permission\Traits\HasRoles;
@@ -23,7 +23,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasMedia, HasName
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, SoftDeletes, Notifiable, HasRoles, CanComment, InteractsWithMedia, UserHasSameSlug;
+    use HasFactory, SoftDeletes, Notifiable, HasRoles, CanComment, InteractsWithMedia, UserHasSameName;
 
     protected $appends = [
         'avatar_url',

@@ -40,6 +40,7 @@ class PostFactory extends Factory
             'featured' => fake()->boolean(),
             'user_id' => User::inRandomOrder()->first()->id,
             'category_id' => function (array $attributes) {
+                if (!isset($attributes['user_id'])) return null;
                 $user = User::find($attributes['user_id']);
                 return $user->hasRole('member') ? null : Category::inRandomOrder()->first()->id;
             },

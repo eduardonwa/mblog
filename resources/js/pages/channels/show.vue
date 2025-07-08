@@ -64,7 +64,7 @@ const { posts: initialPosts, channel } = defineProps<{
                                     <div class="horiz-card__middle">
                                         <h2>{{ post.title }}</h2>
                                         <p>{{ post.excerpt }}</p>
-                                        <p>by <span>{{ post.user?.slug }}</span></p>
+                                        <p class="padding-block-3">by <span class="clr-primary-100">{{ post.user?.username }}</span></p>
                                     </div>
                                 </template>
 

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
 
 class RegisteredUserController extends Controller
 {
@@ -24,14 +25,30 @@ class RegisteredUserController extends Controller
     }
 
     /**
+     * Check username availability
+     */
+    public function checkUsername(Request $request): JsonResponse
+    {
+        $request->validate([
+            'username' => 'required|string|max:255'
+        ]);
+
+        $exists = User::where('username', $request->username)->exists();
+
+        return response()->json([
+            'available' => !$exists
+        ]);
+    }
+
+    /**
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {       
+    {
         $request->validate([
-            'username' => 'required|unique|string|max:255',
+            'username' => 'required|unique:users,username|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
