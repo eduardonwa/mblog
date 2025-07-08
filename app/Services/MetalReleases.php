@@ -77,7 +77,7 @@ class MetalReleases
 
         // duracion por tanda
         $duration = now()->addDay();
-        
+
         // guardar tanda actual con el offset correspondiente
         $metalCache->put("metal.new_releases.block_{$offset}", $albums, $duration);
         $metalCache->put("metal.new_releases.active_block", $offset, $duration);
@@ -91,7 +91,7 @@ class MetalReleases
         if ($offset === 0) {
             $metalCache->forget('metal.new_releases.block_20');
             $metalCache->forget('metal.new_releases.block_40');
-            $metalCache->forget('metal.new_releases.all');
+            // $metalCache->forget('metal.new_releases.all');
         }
 
         return $albums;

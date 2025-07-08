@@ -98,14 +98,16 @@
 
                 .album-cover {
                     width: 100%;
-                    height: 100%;
-                    padding-block: $size-2;
+                    height: 200px;
+                    overflow: hidden;
+                    aspect-ratio: 1 / 1;
                     
                     img {
                         width: 100%;
                         height: 100%;
                         object-fit: cover;
                         display: block;
+                        object-position: top;
                     }
                 }
             }
