@@ -46,7 +46,7 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
 
             <section class="new-albums">
                 <div class="new-albums-header">
-                    <h2 class="clr-secondary-200 fw-semibold uppercase">metal releases</h2>
+                    <h2 class="clr-secondary-200 fw-semibold uppercase">new releases</h2>
                     <p class="powered-string">by <a href="https://www.metal-archives.com" target="_blank" rel="noopener noreferrer" class="no-decor uppercase">metal-archives</a></p>
                 </div>
 

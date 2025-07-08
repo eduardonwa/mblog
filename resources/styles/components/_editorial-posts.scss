@@ -56,7 +56,11 @@
             h1 {
                 color: $color-neutral-100;
                 text-decoration: none;
-                font-size: 32px;
+                font-size: 28px;
+
+                @include mq(extraLarge) {
+                    font-size: 32px;
+                }
             }
 
             p {
@@ -126,18 +130,19 @@
     &__image {
         flex: 1;
         padding-block: $size-4;
-        height: 100%;
         width: 100%;
-
+        
         @include mq(large) {
             padding-block: 0;
-            padding-inline-start: $size-4;
+            padding-inline-start: $size-2;
+            max-height: 345px;
         }
 
         @include mq(extraLarge) {
             position: relative;
             overflow: hidden;
-
+            height: 100%;
+            
             img {
                 height: 100%;
                 width: 100%;
@@ -145,6 +150,8 @@
         }
         
         img {
+            width: 100%;
+            height: auto;
             object-fit: cover;
             object-position: top;
             border-radius: .5rem;
@@ -166,6 +173,7 @@
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        cursor: grab;
 
         &::-webkit-scrollbar {
             display: none;
