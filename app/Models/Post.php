@@ -113,11 +113,30 @@ class Post extends Model implements HasMedia
         return $date->diffForHumans();
     }
 
+    public function smartDate($date)
+    {
+        $now = now();
+
+        if (!$date || !$date instanceof \Carbon\Carbon) {
+            return 'Not available';
+        }
+
+        $days = $date->diffInDays($now);
+
+        // si es menor de 7 dias, mostrar "x days ago"
+
+        if ($days < 7) {
+            return $date->diffForHumans();
+        }
+
+        return $date->isoFormat('D MMMM YYYY');
+    }
+
     // formato largo
     public function getSmartDateAttribute()
     {
         return $this->published_at
-            ? $this->formatDate($this->published_at, true)
+            ? $this->smartDate($this->published_at, true)
             : '-';
     }
     

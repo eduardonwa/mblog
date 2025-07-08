@@ -161,12 +161,9 @@ class PostResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('user.slug')
+                TextColumn::make('user.username')
                     ->label('User')
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('category.name')
-                    ->numeric()
                     ->sortable(),
                 IconColumn::make('status')
                     ->boolean()

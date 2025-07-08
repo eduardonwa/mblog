@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Filament\Panel;
 use App\Models\Like;
-use Illuminate\Support\Str;
 use App\Models\CustomComment;
 use App\Traits\UserHasSameSlug;
 use Spatie\MediaLibrary\HasMedia;
+use Filament\Models\Contracts\HasName;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use BeyondCode\Comments\Traits\CanComment;
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasMedia
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasMedia, HasName
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, SoftDeletes, Notifiable, HasRoles, CanComment, InteractsWithMedia, UserHasSameSlug;
@@ -34,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password'
     ];
@@ -64,17 +64,17 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     public function getRouteKeyName()
     {
-        return 'slug';
+        return 'username';
     }
 
-    protected static function booted(): void
+/*     protected static function booted(): void
     {
         static::creating(function (User $user) {
             if (empty($user->slug)) {
                 $user->slug = Str::slug($user->name);
             }
         });
-    }
+    } */
 
     public function posts(): HasMany
     {
@@ -170,5 +170,10 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     {
         return $this->getFirstMediaUrl('user_avatar', 'thumb') 
             ?: 'https://www.gravatar.com/avatar/' . md5($this->email) . '?d=identicon';
+    }
+
+    public function getFilamentName(): string
+    {
+        return "{$this->username}";
     }
 }

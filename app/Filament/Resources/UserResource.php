@@ -31,8 +31,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name'),
-                TextInput::make('slug'),
+                TextInput::make('username'),
                 SpatieMediaLibraryFileUpload::make('user_avatar')
                     ->collection('user_avatar')
                     ->image()
@@ -51,7 +50,7 @@ class UserResource extends Resource
                     ->conversion('thumb')
                     ->circular()
                     ->defaultImageUrl(fn ($record) => 'https://www.gravatar.com/avatar/'.md5($record->email).'?d=identicon'),
-                TextColumn::make('slug')
+                TextColumn::make('username')
                     ->label('Username')
                     ->searchable()
                     ->sortable(),

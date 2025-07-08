@@ -36,7 +36,7 @@ console.log(props);
                                 <div class="feed-post__top">
                                     <Link
                                         class="no-decor"
-                                        :href="post.user ? route('author.posts', { user: post.user.slug }) : '/'"
+                                        :href="post.user ? route('author.posts', { user: post.user }) : '/'"
                                         aria-label="More about this author"
                                     >
                                         <Avatar
@@ -49,7 +49,7 @@ console.log(props);
                                                 class="avatar__image"
                                             >
                                         </Avatar>
-                                        <span class="feed-post-author">{{ post.user?.slug || 'Rattlehead' }}</span>
+                                        <span class="feed-post-author">{{ post.user?.username || 'Rattlehead' }}</span>
                                     </Link>
                                     <span class="feed-post__top__date">{{ post?.short_date }}</span>
                                 </div>

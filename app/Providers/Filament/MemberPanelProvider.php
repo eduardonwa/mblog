@@ -6,7 +6,6 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
-use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Member\Pages\MemberDashboard;
 use App\Filament\Member\Pages\Auth\EditProfile;
@@ -65,6 +64,5 @@ class MemberPanelProvider extends PanelProvider
                     ->icon('heroicon-o-arrow-left')
             ])
             ->brandLogo(fn () => view('filament.member.logo'));
-            ;
     }
 }

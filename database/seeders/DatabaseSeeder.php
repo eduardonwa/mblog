@@ -26,9 +26,8 @@ class DatabaseSeeder extends Seeder
 
         // Crear 1 admin
         $adminUser = User::factory()->create([
-            'name' => 'eduardo',
+            'username' => 'eduardo',
             'email' => 'admin@sickofmetal.net',
-            'slug' => 'eduardo',
             'password' => bcrypt('password'),
         ])->assignRole('admin');
 
@@ -47,9 +46,8 @@ class DatabaseSeeder extends Seeder
         // Crear cuenta tipo "member" con un slug repetido 
         User::factory()
             ->create([
-                'name' => 'eduardo',
+                'username' => User::generateUsername('eduardo'),
                 'email' => 'eduardo@mail.com',
-                'slug' => User::generateSlug('eduardo'),
                 'password' => bcrypt('pass123456')
             ])->assignRole('member');
 

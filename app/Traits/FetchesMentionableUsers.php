@@ -13,12 +13,12 @@ trait FetchesMentionableUsers
                 $query->where('commentable_type', Post::class)
                       ->where('commentable_id', $post->id);
             })
-            ->select('id', 'slug')
+            ->select('id', 'username')
             ->get()
             ->map(function ($user) {
                 return [
                     'id' => $user->id,
-                    'slug' => $user->slug
+                    'username' => $user->username
                 ];
             })
             ->toArray();

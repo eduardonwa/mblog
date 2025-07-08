@@ -37,15 +37,15 @@ const localPost = ref({ ...post });
           <div class="meta-primary">
             <div class="no-decor">
               by
-              <Link class="author" :href="post.user ? route('author.posts', { user: post.user.slug }) : '/'">
-                {{ post?.user?.name || 'Rattlehead' }}
+              <Link class="author" :href="post.user ? route('author.posts', { user: post.user }) : '/'">
+                {{ post.user?.username || 'Rattlehead' }}
               </Link>
             </div>
   
             <p class="date">{{ post?.smart_date }}</p>
             
-            <Link class="category" :href="route('category.index', {slug: post?.category.slug})">
-              {{ post?.category.name }}
+            <Link class="category" :href="route('category.index', {slug: post.category?.slug})">
+              {{ post.category?.name }}
             </Link>
           </div>
         </article>

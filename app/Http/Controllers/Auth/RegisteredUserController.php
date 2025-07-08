@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
@@ -32,15 +31,14 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {       
         $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|unique|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
-            'slug' => User::generateSlug($request->name),
             'password' => Hash::make($request->password),
         ]);
 

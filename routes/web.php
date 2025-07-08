@@ -25,7 +25,7 @@ Route::get('posts', [PostController::class, 'index'])->name('post.index');
 Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');
 Route::get('category/{slug}', [CategoryController::class, 'index'])->name('category.index');
-Route::get('author/{user:slug}/posts', [UserPublicProfileController::class, 'index'])->name('author.posts');
+Route::get('members/{user:username}/posts', [UserPublicProfileController::class, 'index'])->name('author.posts');
 Route::get('channels', [ChannelController::class, 'index'])->name('channel.index');
 Route::get('/channels/{channel:slug}', [ChannelController::class, 'show'])->name('channel.show');
 Route::get('/channel/{channel:slug}/{post:slug}', [ChannelController::class, 'showPost'])->name('channel.post.show');

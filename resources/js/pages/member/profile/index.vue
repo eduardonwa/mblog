@@ -6,6 +6,7 @@ import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
 import type { Post, User } from '@/types';
+import Avatar from '@/components/ui/avatar/Avatar.vue';
 
 interface PaginatedPosts {
     data: Post[];
@@ -16,6 +17,8 @@ const { posts: initialPosts, author } = defineProps<{
     posts: PaginatedPosts;
     author: User;
 }>();
+
+console.log(initialPosts);
 </script>
 
 <template>
@@ -23,11 +26,16 @@ const { posts: initialPosts, author } = defineProps<{
         <section class="horiz-card-wrapper | container">
             <!-- autor -->
             <div class="horiz-card-wrapper__header">
-                <h1>Posts by {{ author?.slug }}</h1>                
+                <Avatar
+                    size="xl"
+                    :src="author.avatar_url"
+                    :alt="author.username"
+                />
+                <h2>Posts by {{ author?.username }}</h2>
             </div>
 
             <InfiniteScroll
-                :endpoint="`/users/${author.id}?json=true`"
+                :endpoint="`/members/${author.username}/posts?json=true`"
                 data-key="data"
                 :initial-items="initialPosts.data"
                 :initial-next-page="initialPosts.next_page_url ?? undefined"

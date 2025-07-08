@@ -33,8 +33,7 @@ export interface SharedData extends PageProps {
 
 export interface User {
     id: number;
-    name: string;
-    slug: string;
+    username: string;
     email: string;
     avatar?: string;
     avatar_url?: string;
@@ -52,7 +51,7 @@ export interface UserStats {
 
 export interface ProfileForm {
     [key: string]: any;
-    name: string;
+    username: string;
     email: string;
     avatar: File | null;
     avatarPreview: string;
@@ -70,11 +69,8 @@ interface ThumbnailUrls {
 export interface Post {
     id: number;
     user_id: number | null;
-    user: User | null;
-    author: {
-        name: string;
-        id: number;
-    };
+    user?: User | null;
+    author?: User | null; // la uso para links
     slug: string;
     title: string;
     extract: string;
