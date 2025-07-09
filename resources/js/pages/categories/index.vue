@@ -25,6 +25,7 @@ const { posts: initialPosts, category } = defineProps<{
             <!-- Título de la categoría -->
             <div class="horiz-card-wrapper__header">
                 <h2 class="clr-neutral-100">{{ category?.name }}</h2>
+                hola *Dios
                 <p class="fs-400 clr-primary-300">{{ category?.description }}</p>
             </div>
 

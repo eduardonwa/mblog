@@ -9,20 +9,13 @@ const { post } = defineProps<{
 }>();
 
 const postRoute = computed(() => {
-    // Posts de members (usando channel)
+    // si el post pertenece a un channel
     if (post.channel?.slug) {
         return route('channel.post.show', {
             channel: post.channel.slug,
             post: post.slug
         });
     }
-    // Posts editoriales (usando category)
-    else if (post.category?.slug) {
-        return route('category.index', { 
-            slug: post.category.slug 
-        });
-    }
-    // Fallback para posts sin channel/category (opcional)
     return route('post.show', { post: post.slug });
 });
 </script>

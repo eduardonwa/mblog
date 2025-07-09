@@ -4,7 +4,7 @@ import Avatar from '@/components/ui/avatar/Avatar.vue';
 import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import { Link } from '@inertiajs/vue3';
 
-const { post, rank } = defineProps<{
+const { post, rank} = defineProps<{
     post: Post;
     rank?: number;
 }>();
@@ -13,7 +13,10 @@ const { post, rank } = defineProps<{
 <template>
     <Link
         class="leaderboard__container | no-decor"
-        :href="route('post.show', { slug: post.slug })"
+        :href="route('channel.post.show', { 
+            channel: post.channel?.slug, 
+            post: post.slug 
+        })"
     >
         <div class="leaderboard__container__left-column">
             <div class="leaderboard__container__left-column__user">

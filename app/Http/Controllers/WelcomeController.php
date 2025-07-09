@@ -34,7 +34,7 @@ class WelcomeController extends Controller
         return Inertia::render('Welcome', [
             'featuredPost' => Post::featured(limit: 1)->withCount('comments')->get(),
             'staffPosts' => Post::staffPosts(4)->get(),
-            'leaderboard' => Post::topMemberPosts(5)->get(),
+            'leaderboard' => Post::topMemberPosts(5)->with('channel')->get(),
             'communityFeed' => $communityFeed,
             'albums' => $albums,
         ]);
