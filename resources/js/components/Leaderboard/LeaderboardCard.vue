@@ -1,14 +1,13 @@
 <script setup lang="ts">
-    import { Post } from '@/types';
-    import Avatar from '@/components/ui/avatar/Avatar.vue';
-    import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
-    import { Link } from '@inertiajs/vue3';
+import { Post, User } from '@/types';
+import Avatar from '@/components/ui/avatar/Avatar.vue';
+import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
+import { Link } from '@inertiajs/vue3';
 
-    defineProps<{
-        post: Post;
-        rank?: number;
-        avatar?: string;
-    }>();
+const { post, rank } = defineProps<{
+    post: Post;
+    rank?: number;
+}>();
 </script>
 
 <template>
@@ -22,13 +21,9 @@
                 <Avatar
                     size="sm"
                     shape="circle"
-                >
-                    <img
-                        src="images/avatar/thrash.png"
-                        alt="avatar de warpig"
-                        class="avatar__image"
-                    >
-                </Avatar>
+                    :src="post.user?.avatar_url"
+                    :alt="post.user?.username || 'Rattlehead'"
+                />
                 <p>{{ post.user?.username }}</p>
             </div>
             <div class="leaderboard__container__left-column__post-title">

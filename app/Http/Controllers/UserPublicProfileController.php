@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 
 class UserPublicProfileController extends Controller
 {
     public function index(User $user)
     {
-        $posts = Post::with(['category', 'tags', 'user'])
+        $posts = Post::with(['category', 'tags', 'user', 'channel'])
             ->where('user_id', $user->id)
             ->where('status', 'published')
             ->withCount('comments', 'likes')

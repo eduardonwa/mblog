@@ -20,10 +20,16 @@ const localPost = ref({ ...post });
 </script>
 
 <template>
-  <section class="blog-post__header" grid-area="header" >
+  <section
+    class="blog-post__header"
+    grid-area="header"
+  >
     <div class="post-header-sticky-wrapper">
-      
-      <header class="post-header container" data-type="blog-post">
+
+      <header
+        class="post-header container"
+        data-type="blog-post"
+      >
         <!-- Botón para colapsar/expandir -->
         <ToggleIcon
           size="34"
@@ -33,31 +39,41 @@ const localPost = ref({ ...post });
         <!-- Título y metadatos -->
         <article class="post-header__meta-group">
           <h1 class="post-title">{{ post?.title }}</h1>
-  
+
           <div class="meta-primary">
             <div class="no-decor">
               by
-              <Link class="author" :href="post.user ? route('author.posts', { user: post.user }) : '/'">
-                {{ post.user?.username || 'Rattlehead' }}
+              <Link
+                class="author"
+                :href="post.user ? route('author.posts', { user: post.user }) : '/'"
+              >
+              {{ post.user?.username || 'Rattlehead' }}
               </Link>
             </div>
-  
+
             <p class="date">{{ post?.smart_date }}</p>
-            
-            <Link class="category" :href="route('category.index', {slug: post.category?.slug})">
-              {{ post.category?.name }}
+
+            <Link
+              class="category"
+              :href="route('category.index', { slug: post.category?.slug })"
+            >
+            {{ post.category?.name }}
             </Link>
           </div>
         </article>
       </header>
-      
+
       <section class="desktop-interactions-wrapper">
         <LikeButton
           :post="localPost"
           class="stick-this"
           @update:post="updatedPost => localPost = updatedPost"
         />
-        <ShareMenu class="share-menu share-menu--desktop" :url="props.url" variant="desktop" />
+        <ShareMenu
+          class="share-menu share-menu--desktop"
+          :url="props.url"
+          variant="desktop"
+        />
       </section>
 
     </div>

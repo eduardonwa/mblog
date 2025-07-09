@@ -67,15 +67,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return 'username';
     }
 
-/*     protected static function booted(): void
-    {
-        static::creating(function (User $user) {
-            if (empty($user->slug)) {
-                $user->slug = Str::slug($user->name);
-            }
-        });
-    } */
-
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'user_id');

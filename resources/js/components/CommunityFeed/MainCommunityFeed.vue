@@ -15,7 +15,6 @@ interface MainCommunityFeedProps {
 }
 
 const props = defineProps<MainCommunityFeedProps>();
-console.log(props);
 </script>
 
 <template>
@@ -42,13 +41,9 @@ console.log(props);
                                         <Avatar
                                             size="sm"
                                             shape="circle"
-                                        >
-                                            <img
-                                                src="images/avatar/thrash.png"
-                                                alt="avatar de warpig"
-                                                class="avatar__image"
-                                            >
-                                        </Avatar>
+                                            :src="post.user?.avatar_url"
+                                            :alt="post.user?.username"
+                                        />
                                         <span class="feed-post-author">{{ post.user?.username || 'Rattlehead' }}</span>
                                     </Link>
                                     <span class="feed-post__top__date">{{ post?.short_date }}</span>
@@ -95,39 +90,5 @@ console.log(props);
                 </template>
             </InfiniteScroll>
         </main>
-        
-<!--         <div class="community-layout__groups-wrapper">
-            <aside class="community-layout__groups-wrapper__following">
-                <h2 class="following-header | uppercase clr-secondary-200 fw-semibold">
-                    following
-                </h2>
-    
-                <div class="group-card">
-                    <h2 class="group-card__group-name | uppercase fs-200 clr-primary-300">nombre del grupo</h2>
-                    <a
-                        href="#"
-                        class="group-card__post-title | no-decor"
-                    >titulo del post</a>
-                    <div class="group-card__interactions">
-                        <div class="group-uphail">
-                            <UphailIcon
-                                size="20px"
-                                fillColor="#d9d9de"
-                                style="margin-right: .4rem;"
-                            />
-                            <span class="clr-primary-300">1</span>
-                        </div>
-    
-                        <div class="group-comment">
-                            <CommentIcon
-                                size="20px"
-                                style="margin-right: .4rem;"
-                            />
-                            <span class="comment-count">2</span>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-        </div> -->
     </div>
 </template>

@@ -17,8 +17,6 @@ const { posts: initialPosts, author } = defineProps<{
     posts: PaginatedPosts;
     author: User;
 }>();
-
-console.log(initialPosts);
 </script>
 
 <template>
@@ -31,7 +29,7 @@ console.log(initialPosts);
                     :src="author.avatar_url"
                     :alt="author.username"
                 />
-                <h2>Posts by {{ author?.username }}</h2>
+                <h2>{{ author?.username }}</h2>
             </div>
 
             <InfiniteScroll
@@ -77,13 +75,6 @@ console.log(initialPosts);
                             <template #footer="{ post }">
                                 <div class="horiz-card__footer">
                                     <span class="date | padding-inline-end-2">{{ post.smart_date }}</span>
-                                    <Link
-                                        class="no-decor"
-                                        v-if="post.category"
-                                        :href="route('category.index', { slug: post.category.slug })"
-                                    >
-                                        <span class="fs-300">{{ post.category?.name }}</span>
-                                    </Link>
                                 </div>
                             </template>
                         </ArticleCardHorizontal>
