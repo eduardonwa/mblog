@@ -26,7 +26,7 @@ const loadMore = async () => {
     const res = await axios.get(nextPageUrl.value);
     const newItems = res.data[props.dataKey] || [];
     nextPageUrl.value = props.extractNextPage(res.data);
-    items.value = [...items.value, ...newItems];
+    items.value = [...new Map([...items.value, ...newItems].map(item => [item.id, item])).values()];
     emit('loaded', newItems);
   } catch (error) {
     console.error('Error en scroll infinito:', error);

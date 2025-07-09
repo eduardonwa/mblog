@@ -2,7 +2,6 @@
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import ChannelHeader from '@/components/ChannelHeader.vue';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
-import { ref } from 'vue';
 import { Channel, Post } from '@/types';
 import ArticleCardHorizontal from '@/components/ArticleCardHorizontal.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';

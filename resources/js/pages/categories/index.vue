@@ -7,6 +7,7 @@ import UphailIcon from '@/components/ui/icons/UphailIcon.vue';
 import CommentIcon from '@/components/ui/icons/CommentIcon.vue';
 import InfiniteScroll from '@/components/InfiniteScroll.vue';
 import type { Post, Category } from '@/types';
+import { onMounted } from 'vue';
 
 interface categoryPosts {
     data: Post[];
@@ -17,6 +18,9 @@ const { posts: initialPosts, category } = defineProps<{
     posts: categoryPosts;
     category: Category;
 }>();
+
+/* console.log("Initial posts (Vista):", initialPosts.data); // ¿Muestra 2 posts?
+console.log("Initial nextPage (Vista):", initialPosts.next_page_url); // ¿Es null? */
 </script>
 
 <template>
@@ -25,7 +29,6 @@ const { posts: initialPosts, category } = defineProps<{
             <!-- Título de la categoría -->
             <div class="horiz-card-wrapper__header">
                 <h2 class="clr-neutral-100">{{ category?.name }}</h2>
-                hola *Dios
                 <p class="fs-400 clr-primary-300">{{ category?.description }}</p>
             </div>
 

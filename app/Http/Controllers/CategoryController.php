@@ -20,8 +20,8 @@ class CategoryController extends Controller
             ->orderBy('published_at', 'desc')
             ->paginate(12);
 
-        if (request()->wantsJson()) {
-            return response()->json($posts);
+        if (request()->wantsJson() || request()->get('json')) {
+            return $posts; // Devuelve el objeto paginado completo
         }
 
         return Inertia::render('categories/index', [
