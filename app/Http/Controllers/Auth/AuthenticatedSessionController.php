@@ -41,15 +41,10 @@ class AuthenticatedSessionController extends Controller
                 'status' => session('status')
             ]);
         }
+
+        $intended = session()->pull('url.intended', '/');
         
-        // Ya verificó su correo, ahora redirige según su rol
-        if ($user->hasRole('admin')) {
-            return Inertia::location('/admin');
-        }
-
-        // Por defecto, si es miembro
-        return Inertia::location('/member');
-
+        return Inertia::location($intended);
     }
 
     /**

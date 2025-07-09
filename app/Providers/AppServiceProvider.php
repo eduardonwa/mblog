@@ -5,10 +5,14 @@ namespace App\Providers;
 use App\Models\User;
 use App\Observers\UserObserver;
 use BeyondCode\Comments\Comment;
+use App\Filament\MyLoginResponse;
+use App\Filament\MyLogoutResponse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
+use Filament\Http\Responses\Auth\Contracts\LogoutResponse;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,5 +48,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         User::observe(UserObserver::class);
+
+        $this->app->singleton(LoginResponse::class, MyLoginResponse::class);
+        $this->app->singleton(LogoutResponse::class, MyLogoutResponse::class);
     }
 }

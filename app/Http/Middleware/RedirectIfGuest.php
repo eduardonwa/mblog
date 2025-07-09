@@ -17,7 +17,7 @@ class RedirectIfGuest
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::guest()) {
-            return redirect()->route('login');
+            return redirect()->guest(route('login'));
         }
         return $next($request);
     }

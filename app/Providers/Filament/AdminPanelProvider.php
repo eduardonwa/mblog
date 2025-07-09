@@ -69,6 +69,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Back to site')
                     ->url('/')
                     ->icon('heroicon-o-arrow-left')
-            ]);
+            ])
+            ;
     }
 }

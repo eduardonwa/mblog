@@ -12,11 +12,6 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserPublicProfileController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
 
 // Grupo para rutas públicas
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
