@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Post, MAReleases } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import MainPost from '@/components/MainPost.vue';
 import MainLeaderboard from '@/components/Leaderboard/MainLeaderboard.vue';

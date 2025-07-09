@@ -9,6 +9,8 @@
 }
 
 @mixin link-hover {
+  font-size: $font-size-500;
+  
   &:hover {
     background-color: $color-primary-900;
     transition: background-color 0.3s ease;

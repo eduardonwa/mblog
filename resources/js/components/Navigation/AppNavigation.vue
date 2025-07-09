@@ -6,7 +6,7 @@ import NavigationTopBarInvisible from '@/components/ui/navigation-menu/Navigatio
 import HomeIcon from './../ui/icons/HomeIcon.vue';
 import GroupsIcon from './../ui/icons/GroupsIcon.vue';
 import type { Category, SharedData } from '@/types';
-
+import AppCategoriesMenu from '../AppCategoriesMenu.vue';
 
 const page = usePage<SharedData>();
 
@@ -96,14 +96,10 @@ onUnmounted(() => {
                     <div class="nav__hidden__menu__blog">
                         <h2 class="uppercase clr-secondary-300">blog</h2>
                         <template v-if="categories?.length">
-                            <Link
-                                v-for="category in categories"
-                                :key="category.id"
-                                :href="route('category.index', { slug: category.slug })"
-                                class="clr-primary-100 no-decor"
-                            >
-                                {{ category.name }}
-                            </Link>
+                            <AppCategoriesMenu
+                                :categories="categories"
+                                variant="sidebar"
+                            />
                         </template>
                     </div>
 
