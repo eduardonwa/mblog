@@ -28,7 +28,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PostResource\Pages;
-use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
