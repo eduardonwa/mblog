@@ -53,14 +53,14 @@ class CommentsRelationManager extends RelationManager
                 Action::make('approve')
                     ->label('Approve')
                     ->color('success')
-                    ->icon('heroicon-m-check-circle')
+                    ->icon('heroicon-o-arrow-uturn-up')
                     ->action(fn ($record) => $record->approve())
                     ->requiresConfirmation()
                     ->hidden(fn ($record) => $record->is_approved),
                 Action::make('disapprove')
                     ->label('Disapprove')
-                    ->color('gray')
-                    ->icon('heroicon-m-x-circle')
+                    ->color('warning')
+                    ->icon('heroicon-o-arrow-uturn-down')
                     ->action(fn ($record) => $record->disapprove())
                     ->requiresConfirmation()
                     ->hidden(fn ($record) => !$record->is_approved),
