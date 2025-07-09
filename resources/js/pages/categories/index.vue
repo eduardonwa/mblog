@@ -82,10 +82,10 @@ const { posts: initialPosts, category } = defineProps<{
                                     />
     
                                     <Link
-                                        :href="route('author.posts', { user: post?.user?.slug })"
+                                        :href="route('author.posts', { user: post?.user?.username })"
                                         class="no-decor"
                                         aria-label="More about this author"
-                                    >{{ post.user?.slug }}</Link>
+                                    >{{ post.user?.username }}</Link>
                                     <span class="date">{{ post.smart_date }}</span>
                                 </div>
                             </template>
