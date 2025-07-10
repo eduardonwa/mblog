@@ -1,10 +1,9 @@
 ## mblog
 
 # por hacer:
-- diseño de perfil de usuarios
 - agregar vistas a los posts
-    . ver vistas en filament
-    . agregar atributo en post
+    . ver previsualizacion de un post antes de publicarlo, filament
+    . agregar un atributo para ver cuantas vistas tiene un post
 - notificaciones:
     Post notifications:
     . comentarios

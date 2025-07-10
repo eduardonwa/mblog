@@ -36,7 +36,7 @@ const { posts: initialPosts, author } = defineProps<{
 
                     <div class="content">
                         <p class="bio">{{ author?.bio }}</p>
-                        <Link
+                        <a
                             v-if="author?.link"
                             :href="author?.link"
                             target="_blank"
@@ -44,7 +44,7 @@ const { posts: initialPosts, author } = defineProps<{
                             class="link"
                         >
                             {{ author?.link }}
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </article>
