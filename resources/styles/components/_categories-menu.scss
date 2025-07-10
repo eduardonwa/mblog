@@ -8,6 +8,7 @@
 
         @include mq(large) {
             background: transparent;
+            border-bottom: transparent;
         }
 
         &__header {
@@ -17,6 +18,7 @@
             cursor: pointer;
             height: 48px;
             transition: all 275ms ease;
+            padding-inline-end: $size-4;
             
             @include mq(large) {
                 justify-content: flex-start;
@@ -27,7 +29,7 @@
             }
 
             a {
-                color: $color-accent-200;
+                color: $color-secondary-100;
                 text-decoration: none;
                 font-size: $font-size-400;
                 padding: 0;
@@ -66,6 +68,74 @@
                     &:hover {
                         color: $color-secondary-200;
                     }
+                }
+            }
+        }
+    }
+}
+
+.categories-menu--topbar {
+    width: 100%;
+    display: flex;
+    gap: $size-4;
+
+    .category {
+        position: relative;
+
+        &__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: auto;
+            gap: $size-4;
+            margin-inline: $size-4;
+            padding: $size-2;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 275ms ease;
+            border-radius: $size-1;
+
+            &:hover {
+                border: 1px solid $color-primary-500;
+                
+                .down-arrow-icon, .up-arrow-icon {
+                    path {
+                        fill: $color-secondary-200;
+                    }
+                }
+
+                a {
+                    color: $color-secondary-200;
+                }
+            }
+            
+            a {
+                text-decoration: none;
+                color: $color-primary-200;
+                padding-inline: $size-4;
+            }
+        }
+
+        &__submenu {
+            position: absolute;
+            left: 0;
+            background: $color-primary-900;
+            padding: $size-4;
+            list-style-type: none;
+            width: 100%;
+            border: 1px solid $color-primary-500;
+            border-radius: $size-1;
+
+            a {
+                color: $color-primary-200;
+                text-decoration: none;
+                transition: all 275ms ease;
+                padding-block: $size-2;
+                display: block;
+
+                &:hover {
+                    color: $color-secondary-200;
+                    text-decoration: underline;
                 }
             }
         }

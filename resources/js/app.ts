@@ -1,5 +1,6 @@
 import '../styles/main.scss';
 
+import directives from './directives'
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
@@ -36,6 +37,11 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .component('AppNavigation', AppNavigation);
+            // directives
+            Object.entries(directives).forEach(([name, def]) => {
+                app.directive(name, def);
+            });
+
         app.mount(el);
     },
     progress: {

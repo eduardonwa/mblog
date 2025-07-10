@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import UpArrow from '../icons/UpArrow.vue';
-import DownArrow from '../icons/DownArrow.vue';
 
 const props = defineProps<{
   categoryId: number
@@ -16,17 +14,21 @@ const isOpen = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 })
+
+const toggle = () => {
+  isOpen.value = !isOpen.value;
+};
 </script>
 
 <template>
     <div class="category-dropdown-item">
         <div
             class="category-dropdown-item__header"
-            @click="isOpen = !isOpen"
+            @click="toggle"
             role="button"
             :aria-expanded="isOpen"
         >
-            <slot name="header" :isOpen="isOpen" />
+            <slot name="header" :isOpen="isOpen" :toggle="toggle" />
         </div>
 
         <div

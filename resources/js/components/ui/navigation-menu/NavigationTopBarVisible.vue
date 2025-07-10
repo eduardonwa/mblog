@@ -3,7 +3,7 @@ import UserIcon from '../icons/UserIcon.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import MenuIcon from '../icons/MenuIcon.vue';
 import type { Auth, Category } from '@/types/index';
-import { onMounted } from 'vue';
+import AppCategoriesMenu from '@/components/AppCategoriesMenu.vue';
 
 interface Props {
     categories: Category[];
@@ -37,14 +37,18 @@ function goTo(url: string) {
     <!-- categories -->
     <div class="nav__visible__links">
         <template v-if="categories?.length">
-            <Link
+            <AppCategoriesMenu
+                :categories="categories"
+                variant="topbar"
+            />
+            <!-- <Link
                 v-for="category in categories"
                 :key="category.id"
                 :href="route('category.index', { slug: category.slug })"
                 class="clr-primary-100 no-decor"
             >
                 {{ category.name }}
-            </Link>
+            </Link> -->
         </template>
     </div>
     

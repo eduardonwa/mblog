@@ -31,17 +31,20 @@ watch(
     <div class="categories-menu" :class="`categories-menu--${variant}`">
         <SimpleDropdown
             v-for="category in categories"
+            class="category"
             :key="category.id"
             :category-id="category.id"
             v-model="openStates[category.id]"
-            class="category"
+            v-click-away="() => (openStates[category.id] = false)"
         >
-            <template #header="{ isOpen }">
+            <template #header="{ isOpen, toggle }">
                 <div class="category__header">
                     <Link :href="route('category.index', { slug: category.slug })">
                         {{ category.name }}
                     </Link>
-                    <component :is="isOpen ? UpArrow : DownArrow" size="18" />
+                    <span @click.stop="toggle">
+                        <component :is="isOpen ? UpArrow : DownArrow" size="18" />
+                    </span>
                 </div>
             </template>
 
