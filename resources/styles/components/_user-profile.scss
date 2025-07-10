@@ -1,2 +1,35 @@
 @use "../abstracts" as *;
 
+.user-profile {
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .username {
+            font-size: $font-size-600;
+            font-weight: bold;
+
+            @include mq(large) {
+                font-size: $font-size-700;
+            }
+        }
+    }
+
+    .content {
+        margin-block-start: $size-4;
+        width: 80%;
+
+        .bio, .link {
+            font-size: $font-size-400;
+        }
+
+        .link {
+            padding-block: $size-2;
+            display: block;
+            color: $color-accent-300;
+            text-decoration: none;
+            transition: all 275ms ease;
+        }
+    }
+}

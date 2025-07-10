@@ -17,9 +17,11 @@ class EditProfile extends BaseEditProfile
                     ->label('Username')
                     ->required()
                     ->maxLength(255),
-                Textarea::make('description')
+                Textarea::make('bio')
                     ->label('Bio')
-                    ->maxLength(255),
+                    ->maxLength(180),
+                TextInput::make('link')
+                    ->url(),
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),

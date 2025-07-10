@@ -23,14 +23,31 @@ const { posts: initialPosts, author } = defineProps<{
     <SiteLayout>
         <section class="horiz-card-wrapper | container">
             <!-- autor -->
-            <div class="horiz-card-wrapper__header">
-                <Avatar
-                    size="xl"
-                    :src="author.avatar_url"
-                    :alt="author.username"
-                />
-                <h2>{{ author?.username }}</h2>
-            </div>
+            <article class="horiz-card-wrapper__header">
+                <div class="user-profile">
+                    <div class="header">
+                        <h2 class="username">{{ author?.username }}</h2>
+                        <Avatar
+                            size="lg"
+                            :src="author.avatar_url"
+                            :alt="author.username"
+                        />
+                    </div>
+
+                    <div class="content">
+                        <p class="bio">{{ author?.bio }}</p>
+                        <Link
+                            v-if="author?.link"
+                            :href="author?.link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="link"
+                        >
+                            {{ author?.link }}
+                        </Link>
+                    </div>
+                </div>
+            </article>
 
             <InfiniteScroll
                 :endpoint="`/members/${author.username}/posts?json=true`"

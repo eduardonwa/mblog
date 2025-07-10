@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             'username' => 'eduardo',
             'email' => 'admin@sickofmetal.net',
             'password' => bcrypt('password'),
+            'link' => 'https://sickofmetal.net',
+            'bio' => 'I wanted to redesign my old blog but created this community project instead. Hope you like it!',
         ])->assignRole('admin');
 
         // Crear 2 usuarios staff
