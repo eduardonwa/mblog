@@ -44,7 +44,9 @@ class PostController extends Controller
 
         // respuesta si es un bot
         if ($this->isBot($request)) {
-            return $this->respondWithBotPreview($meta, $post);
+            return $this->respondWithBotPreview($meta, [
+                'post' => $post,
+            ]);
         }
 
         return Inertia::render('post/show', [

@@ -13,7 +13,12 @@
     <meta property="og:image" content="{{ $meta['thumbnail'] }}">
     <meta property="og:url" content="{{ $meta['url'] }}">
     <meta property="og:type" content="article">
+    <meta property="og:type" content="{{ $meta['type'] ?? 'website' }}">
     <meta property="og:locale" content="es_MX">
+
+    @if($meta['type'] === 'profile' && isset($user))
+        <meta property="profile:username" content="{{ $user->username }}">
+    @endif
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">

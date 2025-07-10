@@ -16,10 +16,10 @@ trait HandlesBotPreview
         );
     }
 
-    protected function respondWithBotPreview(array $meta, $post)
+    protected function respondWithBotPreview(array $meta, array $payload)
     {
         return response()
-            ->view('post.meta-preview', compact('meta', 'post'))
+            ->view('post.meta-preview', array_merge(['meta' => $meta], $payload))
             ->withoutCookie('sickofmetal_session')
             ->withoutCookie('XSRF-TOKEN')
             ->withHeaders([
