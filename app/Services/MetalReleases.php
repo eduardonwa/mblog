@@ -40,7 +40,7 @@ class MetalReleases
         foreach ($albumsData as $i => $row) {
             $cover = null;
             $albumUrl = $albumUrls[$i];
-            $releaseHtml = $row[1] ?? '';
+            $releaseHtml = preg_replace('/\s+/', ' ', trim($row[1])); // limpia carateres invisibles
             $response = $responses[$i]['value'] ?? null;
 
             if ($albumUrl && $response) {

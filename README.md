@@ -1,9 +1,6 @@
 ## mblog
 
 # por hacer:
-- categorias y subcategorias
-    . mostrar dropdown para categorias
-    . mostrarlas tambien en la navegacion
 - diseño de perfil de usuarios
 - agregar vistas a los posts
     . ver vistas en filament

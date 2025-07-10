@@ -21,6 +21,8 @@
         padding: $size-4;
         position: sticky;
         left: 0;
+        display: flex;
+        gap: $size-3;
 
         .powered-string {
             margin-block: $size-1;
@@ -36,11 +38,6 @@
                     cursor: pointer;
                 }
             }
-        }
-
-        @include mq(medium) {
-            display: flex;
-            gap: $size-4;
         }
     }
     
