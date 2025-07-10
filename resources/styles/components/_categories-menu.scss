@@ -25,11 +25,15 @@
 
                 &:hover {
                     background: $color-primary-900;
+
+                    a {
+                        color: $color-secondary-100;
+                    }
                 }
             }
 
             a {
-                color: $color-secondary-100;
+                color: $color-primary-100;
                 text-decoration: none;
                 font-size: $font-size-400;
                 padding: 0;
@@ -66,7 +70,7 @@
                     font-size: $font-size-400;
                     
                     &:hover {
-                        color: $color-secondary-200;
+                        color: $color-secondary-100;
                     }
                 }
             }
