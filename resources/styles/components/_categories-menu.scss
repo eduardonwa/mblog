@@ -100,12 +100,12 @@
                 
                 .down-arrow-icon, .up-arrow-icon {
                     path {
-                        fill: $color-secondary-200;
+                        fill: $color-secondary-100;
                     }
                 }
 
                 a {
-                    color: $color-secondary-200;
+                    color: $color-secondary-100;
                 }
             }
             
@@ -134,7 +134,7 @@
                 display: block;
 
                 &:hover {
-                    color: $color-secondary-200;
+                    color: $color-secondary-100;
                     text-decoration: underline;
                 }
             }
