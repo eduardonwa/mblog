@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\CustomComment;
+use App\Notifications\PostComment;
 use App\Notifications\UserMention;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,12 @@ class CommentController extends Controller
         $request->validate(['comment' => 'required|string']);
         $comment = $post->commentAsUser(Auth::user(), $request->comment);
         $comment->approve();
+
+        // disparar notificacion
+        if ($post->user->id !== Auth::id()) {
+            $comment->load('commentable');
+            $post->user->notify(new PostComment($comment));
+        }
 
         return back()->with('success', 'Comment added.');
     }
