@@ -7,13 +7,12 @@
         <title inertia>{{ config('app.name', 's1ck0fm3t4L') }}</title>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
         @filamentStyles
         {{-- @routes --}}
-        @vite(['resources/js/app.ts'])
+        @vite(['resources/js/app.ts', 'resources/styles/main.scss'])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body>
         @routes
         @filamentScripts
         @inertia

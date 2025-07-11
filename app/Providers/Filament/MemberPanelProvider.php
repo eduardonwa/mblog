@@ -7,6 +7,7 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Http\Middleware\Authenticate;
+use Pboivin\FilamentPeek\FilamentPeekPlugin;
 use App\Filament\Member\Pages\MemberDashboard;
 use App\Filament\Member\Pages\Auth\EditProfile;
 use Illuminate\Session\Middleware\StartSession;
@@ -51,6 +52,9 @@ class MemberPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->plugins([
+                FilamentPeekPlugin::make()
             ])
             ->viteTheme('resources/css/filament/member/theme.css')
             ->spa()

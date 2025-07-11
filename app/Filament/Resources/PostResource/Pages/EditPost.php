@@ -27,7 +27,7 @@ class EditPost extends EditRecord
 
     protected function getPreviewModalView(): ?string
     {
-        return 'post.show';
+        return 'post.preview';
     }
 
     protected function getPreviewModalDataRecordKey(): ?string

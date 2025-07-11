@@ -1,12 +1,12 @@
 <script setup lang="ts">
-    import UserIcon from '../icons/UserIcon.vue';
-    import { Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import PanelRoles from '@/components/PanelRoles.vue';
 
-    defineProps({
-        isMenuOpen: Boolean
-    });
-    
-    defineEmits(['closeMenu']);
+defineProps({
+    isMenuOpen: Boolean
+});
+
+defineEmits(['closeMenu']);
 </script>
 
 <template>
@@ -17,10 +17,7 @@
     <Link href="/" class="nav__hidden__top__logo">sickofmetal</Link>
     
     <div class="nav__hidden__auth">
-        <Link v-if="$page.props.auth.user" :href="route('dashboard.index')">
-            <UserIcon/>
-        </Link>
-        <Link v-else :href="route('register')">Sign Up</Link>
+        <PanelRoles  />
     </div>
 </template>
 
