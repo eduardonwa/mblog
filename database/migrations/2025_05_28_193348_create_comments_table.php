@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->morphs('commentable');
             $table->text('comment');
             $table->boolean('is_approved')->default(false);
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->unsignedInteger('comment_id')->nullable();
             NestedSet::columns($table);
             $table->timestamps();

@@ -36,7 +36,7 @@ class PostComment extends Notification
     {
         return (new MailMessage)
             ->subject("One of your posts received a comment")
-            ->greeting("Hey, {$notifiable->username},")
+            ->greeting("Hey {$notifiable->username},")
             ->line("{$this->comment->commentator->username} commented on your post")
             ->line("“{$this->comment->comment}”")
             ->action('See post', $this->generatePostUrl($this->comment->commentable))

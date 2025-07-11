@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, toRaw } from 'vue';
+import { computed, ref, nextTick, toRaw, onMounted } from 'vue';
 import { router, useForm, Link } from '@inertiajs/vue3';
 import { useDateFormat } from '@/composables/useDateFormat';
 import { Comment, MentionableUser } from '@/types';
@@ -60,7 +60,7 @@ const handleReplyClick = () => {
   if (showReplyForm.value) {
     nextTick(() => {
       // Obtener el nombre del usuario del comentario
-      const username = props.comment?.commentator?.slug || '';
+      const username = props.comment?.commentator?.username || '';
       
       if (username) {
         // Autoetiquetar al usuario
@@ -85,15 +85,18 @@ const handleReplyClick = () => {
     :style="{ marginLeft: `${depth * 30}px` }"
   >
     <div class="comment-wrapper" :class="{'is-root': isRoot}">
-      <div class="comment-content">
+      <div
+        class="comment-content"
+        :id="`comment-${comment.id}`"
+      >
         <header class="comment-content__header">
           <Avatar size="sm" />
           <Link 
-            v-if="comment.commentator?.slug"
-            :href="route('author.posts', { user: comment.commentator.slug })"
+            v-if="comment.commentator?.username"
+            :href="route('author.posts', { user: comment.commentator.username })"
             class="comment-content__header__author | no-decor"
           >
-            {{ comment?.commentator?.slug || 'Rattlehead' }}
+            {{ comment?.commentator?.username || 'Rattlehead' }}
           </Link>
           <p class="comment-content__header__date">{{ shortDate(comment?.created_at) }}</p>
         </header>

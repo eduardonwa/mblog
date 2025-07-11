@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Member\Resources\NotificationResource\Pages;
+namespace App\Filament\Resources\NotificationResource\Pages;
 
 use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Member\Resources\NotificationResource;
+use App\Filament\Resources\NotificationResource;
 
 class ListNotifications extends ListRecords
 {

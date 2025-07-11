@@ -74,6 +74,210 @@
   }
 }
 
+@mixin post-comments {
+    margin-block: $size-4;
+    display: flex;
+    flex-direction: column;
+
+    &__form {
+        margin-block: $size-8;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__thread {
+        padding-inline: $size-3;
+
+        @include mq(large) {
+            margin-block-start: $size-8;
+        }
+
+        .comment-container {
+            display: flex;
+            flex-direction: column;
+            margin-block-end: $size-8;
+            position: relative;
+            background: transparent;
+            padding: $size-2;
+            border-radius: $size-2;
+            border: 1px solid transparent;
+            transition: background 500ms ease, border-radius 500ms ease;
+
+            .highlighted-comment {
+                border: 1px solid $color-accent-200;
+                border-radius: $size-1;
+                padding: $size-2;
+                background: hsla(0, 0%, 7.5%, 0.85);
+                color: $color-neutral-100;
+            }
+
+            .comment-wrapper {
+                position: relative;
+
+                // la linea horizontal
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: -42px;
+                    top: 24px;
+                    width: 30px;
+                    height: 1px;
+                    background: $color-primary-500;
+                }
+
+                // le quita la linea horizontal al comentario original
+                &.is-root::after {
+                    display: none;
+                    content: none;
+                }
+
+                .comment-content {
+                    scroll-margin-top: 100px;
+                    // la linea vertical
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: -12px;
+                        top: 0;
+                        bottom: 0;
+                        width: 1px;
+                        background: $color-primary-500;
+                    }
+
+                    &:last-child::before {
+                        height: 24px;
+                    }
+
+                    &__header {
+                        display: flex;
+                        gap: $size-2;
+                        align-items: center;
+
+                        .delete-icon-wrapper {
+                            border: none;
+                            margin-left: auto;
+                            margin-right: $size-4;
+                            background: transparent;
+
+                            button {
+                                path {
+                                    stroke: #F83B3B;
+                                }
+                            }
+                        }
+
+                        &__author {
+                            display: flex;
+                            gap: $size-2;
+                            align-items: center;
+                            font-size: $font-size-400;
+                            color: $color-accent-300;
+                        }
+
+                        &__date {
+                            color: $color-primary-200;
+                            font-size: $font-size-300;
+                        }
+                    }
+
+                    &__body {
+                        font-size: $font-size-400;
+                        padding-block: $size-2;
+                        color: $color-primary-200;
+                    }
+
+                    &__actions {
+                        display: flex;
+                        align-items: center;
+                        gap: $size-2;
+
+                        .reply-icon {
+                            display: flex;
+                            align-items: center;
+                            gap: $size-1;
+                            padding: 0 $size-2;
+                            border-radius: $size-1;
+                            transition: 0;
+
+                            &::after {
+                                content: 'reply';
+                                font-size: 12px;
+                                text-transform: uppercase;
+                            }
+
+                            &:hover {
+                                background: $color-primary-900;
+                            }
+                        }
+
+                        .delete-icon-wrapper {
+                            display: flex;
+                            align-items: center;
+                            gap: $size-1;
+                            padding: 0 $size-2;
+                            border-radius: $size-1;
+                            transition: 0;
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            cursor: pointer;
+
+                            &:hover {
+                                background: $color-primary-900;
+                            }
+                        }
+                    }
+                }
+
+                .comment-replies {
+                    position: relative;
+
+                    .reply-form {
+                        margin-block: $size-2;
+                        display: flex;
+                        flex-direction: column;
+
+                        button {
+                            width: fit-content;
+                            border-radius: .5rem;
+                        }
+                    }
+
+                    .replies {
+                        margin-block-start: $size-6;
+                    }
+
+                    .suggestions-wrapper {
+                        position: relative;
+
+                        .suggestions {
+                            position: absolute;
+                            bottom: 100%;
+                            left: 0;
+                            right: 0;
+                            background: $color-primary-700;
+                            border-radius: 4px;
+                            max-height: 150px;
+                            overflow-y: auto;
+                            z-index: 100;
+
+                            &__item {
+                                cursor: pointer;
+                                padding: $size-1 $size-2;
+                                font-size: $font-size-400;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: $color-primary-600;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 .blog-post {
     margin-block: $size-13;
     position: relative;
@@ -240,193 +444,7 @@
     }
 
     &__comments {
-        margin-block: $size-4;
-        display: flex;
-        flex-direction: column;
-
-        &__form {
-            margin-block: $size-8;
-            display: flex;
-            flex-direction: column;
-        }
-
-        &__thread {
-            padding-inline: $size-3;
-
-            @include mq(large) {
-                margin-block-start: $size-8;
-            }
-
-            .comment-container {
-                display: flex;
-                flex-direction: column;
-                margin-block-end: $size-8;
-                position: relative;
-
-                .comment-wrapper {
-                    position: relative;
-
-                    // la linea horizontal
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        left: -42px;
-                        top: 24px;
-                        width: 30px;
-                        height: 1px;
-                        background: $color-primary-500;
-                    }
-
-                    // le quita la linea horizontal al comentario original
-                    &.is-root::after {
-                        display: none;
-                        content: none;
-                    }
-
-                    .comment-content {
-                        // la linea vertical
-                        &::before {
-                            content: '';
-                            position: absolute;
-                            left: -12px;
-                            top: 0;
-                            bottom: 0;
-                            width: 1px;
-                            background: $color-primary-500;
-                        }
-
-                        &:last-child::before {
-                            height: 24px;
-                        }
-
-                        &__header {
-                            display: flex;
-                            gap: $size-2;
-                            align-items: center;
-
-                            .delete-icon-wrapper {
-                                border: none;
-                                margin-left: auto;
-                                margin-right: $size-4;
-                                background: transparent;
-
-                                button {
-                                    path {
-                                        stroke: #F83B3B;
-                                    }
-                                }
-                            }
-
-                            &__author {
-                                display: flex;
-                                gap: $size-2;
-                                align-items: center;
-                                font-size: $font-size-400;
-                                color: $color-accent-300;
-                            }
-
-                            &__date {
-                                color: $color-primary-200;
-                                font-size: $font-size-300;
-                            }
-                        }
-
-                        &__body {
-                            font-size: $font-size-400;
-                            padding-block: $size-2;
-                            color: $color-primary-200;
-                        }
-
-                        &__actions {
-                            display: flex;
-                            align-items: center;
-                            gap: $size-2;
-
-                            .reply-icon {
-                                display: flex;
-                                align-items: center;
-                                gap: $size-1;
-                                padding: 0 $size-2;
-                                border-radius: $size-1;
-                                transition: 0;
-
-                                &::after {
-                                    content: 'reply';
-                                    font-size: 12px;
-                                    text-transform: uppercase;
-                                }
-
-                                &:hover {
-                                    background: $color-primary-900;
-                                }
-                            }
-
-                            .delete-icon-wrapper {
-                                display: flex;
-                                align-items: center;
-                                gap: $size-1;
-                                padding: 0 $size-2;
-                                border-radius: $size-1;
-                                transition: 0;
-                                font-size: 12px;
-                                text-transform: uppercase;
-                                cursor: pointer;
-
-                                &:hover {
-                                    background: $color-primary-900;
-                                }
-                            }
-                        }
-                    }
-
-                    .comment-replies {
-                        position: relative;
-
-                        .reply-form {
-                            margin-block: $size-2;
-                            display: flex;
-                            flex-direction: column;
-
-                            button {
-                                width: fit-content;
-                                border-radius: .5rem;
-                            }
-                        }
-
-                        .replies {
-                            margin-block-start: $size-6;
-                        }
-
-                        .suggestions-wrapper {
-                            position: relative;
-
-                            .suggestions {
-                                position: absolute;
-                                bottom: 100%;
-                                left: 0;
-                                right: 0;
-                                background: $color-primary-700;
-                                border-radius: 4px;
-                                max-height: 150px;
-                                overflow-y: auto;
-                                z-index: 100;
-
-                                &__item {
-                                    cursor: pointer;
-                                    padding: $size-1 $size-2;
-                                    font-size: $font-size-400;
-                                    transition: all 0.2s ease;
-
-                                    &:hover {
-                                      background-color: $color-primary-600;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        @include post-comments;
     }
 }
 

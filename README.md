@@ -2,14 +2,6 @@
 
 # por hacer:
 - notificaciones:
-    Post notifications:
-    . comentarios
-    . likes
-    . replicas a comentarios
-    User notifications:
-    . cambiar contraseña
-    . verificar mi correo
-    . registro
     Comment notifications
     . comentario desaprobado
     . comentario reinstituido

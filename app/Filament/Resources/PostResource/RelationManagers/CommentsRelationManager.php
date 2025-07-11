@@ -9,7 +9,6 @@ use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class CommentsRelationManager extends RelationManager
@@ -70,5 +69,10 @@ class CommentsRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getModel(): string
+    {
+        return \App\Models\CustomComment::class;
     }
 }

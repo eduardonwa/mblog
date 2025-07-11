@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\CustomComment;
 use App\Notifications\PostComment;
 use App\Notifications\UserMention;
+use App\Notifications\CommentReply;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -70,6 +71,14 @@ class CommentController extends Controller
 
         // Si necesitas aprobación automática:
         $reply->update(['is_approved' => true]);
+        
+        // dd($parentComment->commentator);
+        
+        // Notificar al autor del comentario original (si no es el mismo que respondió)
+        if ($parentComment->commentator && $parentComment->commentator->id !== Auth::id()) {
+            $reply->load('commentable', 'commentator');
+            $parentComment->commentator->notify(new CommentReply($reply));
+        }
         
         // Detectar menciones (si lo tienes implementado)
         $this->detectAndNotifyMentions($request, $reply);

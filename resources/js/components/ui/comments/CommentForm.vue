@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 const { post } = defineProps({
@@ -40,9 +39,10 @@ const submitComment = () => {
 
         <button type="submit" class="button" data-type="comment">
             <span
-            v-if="form.processing"
-            :disabled="form.processing"
-            >Posting...</span>
+              v-if="form.processing"
+              :disabled="form.processing"
+            > 
+              Posting...</span>
             <span v-else>post comment</span>
         </button>
     </form>
