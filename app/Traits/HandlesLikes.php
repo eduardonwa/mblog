@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Post;
+use App\Notifications\PostLiked;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,8 +12,18 @@ trait HandlesLikes
     public function like($postId)
     {
         try {
-            $post = Post::findOrFail($postId);
+            $post = Post::with('user', 'channel')->findOrFail($postId);
             $post->likes()->firstOrCreate(['user_id' => Auth::id()]);
+
+            if ($post->user_id !== Auth::id()) {
+                /* Log::info('Notificando al autor del post por like.', [
+                    'autor_id' => $post->user_id,
+                    'liker_id' => Auth::id(),
+                    'post_id' => $post->id,
+                ]); */
+
+                $post->user->notify(new PostLiked(Auth::user(), $post));
+            }
     
             return response()->json([
                 'success' => true,
@@ -24,7 +35,7 @@ trait HandlesLikes
             Log::error('Error en like: '.$e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Error al procesar el like'
+                'message' => 'Error processing uphail'
             ], 500);
         }
     }
@@ -45,7 +56,7 @@ trait HandlesLikes
             Log::error('Error en unlike: '.$e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Error al remover el like'
+                'message' => 'Error removing uphail'
             ], 500);
         }
     }

@@ -3,10 +3,10 @@
 namespace App\Filament\Member\Pages;
 
 use App\Models\Post;
-use Filament\Pages\Page;
+use Filament\Pages\Dashboard;
 use Illuminate\Support\Facades\Auth;
 
-class MemberDashboard extends Page
+class MemberDashboard extends Dashboard
 {
     protected static string $panel = 'member';
 
@@ -28,9 +28,14 @@ class MemberDashboard extends Page
             ->withCount('likes', 'comments')
             ->get();
 
+        $notifications = Auth::user()->notifications()->latest()->limit(10)->get();
+        $unreadCount = Auth::user()->unreadNotifications()->count();
+
         return [
             'user' => $user,
             'posts' => $posts,
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
             'user_stats' => [
                 'posts_count' => $user->posts_count,
                 'comments_count' => $user->comments_count,
