@@ -90,18 +90,17 @@
 
 @mixin share-menu-desktop {
   display: flex;
-  margin-inline: 1.5rem;
+  margin-inline: .5rem;
   margin-block: .5rem;
+  border: 1px solid hsla(228.62, 35.37%, 67.84%, 1);
 
   > div {
     display: flex;
     align-items: center;
     gap: 1.4rem;
-    margin-inline-start: 1.5rem;
     padding: 1rem;
 
     &:hover {
-      background: $footer-background-color;
       color: #F4FFC7;
     }
   }

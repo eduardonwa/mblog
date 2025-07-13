@@ -71,12 +71,13 @@ const localPost = ref({ ...post });
           @update:post="updatedPost => localPost = updatedPost"
         />
         <ShareMenu
-          class="share-menu share-menu--desktop"
           :url="props.url"
+          class="share-menu share-menu--desktop"
           variant="desktop"
         />
         <ReportModal
           :reportable="{id: post.id, type: 'post'}"
+          class="report-wrapper"
         />
       </section>
 

@@ -54,7 +54,7 @@ function submit() {
 
 <template>
     <!-- report button -->
-    <section>
+    <section class="report-icon-wrapper">
         <ReportIcon
             popovertarget="reportPopover"
             :disabled="form.processing"
