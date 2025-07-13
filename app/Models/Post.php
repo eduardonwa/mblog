@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Like;
+use App\Models\Report;
 use App\Models\Channel;
 use App\Models\Category;
 use Spatie\Tags\HasTags;
@@ -13,9 +14,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use BeyondCode\Comments\Traits\HasComments;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
@@ -42,7 +43,9 @@ class Post extends Model implements HasMedia
         return 'slug';
     }
 
-    /* RELACIONES */
+    /**
+     * RELACIONES
+     */
     public function member(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -67,8 +70,20 @@ class Post extends Model implements HasMedia
     {
         return $this->morphMany(Like::class, 'likeable');
     }
+
+    public function originalUser()
+    {
+        return $this->belongsTo(User::class, 'original_user_id')->withTrashed();
+    }
+
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
     
-    /* LIKES */
+    /**
+     * LIKES
+     */
     // accesores para obtener la cuenta y el usuario que le dio like
     public function getLikesCountAttribute()
     {
@@ -80,15 +95,10 @@ class Post extends Model implements HasMedia
         return $this->likes()->where('user_id', Auth::id())->exists();
     }
 
-    /* FORMATEOS */
-    // COLUMNAS
-    public function originalUser()
-    {
-        return $this->belongsTo(User::class, 'original_user_id')->withTrashed();
-    }
-
-    // FECHAS
-    // mostrar formato de fechas 
+    /**
+     * FORMATEOS ESPECIALES
+     */
+    // FECHAS -- crear formato para organizar fechas 
     protected function formatDate($date, $short = false)
     {
         // $date = $this->published_at ?? $this->created_at;
@@ -132,7 +142,7 @@ class Post extends Model implements HasMedia
         return $date->isoFormat('D MMMM YYYY');
     }
 
-    // formato largo
+    // formato largo de fecha
     public function getSmartDateAttribute()
     {
         return $this->published_at
@@ -140,7 +150,7 @@ class Post extends Model implements HasMedia
             : '-';
     }
     
-    // formato corto
+    // formato corto de fecha
     public function getShortDateAttribute()
     {
         return $this->published_at
@@ -148,7 +158,7 @@ class Post extends Model implements HasMedia
             : '-';
     }
 
-    // horario al crear
+    // interpretacion de "STATUS"
     protected static function boot()
     {
         parent::boot();

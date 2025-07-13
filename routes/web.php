@@ -1,6 +1,5 @@
 <?php
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +10,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserPublicProfileController;
 
 // Grupo para rutas públicas
@@ -51,6 +51,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::post('/comments/{comment}/replies', [CommentController::class, 'storeReply'])->name('comments.replies.store');
+
+    // reportar
+    Route::post('/report', [ReportController::class, 'store']);
 });
 
 Route::middleware('redirect.to.register')->group(function () {

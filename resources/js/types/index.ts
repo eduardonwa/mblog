@@ -59,6 +59,11 @@ export interface ProfileForm {
     avatarPreview: string;
 }
 
+export interface ReportableEntity {
+  id: number;
+  type: 'post' | 'comment';
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
 
 interface ThumbnailUrls {

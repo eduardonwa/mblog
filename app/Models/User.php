@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Filament\Panel;
 use App\Models\Like;
+use App\Models\Report;
 use App\Models\CustomComment;
 use App\Traits\UserHasSameName;
 use Spatie\MediaLibrary\HasMedia;
@@ -67,17 +68,14 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return 'username';
     }
 
+    /**
+     * RELACIONES
+     */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'user_id');
     }
-
-    // incluir posts eliminados al cargar la relacion
-    public function postsWithTrashed()
-    {
-        return $this->posts()->withTrashed();
-    }
-
+    
     public function likes()
     {
         return $this->hasMany(Like::class);
@@ -86,6 +84,26 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     public function likedPosts()
     {
         return $this->morphedByMany(Post::class, 'likeable', 'likes');
+    }
+    
+    public function comments()
+    {
+        return $this->hasMany(CustomComment::class, 'user_id');
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    /**
+     * METODOS PERSONALIZADOS
+     */
+
+    // incluir posts eliminados al cargar la relacion
+    public function postsWithTrashed()
+    {
+        return $this->posts()->withTrashed();
     }
     
     public function likesReceivedCount()
@@ -98,25 +116,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             'id', // PK en users
             'id' // PK en posts
         )->where('likeable_type', Post::class)->count();
-    }
-    
-    public function comments()
+    }    
+
+    public function getAvatarUrlAttribute()
     {
-        return $this->hasMany(CustomComment::class, 'user_id');
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return match ($panel->getId()) {
-            'admin' => str_ends_with($this->email, '@sickofmetal.net') &&
-                    $this->hasVerifiedEmail() &&
-                    $this->hasRole('admin'),
-
-            'member' => $this->hasVerifiedEmail() &&
-                        $this->hasRole('member'),
-
-            default => false,
-        };
+        return $this->getFirstMediaUrl('user_avatar', 'thumb') 
+            ?: 'https://www.gravatar.com/avatar/' . md5($this->email) . '?d=identicon';
     }
 
     public function needsCommentApproval($model): bool
@@ -135,6 +140,31 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         $this->assignRole('member');
     }
 
+    /**
+     * FILAMENT
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return match ($panel->getId()) {
+            'admin' => str_ends_with($this->email, '@sickofmetal.net') &&
+                    $this->hasVerifiedEmail() &&
+                    $this->hasRole('admin'),
+
+            'member' => $this->hasVerifiedEmail() &&
+                        $this->hasRole('member'),
+
+            default => false,
+        };
+    }
+
+    public function getFilamentName(): string
+    {
+        return "{$this->username}";
+    }
+    
+    /**
+     * COLECCION DE IMÁGENES
+     */
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('user_avatar')
@@ -155,16 +185,5 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             ->width(300)
             ->height(300)
             ->format('webp');
-    }
-
-    public function getAvatarUrlAttribute()
-    {
-        return $this->getFirstMediaUrl('user_avatar', 'thumb') 
-            ?: 'https://www.gravatar.com/avatar/' . md5($this->email) . '?d=identicon';
-    }
-
-    public function getFilamentName(): string
-    {
-        return "{$this->username}";
     }
 }

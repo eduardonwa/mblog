@@ -1,0 +1,94 @@
+@use '../abstracts/' as *;
+
+#reportPopover {
+    margin: auto;
+    border: 1px solid $color-neutral-600;
+    border-radius: $border-radius-1;
+    background: $color-neutral-800;
+
+    .report-success {
+        padding: 1rem;
+        width: 377px;
+        color: $color-neutral-100;
+        text-align: center;
+        margin: 1rem;
+
+        .heading-4 {
+            color: $color-neutral-100;
+            padding-block-end: $size-4;
+        }
+    }
+}
+
+.popover-report-card {    
+    .header {
+        color: $color-neutral-100;
+        padding-block-end: $size-2;
+        font-size: $font-size-500;
+    }
+
+    .form-report-card {
+        padding: $size-8;
+        width: 377px;
+        
+        .reasons-container {
+            margin-block: $size-4;
+            
+            .reasons-label {
+                color: $color-neutral-200;
+                display: flex;
+                align-items: center;
+                gap: $size-3;
+                cursor: pointer;
+                transition: color 275ms ease;
+
+                &:hover {
+                    color: $color-primary-100;
+                }
+
+                input[type="radio"] {
+                    appearance: none;
+                    width: 20px;
+                    height: 20px;
+                    background: $color-neutral-900;
+                    border: 1px solid transparent;
+                    border-radius: $border-radius-2;
+                    cursor: pointer;
+                }
+
+                input[type="radio"]:checked::before {
+                    content: "";
+                    position: absolute;
+                    width: 18px;
+                    height: 18px;
+                    background: $color-primary-100;
+                    border-radius: $border-radius-2;
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+
+        .textarea {
+            border: 1px solid $color-neutral-500;
+            background: $color-neutral-900;
+            color: $color-neutral-100;
+            resize: none;
+            width: 100%;
+            height: 89px;
+
+            &:focus {
+                outline: 1px solid $color-neutral-100;
+            }
+
+            &::placeholder {
+                color: $color-neutral-500;
+            }
+        }
+
+        .button {
+            padding: $size-2;
+            padding-inline: $size-6;
+            margin-block-start: $size-4;
+        }
+    }
+}

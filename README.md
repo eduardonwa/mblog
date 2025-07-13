@@ -1,16 +1,16 @@
 ## mblog
 
 # por hacer:
-- notificaciones:
-    Comment notifications
-    . comentario desaprobado
-    . comentario reinstituido
 - boton para reportar contenido inapropiado (post o comentario)
+
 - lists channel
-    . una manera dinamica y facil para crear puestos en filament
+    . una manera dinamica y facil para crear listas en filament
     . campo para un recurso (img, video) campo para descripcion
-    . agregar introduccion y conclusion
+    . que tenga tambien campo de texto, al principio y al final 
 
 - agregar vistas a los posts
     . agregar un atributo para ver cuantas vistas tiene un post
+
 - otros canales que estoy contemplando son "shameless plug" y "buying & selling"
+
+- hacer mas "amigables" las urls para los perfiles de usuarios tipo instagram: "sickofmetal.net/@username"

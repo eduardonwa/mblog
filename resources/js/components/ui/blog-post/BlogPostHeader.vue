@@ -5,6 +5,7 @@ import LikeButton from '@/components/LikeButton.vue';
 import type { BlogPostProps } from './index';
 import ToggleIcon from '../icons/ToggleIcon.vue';
 import ShareMenu from '../share-menu/ShareMenu.vue';
+import ReportModal from '@/components/ReportModal.vue';
 
 const props = defineProps<{ url: string }>()
 
@@ -73,6 +74,9 @@ const localPost = ref({ ...post });
           class="share-menu share-menu--desktop"
           :url="props.url"
           variant="desktop"
+        />
+        <ReportModal
+          :reportable="{id: post.id, type: 'post'}"
         />
       </section>
 
