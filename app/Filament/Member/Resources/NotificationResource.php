@@ -18,6 +18,11 @@ class NotificationResource extends Resource
 
     protected static ?string $navigationLabel = 'Notifications';
 
+    public static function getModelLabel(): string
+    {
+        return 'notification';
+    }
+
     public static function form(Form $form): Form
     {
         return $form

@@ -16,7 +16,6 @@ use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use FilamentTiptapEditor\TiptapEditor;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Tables\Columns\TextColumn;
@@ -24,7 +23,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Member\Resources\PostResource\Pages;
-use App\Filament\RelationManagers\CommentsRelationManager;
+use Filament\Forms\Components\Placeholder;
 
 class PostResource extends Resource
 {
@@ -32,12 +31,17 @@ class PostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
+    protected static ?string $navigationLabel = 'Library';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Grid::make(1)
                     ->schema([
+                        Placeholder::make('')
+                            ->content('Create a draft or publish it today. To preview a post, you first need to save it to your library.')
+                            ->columnSpanFull(),
                         Tabs::make('Tabs')
                             ->tabs([
                                 Tab::make('Info')
@@ -102,6 +106,12 @@ class PostResource extends Resource
                         ]),
                 Grid::make(1)
                     ->schema([
+                        Placeholder::make('body_description')
+                            ->view('filament.member.guidelines', [
+                                'url' => 'https://filamentphp.com/docs',
+                                'text' => 'consulta la documentación oficial'
+                            ])
+                            ->columnSpanFull(),
                         TipTapEditor::make('body')
                             ->profile('simple')
                             ->extraInputAttributes(['style' => 'min-height: 50vh;'])
@@ -146,7 +156,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // CommentsRelationManager::class,
+            //
         ];
     }
 
