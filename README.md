@@ -2,9 +2,9 @@
 
 # por hacer:
 - mostrar los reportes generados en filament
-- agregar el boton de reportes a:
-    . post hecho por un "member"
-    . comentarios y replicas a comentarios
+- agregar el boton de "reportar" en la pagina de:
+    . un post hecho por un "member"
+    . a los comentarios debajo de un post y a las replicas a comentarios
 
 - lists channel
     . una manera dinamica y facil para crear listas en filament

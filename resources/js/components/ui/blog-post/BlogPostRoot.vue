@@ -8,6 +8,7 @@ import { useMediaScrollTrigger } from '@/composables/useMediaScroller'
 import { useLayoutState } from '@/composables/useLayoutState';
 import type { BlogPostProps } from '.';
 import ShareMenu from '../share-menu/ShareMenu.vue';
+import ReportModal from '@/components/ReportModal.vue';
 
 const props = defineProps<BlogPostProps>()
 
@@ -49,6 +50,13 @@ onUnmounted(() => {
 function onVisible(idx: number) {
   activeIdx.value = idx
 };
+
+const isMobile = ref(window.innerWidth < 1280);
+function onResize() {
+  isMobile.value = window.innerWidth < 1280;
+}
+onMounted(() => window.addEventListener('resize', onResize));
+onUnmounted(() => window.removeEventListener('resize', onResize));
 </script>
 
 <template>
@@ -83,7 +91,15 @@ function onVisible(idx: number) {
           :post="localPost"
           @update:post="(updatedPost: typeof props.post) => localPost = updatedPost"
       />
-      <ShareMenu class="share-menu share-menu--mobile" :url="props.url" variant="mobile"/>
+      <ShareMenu
+        class="share-menu share-menu--mobile"
+       :url="props.url" variant="mobile"
+      />
+      <ReportModal
+        v-if="isMobile"
+        :reportable="{ id: post.id, type: 'post' }"
+        :popoverId="`reportPopover-mobile-${post.id}`"
+      />
     </section>
     
   </SiteLayout>

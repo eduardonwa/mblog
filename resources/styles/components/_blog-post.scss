@@ -29,6 +29,24 @@
                     }
                 }
             }
+
+            .report-icon {
+                padding: $size-4;
+                svg {
+                    path {
+                        fill: $color-neutral-100;
+                    }
+                }
+
+                &:hover {
+                    background: $color-primary-900;
+                    svg {
+                        path {
+                            fill: $color-accent-100;
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -484,7 +502,7 @@
             flex-direction: column-reverse;
             text-transform: uppercase;
             font-size: 14px;
-            gap: .2rem;
+            gap: .5rem;
 
             &:after {
                 content: 'share';
@@ -495,6 +513,25 @@
         .share-menu--mobile {
             @include share-menu-base;
             @include share-menu-mobile;
+        }
+    }
+
+    .report-icon {
+        display: flex;
+        align-items: center;
+        flex-direction: column-reverse;
+        text-transform: uppercase;
+        font-size: 14px;
+        gap: .5rem;
+        padding: 1rem;
+
+        svg > path {
+            fill: $color-neutral-100;
+        }
+
+        &:after {
+            content: 'report';
+            color: $color-neutral-100;
         }
     }
 

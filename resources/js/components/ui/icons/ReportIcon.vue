@@ -18,9 +18,7 @@ const isHovered = ref(false);
 </script>
 
 <template>
-    <button
-        class="report-icon"
-    >
+    <button class="report-icon">
         <svg
             :width="size"
             :height="size"

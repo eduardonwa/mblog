@@ -6,6 +6,7 @@ import { ReportableEntity } from '@/types';
 
 const props = defineProps<({
     reportable: ReportableEntity;
+    popoverId: string;
 })>();
 
 const reasons = {
@@ -50,24 +51,43 @@ function submit() {
         }
     });
 }
+
+// Declarar el ref para el dialog y tiparlo explícitamente
+const dialogRef = ref<HTMLDialogElement | null>(null);
+
+// Función para abrir el popover/dialog
+function openPopover() {
+    const dialog = dialogRef.value;
+
+    if (!dialog) {
+        console.warn(`No se encontró el dialog con id ${props.popoverId}`);
+        return;
+    }
+
+    if ('showPopover' in dialog) {
+        (dialog as any).showPopover();
+    } else if ('showModal' in dialog) {
+        (dialog as HTMLDialogElement).showModal();
+    } else {
+        console.warn("Your browser doesn't support showPopover or showModal. Please send us an email to: admin@sickofmetal.net to review your concerns.");
+    }
+}
 </script>
 
 <template>
     <!-- report button -->
-    <section class="report-icon-wrapper">
-        <ReportIcon
-            popovertarget="reportPopover"
-            :disabled="form.processing"
-        />
-    </section>
+    <ReportIcon
+        @click="openPopover"
+        :disabled="form.processing"
+    />
 
     <!-- report form -->
     <section>
-        <dialog popover id="reportPopover">
+        <dialog class="report-popover" ref="dialogRef" popover :id="popoverId">
             <template v-if="success">
                 <div class="report-success">
                     <h2 class="heading-4">Thank you.</h2>
-                    <p>We'll get back to you if neccessary. Click outside or press ESC to close.</p>
+                    <p>We'll get back to you if neccessary. Click/tap outside or press ESC to close.</p>
                 </div>
             </template>
     
@@ -98,13 +118,14 @@ function submit() {
                                 placeholder="Additional comment"
                                 class="textarea"
                             />
-                            <p v-if="frontendErrors.message" class="clr-error-100">
+                            <p v-if="frontendErrors.message" class="clr-error-100 fs-300 padding-block-2">
                                 {{ frontendErrors.message }}
                             </p>
                         </div>
         
                         <button class="button" type="submit">Submit report</button>
                     </form>
+                    <p style="font-size: 14px;" class="margin-inline-start-6 padding-block-end-4 clr-neutral-300">Click/tap outside to close</p>
                 </article>
             </template>
         </dialog>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { inject, onMounted, onUnmounted, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import LikeButton from '@/components/LikeButton.vue';
 import type { BlogPostProps } from './index';
@@ -18,6 +18,12 @@ const layoutState = inject('layoutState') as {
 
 // Estado local para likes
 const localPost = ref({ ...post });
+const isMobile = ref(window.innerWidth < 1280);
+function onResize() {
+  isMobile.value = window.innerWidth < 1280;
+}
+onMounted(() => window.addEventListener('resize', onResize));
+onUnmounted(() => window.removeEventListener('resize', onResize));
 </script>
 
 <template>
@@ -76,8 +82,10 @@ const localPost = ref({ ...post });
           variant="desktop"
         />
         <ReportModal
+          v-if="!isMobile"
+          class="repport-wrapper"
           :reportable="{id: post.id, type: 'post'}"
-          class="report-wrapper"
+          :popoverId="`reportPopover-desktop-${post.id}`"
         />
       </section>
 
