@@ -2,6 +2,10 @@
 
 @config 'tailwind.config.js';
 
+:root {
+  --livewire-progress-bar-color: #BFF625;
+}
+
 /* selectores tailwind especificos */
 .dark\:ring-white\/10:is(.dark *) {
   --tw-ring-color: transparent !important;
@@ -59,4 +63,19 @@
 
 .tiptap-editor > div {
     background-color: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+/* reescribiendo valores de tailwind */
+.fi-topbar-item-label {
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1)) !important;
+    font-family: 'Inter';
+}
+
+.fi-active .fi-topbar-item-icon {
+    color: rgb(251, 191, 36) !important;
+}
+
+.fi-header-heading {
+    font-weight: 700 !important;
+    font-family: 'Inter';
 }

@@ -3,6 +3,7 @@
         font-weight: bold;
         font-family: 'Inter';
         font-size: 18px;
+        color: whitesmoke;
     "
 >
     Sick of Metal
