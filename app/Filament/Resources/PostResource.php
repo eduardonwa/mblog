@@ -146,8 +146,7 @@ class PostResource extends Resource
                             'md' => 8,
                             'lg' => 4,
                     ])
-            ])
-            ->columns(12);
+            ])->columns(12);
     }
 
     public static function table(Table $table): Table

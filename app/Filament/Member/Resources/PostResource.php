@@ -107,10 +107,7 @@ class PostResource extends Resource
                 Grid::make(1)
                     ->schema([
                         Placeholder::make('body_description')
-                            ->view('filament.member.guidelines', [
-                                'url' => 'https://filamentphp.com/docs',
-                                'text' => 'consulta la documentación oficial'
-                            ])
+                            ->view('filament.member.guidelines')
                             ->columnSpanFull(),
                         TipTapEditor::make('body')
                             ->profile('simple')

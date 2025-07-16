@@ -1,3 +1,5 @@
+<script src="https://cdn.tailwindcss.com"></script>
+
 <div class="text-sm">
     Make sure to
     <x-filament::modal width="3xl">

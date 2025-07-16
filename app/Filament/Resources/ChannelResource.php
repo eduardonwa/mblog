@@ -30,6 +30,8 @@ class ChannelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-wifi';
 
+    protected static ?string $navigationGroup = 'Sections';
+
     public static function form(Form $form): Form
     {
         return $form
