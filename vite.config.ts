@@ -13,7 +13,7 @@ export default defineConfig({
                 'resources/styles/main.scss',
                 'resources/css/filament/admin/theme.css',
                 'resources/css/filament/member/theme.css',
-                'resources/styles/components/dashboard.scss',
+                'resources/styles/components/filament-dashboard.scss',
             ],
             refresh: true,
         }),
