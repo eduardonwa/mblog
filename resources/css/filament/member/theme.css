@@ -79,3 +79,12 @@
     font-weight: 700 !important;
     font-family: 'Inter';
 }
+
+.fi-sidebar-item-label {
+    font-family: 'Inter';
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1)) !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-icon {
+    color: rgb(251, 191, 36) !important;
+}
