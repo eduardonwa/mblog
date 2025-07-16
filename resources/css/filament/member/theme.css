@@ -88,3 +88,24 @@
 .fi-sidebar-item-active .fi-sidebar-item-icon {
     color: rgb(251, 191, 36) !important;
 }
+
+/* EditProfile avatar */
+.custom-avatar-uploader {
+    width: 128px;
+    height: 128px;
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+    height: 100%;
+}
+
+.custom-avatar-uploader .filepond--root {
+    height: 128px !important;
+}
+
+.custom-avatar-uploader .filepond--drop-label {
+    border: 1px solid transparent !important;
+    height: 100%;
+}

@@ -29,7 +29,10 @@ class DatabaseSeeder extends Seeder
             'username' => 'eduardo',
             'email' => 'admin@sickofmetal.net',
             'password' => bcrypt('password'),
-            'link' => 'https://sickofmetal.net',
+            'social_links' => [
+                'instagram' => 'https://instagram.com/sickofmetalnet',
+                'youtube' => 'https://youtube.com/@sickofmetalnet',
+            ],
             'bio' => 'I wanted to redesign my old blog but created this community project instead. Hope you like it!',
         ])->assignRole('admin');
 
@@ -50,7 +53,11 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'username' => User::generateUniqueUsername('eduardo'),
                 'email' => 'eduardo@mail.com',
-                'password' => bcrypt('pass123456')
+                'password' => bcrypt('pass123456'),
+                'social_links' => [
+                    'instagram' => 'https://instagram.com/eduardo1',
+                    'youtube' => 'https://youtube.com/@eduardo1',
+                ],
             ])->assignRole('member');
 
         // Crear 1 post featured para el admin        

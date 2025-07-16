@@ -4,6 +4,7 @@ namespace App\Filament\Member\Pages;
 
 use App\Models\Post;
 use Filament\Pages\Dashboard;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 
 class MemberDashboard extends Dashboard
@@ -16,8 +17,11 @@ class MemberDashboard extends Dashboard
 
     protected static ?string $navigationLabel = 'Dashboard';
 
-    protected ?string $heading = 'Welcome';
-    
+    public function getHeading(): string | Htmlable
+    {
+        return 'Welcome, ' . filament()->auth()->user()->username;
+    }
+
     public function getViewData(): array
     {
         $user = Auth::user()->loadCount(['posts', 'comments', 'likes']);

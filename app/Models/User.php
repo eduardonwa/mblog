@@ -60,6 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'social_links' => 'array'
         ];
     }
 
