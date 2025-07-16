@@ -1,7 +1,6 @@
 ## mblog
 
 # por hacer:
-- mostrar los reportes generados en filament
 - agregar el boton de "reportar" en la pagina de:
     . un post hecho por un "member"
     . a los comentarios debajo de un post y a las replicas a comentarios

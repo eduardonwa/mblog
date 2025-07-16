@@ -15,10 +15,7 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
 
 <template>
     <footer class="site-footer">
-        <section
-            v-if="categories?.length"
-            class="site-footer__container"
-        >
+        <section class="site-footer__container">
             <header class="site-footer__container__logo">
                 <Link href="/">
                     <AppLogoIcon />
@@ -35,7 +32,10 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
             </header>
 
             <article class="site-footer__container__groups">
-                <div class="footer-group">
+                <div
+                    class="footer-group"
+                    v-if="categories?.length"
+                >
                     <h2 class="uppercase">blog</h2>
                     <ul class="no-list-style">
                         <li
@@ -54,10 +54,10 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
                     <ul class="no-list-style">
                         <li>
                             <a
-                                href="https://metalstudies.org"
+                                href="https://www.invisibleoranges.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                            >metalstudies.org</a>
+                            >invisibleoranges.com</a>
                         </li>
                         <li>
                             <a
@@ -75,10 +75,10 @@ const categories = computed<Category[]>(() => usePage().props.categories as Cate
                         </li>
                         <li>
                             <a
-                                href="https://thisdayinmetal.com"
+                                href="https://www.angrymetalguy.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                            >thisdayinmetal.com</a>
+                            >angrymetalguy.com</a>
                         </li>
                     </ul>
                 </div>

@@ -75,7 +75,7 @@
                     display: block;
                     padding-block: $size-3;
                     padding-block-end: 0;
-                    font-size: $font-size-400;
+                    font-size: $font-size-300;
                     
                     &:hover {
                         color: $color-secondary-100;
@@ -143,6 +143,7 @@
                 transition: all 275ms ease;
                 padding-block: $size-2;
                 display: block;
+                font-size: $font-size-300;
 
                 &:hover {
                     color: $color-secondary-100;

@@ -15,14 +15,21 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         // categorías principales
-        $metall = Category::create([
-            'name' => 'MetAll',
-            'slug' => 'metal',
-            'description' => 'Music, movies, reviews, gear... anything related to metal.',
+        Category::create([
+            'name' => 'Entries',
+            'slug' => 'entries',
+            'description' => 'Thoughts, notes & deeper takes. Things I\'ve been thinking about in relation to metal, culture and the digital world.',
             'parent_id' => null,
         ]);
 
-        foreach (['Album Reviews', 'Old Album Reviews', 'Gearheads'] as $name) {
+        $metall = Category::create([
+            'name' => 'MetAll',
+            'slug' => 'metall',
+            'description' => 'Commercial and cultural metal releases: music, movies, music gear, etc. Thoughts about the new stuff.',
+            'parent_id' => null,
+        ]);
+
+        foreach (['Album Reviews', 'Highlights', 'Other Stuff'] as $name) {
             Category::create([
                 'name' => $name,
                 'slug' => Str::slug($name),

@@ -42,14 +42,14 @@ watch(
                     <Link :href="route('category.index', { slug: category.slug })">
                         {{ category.name }}
                     </Link>
-                    <span @click.stop="toggle">
+                    <span @click.stop="toggle" v-if="category.children && category.children.length > 0">
                         <component :is="isOpen ? UpArrow : DownArrow" size="18" />
                     </span>
                 </div>
             </template>
 
             <template #content>
-                <ul class="category__submenu">
+                <ul class="category__submenu" v-if="category.children && category.children.length > 0">
                     <li
                         v-for="child in category.children"
                         :key="child.id"
