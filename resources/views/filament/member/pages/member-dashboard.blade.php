@@ -1,4 +1,4 @@
-@vite('resources/styles/components/dashboard.scss')
+@vite('resources/styles/components/filament-dashboard.scss')
 
 <x-filament::page>
     <div class="dashboard-user">
