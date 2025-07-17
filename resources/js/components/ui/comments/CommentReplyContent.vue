@@ -5,24 +5,12 @@ import ReplyIcon from '../icons/ReplyIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';
 import { Comment } from '@/types';
 
-defineProps({
-    comment: {
-        type: Object as () => Comment,
-        required: true
-    },
-    rawComment: {
-        type: Object as () => { comment: string },
-        required: true
-    },
-    shortDate: {
-        type: Function,
-        required: true
-    },
-    authUser: {
-        type: Object as () => { id: number } | null,
-        default: null
-    }
-});
+const props = defineProps<{
+  comment: Comment;
+  rawComment: { comment: string };
+  shortDate: (date: string | Date) => string;
+  authUser?: { id: number } | null;
+}>();
 
 const emit = defineEmits(['reply-click', 'delete-comment']);
 </script>
