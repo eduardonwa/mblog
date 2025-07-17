@@ -33,9 +33,9 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'social_links' => [
-                'instagram' => fake()->boolean(80) ? 'instagram.com/' . Str::slug($name, '_') : null,
-                'youtube' => fake()->boolean(60) ? 'youtube.com/@' . Str::slug($name, '') : null,
-                'bandcamp' => fake()->boolean(30) ? 'bandcamp.com/' . Str::slug($name) : null,
+                'instagram' => fake()->boolean(80) ? 'https://www.instagram.com/' . Str::slug($name, '_') : null,
+                'youtube' => fake()->boolean(60) ? 'https://www.youtube.com/@' . Str::slug($name, '') : null,
+                'bandcamp' => fake()->boolean(30) ? 'https://www.bandcamp.com/' . Str::slug($name) : null,
             ],
             'deleted_at' => null,
         ];
