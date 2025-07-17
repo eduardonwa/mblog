@@ -4,10 +4,11 @@ import SiteLayout from '@/layouts/SiteLayout.vue';
 import CommentBox from '@/components/ui/comments/CommentBox.vue';
 import CommentForm from '@/components/ui/comments/CommentForm.vue';
 import { BlogPostProps } from '@/components/ui/blog-post';
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import LikeButton from '@/components/LikeButton.vue';
 import { Link } from '@inertiajs/vue3';
 import ShareMenu from '@/components/ui/share-menu/ShareMenu.vue';
+import ReportModal from '@/components/ReportModal.vue';
 
 const props = defineProps<{
     post: Post;
@@ -22,6 +23,14 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
 );
 
 const localPost = ref<Post>(props.post);
+
+// cosas para que el reportmodal se dispare
+const isMobile = ref(window.innerWidth < 1280);
+function onResize() {
+  isMobile.value = window.innerWidth < 1280;
+}
+onMounted(() => window.addEventListener('resize', onResize));
+onUnmounted(() => window.removeEventListener('resize', onResize));
 </script>
 
 <template>
@@ -47,6 +56,12 @@ const localPost = ref<Post>(props.post);
                         @update:post="updatedPost => localPost = updatedPost"
                     />
                     <ShareMenu class="share-menu share-menu--desktop" :url="props.url" variant="desktop" />
+                    <ReportModal
+                        v-if="!isMobile"
+                        class="repport-wrapper"
+                        :reportable="{id: post.id, type: 'post'}"
+                        :popoverId="`reportPopover-desktop-${post.id}`"
+                    />
                 </div>
             </header>
 
@@ -69,6 +84,12 @@ const localPost = ref<Post>(props.post);
                     @update:post="(newPost) => localPost = newPost"
                 />
                 <ShareMenu class="share-menu share-menu--mobile" :url="props.url" variant="mobile"/>
+                <ReportModal
+                    class="report"
+                    v-if="isMobile"
+                    :reportable="{ id: post.id, type: 'post' }"
+                    :popoverId="`reportPopover-mobile-${post.id}`"
+                />
             </footer>
         </section>
     </SiteLayout>

@@ -36,7 +36,9 @@
 }
 
 .avatar {
-    display: block;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
     border-radius: 50%;
 
     &__sm {
@@ -63,6 +65,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 50%;
+        border-radius: inherit;
+        display: block;
     }
 }

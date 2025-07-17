@@ -18,6 +18,7 @@ const layoutState = inject('layoutState') as {
 
 // Estado local para likes
 const localPost = ref({ ...post });
+
 const isMobile = ref(window.innerWidth < 1280);
 function onResize() {
   isMobile.value = window.innerWidth < 1280;
@@ -83,7 +84,6 @@ onUnmounted(() => window.removeEventListener('resize', onResize));
         />
         <ReportModal
           v-if="!isMobile"
-          class="repport-wrapper"
           :reportable="{id: post.id, type: 'post'}"
           :popoverId="`reportPopover-desktop-${post.id}`"
         />

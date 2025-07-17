@@ -196,6 +196,13 @@
                             color: $color-primary-200;
                             font-size: $font-size-300;
                         }
+
+                        .avatar {
+                            display: inline-block;
+                            width: 24px;
+                            height: 24px;
+                            flex-shrink: 0;
+                        }
                     }
 
                     &__body {
@@ -264,6 +271,7 @@
                         margin-block-start: $size-6;
                     }
 
+                    // lista de usuarios para responder
                     .suggestions-wrapper {
                         position: relative;
 

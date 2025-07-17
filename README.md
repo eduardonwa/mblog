@@ -2,14 +2,16 @@
 
 # por hacer:
 - agregar el boton de "reportar" en la pagina de:
-    . un post hecho por un "member"
     . a los comentarios debajo de un post y a las replicas a comentarios
+
+- mejorar el aspecto de la cadena de comentarios
 
 - lists channel
     . una manera dinamica y facil para crear listas en filament
     . campo para un recurso (img, video) campo para descripcion
     . que tenga tambien campo de texto, al principio y al final 
 
+DESPUES:
 - agregar vistas a los posts
     . agregar un atributo para ver cuantas vistas tiene un post
 

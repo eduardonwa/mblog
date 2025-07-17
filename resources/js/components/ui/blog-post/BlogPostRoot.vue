@@ -50,7 +50,7 @@ onUnmounted(() => {
 function onVisible(idx: number) {
   activeIdx.value = idx
 };
-
+// cosas para que el reportmodal se dispare
 const isMobile = ref(window.innerWidth < 1280);
 function onResize() {
   isMobile.value = window.innerWidth < 1280;

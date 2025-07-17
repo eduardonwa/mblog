@@ -1,6 +1,5 @@
 import type { LucideIcon } from 'lucide-vue-next';
 import type { PageProps } from '@inertiajs/core';
-import './types/inertia'
 
 declare module '@inertiajs/core' {
   interface PageProps {
@@ -147,6 +146,18 @@ export interface Comment {
     _lft?: number;
     _rgt?: number;
 }
+
+export interface ReplyForm {
+  comment: string;
+  parent_id?: number;
+  commentable_type?: string;
+  commentable_id?: number;
+  [key: string]: any;
+}
+
+export type ReplyFormData = Pick<Comment, 'comment'> & {
+  parent_id?: number;
+};
 
 export interface MentionableUser {
   id: number;

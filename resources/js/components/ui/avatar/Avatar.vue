@@ -22,22 +22,20 @@ const props = withDefaults(
 </script>
 
 <template>
-    <AvatarRoot :class="cn(avatarVariant({ size, shape }), props.class)">
-        <div
-            :class="[
-                'avatar',
-                'avatar__${props.size}',
-                props.responsive ? 'avatar--responsive' : '',
-                props.class
-            ]">
-            <slot>
-                <img
-                    v-if="src"
-                    :src="src"
-                    class="avatar__image"
-                    :alt="alt || 'Avatar'"
-                >
-            </slot>
-        </div>
+    <AvatarRoot
+        :class="cn(
+            avatarVariant({ size, shape }),
+            props.class,
+            'avatar'
+        )"
+        >
+        <slot>
+            <img
+                v-if="src"
+                :src="src"
+                class="avatar__image"
+                :alt="alt || 'Avatar'"
+            >
+        </slot>
     </AvatarRoot>
 </template>
