@@ -109,3 +109,68 @@
     border: 1px solid transparent !important;
     height: 100%;
 }
+
+/* clases personalizadas */
+.bg-morado-950 {
+    background: hsla(240, 20.69%, 14.71%, 1);
+    outline: 2px solid transparent;
+    transition: all 275ms ease;
+    
+    &:hover {
+        outline: 2px solid hsla(226.15, 35.14%, 92.75%, 1);
+    }
+}
+
+.social-link {
+    svg {
+        path {
+            stroke: hsla(226.15, 35.14%, 92.75%, 1);
+        }
+    }
+
+    &:hover {
+        svg {
+            path {
+                stroke: #BFF625;
+            }
+        }
+    }
+}
+
+.filter {
+    color: hsla(226.15, 35.14%, 92.75%, 1);
+    border-radius: .5rem;
+    border: none;
+    background-color: hsla(240, 23.81%, 32.94%, 1);
+    cursor: pointer;
+    outline: 2px solid transparent;
+    transition: outline 275ms ease;
+
+    &:hover, &:focus {
+        outline: 2px solid hsla(226.15, 35.14%, 92.75%, 1);
+        outline-offset: 0px;
+    }
+}
+
+.search-btn {
+    display: inline-flex;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1;
+    font-family: 'Inter';
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: .8rem;
+    background: white;
+    border-radius: .5rem;
+    transition: 275ms ease;
+    width: fit-content;
+    color: hsl(0 0% 7.5%);
+    transition: background 275ms ease;
+    
+    &:hover, &:focus {
+        background: hsl(0 0% 7.5%);
+        color: hsla(226.15, 35.14%, 92.75%, 1);
+    }
+}

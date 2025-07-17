@@ -10,7 +10,6 @@
                 <h2 class="username">{{ $user->slug }}</h2>
             </section>
         @endif
-
         <section class="dashboard-user__stats">
             <div class="card">
                 <h2 class="number">{{ $user_stats['likes_received_count'] }}</h2>
