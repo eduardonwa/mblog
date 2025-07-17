@@ -16,10 +16,7 @@ const emit = defineEmits(['reply-click', 'delete-comment']);
 </script>
 
 <template>
-    <div
-        class="comment-content"
-        :id="`comment-${comment.id}`"
-    >
+    <section class="comment-content" :id="`comment-${comment.id}`">
         <header class="comment-content__header">
             <Avatar
                 size="sm"
@@ -58,5 +55,5 @@ const emit = defineEmits(['reply-click', 'delete-comment']);
                 <span>delete</span>
             </div>
         </div>
-    </div>
+    </section>
 </template>

@@ -109,14 +109,14 @@
         @include mq(large) {
             margin-block-start: $size-8;
         }
-
+        
+        // contenedor principal de comentarios y replicas juntas
         .comment-container {
             display: flex;
             flex-direction: column;
             margin-block-end: $size-8;
             position: relative;
             background: transparent;
-            padding: $size-2;
             border-radius: $size-2;
             border: 1px solid transparent;
             transition: background 500ms ease, border-radius 500ms ease;
@@ -129,11 +129,18 @@
                 color: $color-neutral-100;
             }
 
+            // contenedor de comentario
             .comment-wrapper {
                 position: relative;
 
+                // selecciona comentario raíz
+                &.is-root > .comment-content {
+                    padding: $size-2;
+                }
+
+                // estructura general de comentario
                 .comment-content {
-                    scroll-margin-top: 100px;
+                    scroll-margin-top: 100px; /* espacio para ver el comentario despues de venir de una notificacion */
 
                     &__header {
                         display: flex;
@@ -220,8 +227,11 @@
                     }
                 }
 
+                // contenedor para respuestas a comentarios raíz
                 .comment-replies {
                     position: relative;
+                    margin-left: 30px;
+                    padding: 0;
 
                     .reply-form {
                         margin-block: $size-2;
@@ -265,6 +275,11 @@
                             }
                         }
                     }
+                }
+
+                // evita efecto cascada
+                .comment-replies .comment-replies {
+                    margin-left: 0 !important;
                 }
             }
         }
