@@ -47,7 +47,7 @@ const {
 
       <CommentReplyReplies
         v-if="showReplyForm || hasReplies"
-        :showReplyform="showReplyForm"
+        :showReplyForm="showReplyForm"
         :replyForm="replyForm"
         :replies="comment.children"
         :users="users"

@@ -12,7 +12,7 @@ trait InteractsWithPost
         
         $baseUrl = $post->channel
             ? url("/channel/{$post->channel->slug}/{$post->slug}")
-            : url("/posts/{$post->slug}");
+            : url("/post/{$post->slug}");
 
         return $commentId ? "{$baseUrl}#comment-{$commentId}" : $baseUrl;
     }

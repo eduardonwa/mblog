@@ -11,12 +11,16 @@ export function useCommentActions(comment: any, users: any[]) {
 
   const handleReplyClick = () => {
     showReplyForm.value = !showReplyForm.value;
-
+    
+    // si estamos abriendo el formulario
     if (showReplyForm.value) {
       nextTick(() => {
+        // Obtener el nombre del usuario del comentario
         const username = comment?.commentator?.username || '';
         if (username) {
+          // autoetiquetar al usuario
           replyForm.comment = `@${username} `;
+          // Enfocar el textarea después de un pequeño retraso
           setTimeout(() => {
             commentMentionRef.value?.focusTextarea();
           }, 100);
@@ -29,9 +33,9 @@ export function useCommentActions(comment: any, users: any[]) {
     replyForm.post(route('comments.replies.store', { comment: comment.id }), {
       preserveScroll: true,
       onSuccess: () => {
-        replyForm.reset();
         showReplyForm.value = false;
-        router.reload({ only: ['comments'] });
+        replyForm.reset();
+        router.reload({only: ['comments']});
       }
     });
   };
