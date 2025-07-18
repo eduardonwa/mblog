@@ -33,19 +33,23 @@ const commentMentionRef = ref(null);
                 ref="commentMentionRef"
             />
 
-            <button
-                @click="emit('submit-reply')"
-                :disabled="replyForm.processing"
-                class="button"
-                data-type="reply-btn"
-            >   Submit
-            </button>
-
-            <button
-                type="button"
-                @click="emit('cancel-click')"
-            >   Cancel
-            </button>
+            <div class="flex-group">
+                <button
+                    @click="emit('submit-reply')"
+                    :disabled="replyForm.processing"
+                    class="button"
+                    data-type="reply-btn"
+                >   Submit
+                </button>
+    
+                <button
+                    type="button"
+                    class="button clr-primary-100"
+                    data-type="ghost"
+                    @click="emit('cancel-click')"
+                >   Cancel
+                </button>
+            </div>
         </div>
 
         <div v-if="hasReplies" class="replies">

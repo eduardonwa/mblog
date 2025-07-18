@@ -231,6 +231,7 @@
                         margin-block: $size-2;
                         display: flex;
                         flex-direction: column;
+                        gap: $size-4;
 
                         button {
                             width: fit-content;
