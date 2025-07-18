@@ -3,6 +3,7 @@ import { InertiaForm } from '@inertiajs/vue3';
 import CommentMention from './CommentMention.vue';
 import CommentReply from './CommentReply.vue';
 import { MentionableUser, Comment, ReplyFormData, ReplyForm } from '@/types';
+import { ref } from 'vue';
 
 withDefaults(defineProps<{
   showReplyForm?: boolean;
@@ -16,26 +17,34 @@ withDefaults(defineProps<{
     depth: 0, // numero inicial de replicas
 });
 
-const emit = defineEmits(['submit-reply']);
+const emit = defineEmits(['submit-reply', 'cancel-click']);
+
+const commentMentionRef = ref(null);
 </script>
 
 <template>
     <div class="comment-replies">
         <div v-if="showReplyForm" class="reply-form">
             <CommentMention
-                row="2"
                 class="comment-suggestion"
+                row="2"
+                :users="users"
                 v-model="replyForm.comment"
                 ref="commentMentionRef"
-                :users="users"
             />
+
             <button
                 @click="emit('submit-reply')"
                 :disabled="replyForm.processing"
                 class="button"
                 data-type="reply-btn"
-            >
-                Submit
+            >   Submit
+            </button>
+
+            <button
+                type="button"
+                @click="emit('cancel-click')"
+            >   Cancel
             </button>
         </div>
 

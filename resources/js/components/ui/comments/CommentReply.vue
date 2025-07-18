@@ -18,6 +18,7 @@ const {
   replyForm,
   commentMentionRef,
   handleReplyClick,
+  handleCancelClick,
   submitReply,
   deleteComment
 } = useCommentActions(props.comment, props.users);
@@ -40,6 +41,7 @@ const {
         :rawComment="rawComment"
         :shortDate="shortDate"
         :authUser="$page.props.auth.user"
+        :isReplying="showReplyForm"
         @reply-click="handleReplyClick"
         @delete-comment="deleteComment"
       />
@@ -54,6 +56,7 @@ const {
         :depth="depth"
         :commentMentionRef="commentMentionRef"
         @submit-reply="submitReply"
+        @cancel-click="handleCancelClick"
       />
     </div>
   </div>

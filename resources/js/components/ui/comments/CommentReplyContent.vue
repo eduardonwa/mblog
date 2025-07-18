@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Comment } from '@/types';
 import Avatar from '../avatar/Avatar.vue';
 import ReplyIcon from '../icons/ReplyIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';
-import { Comment } from '@/types';
+import SimpleDropdown from '../simple-dropdown/SimpleDropdown.vue';
+import MoreVerticalIcon from '../icons/MoreVerticalIcon.vue';
 
 const props = defineProps<{
   comment: Comment;
@@ -13,47 +16,65 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['reply-click', 'delete-comment']);
+
+const isDropdownOpen = ref(false);
 </script>
 
 <template>
     <section class="comment-content" :id="`comment-${comment.id}`">
-        <header class="comment-content__header">
+        <header class="comment">
             <Avatar
-                size="sm"
+                class="comment__avatar"
+                size="md"
                 :src="comment.commentator?.avatar_url"
                 :alt="comment.commentator?.username || 'Rattlehead'"
             />
 
-            <Link
-                v-if="comment.commentator?.username"
-                :href="route('author.posts', { user: comment.commentator.username })"
-                class="comment-content__header__author | no-decor"
-            >
-                {{ comment?.commentator?.username || 'Rattlehead' }}
-            </Link>
+            <article class="comment__body">
+                <div class="user">
+                    <Link
+                        v-if="comment.commentator?.username"
+                        :href="route('author.posts', { user: comment.commentator.username })"
+                        class="user__author | no-decor"
+                    >
+                        {{ comment?.commentator?.username || 'Rattlehead' }}
+                    </Link>
+        
+                    <p class="user__date">{{ shortDate(comment?.created_at) }}</p>
+                </div>
 
-            <p class="comment-content__header__date">{{ shortDate(comment?.created_at) }}</p>
+                <p class="comment">{{ rawComment.comment }}</p>
+            </article>
         </header>
 
-        <div class="comment-content__body">
-            <p>{{ rawComment.comment }}</p>
-        </div>
+        <SimpleDropdown class="comment-content__actions" v-model="isDropdownOpen" v-click-away="() => isDropdownOpen = false">
+            <template #header="{ isOpen, toggle }">
+                <span @click.stop="toggle">
+                    <MoreVerticalIcon />
+                </span>
+            </template>
 
-        <div class="comment-content__actions">
-            <ReplyIcon
-                v-if="authUser && authUser.id !== comment?.user_id"
-                class="reply-icon"
-                hoverColor="#D3D7EA"
-                @click="emit('reply-click')"
-            />
-            <div
-                v-if="authUser && authUser.id === comment?.user_id"
-                @click="emit('delete-comment', comment?.id)"
-                class="delete-icon-wrapper"
-            >
-                <DeleteIcon size="24px" hoverColor="#D3D7EA" />
-                <span>delete</span>
-            </div>
-        </div>
+            <template #content>
+                <div
+                    v-if="authUser && authUser.id !== comment?.user_id"
+                    @click="emit('reply-click')"
+                >
+                    <p>
+                        <ReplyIcon size="20" hoverColor="#D3D7EA"/>
+                        Reply
+                    </p>
+                </div>
+
+                <div
+                    v-if="authUser && authUser.id === comment?.user_id"
+                    @click="emit('delete-comment', comment?.id)"
+                >
+                    <p>
+                        <DeleteIcon size="20" hoverColor="#D3D7EA"/>
+                        Delete
+                    </p>
+                </div>
+            </template>
+        </SimpleDropdown>
     </section>
 </template>

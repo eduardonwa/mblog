@@ -11,22 +11,21 @@ export function useCommentActions(comment: any, users: any[]) {
 
   const handleReplyClick = () => {
     showReplyForm.value = !showReplyForm.value;
-    
-    // si estamos abriendo el formulario
+
     if (showReplyForm.value) {
       nextTick(() => {
-        // Obtener el nombre del usuario del comentario
         const username = comment?.commentator?.username || '';
         if (username) {
-          // autoetiquetar al usuario
           replyForm.comment = `@${username} `;
-          // Enfocar el textarea después de un pequeño retraso
-          setTimeout(() => {
-            commentMentionRef.value?.focusTextarea();
-          }, 100);
+          commentMentionRef.value?.focusTextarea();
         }
       });
     }
+  };
+
+  const handleCancelClick = () => {
+    showReplyForm.value = false;
+    replyForm.reset();
   };
 
   const submitReply = () => {
@@ -51,9 +50,10 @@ export function useCommentActions(comment: any, users: any[]) {
 
   return {
     showReplyForm,
-    replyForm,
     commentMentionRef,
+    replyForm,
     handleReplyClick,
+    handleCancelClick,
     submitReply,
     deleteComment,
   };

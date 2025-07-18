@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { onMounted, onBeforeMount, ref } from 'vue';
 
 const props = defineProps<{
-  categoryId: number
   modelValue: boolean
 }>()
 
-const emit = defineEmits<{
-  'update:modelValue': [value: boolean]
-}>()
+const emit = defineEmits(['update:modelValue', 'close'])
 
 const isOpen = computed({
   get: () => props.modelValue,
@@ -18,25 +16,32 @@ const isOpen = computed({
 const toggle = () => {
   isOpen.value = !isOpen.value;
 };
+
+
+const close = () => {
+  emit('close');
+};
 </script>
 
 <template>
-    <div class="category-dropdown-item">
+    <div class="dropdown-item">
         <div
-            class="category-dropdown-item__header"
-            @click="toggle"
+            class="header"
             role="button"
             :aria-expanded="isOpen"
+            @click="toggle"
         >
             <slot name="header" :isOpen="isOpen" :toggle="toggle" />
         </div>
 
         <div
+            v-if="$slots.content"
             v-show="isOpen"
-            class="category-dropdown-item__content"
             role="region"
+            class="submenu"
+            ref="dropdownRef"
         >
-            <slot name="content" />
+          <slot name="content" />
         </div>
     </div>
 </template>

@@ -161,7 +161,7 @@ export type ReplyFormData = Pick<Comment, 'comment'> & {
 
 export interface MentionableUser {
   id: number;
-  name: string;
+  username: string;
   avatar: string;
 }
 

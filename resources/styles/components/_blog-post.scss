@@ -141,87 +141,81 @@
                 // estructura general de comentario
                 .comment-content {
                     scroll-margin-top: 100px; /* espacio para ver el comentario despues de venir de una notificacion */
+                    position: relative;
 
-                    &__header {
+                    .comment {
                         display: flex;
-                        gap: $size-2;
-                        align-items: center;
 
-                        .delete-icon-wrapper {
-                            border: none;
-                            margin-left: auto;
-                            margin-right: $size-4;
-                            background: transparent;
+                        &__avatar {
+                            display: flex;
+                            align-items: center;
+                            margin-inline-end: 1rem;
+                        }
 
-                            button {
-                                path {
-                                    stroke: #F83B3B;
+                        &__body {
+                            display: flex;
+                            flex-direction: column;
+
+                            .user {
+                                display: flex;
+                                align-items: center;
+                                gap: $size-4;
+
+                                &__author {
+                                    font-size: $font-size-300;
+                                    color: $color-primary-200;
+                                    
+                                    &:hover {
+                                        text-decoration: underline;
+                                    }
+                                }
+
+                                &__date {
+                                    font-size: $font-size-300;
+                                    color: $color-primary-400;
                                 }
                             }
-                        }
 
-                        &__author {
-                            display: flex;
-                            gap: $size-2;
-                            align-items: center;
-                            font-size: $font-size-400;
-                            color: $color-accent-300;
+                            .comment {
+                                font-size: $font-size-300;
+                                width: 100%;
+                            }
                         }
-
-                        &__date {
-                            color: $color-primary-200;
-                            font-size: $font-size-300;
-                        }
-
-                        .avatar {
-                            display: flex;
-                            align-items: Center;
-                        }
-                    }
-
-                    &__body {
-                        font-size: $font-size-400;
-                        padding-block: $size-2;
-                        color: $color-primary-200;
                     }
 
                     &__actions {
-                        display: flex;
-                        align-items: center;
-                        gap: $size-2;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: fit-content;
 
-                        .reply-icon {
+                        .header {
                             display: flex;
-                            align-items: center;
-                            gap: $size-1;
-                            padding: 0 $size-2;
-                            border-radius: $size-1;
-                            transition: 0;
-
-                            &::after {
-                                content: 'reply';
-                                font-size: 12px;
-                                text-transform: uppercase;
-                            }
-
-                            &:hover {
-                                background: $color-primary-900;
-                            }
+                            justify-content: flex-end;
                         }
 
-                        .delete-icon-wrapper {
+                        .submenu {
+                            z-index: 10;
+                            background: $color-primary-900;
+                            font-size: $font-size-300;
+                            width: 100px;
+                            border-radius: $border-radius-1;
                             display: flex;
-                            align-items: center;
-                            gap: $size-1;
-                            padding: 0 $size-2;
-                            border-radius: $size-1;
-                            transition: 0;
-                            font-size: 12px;
-                            text-transform: uppercase;
-                            cursor: pointer;
+                            flex-direction: column;
+                            padding-block: $size-2;
 
-                            &:hover {
-                                background: $color-primary-900;
+                            // contenedor que tiene icono y string
+                            p {
+                                font-size: $font-size-300;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                gap: $size-3;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background: $color-primary-700;
+                                }
                             }
                         }
                     }
@@ -536,8 +530,7 @@
 
 // TRANSICIONES
 // "Expanded" y "Collapsed", se refieren a "Media"
-// Expanded Media -> Collapsed Header
-// Collapsed Media -> Expanded Header
+// Expanded Media -> Collapsed Header y Collapsed Media -> Expanded Header
 .blog-post {
     transition: grid-template-columns 0.2s cubic-bezier(0.5, 0.8, 0.6, 1);
     
