@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { ReportableEntity } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import ReportIcon from './ui/icons/ReportIcon.vue';
-import { ReportableEntity } from '@/types';
 
 const props = defineProps<({
     reportable: ReportableEntity;
@@ -93,7 +93,7 @@ function openPopover() {
     
             <template v-else>
                 <article class="popover-report-card">
-                    <form @submit.prevent="submit" class="form-report-card">    
+                    <form @submit.prevent="submit" class="form-report-card">
                         <h2 class="header">What's wrong?</h2>
                         
                         <div v-for="(label, key) in reasons" :key="key" class="reasons-container">

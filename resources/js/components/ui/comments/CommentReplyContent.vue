@@ -7,6 +7,7 @@ import ReplyIcon from '../icons/ReplyIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';
 import SimpleDropdown from '../simple-dropdown/SimpleDropdown.vue';
 import MoreVerticalIcon from '../icons/MoreVerticalIcon.vue';
+import ReportModal from '@/components/ReportModal.vue';
 
 const props = defineProps<{
   comment: Comment;
@@ -63,6 +64,13 @@ const isDropdownOpen = ref(false);
                         <ReplyIcon size="20" hoverColor="#D3D7EA"/>
                         Reply
                     </p>
+                </div>
+
+                <div v-if="authUser && authUser.id !== comment?.user_id">
+                    <ReportModal
+                        :reportable="{ id: comment.id, type: 'comment' }"
+                        :popoverId="`reportPopover-comment-${comment.id}`"
+                    />
                 </div>
 
                 <div

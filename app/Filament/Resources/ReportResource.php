@@ -40,7 +40,7 @@ class ReportResource extends Resource
 
                                         return match (class_basename($record->reportable_type)) {
                                             'Post' => $record->reportable->title,
-                                            'Comment' => Str::limit($record->reportable->body, 50),
+                                            'CustomComment' => $record->reportable->comment,
                                             default => 'Unknown',
                                         };
                                     })
@@ -50,7 +50,10 @@ class ReportResource extends Resource
                                 TextEntry::make('message'),
                                 TextEntry::make('reportable_type')
                                     ->label('Type')
-                                    ->formatStateUsing(fn ($state) => class_basename($state)),
+                                    ->formatStateUsing(fn ($state) => [
+                                        'Post' => 'Post',
+                                        'CustomComment' => 'Comment',
+                                    ][class_basename($state)] ?? 'Unknown'),
                                 TextEntry::make('reportable_id')
                                     ->label('Reported ID'),
                             ])->columns([
@@ -74,16 +77,19 @@ class ReportResource extends Resource
 
                         return match (class_basename($record->reportable_type)) {
                             'Post' => $record->reportable->title,
-                            'Comment' => Str::limit($record->reportable->body, 50),
+                            'CustomComment' => $record->reportable->comment,
                             default => 'Unknown',
                         };
                     }),
                 TextColumn::make('reason')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('message')
-                    ->sortable()
-                    ->searchable()
+                TextColumn::make('reportable_type')
+                    ->label('Type')
+                    ->formatStateUsing(fn ($state) => [
+                        'Post' => 'Post',
+                        'CustomComment' => 'Comment',
+                    ][class_basename($state)] ?? 'Unknown')
             ])
             ->filters([
                 //

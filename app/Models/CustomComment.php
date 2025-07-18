@@ -29,6 +29,11 @@ class CustomComment extends BaseComment
         return $this->descendants()->with('commentator');
     }
 
+    public function reports()
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
     public function approve()
     {
         parent::approve();
