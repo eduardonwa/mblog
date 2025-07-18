@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Post;
 use App\Models\User;
-use App\Notifications\CommentModeration;
 use Kalnoy\Nestedset\NodeTrait;
+use App\Notifications\CommentModeration;
 use BeyondCode\Comments\Comment as BaseComment;
 
 class CustomComment extends BaseComment
@@ -32,6 +33,11 @@ class CustomComment extends BaseComment
     public function reports()
     {
         return $this->morphMany(Report::class, 'reportable');
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 
     public function approve()

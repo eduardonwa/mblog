@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, toRaw } from 'vue';
+import { onMounted, toRaw } from 'vue';
 import CommentReply from './CommentReply.vue';
 import type { Post, Comment, MentionableUser } from '@/types';
 
@@ -18,7 +18,7 @@ onMounted(() => {
   setTimeout(() => {
     const el = document.querySelector(hash);
     if (!el) {
-      console.warn('❌ Comentario no encontrado en el DOM:', hash);
+      console.warn('❌ No comment found on DOM:', hash);
       return;
     }
 
@@ -46,6 +46,7 @@ onMounted(() => {
             :depth="0"
             :is-root="true"
             :users="users"
+            :post="post"
         />
     </div>
 </template>

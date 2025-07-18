@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Comment, MentionableUser } from '@/types';
+import { Comment, MentionableUser, Post } from '@/types';
 import { useCommentMeta } from '@/composables/useCommentMeta';
 import { useCommentActions } from '@/composables/useCommentActions';
 import CommentReplyContent from './CommentReplyContent.vue';
@@ -11,6 +11,7 @@ const props = defineProps<{
   isFirstLevel?: boolean;
   isRoot?: boolean;
   users: MentionableUser[];
+  post: Post;
 }>();
 
 const {
@@ -36,7 +37,9 @@ const {
     :class="{'first-level': isFirstLevel}"
   >
     <div class="comment-wrapper" :class="{'is-root': isRoot}">
+      <!-- el diseño de un comentario -->
       <CommentReplyContent
+        :post="post"
         :comment="comment"
         :rawComment="rawComment"
         :shortDate="shortDate"
@@ -46,6 +49,7 @@ const {
         @delete-comment="deleteComment"
       />
 
+      <!-- la creación de replicarle a un comentario -->
       <CommentReplyReplies
         v-if="showReplyForm || hasReplies"
         :showReplyForm="showReplyForm"

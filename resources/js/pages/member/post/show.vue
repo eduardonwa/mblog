@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Post, Comment, MentionableUser, Channel } from '@/types';
+import { BlogPostProps } from '@/components/ui/blog-post';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import CommentBox from '@/components/ui/comments/CommentBox.vue';
 import CommentForm from '@/components/ui/comments/CommentForm.vue';
-import { BlogPostProps } from '@/components/ui/blog-post';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
 import LikeButton from '@/components/LikeButton.vue';
-import { Link } from '@inertiajs/vue3';
 import ShareMenu from '@/components/ui/share-menu/ShareMenu.vue';
 import ReportModal from '@/components/ReportModal.vue';
 
@@ -24,6 +24,10 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
 
 const localPost = ref<Post>(props.post);
 
+/* const isAuthor = computed(() =>
+  props.comment.commentator?.id === props.comment.commentable?.user_id
+); */
+
 // cosas para que el reportmodal se dispare
 const isMobile = ref(window.innerWidth < 1280);
 function onResize() {
@@ -39,7 +43,12 @@ onUnmounted(() => window.removeEventListener('resize', onResize));
             <header class="post-header">
                 <h2 class="title">{{ post.title }}</h2>
                 <div class="meta-primary">
-                    <Link :href="route('author.posts', {user: post.user?.username})" class="author">{{ post?.user?.username || 'Rattlehead' }}</Link>
+                    <Link
+                        :href="route('author.posts', {user: post.user?.username})"
+                        class="author"
+                    >
+                        {{ post?.user?.username || 'Rattlehead' }}
+                    </Link>
                     <span class="date">{{ post.smart_date }}</span>
                     <Link
                         :href="route('channel.show', {slug: channel.slug})"

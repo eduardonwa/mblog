@@ -161,6 +161,14 @@
                                 align-items: center;
                                 gap: $size-4;
 
+                                .post-author {
+                                    color: $color-error-100;
+                                
+                                    &:hover {
+                                        color: none;
+                                    }
+                                }
+
                                 &__author {
                                     font-size: $font-size-300;
                                     color: $color-primary-200;

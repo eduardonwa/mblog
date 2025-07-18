@@ -10,7 +10,7 @@ trait HandlesComments
     protected function getCommentTreeForPost(Post $post)
     {
         // Obtener TODOS los comentarios del post (incluyendo respuestas)
-        $allComments = CustomComment::with(['commentator'])
+        $allComments = CustomComment::with(['commentator', 'commentable'])
             ->where('commentable_type', Post::class)
             ->where('commentable_id', $post->id)
             ->approved()

@@ -145,6 +145,7 @@ export interface Comment {
     children: Comment[];
     _lft?: number;
     _rgt?: number;
+    commentable: Post;
 }
 
 export interface ReplyForm {

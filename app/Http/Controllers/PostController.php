@@ -19,7 +19,6 @@ class PostController extends Controller
         $post = Post::with([
             'category',
             'user',
-            'tags:id,name,slug',
             'likes',
             'media'
         ])

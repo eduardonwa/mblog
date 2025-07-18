@@ -82,11 +82,11 @@ class ChannelController extends Controller
         }
 
         return Inertia::render('member/post/show', [
-            'mentionableUsers' => $mentionableUsers,
-            'comments' => $comments,
-            'url' => route('channel.post.show', ['channel' => $post->channel->slug, 'post' => $post->slug]),
-            'channel' => $channel,
             'post' => $post,
+            'comments' => $comments,
+            'mentionableUsers' => $mentionableUsers,
+            'channel' => $channel,
+            'url' => route('channel.post.show', ['channel' => $post->channel->slug, 'post' => $post->slug]),
         ]);
     }
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import { Comment } from '@/types';
+import { computed, ref, watchEffect } from 'vue';
+import { Comment, Post } from '@/types';
 import Avatar from '../avatar/Avatar.vue';
 import ReplyIcon from '../icons/ReplyIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';
@@ -10,15 +10,20 @@ import MoreVerticalIcon from '../icons/MoreVerticalIcon.vue';
 import ReportModal from '@/components/ReportModal.vue';
 
 const props = defineProps<{
-  comment: Comment;
-  rawComment: { comment: string };
-  shortDate: (date: string | Date) => string;
-  authUser?: { id: number } | null;
+    post: Post;
+    comment: Comment;
+    rawComment: { comment: string };
+    shortDate: (date: string | Date) => string;
+    authUser?: { id: number; username: string; } | null;
 }>();
 
 const emit = defineEmits(['reply-click', 'delete-comment']);
 
 const isDropdownOpen = ref(false);
+
+const isAuthor = computed(() =>
+  props.comment.commentator?.id === props.comment.commentable?.user_id
+);
 </script>
 
 <template>
@@ -36,7 +41,10 @@ const isDropdownOpen = ref(false);
                     <Link
                         v-if="comment.commentator?.username"
                         :href="route('author.posts', { user: comment.commentator.username })"
-                        class="user__author | no-decor"
+                        :class="[
+                            'user__author no-decor',
+                            {'post-author': isAuthor}
+                        ]"
                     >
                         {{ comment?.commentator?.username || 'Rattlehead' }}
                     </Link>
@@ -48,7 +56,12 @@ const isDropdownOpen = ref(false);
             </article>
         </header>
 
-        <SimpleDropdown class="comment-content__actions" v-model="isDropdownOpen" v-click-away="() => isDropdownOpen = false">
+        <SimpleDropdown
+            v-if="authUser"
+            class="comment-content__actions"
+            v-model="isDropdownOpen"
+            v-click-away="() => isDropdownOpen = false"
+        >
             <template #header="{ isOpen, toggle }">
                 <span @click.stop="toggle">
                     <MoreVerticalIcon />

@@ -4,8 +4,6 @@
 - agregar el boton de "reportar" en la pagina de:
     . a los comentarios debajo de un post y a las replicas a comentarios
 
-- mejorar el aspecto de la cadena de comentarios
-
 - lists channel
     . una manera dinamica y facil para crear listas en filament
     . campo para un recurso (img, video) campo para descripcion
