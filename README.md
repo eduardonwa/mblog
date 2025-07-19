@@ -1,9 +1,6 @@
 ## mblog
 
 # por hacer:
-- agregar el boton de "reportar" en la pagina de:
-    . a los comentarios debajo de un post y a las replicas a comentarios
-
 - lists channel
     . una manera dinamica y facil para crear listas en filament
     . campo para un recurso (img, video) campo para descripcion

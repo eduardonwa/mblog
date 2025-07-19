@@ -7,6 +7,7 @@ use App\Models\Report;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Log;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,10 +66,16 @@ class ReportResource extends Resource
                                             ->label('Posted by')
                                             ->getStateUsing(function ($record) {
                                                 $related = $record->reportable;
-                                                if (! $related || ! method_exists($related, 'user')) {
+                                                if (! $related) {
                                                     return null;
                                                 }
-                                                return optional($related->user)->username;
+                                                if ($related instanceof \App\Models\Post) {
+                                                    return optional($related->user)->username;
+                                                }
+                                                if ($related instanceof \App\Models\CustomComment) {
+                                                    return optional($related->commentator)->username;
+                                                }
+                                                return null;
                                             }),
                                         TextEntry::make('created_at')
                                             ->label('Report time')
@@ -99,6 +106,13 @@ class ReportResource extends Resource
                 static::getEloquentQuery()->with(['user', 'reportable']) // 👈 aquí cargas la relación
             )
             ->columns([
+                TextColumn::make('reportable_type')
+                    ->label('Type')
+                    ->formatStateUsing(fn ($state) => [
+                        'Post' => 'Post',
+                        'CustomComment' => 'Comment',
+                    ][class_basename($state)] ?? 'Unknown')
+                    ->sortable(),
                 TextColumn::make('reportable')
                     ->label('Content')
                     ->formatStateUsing(function ($record) {
@@ -109,17 +123,10 @@ class ReportResource extends Resource
                             'CustomComment' => $record->reportable->comment,
                             default => 'Unknown',
                         };
-                    })
-                    ->sortable(),
+                    }),
                 TextColumn::make('reason')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('reportable_type')
-                    ->label('Type')
-                    ->formatStateUsing(fn ($state) => [
-                        'Post' => 'Post',
-                        'CustomComment' => 'Comment',
-                    ][class_basename($state)] ?? 'Unknown')
             ])
             ->filters([
                 //
