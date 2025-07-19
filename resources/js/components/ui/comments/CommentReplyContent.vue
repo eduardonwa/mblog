@@ -81,6 +81,8 @@ const isAuthor = computed(() =>
 
                 <div v-if="authUser && authUser.id !== comment?.user_id">
                     <ReportModal
+                        showText
+                        class="report-comment"
                         :reportable="{ id: comment.id, type: 'comment' }"
                         :popoverId="`reportPopover-comment-${comment.id}`"
                     />
@@ -99,3 +101,17 @@ const isAuthor = computed(() =>
         </SimpleDropdown>
     </section>
 </template>
+
+<style>
+.report-comment button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 4px;
+}
+
+.report-comment:hover {
+    background: hsla(241.03, 26.61%, 42.75%, 1);
+}
+</style>

@@ -11,9 +11,10 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Infolists\Components\Placeholder;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\Placeholder;
 use App\Filament\Resources\ReportResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -33,19 +34,33 @@ class ReportResource extends Resource
                     ->schema([
                         Section::make('Report information')
                             ->schema([
-                                TextEntry::make('reportable')
-                                    ->label('Content')
-                                    ->formatStateUsing(function ($record) {
-                                        if (! $record->reportable) return '-';
+                                Grid::make(2)
+                                    ->schema([
+                                        TextEntry::make('reportable')
+                                            ->label('Content')
+                                            ->formatStateUsing(function ($record) {
+                                                if (! $record->reportable) return '-';
 
-                                        return match (class_basename($record->reportable_type)) {
-                                            'Post' => $record->reportable->title,
-                                            'CustomComment' => $record->reportable->comment,
-                                            default => 'Unknown',
-                                        };
-                                    })
-                                    ->columnSpanFull()
-                                    ->extraAttributes(['class' => 'border-b py-4']),
+                                                return match (class_basename($record->reportable_type)) {
+                                                    'Post' => $record->reportable->title,
+                                                    'CustomComment' => $record->reportable->comment,
+                                                    default => 'Unknown',
+                                                };
+                                            }),
+                                        TextEntry::make('content_published')
+                                            ->label('Published content date')
+                                            ->getStateUsing(function ($record) {
+                                                    $related = $record->reportable;
+                                                    if (! $related) {
+                                                        return null;
+                                                    }
+                                                    // Intenta usar published_at, si no existe o es null, usa created_at
+                                                    $date = $related->published_at ?? $related->created_at;
+                                                    return $date?->format('d M, Y H:i:s');
+                                                }),
+                                    ])
+                                    ->extraAttributes(['class' => 'border-b py-2'])
+                                    ->columnSpanFull(),
                                 TextEntry::make('reason'),
                                 TextEntry::make('message'),
                                 TextEntry::make('reportable_type')
@@ -56,6 +71,9 @@ class ReportResource extends Resource
                                     ][class_basename($state)] ?? 'Unknown'),
                                 TextEntry::make('reportable_id')
                                     ->label('Reported ID'),
+                                TextEntry::make('created_at')
+                                    ->label('Time of report')
+                                    ->dateTime('d M, Y H:i:s'),
                             ])->columns([
                                 'sm' => 2,
                             ])
@@ -80,7 +98,8 @@ class ReportResource extends Resource
                             'CustomComment' => $record->reportable->comment,
                             default => 'Unknown',
                         };
-                    }),
+                    })
+                    ->sortable(),
                 TextColumn::make('reason')
                     ->sortable()
                     ->searchable(),
@@ -122,5 +141,10 @@ class ReportResource extends Resource
     public function openGuidelinesModal()
     {
         $this->dispatch('open-modal', id: 'guidelines');
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('reportable');
     }
 }

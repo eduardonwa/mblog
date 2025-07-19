@@ -4,9 +4,12 @@ import { ReportableEntity } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import ReportIcon from './ui/icons/ReportIcon.vue';
 
+defineOptions({ inheritAttrs: false });
+
 const props = defineProps<({
     reportable: ReportableEntity;
     popoverId: string;
+    showText?: boolean;
 })>();
 
 const reasons = {
@@ -76,10 +79,13 @@ function openPopover() {
 
 <template>
     <!-- report button -->
-    <ReportIcon
-        @click="openPopover"
-        :disabled="form.processing"
-    />
+    <div v-bind="$attrs" style="display:flex;">
+        <ReportIcon
+            @click="openPopover"
+            :disabled="form.processing"
+            :showText="showText"
+        />
+    </div>
 
     <!-- report form -->
     <section>

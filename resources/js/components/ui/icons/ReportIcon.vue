@@ -2,16 +2,18 @@
 import { ref } from 'vue';
 
 interface Props {
-  color?: string;
-  hoverColor?: string;
-  viewBox?: string;
-  size?: string | number; // Tamaño del contenedor (ajustará automáticamente el SVG)
+    color?: string;
+    hoverColor?: string;
+    viewBox?: string;
+    size?: string | number; // Tamaño del contenedor (ajustará automáticamente el SVG)
+    showText?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   color: '#D3D7EA',
   hoverColor: '#F4FFC7',
   size: '24px',
+  showText: false,
 });
 
 const isHovered = ref(false);
@@ -35,5 +37,6 @@ const isHovered = ref(false);
                 </clipPath>
             </defs>
         </svg>
+        <span class="text-icon-report" v-if="showText">Report</span>
     </button>
 </template>
