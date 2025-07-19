@@ -4,9 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Tables;
 use App\Models\Report;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Infolists\Components\Grid;
@@ -14,9 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Components\Placeholder;
 use App\Filament\Resources\ReportResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ReportResource extends Resource
 {
@@ -34,8 +30,11 @@ class ReportResource extends Resource
                     ->schema([
                         Section::make('Report information')
                             ->schema([
-                                Grid::make(2)
+                                Grid::make(10)
                                     ->schema([
+                                        TextEntry::make('reportable_id')
+                                            ->label('ID')
+                                            ->columnSpan(1),
                                         TextEntry::make('reportable')
                                             ->label('Content')
                                             ->formatStateUsing(function ($record) {
@@ -46,34 +45,46 @@ class ReportResource extends Resource
                                                     'CustomComment' => $record->reportable->comment,
                                                     default => 'Unknown',
                                                 };
-                                            }),
-                                        TextEntry::make('content_published')
-                                            ->label('Published content date')
-                                            ->getStateUsing(function ($record) {
-                                                    $related = $record->reportable;
-                                                    if (! $related) {
-                                                        return null;
-                                                    }
-                                                    // Intenta usar published_at, si no existe o es null, usa created_at
-                                                    $date = $related->published_at ?? $related->created_at;
-                                                    return $date?->format('d M, Y H:i:s');
-                                                }),
+                                            })->columnSpan(4),
+                                        TextEntry::make('reason')->columnSpan(2),
+                                        TextEntry::make('message')->columnSpan(3),
                                     ])
                                     ->extraAttributes(['class' => 'border-b py-2'])
                                     ->columnSpanFull(),
-                                TextEntry::make('reason'),
-                                TextEntry::make('message'),
-                                TextEntry::make('reportable_type')
-                                    ->label('Type')
-                                    ->formatStateUsing(fn ($state) => [
-                                        'Post' => 'Post',
-                                        'CustomComment' => 'Comment',
-                                    ][class_basename($state)] ?? 'Unknown'),
-                                TextEntry::make('reportable_id')
-                                    ->label('Reported ID'),
-                                TextEntry::make('created_at')
-                                    ->label('Time of report')
-                                    ->dateTime('d M, Y H:i:s'),
+                                Grid::make(3)
+                                    ->schema([
+                                        TextEntry::make('reportable_type')
+                                            ->label('Type')
+                                            ->formatStateUsing(fn ($state) => [
+                                                'Post' => 'Post',
+                                                'CustomComment' => 'Comment',
+                                            ][class_basename($state)] ?? 'Unknown'),
+                                        TextEntry::make('user.username')
+                                            ->label('Reported by'),
+                                        TextEntry::make('posted_by')
+                                            ->label('Posted by')
+                                            ->getStateUsing(function ($record) {
+                                                $related = $record->reportable;
+                                                if (! $related || ! method_exists($related, 'user')) {
+                                                    return null;
+                                                }
+                                                return optional($related->user)->username;
+                                            }),
+                                        TextEntry::make('created_at')
+                                            ->label('Report time')
+                                            ->dateTime('d M, Y H:i:s'),
+                                        TextEntry::make('content_published')
+                                            ->label('Posted on')
+                                            ->getStateUsing(function ($record) {
+                                                $related = $record->reportable;
+                                                if (! $related) {
+                                                    return null;
+                                                }
+                                                // Intenta usar published_at, si no existe o es null, usa created_at
+                                                $date = $related->published_at ?? $related->created_at;
+                                                return $date?->format('d M, Y H:i:s');
+                                        }),
+                                    ]),
                             ])->columns([
                                 'sm' => 2,
                             ])
