@@ -44,7 +44,6 @@ class Post extends Model implements HasMedia
         'title',
         'extract',
         'body',
-        'list_data_html',
         'meta_title',
         'meta_description',
     ];

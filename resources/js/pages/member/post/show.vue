@@ -39,8 +39,12 @@ const safeHtml = computed(() => {
     ? props.post.list_data_html
     : props.post.body;
 
-  return DOMPurify.sanitize(html || '');
+    return DOMPurify.sanitize(html || '', {
+        ADD_TAGS: ['iframe', 'div'],
+        ADD_ATTR: ['allow', 'allowfullscreen', 'style', 'width', 'height', 'data-youtube-video'],
+    });
 });
+
 </script>
 
 <template>

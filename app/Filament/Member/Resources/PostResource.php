@@ -134,8 +134,9 @@ class PostResource extends Resource
                             ->schema([
                                 TextInput::make('title')
                                     ->required(),
-                                TextInput::make('resource')
-                                    ->label('Resource (Video URL, Image)')
+                                TiptapEditor::make('resource')
+                                    ->label('Resource (Video URL)')
+                                    ->profile('list')
                                     ->required(),
                                 Textarea::make('description')
                                     ->label('Description')

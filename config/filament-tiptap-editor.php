@@ -28,6 +28,9 @@ return [
             'link', 'media'
         ],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
+        'list' => [
+            'oembed'
+        ],
         'none' => [],
     ],
 

@@ -16,9 +16,21 @@ class CreatePost extends CreateRecord
     protected static string $resource = PostResource::class;
 
     public static string | Alignment $formActionsAlignment = Alignment::Center;
+    
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (!empty($data['list_data_json'])) {
+            $data['list_data_json'] = $this->cleanResources($data['list_data_json']);
+        }
+        return $data;
+    }
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        if (!empty($data['list_data_json'])) {
+            $data['list_data_json'] = $this->cleanResources($data['list_data_json']);
+        }
+        
         $data['meta_title'] = Str::limit($data['title'], 60, '');
 
         if (($data['post_template'] ?? 'post') === 'list') {
@@ -35,4 +47,6 @@ class CreatePost extends CreateRecord
 
         return $data;
     }
+
+    
 }

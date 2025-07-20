@@ -5,6 +5,7 @@ namespace App\Filament\Member\Resources\PostResource\Pages;
 use Filament\Actions;
 use Illuminate\Support\Str;
 use App\Traits\HandlesListData;
+use Illuminate\Support\Facades\Log;
 use Filament\Support\Enums\Alignment;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Member\Resources\PostResource;
@@ -37,20 +38,24 @@ class EditPost extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        if (!empty($data['list_data_json'])) {
+            $data['list_data_json'] = $this->cleanResources($data['list_data_json']);
+        }
+        
         $data['meta_title'] = Str::limit($data['title'], 60, '');
 
         if (($data['post_template'] ?? 'post') === 'list') {
             $processed = $this->processListData($data['list_data'] ?? []);
-            $data['list_data_html'] = $processed['list_data_html'];
+            $data['list_data_html'] = $this->processListData($data['list_data'] ?? [])['list_data_html'] ?? '';
             $data['meta_description'] = $processed['meta_description'];
             $data['list_data_json'] = $processed['list_data_json'];
-
+        Log::info('list_data_html', ['html' => $data['list_data_html']]);
+        
             unset($data['list_data']);
         } else {
             $data['meta_description'] = Str::words(strip_tags($data['body'] ?? ''), 25, '...');
             $data['list_data_html'] = '';
         }
-
         return $data;
     }
 
