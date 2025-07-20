@@ -10,6 +10,7 @@ use Spatie\Tags\HasTags;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
+use App\Traits\PurifiesAttributes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use BeyondCode\Comments\Traits\HasComments;
@@ -21,7 +22,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, HasTags, HasComments, SoftDeletes;
+    use HasFactory, InteractsWithMedia, HasTags, HasComments, SoftDeletes, PurifiesAttributes;
 
     protected $appends = [
         'smart_date',
@@ -36,6 +37,16 @@ class Post extends Model implements HasMedia
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'published_at' => 'datetime',
+        'list_data_json' => 'array',
+    ];
+
+    protected array $purifiable = [
+        'title',
+        'extract',
+        'body',
+        'list_data_html',
+        'meta_title',
+        'meta_description',
     ];
 
     public function getRouteKeyName(): string

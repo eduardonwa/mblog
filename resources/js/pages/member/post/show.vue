@@ -9,6 +9,7 @@ import CommentForm from '@/components/ui/comments/CommentForm.vue';
 import LikeButton from '@/components/LikeButton.vue';
 import ShareMenu from '@/components/ui/share-menu/ShareMenu.vue';
 import ReportModal from '@/components/ReportModal.vue';
+import DOMPurify from 'dompurify';
 
 const props = defineProps<{
     post: Post;
@@ -24,10 +25,6 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
 
 const localPost = ref<Post>(props.post);
 
-/* const isAuthor = computed(() =>
-  props.comment.commentator?.id === props.comment.commentable?.user_id
-); */
-
 // cosas para que el reportmodal se dispare
 const isMobile = ref(window.innerWidth < 1280);
 function onResize() {
@@ -35,6 +32,15 @@ function onResize() {
 }
 onMounted(() => window.addEventListener('resize', onResize));
 onUnmounted(() => window.removeEventListener('resize', onResize));
+
+// sanitizar HTML
+const safeHtml = computed(() => {
+  const html = props.post.post_template === 'list'
+    ? props.post.list_data_html
+    : props.post.body;
+
+  return DOMPurify.sanitize(html || '');
+});
 </script>
 
 <template>
@@ -76,7 +82,9 @@ onUnmounted(() => window.removeEventListener('resize', onResize));
 
             <!-- body -->
             <article class="post-body">
-                <p>{{ post.body }}</p>
+                <div v-if="post.post_template === 'list'" v-html="safeHtml"></div>
+                <div v-else v-html="safeHtml"></div>
+
                 <CommentForm :post="post" />
                 <CommentBox
                     :post="post"

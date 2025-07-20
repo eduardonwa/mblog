@@ -2,6 +2,7 @@
 
 namespace App\Filament\Member\Resources;
 
+use Closure;
 use App\Models\Post;
 use Filament\Tables;
 use Filament\Forms\Get;
@@ -17,13 +18,15 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Member\Resources\PostResource\Pages;
-use Filament\Forms\Components\Placeholder;
 
 class PostResource extends Resource
 {
@@ -104,16 +107,59 @@ class PostResource extends Resource
                                     ]),
                             ]),
                         ]),
+                Placeholder::make('body_description')
+                    ->view('filament.member.guidelines')
+                    ->columnSpanFull(),  
+                Radio::make('post_template')
+                    ->label('Post template')
+                    ->options([
+                        'post' => 'Post',
+                        'list' => 'List',
+                    ])
+                    ->default('post')
+                    ->reactive()
+                    ->afterStateHydrated(function (Set $set, $state) {
+                        if (blank($state)) {
+                            $set('post_template', 'post');
+                        }
+                    }),
                 Grid::make(1)
                     ->schema([
-                        Placeholder::make('body_description')
-                            ->view('filament.member.guidelines')
-                            ->columnSpanFull(),
+                        Textarea::make('list_data.intro')
+                            ->label('Intro')
+                            ->rows(4)
+                            ->visible(fn (Get $get) => $get('post_template') === 'list'),
+                        Repeater::make('list_data.items')
+                            ->label('Songs')
+                            ->schema([
+                                TextInput::make('title')
+                                    ->required(),
+                                TextInput::make('resource')
+                                    ->label('Resource (Video URL, Image)')
+                                    ->required(),
+                                Textarea::make('description')
+                                    ->label('Description')
+                                    ->rows(3)
+                                    ->required(),
+                            ])
+                            ->required()
+                            ->minItems(3)
+                            ->maxItems(20)
+                            ->addActionLabel('Add song')
+                            ->visible(fn (Get $get) => $get('post_template') === 'list'),
+                        Textarea::make('list_data.outro')
+                            ->label('Outro')
+                            ->rows(4)
+                            ->visible(fn (Get $get) => $get('post_template') === 'list'),
+                    ]),
+                Grid::make(1)
+                    ->schema([
                         TipTapEditor::make('body')
                             ->profile('simple')
                             ->extraInputAttributes(['style' => 'min-height: 50vh;'])
                             ->columnSpan(1)
-                            ->required(),
+                            ->required()
+                            ->visible(fn (Get $get) => $get('post_template') === 'post'),
                     ]),
             ]);
     }

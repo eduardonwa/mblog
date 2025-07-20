@@ -60,11 +60,16 @@ class ChannelController extends Controller
         }
 
         $post->load(['channel', 'user', 'comments', 'likes']);
-
+        
+        if ($post->post_template === 'list') {
+            $post->rendered_body = $post->list_data_html;
+        } else {
+            $post->rendered_body = $post->body;
+        }
+        
         $comments = $this->getCommentTreeForPost($post);
-
         $mentionableUsers = $this->getMentionableUsersForPost($post);
-
+        
         // prepara metadatos
         $meta = [
             'title' => $post->meta_title ?? $post->title,

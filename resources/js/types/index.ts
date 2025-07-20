@@ -102,6 +102,12 @@ export interface Post {
     likes_count: number;
     comments?: Comment[];
     comments_count: number;
+    rendered_body: string;
+    list_data_html?: Array<{
+        intro: string;
+        items: string[];
+        outro: string;
+    }>;
     tags: Array<{
         id: number;
         slug: { en: string };
