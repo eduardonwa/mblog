@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
 use App\Models\User;
+use App\Observers\PostObserver;
 use App\Observers\UserObserver;
 use BeyondCode\Comments\Comment;
 use App\Filament\MyLoginResponse;
@@ -48,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         User::observe(UserObserver::class);
+        Post::observe(PostObserver::class);
 
         $this->app->singleton(LoginResponse::class, MyLoginResponse::class);
         $this->app->singleton(LogoutResponse::class, MyLogoutResponse::class);
