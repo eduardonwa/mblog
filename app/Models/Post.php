@@ -40,14 +40,6 @@ class Post extends Model implements HasMedia
         'list_data_json' => 'array',
     ];
 
-    protected array $purifiable = [
-        'title',
-        'extract',
-        'body',
-        'meta_title',
-        'meta_description',
-    ];
-
     public function getRouteKeyName(): string
     {
         return 'slug';

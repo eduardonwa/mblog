@@ -32,6 +32,16 @@ function onResize() {
 }
 onMounted(() => window.addEventListener('resize', onResize));
 onUnmounted(() => window.removeEventListener('resize', onResize));
+
+// Computed para sanitizar list_data_html
+const sanitizedHtml = computed(() => {
+  return props.post.list_data_html ? DOMPurify.sanitize(props.post.list_data_html) : '';
+});
+
+// Computed para sanitizar body
+const sanitizedBody = computed(() => {
+  return props.post.body ? DOMPurify.sanitize(props.post.body) : '';
+});
 </script>
 
 <template>
@@ -73,7 +83,14 @@ onUnmounted(() => window.removeEventListener('resize', onResize));
             
             <!-- body -->
             <article class="post-body">
-                <div v-html="post.body"></div>
+                <div v-if="post.post_template === 'list'">
+                    <!-- Renderizamos la lista ya generada en HTML -->
+                    <div v-html="sanitizedHtml"></div>
+                </div>
+                <div v-else>
+                    <!-- Renderizamos el body normal -->
+                    <div v-html="sanitizedBody"></div>
+                </div>
 
                 <CommentForm :post="post" />
                 <CommentBox

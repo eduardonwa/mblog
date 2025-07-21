@@ -124,6 +124,34 @@ class PostResource extends Resource
                             $set('post_template', 'post');
                         }
                     }),
+                    Grid::make(1)
+                        ->schema([
+                            Textarea::make('intro')
+                                ->label('Intro')
+                                ->statePath('list_data_json.intro')
+                                ->rows(4)
+                                ->visible(fn (Get $get) => $get('post_template') === 'list'),
+
+                            Repeater::make('items')
+                                ->label('Songs')
+                                ->statePath('list_data_json.items')
+                                ->schema([
+                                    TextInput::make('title')->required(),
+                                    TiptapEditor::make('resource')->required(),
+                                    Textarea::make('description')->rows(3)->required(),
+                                ])
+                                ->required()
+                                ->minItems(3)
+                                ->maxItems(20)
+                                ->addActionLabel('Add song')
+                                ->visible(fn (Get $get) => $get('post_template') === 'list'),
+
+                            Textarea::make('outro')
+                                ->label('Outro')
+                                ->statePath('list_data_json.outro')
+                                ->rows(4)
+                                ->visible(fn (Get $get) => $get('post_template') === 'list'),
+                        ]),
                 Grid::make(1)
                     ->schema([
                         TipTapEditor::make('body')

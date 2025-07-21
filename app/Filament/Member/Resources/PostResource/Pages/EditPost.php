@@ -3,7 +3,7 @@
 namespace App\Filament\Member\Resources\PostResource\Pages;
 
 use Filament\Actions;
-use Illuminate\Support\Str;
+use App\Traits\HandlesListPosts;
 use Filament\Support\Enums\Alignment;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Member\Resources\PostResource;
@@ -11,7 +11,7 @@ use Pboivin\FilamentPeek\Pages\Concerns\HasPreviewModal;
 
 class EditPost extends EditRecord
 {
-    use HasPreviewModal;
+    use HasPreviewModal, HandlesListPosts;
 
     protected static string $resource = PostResource::class;
     
@@ -27,10 +27,7 @@ class EditPost extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['meta_title'] = Str::limit($data['title'], 60, '');
-        $data['meta_description'] = Str::words(strip_tags($data['body']), 25, '...');
-        
-        return $data;
+        return $this->preparePostData($data);
     }
 
     protected function getPreviewModalView(): ?string
