@@ -22,7 +22,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, HasTags, HasComments, SoftDeletes, PurifiesAttributes;
+    use HasFactory, InteractsWithMedia, HasTags, HasComments, SoftDeletes;
 
     protected $appends = [
         'smart_date',

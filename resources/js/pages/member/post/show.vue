@@ -32,19 +32,6 @@ function onResize() {
 }
 onMounted(() => window.addEventListener('resize', onResize));
 onUnmounted(() => window.removeEventListener('resize', onResize));
-
-// sanitizar HTML
-const safeHtml = computed(() => {
-  const html = props.post.post_template === 'list'
-    ? props.post.list_data_html
-    : props.post.body;
-
-    return DOMPurify.sanitize(html || '', {
-        ADD_TAGS: ['iframe', 'div'],
-        ADD_ATTR: ['allow', 'allowfullscreen', 'style', 'width', 'height', 'data-youtube-video'],
-    });
-});
-
 </script>
 
 <template>
@@ -83,11 +70,10 @@ const safeHtml = computed(() => {
                     />
                 </div>
             </header>
-
+            
             <!-- body -->
             <article class="post-body">
-                <div v-if="post.post_template === 'list'" v-html="safeHtml"></div>
-                <div v-else v-html="safeHtml"></div>
+                <div v-html="post.body"></div>
 
                 <CommentForm :post="post" />
                 <CommentBox

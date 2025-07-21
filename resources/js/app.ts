@@ -1,15 +1,14 @@
 import '../styles/main.scss';
-
-import directives from './directives'
+import type { DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';
-import AppNavigation from './components/Navigation/AppNavigation.vue';
 import gsap from 'gsap';
+import directives from './directives'
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import AppNavigation from './components/Navigation/AppNavigation.vue';
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Member\Resources\PostResource\Pages;
+use App\Filament\Tiptap\BandcampIframe;
 
 class PostResource extends Resource
 {
@@ -123,36 +124,6 @@ class PostResource extends Resource
                             $set('post_template', 'post');
                         }
                     }),
-                Grid::make(1)
-                    ->schema([
-                        Textarea::make('list_data.intro')
-                            ->label('Intro')
-                            ->rows(4)
-                            ->visible(fn (Get $get) => $get('post_template') === 'list'),
-                        Repeater::make('list_data.items')
-                            ->label('Songs')
-                            ->schema([
-                                TextInput::make('title')
-                                    ->required(),
-                                TiptapEditor::make('resource')
-                                    ->label('Resource (Video URL)')
-                                    ->profile('list')
-                                    ->required(),
-                                Textarea::make('description')
-                                    ->label('Description')
-                                    ->rows(3)
-                                    ->required(),
-                            ])
-                            ->required()
-                            ->minItems(3)
-                            ->maxItems(20)
-                            ->addActionLabel('Add song')
-                            ->visible(fn (Get $get) => $get('post_template') === 'list'),
-                        Textarea::make('list_data.outro')
-                            ->label('Outro')
-                            ->rows(4)
-                            ->visible(fn (Get $get) => $get('post_template') === 'list'),
-                    ]),
                 Grid::make(1)
                     ->schema([
                         TipTapEditor::make('body')
