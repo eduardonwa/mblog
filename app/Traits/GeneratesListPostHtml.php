@@ -14,12 +14,12 @@ class GeneratesListPostHtml
 
         foreach ($data['items'] as $item) {
             $html .= "<div class='list-item'>";
-            $html .= "<h3>" . e($item['title']) . "</h3>";
+            $html .= "<h3 class='resource-title'>" . e($item['title']) . "</h3>";
 
             // Aquí va tu iframe o embed ya validado/controlado
-            $html .= "<div class='resource'>" . $item['resource'] . "</div>";
+            $html .= "<p class='resource-description'>" . nl2br(e($item['description'])) . "</p>";
 
-            $html .= "<p>" . nl2br(e($item['description'])) . "</p>";
+            $html .= "<div class='resource-item'>" . $item['resource'] . "</div>";
             $html .= "</div>";
         }
 

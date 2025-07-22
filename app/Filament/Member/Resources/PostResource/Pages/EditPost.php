@@ -27,7 +27,6 @@ class EditPost extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        // dd($data);
         return $this->preparePostData($data);
     }
 

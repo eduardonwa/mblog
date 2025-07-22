@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import AppLogoIcon from './AppLogoIcon.vue';
 import { Category } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
+import AppLogoIcon from './AppLogoIcon.vue';
 import YoutubeIcon from './ui/icons/social-media/YoutubeIcon.vue';
 import InstagramIcon from './ui/icons/social-media/InstagramIcon.vue';
 import ThreadsIcon from './ui/icons/social-media/ThreadsIcon.vue';

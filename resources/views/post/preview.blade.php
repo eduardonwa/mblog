@@ -45,9 +45,14 @@
                 <p>{{ $post->category->name ?? $post->channel->name }}</p>
             </div>
         </header>
-    
-        <article>
-            {!! $post->body !!}
-        </article>
+
+        @if($post->post_template == 'list')
+            {!! $post->list_data_html !!}
+        @else
+            <article>
+                {!! $post->body !!}
+            </article>
+        @endif
+        
     </section>
 @endsection

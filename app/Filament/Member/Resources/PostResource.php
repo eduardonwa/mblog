@@ -112,7 +112,7 @@ class PostResource extends Resource
                     ->view('filament.member.guidelines')
                     ->columnSpanFull(),  
                 Radio::make('post_template')
-                    ->label('Post template')
+                    ->label('Template')
                     ->options([
                         'post' => 'Post',
                         'list' => 'List',
@@ -127,20 +127,22 @@ class PostResource extends Resource
                     Grid::make(1)
                         ->schema([
                             Textarea::make('intro')
-                                ->label('Intro')
+                                ->label('Introduction')
                                 ->statePath('list_data_json.intro')
                                 ->rows(4)
                                 ->visible(fn (Get $get) => $get('post_template') === 'list'),
 
                             Repeater::make('items')
                                 ->label('Songs')
+                                ->hint('You may post up to 20 songs, with a minimum of 3.')
+                                ->hintColor('primary')
                                 ->statePath('list_data_json.items')
                                 ->schema([
                                     Grid::make(2)
                                         ->schema([
                                             TiptapEditor::make('resource')
-                                                ->label('Resource (Video URL)')
-                                                ->helperText('')
+                                                ->label('Resource (URL)')
+                                                ->hint('One resource per slot')
                                                 ->profile('list')
                                                 ->extraInputAttributes(['style' => 'min-height: 20vh;'])
                                                 ->columnSpan(1)
