@@ -1,24 +1,31 @@
 import { Node, mergeAttributes } from '@tiptap/core'
 
-export const BandcampIframe = Node.create({
-  name: 'bandcampIframe',
-
-  group: 'block',
-
+const BandcampIframe = Node.create({
+  name: "bandcampIframe",
+  group: "block",
   atom: true,
 
   addAttributes() {
     return {
-      src: {
-        default: null,
-      },
+      src: { default: null },
       style: {
         default: 'border: 0; width: 100%; height: 120px;',
       },
       seamless: {
-        default: true,
-      },
+        default: 'true',
+      }
     }
+  },
+
+  addCommands() {
+    return {
+      insertBandcampIframe: (options) => ({ commands }) => {
+        return commands.insertContent({
+          type: this.name,
+          attrs: options
+        });
+      }
+    };
   },
 
   parseHTML() {
@@ -34,19 +41,14 @@ export const BandcampIframe = Node.create({
   },
 
   addNodeView() {
-    return ({ node }) => {
-      const iframe = document.createElement('iframe');
-      iframe.src = node.attrs.src
-      iframe.setAttribute('style', node.attrs.style || '')
-      iframe.setAttribute('seamless', 'true')
-      iframe.setAttribute('allow', 'autoplay; encrypted-media')
-      iframe.setAttribute('loading', 'lazy')
-      iframe.setAttribute('width', '100%')
-      iframe.setAttribute('height', '120px')
-
-      return {
-        dom: iframe,
-      }
+    return ({ HTMLAttributes }) => {
+      const iframe = document.createElement('iframe')
+      Object.entries(HTMLAttributes).forEach(([key, value]) => {
+        iframe.setAttribute(key, value)
+      })
+      return { dom: iframe }
     }
   },
 })
+
+export default BandcampIframe;

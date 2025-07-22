@@ -30,6 +30,7 @@ return [
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'list' => [
             'oembed',
+            'bandcampIframe',
         ],
         'none' => [],
     ],
@@ -102,9 +103,15 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'extensions_script' => null,
-    'extensions_styles' => null,
-    'extensions' => [],
+    'extensions_script' => 'resources/js/tiptap/extensions.js',
+    'extensions_styles' => 'resources/css/tiptap/extensions.css',
+    'extensions' => [
+        [
+            'id' => 'bandcampIframe',
+            'name' => 'Bandcamp',
+            'button' => 'button-bandcamp'
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------

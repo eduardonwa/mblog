@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Traits\HtmlHelper;
 use Illuminate\Support\Str;
 use App\Traits\GeneratesListPostHtml;
 

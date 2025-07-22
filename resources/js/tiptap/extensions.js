@@ -1,3 +1,7 @@
-import { BandcampIframe } from './extensions/BandcampIframe'
+import BandcampIframe from "./extensions/BandcampIframe.js";
+ 
+window.TiptapEditorExtensions = {
+    bandcampIframe: [BandcampIframe]
+}
 
-TiptapEditorExtensions.push(BandcampIframe)
+console.log("🧩 TiptapEditorExtensions:", window.TiptapEditorExtensions);

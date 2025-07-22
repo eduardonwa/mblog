@@ -1,0 +1,1 @@
+import{d as o,c as e,o as s}from"./app-CRVfHUbl.js";const t={class:"ff-logo fs-700 clr-neutral-100 no-decor"},p=o({inheritAttrs:!1,__name:"AppLogoIcon",props:{className:{}},setup(c){return(n,r)=>(s(),e("h3",t,"sickofmetal"))}});export{p as _};
