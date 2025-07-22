@@ -33,15 +33,43 @@ function onResize() {
 onMounted(() => window.addEventListener('resize', onResize));
 onUnmounted(() => window.removeEventListener('resize', onResize));
 
-// Computed para sanitizar list_data_html
-const sanitizedHtml = computed(() => {
-  return props.post.list_data_html ? DOMPurify.sanitize(props.post.list_data_html) : '';
-});
+DOMPurify.addHook('uponSanitizeElement', (node, data) => {
+  if (data.tagName === 'iframe') {
+    const src = node.getAttribute('src') || ''
+    if (
+      src.includes('bandcamp.com/EmbeddedPlayer') ||
+      src.includes('youtube.com/embed')
+    ) {
+      node.setAttribute('allow', 'autoplay; encrypted-media')
+      node.setAttribute('allowfullscreen', 'true')
+      node.setAttribute('loading', 'lazy')
+    } else {
+      node.parentNode?.removeChild(node)
+    }
+  }
+})
 
-// Computed para sanitizar body
-const sanitizedBody = computed(() => {
-  return props.post.body ? DOMPurify.sanitize(props.post.body) : '';
-});
+DOMPurify.setConfig({
+  ADD_TAGS: ['iframe'],
+  ADD_ATTR: [
+    'allow',
+    'allowfullscreen',
+    'frameborder',
+    'scrolling',
+    'src',
+    'height',
+    'width',
+    'style',
+    'seamless',
+    'loading'
+  ],
+})
+
+const sanitizedHtml = computed(() => {
+  return props.post.list_data_html
+    ? DOMPurify.sanitize(props.post.list_data_html)
+    : ''
+})
 </script>
 
 <template>
@@ -83,14 +111,8 @@ const sanitizedBody = computed(() => {
             
             <!-- body -->
             <article class="post-body">
-                <div v-if="post.post_template === 'list'">
-                    <!-- Renderizamos la lista ya generada en HTML -->
-                    <div v-html="sanitizedHtml"></div>
-                </div>
-                <div v-else>
-                    <!-- Renderizamos el body normal -->
-                    <div v-html="sanitizedBody"></div>
-                </div>
+                <div v-if="sanitizedHtml" v-html="sanitizedHtml"></div>
+                <div v-else v-html="post.body"></div>
 
                 <CommentForm :post="post" />
                 <CommentBox

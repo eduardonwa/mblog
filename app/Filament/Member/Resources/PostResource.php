@@ -136,10 +136,26 @@ class PostResource extends Resource
                                 ->label('Songs')
                                 ->statePath('list_data_json.items')
                                 ->schema([
-                                    TextInput::make('title')->required(),
-                                    TiptapEditor::make('resource')->required(),
-                                    Textarea::make('description')->rows(3)->required(),
-                                ])
+                                    Grid::make(2)
+                                        ->schema([
+                                            TiptapEditor::make('resource')
+                                                ->label('Resource (Video URL)')
+                                                ->helperText('')
+                                                ->profile('list')
+                                                ->extraInputAttributes(['style' => 'min-height: 20vh;'])
+                                                ->columnSpan(1)
+                                                ->required(),
+                                            Grid::make(1)
+                                                ->columnStart(2)
+                                                ->schema([
+                                                    TextInput::make('title')
+                                                        ->required(),
+                                                    Textarea::make('description')
+                                                        ->rows(5)
+                                                        ->required(),
+                                                ]),
+                                        ]),
+                                    ])
                                 ->required()
                                 ->minItems(3)
                                 ->maxItems(20)

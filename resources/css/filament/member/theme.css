@@ -11,6 +11,10 @@
   --tw-ring-color: transparent !important;
 }
 
+.fi-fo-repeater-item {
+    background: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
 /* dashboard */ 
 .fi-body {
     background-color: hsla(242.61, 21.5%, 20.98%, 1) !important;
