@@ -14,8 +14,8 @@ export default defineConfig({
                 'resources/css/filament/admin/theme.css',
                 'resources/css/filament/member/theme.css',
                 'resources/styles/components/filament-dashboard.scss',
-                'resources/js/tiptap/extensions.js',
-                'resources/css/tiptap/extensions.css',
+                // 'resources/js/tiptap/extensions.js',
+                // 'resources/css/tiptap/extensions.css',
             ],
             refresh: true,
         }),
@@ -31,7 +31,6 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
-            '@tiptap-extensions': path.resolve(__dirname, 'resources/js/tiptap/extensions'),
         },
     },
     css: {
