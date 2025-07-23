@@ -178,3 +178,32 @@
         color: hsla(226.15, 35.14%, 92.75%, 1);
     }
 }
+
+/* colores */
+.bg-black {
+    background: hsl(0 0% 7.5%);;
+}
+
+.clr-morado-100 {
+    color: hsla(226.15, 35.14%, 92.75%, 1);
+}
+
+.bg-morado-600 {
+    background: hsla(239.15, 28.98%, 48.04%, 1);
+}
+
+.bg-morado-800 {
+    background: hsla(240, 23.81%, 32.94%, 1);
+}
+
+.bg-morado-900 {
+    background: hsla(242.61, 21.5%, 20.98%, 1);
+}
+
+.bg-morado-950 {
+    background: hsla(240, 20.69%, 14.71%, 1);
+}
+
+.clr-error-100 {
+    color: hsl(0, 93.1%, 60.2%);
+}

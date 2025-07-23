@@ -2,7 +2,6 @@
 
 namespace App\Filament\Member\Resources;
 
-use Closure;
 use App\Models\Post;
 use Filament\Tables;
 use Filament\Forms\Get;
@@ -22,12 +21,12 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
+use App\TiptapExtensions\BandcampIframe;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Member\Resources\PostResource\Pages;
-use App\Filament\Tiptap\BandcampIframe;
 
 class PostResource extends Resource
 {
@@ -146,6 +145,10 @@ class PostResource extends Resource
                                                 ->profile('list')
                                                 ->extraInputAttributes(['style' => 'min-height: 20vh;'])
                                                 ->columnSpan(1)
+                                                ->floatingMenuTools([
+                                                    'oembed',
+                                                    'bandcampIframe'
+                                                ])
                                                 ->required(),
                                             Grid::make(1)
                                                 ->columnStart(2)

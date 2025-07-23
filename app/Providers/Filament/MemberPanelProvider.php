@@ -69,7 +69,7 @@ class MemberPanelProvider extends PanelProvider
             ])
             ->brandLogo(fn () => view('filament.member.logo'))
             ->renderHook('panels::body.end', function () {
-                return view('components.bandcamp-modal');
+                return view('components.modal-bandcamp');
             });
     }
 }

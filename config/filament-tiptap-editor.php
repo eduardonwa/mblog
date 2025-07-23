@@ -109,7 +109,8 @@ return [
         [
             'id' => 'bandcampIframe',
             'name' => 'Bandcamp',
-            'button' => 'button-bandcamp'
+            'button' => 'button-bandcamp',
+            'class' => \App\TiptapExtensions\BandcampIframe::class,
         ]
     ],
 
