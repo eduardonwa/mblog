@@ -69,6 +69,8 @@ class AdminPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-arrow-left')
             ])
-            ;
+            ->renderHook('panels::body.end', function () {
+                return view('components.bandcamp-modal');
+            });
     }
 }

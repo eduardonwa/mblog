@@ -67,6 +67,9 @@ class MemberPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-arrow-left')
             ])
-            ->brandLogo(fn () => view('filament.member.logo'));
+            ->brandLogo(fn () => view('filament.member.logo'))
+            ->renderHook('panels::body.end', function () {
+                return view('components.bandcamp-modal');
+            });
     }
 }

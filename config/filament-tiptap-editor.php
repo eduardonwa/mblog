@@ -25,7 +25,7 @@ return [
         'simple' => [
             'heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|',
             'bold', 'italic', 'underline', 'lead', 'small', '|',
-            'link', 'media'
+            'link', 'media', 'bandcampIframe',
         ],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'list' => [

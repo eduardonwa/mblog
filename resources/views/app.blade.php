@@ -9,12 +9,13 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         @filamentStyles
         {{-- @routes --}}
-        @vite(['resources/js/app.ts', 'resources/styles/main.scss', 'resources/js/tiptap/extensions.js'])
+        @vite(['resources/js/app.ts', 'resources/styles/main.scss'])
         @inertiaHead
     </head>
     <body>
         @routes
         @filamentScripts
         @inertia
+        @vite(['resources/js/tiptap/extensions.js'])
     </body>
 </html>
