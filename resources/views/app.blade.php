@@ -16,6 +16,5 @@
         @routes
         @filamentScripts
         @inertia
-        @vite(['resources/js/tiptap/extensions.js'])
     </body>
 </html>

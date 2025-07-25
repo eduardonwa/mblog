@@ -22,6 +22,7 @@ use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use App\TiptapExtensions\BandcampIframe;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
@@ -143,12 +144,17 @@ class PostResource extends Resource
                                                 ->label('Resource (URL)')
                                                 ->hint('One resource per slot')
                                                 ->profile('list')
-                                                ->extraInputAttributes(['style' => 'min-height: 20vh;'])
+                                                ->extraInputAttributes(fn (Component $component) => [
+                                                    // obtiene el ID por cada repeater
+                                                    'data-state-path' => str_replace('.', '_', $component->getStatePath()),
+                                                    'style' => 'min-height: 25vh;',
+                                                ])
                                                 ->columnSpan(1)
                                                 ->floatingMenuTools([
                                                     'oembed',
                                                     'bandcampIframe'
                                                 ])
+                                                ->bubbleMenuTools(['link'])
                                                 ->required(),
                                             Grid::make(1)
                                                 ->columnStart(2)

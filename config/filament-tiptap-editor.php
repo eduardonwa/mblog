@@ -29,8 +29,7 @@ return [
         ],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'list' => [
-            'oembed',
-            'bandcampIframe',
+            'link', 'oembed', 'bandcampIframe',
         ],
         'none' => [],
     ],
@@ -110,7 +109,7 @@ return [
             'id' => 'bandcampIframe',
             'name' => 'Bandcamp',
             'button' => 'button-bandcamp',
-            'class' => \App\TiptapExtensions\BandcampIframe::class,
+            'parser' => \App\TiptapExtensions\BandcampIframe::class,
         ]
     ],
 
