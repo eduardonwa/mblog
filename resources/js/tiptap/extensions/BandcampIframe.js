@@ -4,33 +4,43 @@ const BandcampIframe = Node.create({
   name: 'bandcampIframe',
   group: 'block',
   atom: true,
+  inline: false,
+  selectable: true,
+  draggable: true,
 
   addAttributes() {
     return {
-      src: {},
-      style: {},
+      src: { default: '' },
+      style: { default: '' },
       seamless: { default: true },
     };
   },
 
   parseHTML() {
-    return [{ tag: 'iframe[data-bandcamp]' }];
+    return [
+      { tag: 'iframe[data-bandcamp]' }
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['iframe', {
-      ...HTMLAttributes,
-      frameborder: 0,
-      allowtransparency: 'true',
-      allow: 'encrypted-media',
-    }];
+    return [
+      'iframe',
+      {
+        ...HTMLAttributes,
+        'data-bandcamp': 'true', // ← ¡Clave! Siempre
+        frameborder: 0,
+        allowtransparency: 'true',
+        allow: 'encrypted-media',
+        width: '100%',
+        height: '120px',
+      }
+    ];
   },
 
   addCommands() {
     return {
       setBandcampIframe:
-        (attrs) =>
-        ({ commands }) => {
+        (attrs) => ({ commands }) => {
           console.log('[bandcamp extension] setBandcampIframe command ejecutado', attrs);
           return commands.insertContent({
             type: 'bandcampIframe',
@@ -50,12 +60,6 @@ const BandcampIframe = Node.create({
           iframe.setAttribute(key, value);
         }
       });
-
-      iframe.setAttribute('frameborder', '0');
-      iframe.setAttribute('allowtransparency', 'true');
-      iframe.setAttribute('allow', 'encrypted-media');
-      iframe.style.width = '100%';
-      iframe.style.height = '120px';
 
       return {
         dom: iframe,
