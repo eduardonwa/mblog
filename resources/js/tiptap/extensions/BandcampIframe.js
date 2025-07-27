@@ -27,7 +27,7 @@ const BandcampIframe = Node.create({
       'iframe',
       {
         ...HTMLAttributes,
-        'data-bandcamp': 'true', // ← ¡Clave! Siempre
+        'data-bandcamp': 'true',
         frameborder: 0,
         allowtransparency: 'true',
         allow: 'encrypted-media',
@@ -52,20 +52,22 @@ const BandcampIframe = Node.create({
 
   addNodeView() {
     return ({ HTMLAttributes }) => {
+      const attrs = HTMLAttributes || {};
       const iframe = document.createElement('iframe');
-      Object.entries(HTMLAttributes).forEach(([key, value]) => {
-        if (value === true) {
-          iframe.setAttribute(key, '');
-        } else if (value) {
+      Object.entries(attrs).forEach(([key, value]) => {
+        if (typeof value === 'boolean') {
+          if (value) iframe.setAttribute(key, '');
+        } else if (typeof value === 'string' && value !== '') {
           iframe.setAttribute(key, value);
         }
       });
-
-      return {
-        dom: iframe,
-      };
+      if (!iframe.getAttribute('src')) {
+        iframe.setAttribute('src', '');
+      }
+      return { dom: iframe };
     };
   }
+
 });
 
 export default BandcampIframe;

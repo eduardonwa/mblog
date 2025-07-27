@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use App\Traits\GeneratesListPostHtml;
 
 trait HandlesListPosts
@@ -14,10 +15,9 @@ trait HandlesListPosts
         if ($data['post_template'] === 'post') {
             $data['meta_description'] = Str::words(strip_tags($data['body']), 25, '...');
         }
-
         if ($data['post_template'] === 'list') {
             $data['body'] = ''; // aseguramos que no intente usar body
-            $data['meta_description'] = Str::words(strip_tags($data['list_data']['intro'] ?? ''), 25, '...');
+            $data['meta_description'] = Str::words(strip_tags($data['list_data_json']['intro'] ?? ''), 25, '...');
             $data['list_data_html'] = GeneratesListPostHtml::renderListDataHtml($data['list_data_json']);
         }
 

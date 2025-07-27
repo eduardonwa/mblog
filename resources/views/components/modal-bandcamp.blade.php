@@ -23,64 +23,105 @@
 </div>
 
 <script>
-    function bandcampModal() {
+function bandcampModal() {
     return {
         isOpen: false,
         statePath: null,
         html: '',
-
         init() {
-            // Guardar referencia global para acceder desde consola o fuera si quieres
             window.BandcampModal = this;
-
-            // Escuchar el evento global para abrir el modal
             window.addEventListener('open-bandcamp-modal', (event) => {
                 const path = event.detail?.statePath;
-                if (!path) {
-                    console.error('[BandcampModal] Evento open-bandcamp-modal sin statePath');
-                    return;
-                }
-
+                if (!path) return;
                 this.openModal(path);
             });
         },
-
         openModal(path) {
             this.statePath = path;
             this.isOpen = true;
-
-            // Opcional: limpiar textarea al abrir
             this.html = '';
         },
-
         closeModal() {
             this.isOpen = false;
             this.html = '';
             this.statePath = null;
         },
-
         insertIframe() {
-            if (!this.statePath) {
-                console.error('[BandcampModal] statePath es null. No se puede insertar iframe.');
-                return;
-            }
-            if (!this.html.trim()) {
-                console.error('[BandcampModal] html está vacío.');
-                return;
-            }
-            console.log('[BandcampModal] insertIframe:', this.statePath);
-            console.log('[BandcampModal] Editores disponibles:', Object.keys(window.TiptapEditors));
-
-            // Emitir evento para que la extensión capture e inserte el iframe
+            if (!this.statePath || !this.html.trim()) return;
             window.dispatchEvent(new CustomEvent('insert-bandcamp-iframe', {
-                detail: {
-                    statePath: this.statePath,
-                    html: this.html,
-                }
+                detail: { statePath: this.statePath, html: this.html }
             }));
-
             this.closeModal();
+            setTimeout(() => document.activeElement.blur(), 100);
         }
-    };
+    }
 }
 </script>
+
+{{-- <script>
+    function bandcampModal() {
+        return {
+            isOpen: false,
+            statePath: null,
+            html: '',
+
+            init() {
+                // Guardar referencia global para acceder desde consola o fuera si quieres
+                window.BandcampModal = this;
+
+                // Escuchar el evento global para abrir el modal
+                window.addEventListener('open-bandcamp-modal', (event) => {
+                    const path = event.detail?.statePath;
+                    if (!path) {
+                        console.error('[BandcampModal] Evento open-bandcamp-modal sin statePath');
+                        return;
+                    }
+
+                    this.openModal(path);
+                });
+            },
+
+            openModal(path) {
+                this.statePath = path;
+                this.isOpen = true;
+
+                // Opcional: limpiar textarea al abrir
+                this.html = '';
+            },
+
+            closeModal() {
+                this.isOpen = false;
+                this.html = '';
+                this.statePath = null;
+            },
+
+            insertIframe() {
+                if (!this.statePath) {
+                    console.error('[BandcampModal] statePath es null. No se puede insertar iframe.');
+                    return;
+                }
+                if (!this.html.trim()) {
+                    console.error('[BandcampModal] html está vacío.');
+                    return;
+                }
+                // console.log('[BandcampModal] insertIframe:', this.statePath);
+                // console.log('[BandcampModal] Editores disponibles:', Object.keys(window.TiptapEditors));
+
+                // Emitir evento para que la extensión capture e inserte el iframe
+                window.dispatchEvent(new CustomEvent('insert-bandcamp-iframe', {
+                    detail: {
+                        statePath: this.statePath,
+                        html: this.html,
+                    }
+                }));
+
+                this.closeModal();
+
+                // fuerza blur despues de insertar
+                setTimeout(() => {
+                    document.activeElement.blur();
+                }, 100);
+            }
+        };
+}
+</script> --}}

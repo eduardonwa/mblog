@@ -4,6 +4,7 @@ namespace App\Filament\Member\Resources\PostResource\Pages;
 
 use Filament\Actions;
 use App\Traits\HandlesListPosts;
+use Illuminate\Support\Facades\Log;
 use Filament\Support\Enums\Alignment;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Member\Resources\PostResource;
@@ -27,6 +28,13 @@ class EditPost extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+        // conversion: array asociativo => array numerico 
+        /* if (isset($data['list_data_json']['items']) && is_array($data['list_data_json']['items'])) {
+            $data['list_data_json']['items'] = array_values($data['list_data_json']['items']);
+        } */
+
+        // Log::info('Todo el array:', $data['list_data_json']['items']);
+
         return $this->preparePostData($data);
     }
 

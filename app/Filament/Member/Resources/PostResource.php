@@ -146,7 +146,7 @@ class PostResource extends Resource
                                                 ->profile('list')
                                                 ->extraInputAttributes(fn (Component $component) => [
                                                     // obtiene el ID por cada repeater
-                                                    'data-state-path' => str_replace('.', '_', $component->getStatePath()),
+                                                    'data-state-path' => $component->getStatePath(),
                                                     'style' => 'min-height: 25vh;',
                                                 ])
                                                 ->columnSpan(1)

@@ -2,7 +2,7 @@
     label="Bandcamp"
     active="bandcampIframe"
     action="window.dispatchEvent(new CustomEvent('open-bandcamp-modal', {
-        detail: { statePath: '{{ str_replace('.', '_', $statePath) }}' }
+        detail: { statePath: '{{ $statePath }}' }
     }))"
 >
     <x-icon.bandcamp />
