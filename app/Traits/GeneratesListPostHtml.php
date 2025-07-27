@@ -15,11 +15,7 @@ class GeneratesListPostHtml
         foreach ($data['items'] as $item) {
             $html .= "<div class='list-item'>";
             $html .= "<h3 class='resource-title'>" . e($item['title']) . "</h3>";
-
-            // Aquí va tu iframe o embed ya validado/controlado
             $html .= "<p class='resource-description'>" . nl2br(e($item['description'])) . "</p>";
-
-            // $html .= "<div class='resource-item'>" . $item['resource'] . "</div>";
             $html .= "<div class='resource-item'>" . self::renderTiptapResource($item['resource']) . "</div>";
             $html .= "</div>";
         }
@@ -42,9 +38,11 @@ class GeneratesListPostHtml
             } else {
                 $resourceJson = $resource;
             }
+
             if (!$resourceJson || !isset($resourceJson['content'])) {
                 return '';
             }
+
             $html = '';
             foreach ($resourceJson['content'] as $node) {
                 // Bandcamp
@@ -55,13 +53,13 @@ class GeneratesListPostHtml
                     $seamless = !empty($attrs['seamless']) ? 'seamless' : '';
                     $html .= "<iframe src=\"{$src}\" style=\"{$style}\" width=\"100%\" height=\"120px\" frameborder=\"0\" {$seamless} allow=\"encrypted-media\"></iframe>";
                 }
-                // Youtube (si tienes algún nodo de youtube en JSON)
+
+                // Youtube
                 if ($node['type'] === 'youtube' && isset($node['attrs']['src'])) {
                     $src = $node['attrs']['src'];
                     $style = $node['attrs']['style'] ?? '';
-                    $html .= "<iframe src=\"{$src}\" style=\"{$style}\" width=\"100%\" height=\"400px\" frameborder=\"0\" allowfullscreen></iframe>";
+                    $html .= "<iframe src=\"{$src}\" width=\"100%\" height=\"400px\" frameborder=\"0\" allowfullscreen></iframe>";
                 }
-                // Otros nodos...
             }
             return $html;
         }
@@ -84,3 +82,4 @@ class GeneratesListPostHtml
     }
 
 }
+
