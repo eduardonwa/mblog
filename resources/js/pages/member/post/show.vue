@@ -70,6 +70,7 @@ const sanitizedHtml = computed(() => {
     ? DOMPurify.sanitize(props.post.list_data_html)
     : ''
 })
+
 </script>
 
 <template>

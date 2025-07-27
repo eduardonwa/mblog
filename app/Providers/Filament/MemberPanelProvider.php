@@ -5,8 +5,13 @@ namespace App\Providers\Filament;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Js;
 use Filament\Navigation\MenuItem;
+use Illuminate\Support\Facades\Vite;
+use FilamentTiptapEditor\TiptapEditor;
+use Illuminate\Support\Facades\Config;
 use Filament\Http\Middleware\Authenticate;
+use Filament\Support\Facades\FilamentAsset;
 use Pboivin\FilamentPeek\FilamentPeekPlugin;
 use App\Filament\Member\Pages\MemberDashboard;
 use App\Filament\Member\Pages\Auth\EditProfile;
@@ -67,9 +72,6 @@ class MemberPanelProvider extends PanelProvider
                     ->url('/')
                     ->icon('heroicon-o-arrow-left')
             ])
-            ->brandLogo(fn () => view('filament.member.logo'))
-            ->renderHook('panels::body.end', function () {
-                return view('components.modal-bandcamp');
-            });
+            ->brandLogo(fn () => view('filament.member.logo'));
     }
 }

@@ -25,11 +25,11 @@ return [
         'simple' => [
             'heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|',
             'bold', 'italic', 'underline', 'lead', 'small', '|',
-            'link', 'media', 'bandcampIframe',
+            'link', 'media',
         ],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'list' => [
-            'link', 'oembed', 'bandcampIframe',
+            'link', 'oembed',
         ],
         'none' => [],
     ],
@@ -102,16 +102,9 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'extensions_script' => 'resources/js/tiptap/extensions.js',
-    'extensions_styles' => 'resources/css/tiptap/extensions.css',
-    'extensions' => [
-        [
-            'id' => 'bandcampIframe',
-            'name' => 'Bandcamp',
-            'button' => 'button-bandcamp',
-            'parser' => \App\TiptapExtensions\BandcampIframe::class,
-        ]
-    ],
+    'extensions_script' => null,
+    'extensions_styles' => null,
+    'extensions' => [],
 
     /*
     |--------------------------------------------------------------------------

@@ -4,7 +4,6 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
-use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
@@ -68,9 +67,6 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Back to site')
                     ->url('/')
                     ->icon('heroicon-o-arrow-left')
-            ])
-            ->renderHook('panels::body.end', function () {
-                return view('components.bandcamp-modal');
-            });
+            ]);
     }
 }

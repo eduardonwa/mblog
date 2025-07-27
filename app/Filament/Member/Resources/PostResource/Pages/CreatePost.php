@@ -18,8 +18,6 @@ class CreatePost extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        json_encode($data, JSON_PRETTY_PRINT);
-
         return $this->preparePostData($data);
     }
 }

@@ -27,9 +27,7 @@ class EditPost extends EditRecord
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
-    {
-        json_encode($data, JSON_PRETTY_PRINT);
-    
+    {    
         return $this->preparePostData($data);
     }
 

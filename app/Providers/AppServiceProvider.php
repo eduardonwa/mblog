@@ -9,7 +9,6 @@ use App\Observers\UserObserver;
 use BeyondCode\Comments\Comment;
 use App\Filament\MyLoginResponse;
 use App\Filament\MyLogoutResponse;
-use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
