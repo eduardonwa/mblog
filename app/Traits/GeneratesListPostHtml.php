@@ -53,12 +53,12 @@ class GeneratesListPostHtml
                     $seamless = !empty($attrs['seamless']) ? 'seamless' : '';
                     $html .= "<iframe src=\"{$src}\" style=\"{$style}\" width=\"100%\" height=\"120px\" frameborder=\"0\" {$seamless} allow=\"encrypted-media\"></iframe>";
                 }
-
+                
                 // Youtube
                 if ($node['type'] === 'youtube' && isset($node['attrs']['src'])) {
                     $src = $node['attrs']['src'];
                     $style = $node['attrs']['style'] ?? '';
-                    $html .= "<iframe src=\"{$src}\" width=\"100%\" height=\"400px\" frameborder=\"0\" allowfullscreen></iframe>";
+                    $html .= "<iframe src=\"{$src}\" style=\"{$style}\" width=\"100%\" height=\"400px\" frameborder=\"0\" allowfullscreen></iframe>";
                 }
             }
             return $html;
@@ -82,4 +82,3 @@ class GeneratesListPostHtml
     }
 
 }
-

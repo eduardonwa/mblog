@@ -18,9 +18,7 @@ class CreatePost extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        if (isset($data['list_data_json']['items']) && is_array($data['list_data_json']['items'])) {
-            $data['list_data_json']['items'] = array_values($data['list_data_json']['items']);
-        }
+        json_encode($data, JSON_PRETTY_PRINT);
 
         return $this->preparePostData($data);
     }
