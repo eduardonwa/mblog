@@ -9,13 +9,11 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/tiptap/extensions.js',
                 'resources/js/app.ts',
                 'resources/styles/main.scss',
                 'resources/css/filament/admin/theme.css',
                 'resources/css/filament/member/theme.css',
                 'resources/styles/components/filament-dashboard.scss',
-                'resources/css/tiptap/extensions.css',
             ],
             refresh: true,
         }),
