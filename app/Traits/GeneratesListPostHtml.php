@@ -19,7 +19,8 @@ class GeneratesListPostHtml
             // Aquí va tu iframe o embed ya validado/controlado
             $html .= "<p class='resource-description'>" . nl2br(e($item['description'])) . "</p>";
 
-            $html .= "<div class='resource-item'>" . $item['resource'] . "</div>";
+            // $html .= "<div class='resource-item'>" . $item['resource'] . "</div>";
+            $html .= "<div class='resource-item'>" . self::renderTiptapResource($item['resource']) . "</div>";
             $html .= "</div>";
         }
 
@@ -31,4 +32,55 @@ class GeneratesListPostHtml
 
         return $html;
     }
+
+    public static function renderTiptapResource($resource)
+    {
+        // Si es array o JSON válido: recorre nodos
+        if (is_array($resource) || (is_string($resource) && self::isJson($resource))) {
+            if (is_string($resource)) {
+                $resourceJson = json_decode($resource, true);
+            } else {
+                $resourceJson = $resource;
+            }
+            if (!$resourceJson || !isset($resourceJson['content'])) {
+                return '';
+            }
+            $html = '';
+            foreach ($resourceJson['content'] as $node) {
+                // Bandcamp
+                if ($node['type'] === 'bandcampIframe') {
+                    $attrs = $node['attrs'] ?? [];
+                    $src = $attrs['src'] ?? '';
+                    $style = $attrs['style'] ?? '';
+                    $seamless = !empty($attrs['seamless']) ? 'seamless' : '';
+                    $html .= "<iframe src=\"{$src}\" style=\"{$style}\" width=\"100%\" height=\"120px\" frameborder=\"0\" {$seamless} allow=\"encrypted-media\"></iframe>";
+                }
+                // Youtube (si tienes algún nodo de youtube en JSON)
+                if ($node['type'] === 'youtube' && isset($node['attrs']['src'])) {
+                    $src = $node['attrs']['src'];
+                    $style = $node['attrs']['style'] ?? '';
+                    $html .= "<iframe src=\"{$src}\" style=\"{$style}\" width=\"100%\" height=\"400px\" frameborder=\"0\" allowfullscreen></iframe>";
+                }
+                // Otros nodos...
+            }
+            return $html;
+        }
+
+        // Si es HTML plano: retorna como está
+        if (is_string($resource)) {
+            return $resource;
+        }
+
+        return '';
+    }
+
+    public static function isJson($string)
+    {
+        if (!is_string($string)) {
+            return false;
+        }
+        json_decode($string);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+
 }

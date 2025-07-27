@@ -28,13 +28,8 @@ class EditPost extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        // conversion: array asociativo => array numerico 
-        /* if (isset($data['list_data_json']['items']) && is_array($data['list_data_json']['items'])) {
-            $data['list_data_json']['items'] = array_values($data['list_data_json']['items']);
-        } */
-
-        // Log::info('Todo el array:', $data['list_data_json']['items']);
-
+        json_encode($data, JSON_PRETTY_PRINT);
+    
         return $this->preparePostData($data);
     }
 

@@ -38,16 +38,19 @@ const BandcampIframe = Node.create({
   },
 
   addCommands() {
-    return {
-      setBandcampIframe:
-        (attrs) => ({ commands }) => {
-          console.log('[bandcamp extension] setBandcampIframe command ejecutado', attrs);
-          return commands.insertContent({
-            type: 'bandcampIframe',
-            attrs,
-          });
-        },
-    };
+      return {
+          setBandcampIframe:
+              (attrs) => ({ commands, editor }) => {
+                  console.log('[bandcamp extension] setBandcampIframe command ejecutado', attrs);
+                  const result = commands.insertContent({
+                      type: 'bandcampIframe',
+                      attrs,
+                  });
+                  // LOG del documento actual:
+                  console.log('[bandcamp extension] doc JSON después de insertar:', editor.getJSON());
+                  return result;
+              },
+      };
   },
 
   addNodeView() {

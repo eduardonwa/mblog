@@ -52,7 +52,7 @@ function bandcampModal() {
                 detail: { statePath: this.statePath, html: this.html }
             }));
             this.closeModal();
-            setTimeout(() => document.activeElement.blur(), 100);
+            // setTimeout(() => document.activeElement.blur(), 100);
         }
     }
 }
