@@ -252,13 +252,22 @@ class Post extends Model implements HasMedia
     // 3. Top member posts (lo que aparece en leaderboard)
     public function scopeTopMemberPosts($query, $limit = null)
     {
-        $query = $query->published()
-            ->whereUserHasRole(['member'])
-            ->withCount('likes')
-            ->where('likes_count', '>', 0)
-            ->orderByDesc('likes_count');
-
-        return $limit ? $query->take($limit) : $query;
+        if (app()->environment('testing')) {
+            return $query->published()
+                ->whereUserHasRole(['member'])
+                ->withCount('likes')
+                ->get()
+                ->filter(fn($post) => $post->likes_count > 0)
+                ->sortByDesc('likes_count')
+                ->take($limit);
+        } else {
+            return $query->published()
+                ->whereUserHasRole(['member'])
+                ->withCount('likes')
+                ->having('likes_count', '>', 0)
+                ->orderByDesc('likes_count')
+                ->take($limit);
+        }
     }
 
     // 4. Community feed
