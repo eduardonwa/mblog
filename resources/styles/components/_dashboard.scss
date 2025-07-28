@@ -1,0 +1,147 @@
+@use '../abstracts/' as *;
+
+.dashboard-user {
+    &__info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: $size-4;
+        padding: $size-4;
+        width: fit-content;
+        margin: auto;
+        
+        @include mq(large) {
+            flex-direction: row !important;
+            justify-content: flex-start;
+            margin: 0;
+            width: 100%;
+
+            h2:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    
+        .username {
+            font-size: $font-size-600;
+            color: $color-primary-100;
+        }
+
+        .avatar {
+            border-radius: 50%;
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+        }
+    }
+    
+    &__stats {
+        margin-block: $size-7;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: $card-flow-spacing;
+
+        @include mq(large) {
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
+
+        .card {
+            width: 100%;
+            border: 1px solid $color-primary-700;
+            border-radius: $border-radius-1;
+            padding: $size-4;
+            
+            @include mq(medium) {
+                width: 100%;
+            }
+
+            @include mq(large) {
+            }
+            
+            .number {
+                font-weight: bold;
+                font-size: $font-size-700;
+            }
+            
+            p {
+                font-size: $font-size-500;
+                
+                @include mq(large) {
+                    font-size: $font-size-400;
+                }
+            }
+        }
+    }
+
+    &__posts {
+        margin-block-start: $size-13;
+
+        @include mq(large) {
+            margin-block-start: 0;
+            margin-block: $size-11;
+        }
+
+        &__wrapper {
+            margin-block: $size-10;
+            display: block;
+            padding: $size-4;
+            color: $color-primary-300;
+            border: 1px solid $color-primary-400;
+            border-radius: $size-1;
+            transition: all 0.2s ease;
+            outline: 2px solid transparent;
+            transition: all 275ms ease;
+
+            @include mq(medium) {
+                margin-block: $size-5;
+                display: grid;
+                place-items: center;
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            &:hover, &:focus {
+                outline: 2px solid $color-accent-300;
+                outline-offset: 2px;
+                border: 1px solid transparent;
+                color: $color-primary-200;
+                scale: 1.03;
+            } 
+
+            .header {
+                font-size: $font-size-500;
+                color: $color-primary-100;
+                justify-self: start;
+                margin-inline-start: $size-4;
+
+                @include mq(large) {
+                    font-size: $font-size-400;
+                }
+            }
+
+            .middle {
+                margin-block: $size-6;
+                display: flex;
+                gap: $size-5;
+
+                @include mq(medium) {
+                    margin-block: 0;
+                }
+
+                .uphail-count, .comment-count {
+                    display: flex;
+                    gap: $size-3;
+                }
+            }
+
+            .footer {
+                margin-block-start: $size-7;
+                display: flex;
+                gap: $size-5;
+
+                @include mq(medium) {
+                    margin-block-start: 0;
+                }
+            }
+        }
+    }
+}

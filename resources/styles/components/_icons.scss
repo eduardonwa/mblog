@@ -1,0 +1,53 @@
+@use "../abstracts" as *;
+
+// ui
+.uphail-icon,
+.comment-icon,
+.author-icon,
+.menu-icon,
+.user-icon,
+.home-icon,
+.groups-icon,
+.reply-icon,
+.toggle-icon,
+.share-icon,
+// ux
+.delete-icon,
+.edit-icon,
+.down-arrow-icon,
+.up-arrow-icon,
+.report-icon,
+.more-vertical-icon,
+// redes sociales
+.youtube-icon,
+.instagram-icon,
+.threads-icon,
+.x-icon,
+.facebook-icon,
+.tiktok-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: inherit;
+  display: block;
+  width: fit-content;
+  
+  svg, path {
+    transition: all 0.2s ease;
+  }
+  
+  /* path {
+    fill: currentColor;
+  } */
+}
+
+.delete-icon {
+  background-color: transparent;
+}
+
+.reply-icon, .delete-icon {
+  path{
+    fill: transparent;
+  }
+}

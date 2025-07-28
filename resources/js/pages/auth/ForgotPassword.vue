@@ -25,7 +25,7 @@ const submit = () => {
     <AuthLayout title="Forgot password" description="Enter your email to receive a reset link">
         <Head title="Forgot password" />
 
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
+        <div v-if="status" class="status-message">
             {{ status }}
         </div>
 
@@ -38,7 +38,7 @@ const submit = () => {
                 </div>
 
                 <div class="margin-block-start-8">
-                    <Button class="button" data-type="reset-password" :disabled="form.processing">
+                    <Button style="margin: auto;" class="button" data-type="accent" :disabled="form.processing">
                         <LoaderCircle v-if="form.processing" />
                         Email password reset link
                     </Button>

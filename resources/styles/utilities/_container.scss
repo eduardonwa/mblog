@@ -21,4 +21,26 @@
   display: grid;
   justify-content: center;
   grid-template-columns: minmax(auto, 64ch);
+
+  @include mq(large) {
+    &[data-align="start"] {
+      justify-content: start;
+    }
+  }
+}
+.container[data-type="extra-wide"]{
+  --max-width: #{$container-max-width-extra-wide};
+  --padding: 0;
+
+  @include mq(medium) {
+    --padding: #{$container-min-margin-inline} * 2;
+  }
+}
+.container[data-type="dashboard"] {
+  --max-width: #{$container-max-width-wide};
+  --padding: #{$container-min-margin-inline} * 2;
+
+  @include mq(medium) {
+    --padding: #{$container-min-margin-inline} * 12;
+  }
 }

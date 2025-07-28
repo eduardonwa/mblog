@@ -3,6 +3,11 @@
 .site-footer {
   background-color: $footer-background-color;
   color: $footer-text-color;
+  padding: $size-4;
+
+  @include mq(large) {
+    padding-inline: $size-11;
+  }
 
   a {
     color: $footer-link-color;
@@ -13,5 +18,79 @@
     &:is(:hover, :focus) {
       color: $footer-link-color-hover;
     }
+  }
+
+  &__container {
+    margin: $size-5;
+
+    @include mq(large) {
+      display: flex;
+    }
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      font-size: $font-size-800;
+
+      @include mq(medium) {
+        align-items: flex-start;
+      }
+
+      @include mq(large) {
+        text-align: start;
+        flex: 1;
+        align-self: flex-start;
+      }
+  
+      .icons-group {
+        padding-block: $size-8;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+  
+        @include mq(medium) {
+          padding-block: $size-4;
+          gap: $size-10;
+          width: fit-content;
+        }
+      }
+    }
+  
+    &__groups {
+      flex: 2;
+      margin-block: $size-8;
+      display: flex;
+      flex-direction: column;
+  
+      @include mq(medium) {
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: $size-12;
+      }
+  
+      .footer-group {
+        margin-block: $size-3;
+        
+        h2 {
+          font-size: $font-size-500;
+          padding-block: $size-2;
+          font-family: $font-family-bold;
+        }
+    
+        ul > li {
+          padding-block: $size-1;
+        }
+      }
+    }
+  }
+
+  .thank-you {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-size: $font-size-400;
+    padding-block: $size-4;
   }
 }

@@ -1,0 +1,20 @@
+@use '../abstracts/' as *;
+
+// forgot password status
+.status-message {
+    text-align: center;
+    margin-block: $size-4;
+    color: $color-accent-400;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+

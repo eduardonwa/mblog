@@ -1,0 +1,1 @@
+import{d as a,b as s,o as t,u as o,P as r,w as n,j as d}from"./app-CRVfHUbl.js";const m=a({__name:"TextLink",props:{href:{},tabindex:{},method:{},as:{}},setup(f){return(e,h)=>(t(),s(o(r),{href:e.href,tabindex:e.tabindex,method:e.method,as:e.as},{default:n(()=>[d(e.$slots,"default")]),_:3},8,["href","tabindex","method","as"]))}});export{m as _};

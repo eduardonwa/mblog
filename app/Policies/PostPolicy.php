@@ -30,7 +30,7 @@ class PostPolicy
     public function create(User $user): bool
     {
         // Solo el admin o los autores pueden crear posts
-        return $user->hasAnyRole(['admin', 'is_staff', 'member']);
+        return $user->hasAnyRole(['admin', 'staff', 'member']);
     }
 
     /**
@@ -44,13 +44,13 @@ class PostPolicy
         }
         
         // Staff solo puede editar sus propios posts
-        if ($user->hasRole('is_staff')) {
-            return $user->id === $post->author_id;
+        if ($user->hasRole('staff')) {
+            return $user->id === $post->user_id;
         }
         
         // Autores regulares solo sus posts
         if ($user->hasRole('member')) {
-            return $user->id === $post->author_id;
+            return $user->id === $post->user_id;
         }
 
         return false;
@@ -66,7 +66,7 @@ class PostPolicy
             return true;
         }
 
-        return $user->id === $post->author_id && $user->hasAnyRole(['is_staff', 'member']);
+        return $user->id === $post->user_id && $user->hasAnyRole(['staff', 'member']);
     }
 
     /**

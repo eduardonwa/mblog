@@ -28,7 +28,7 @@ const emits = defineEmits<{
     'update:open': [open: boolean];
 }>();
 
-const isMobile = useMediaQuery('(max-width: 768px)');
+const isMobile = useMediaQuery('(max-width: 767px)');
 const openMobile = ref(false);
 
 const open = useVModel(props, 'open', emits, {
@@ -76,12 +76,15 @@ provideSidebarContext({
 
 <template>
     <TooltipProvider :delay-duration="0">
+        <!-- padre de los pollitos -->
         <div
+            data-slot="sidebar-wrapper"
             :style="{
                 '--sidebar-width': SIDEBAR_WIDTH,
                 '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
             }"
-            :class="cn('group/sidebar-wrapper flex min-h-svh w-full text-sidebar-foreground has-[[data-variant=inset]]:bg-sidebar', props.class)"
+            :class="cn('', props.class)"
+            v-bind="$attrs"
         >
             <slot />
         </div>

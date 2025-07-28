@@ -1,0 +1,209 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+:root {
+  --livewire-progress-bar-color: #BFF625;
+}
+
+/* selectores tailwind especificos */
+.dark\:ring-white\/10:is(.dark *) {
+  --tw-ring-color: transparent !important;
+}
+
+.fi-fo-repeater-item {
+    background: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+/* dashboard */ 
+.fi-body {
+    background-color: hsla(242.61, 21.5%, 20.98%, 1) !important;
+}
+
+.fi-topbar > nav {
+    background: hsla(242.61, 21.5%, 20.98%, 1) !important;
+    border-bottom: 1px solid hsla(236.76, 31.09%, 53.33%, 1);
+}
+
+.fi-dropdown-panel,
+.fi-simple-main /* edit profile */ {
+    background: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+.fi-sidebar, .fi-sidebar-header {
+    background: hsla(242.61, 21.5%, 20.98%, 1) !important;
+    border-right: 1px solid hsla(239.15, 28.98%, 48.04%, 1) !important;
+    box-shadow: 0px 6px 5px rgb(0, 0, 0, 0.04), 0px 22px 18px rgb(0, 0, 0, 0.06), 0px 100px 80px rgb(0, 0, 0, 0.1);
+}
+
+.fi-sidebar-header {
+    border-right: 1px solid transparent !important;
+}
+
+.fi-ta-ctn {
+    background-color: transparent !important;
+}
+
+/* modals */
+.fi-modal-window {
+    background-color: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+/* pages */
+.fi-section {
+    background-color: hsla(240, 20.69%, 14.71%, 1) !important;
+    border: 1px solid hsla(240, 23.81%, 32.94%, 1) !important;
+}
+
+.fi-ta-ctn {
+    border: 1px solid hsla(240, 23.81%, 32.94%, 1);
+    background-color: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+/* posts -> create */
+.fi-fo-tabs {
+    background: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+.tiptap-editor > div {
+    background-color: hsla(240, 20.69%, 14.71%, 1) !important;
+}
+
+/* reescribiendo valores de tailwind */
+.fi-topbar-item-label {
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1)) !important;
+    font-family: 'Inter';
+}
+
+.fi-active .fi-topbar-item-icon {
+    color: rgb(251, 191, 36) !important;
+}
+
+.fi-header-heading {
+    font-weight: 700 !important;
+    font-family: 'Inter';
+}
+
+.fi-sidebar-item-label {
+    font-family: 'Inter';
+    color: rgb(255 255 255 / var(--tw-text-opacity, 1)) !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-icon {
+    color: rgb(251, 191, 36) !important;
+}
+
+/* EditProfile avatar */
+.custom-avatar-uploader {
+    width: 128px;
+    height: 128px;
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    cursor: pointer;
+    height: 100%;
+}
+
+.custom-avatar-uploader .filepond--root {
+    height: 128px !important;
+}
+
+.custom-avatar-uploader .filepond--drop-label {
+    border: 1px solid transparent !important;
+    height: 100%;
+}
+
+/* clases personalizadas */
+.bg-morado-950 {
+    background: hsla(240, 20.69%, 14.71%, 1);
+    outline: 2px solid transparent;
+    transition: all 275ms ease;
+    
+    &:hover {
+        outline: 2px solid hsla(226.15, 35.14%, 92.75%, 1);
+    }
+}
+
+.social-link {
+    svg {
+        path {
+            stroke: hsla(226.15, 35.14%, 92.75%, 1);
+        }
+    }
+
+    &:hover {
+        svg {
+            path {
+                stroke: #BFF625;
+            }
+        }
+    }
+}
+
+.filter {
+    color: hsla(226.15, 35.14%, 92.75%, 1);
+    border-radius: .5rem;
+    border: none;
+    background-color: hsla(240, 23.81%, 32.94%, 1);
+    cursor: pointer;
+    outline: 2px solid transparent;
+    transition: outline 275ms ease;
+
+    &:hover, &:focus {
+        outline: 2px solid hsla(226.15, 35.14%, 92.75%, 1);
+        outline-offset: 0px;
+    }
+}
+
+.search-btn {
+    display: inline-flex;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1;
+    font-family: 'Inter';
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: .8rem;
+    background: white;
+    border-radius: .5rem;
+    transition: 275ms ease;
+    width: fit-content;
+    color: hsl(0 0% 7.5%);
+    transition: background 275ms ease;
+    
+    &:hover, &:focus {
+        background: hsl(0 0% 7.5%);
+        color: hsla(226.15, 35.14%, 92.75%, 1);
+    }
+}
+
+/* colores */
+.bg-black {
+    background: hsl(0 0% 7.5%);;
+}
+
+.clr-morado-100 {
+    color: hsla(226.15, 35.14%, 92.75%, 1);
+}
+
+.bg-morado-600 {
+    background: hsla(239.15, 28.98%, 48.04%, 1);
+}
+
+.bg-morado-800 {
+    background: hsla(240, 23.81%, 32.94%, 1);
+}
+
+.bg-morado-900 {
+    background: hsla(242.61, 21.5%, 20.98%, 1);
+}
+
+.bg-morado-950 {
+    background: hsla(240, 20.69%, 14.71%, 1);
+}
+
+.clr-error-100 {
+    color: hsl(0, 93.1%, 60.2%);
+}

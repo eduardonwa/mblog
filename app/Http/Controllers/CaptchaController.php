@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Cache;
+use Intervention\Image\Drivers\Gd\Driver;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 
 class CaptchaController extends Controller
@@ -83,6 +83,7 @@ class CaptchaController extends Controller
             $imagePath = public_path("images/albums/{$album}.webp");
     
             if (!file_exists($imagePath)) {
+                Log::error("CAPTCHA Image not found: {$imagePath}");
                 throw new \Exception("Image not found");
             }
     

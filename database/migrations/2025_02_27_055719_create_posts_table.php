@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('original_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('extract')->nullable();
@@ -24,9 +25,15 @@ return new class extends Migration
             $table->string('meta_description');
             $table->string('status')->default('draft');
             $table->boolean('featured')->default(false);
-            $table->foreignId('category_id')->constrained('categories');
-            // visitas
+            $table->string('post_template')->default('post');
+            $table->json('list_data_json')->nullable();
+            $table->text('list_data_html')->nullable();
+            $table->foreignId('category_id')->nullable()->constrained('categories');
+            $table->foreignId('channel_id')->nullable()->constrained('channels')->nullOnDelete();
+            $table->softDeletes();
+            // vistas
             $table->timestamps();
+            $table->timestamp('published_at')->nullable();
         });
     }
 

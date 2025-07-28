@@ -1,0 +1,202 @@
+@use '../abstracts/' as *;
+
+.community-layout {
+    @include mq(large) {
+        margin: $size-8 $size-3;
+    }
+
+    &__header {
+        padding-inline: $size-3;
+
+        @include mq(large) {
+            padding-inline: 0;
+        }
+    }
+
+    /* wrapper */
+    &__post-wrapper {
+        margin-inline: $size-2;
+
+        @include mq(large) {
+            margin-inline: 0;
+        }
+
+        /* individual */
+        .feed-post {
+            display: block;;
+            margin-block: $size-8;
+            padding: .5rem;
+            background: $color-primary-700;
+            border-radius: .3rem;
+            transition: all 0.2s ease;
+
+            @include mq(large) {
+                background: none;
+                margin-block: 0;
+                
+                &:hover {
+                    background: $color-primary-700;
+                    cursor: pointer;
+                    border-radius: 0.3rem;
+                    scale: 1.03;
+                }
+            }
+
+            &__top {
+                display: flex;
+                align-items: center;
+                gap: $size-2;
+                padding-block: $size-2;
+
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: $size-2;
+                    color: $color-primary-200;
+
+                    .feed-post-author {
+                        font-size: $font-size-300;
+
+                        @include mq(large) {
+                            transition: all 0.2s ease;
+
+                            &:hover {
+                                color: $color-secondary-300;
+                            }
+                        }
+                    }
+                }
+
+                &__date {
+                    color: $color-primary-400;
+                    font-size: $font-size-300;
+                }
+            }
+
+            &__middle {
+                margin-block-end: $size-5;
+
+                .post-title {
+                    color: $color-neutral-100;
+                    margin-block-end: $size-3;
+                    font-size: $font-size-500;
+                }
+                
+                .post-excerpt {
+                    color: $color-primary-300;
+
+                    @include mq(large) {
+                        font-size: $font-size-400;
+                    }
+                }
+            }
+
+            &__bottom {
+                display: flex;
+                align-items: center;
+                gap: $size-6;
+                width: fit-content;
+
+                .feed-comment-count {
+                    &:hover {
+                        // puntitos
+                        stroke: $color-accent-100;
+
+                        // globo
+                        path {
+                            stroke: $color-accent-100;
+                        }
+                    }
+                }
+
+                .feed-uphail-count, .feed-comment-count {
+                    color: $color-primary-200;
+                    display: flex;
+                    align-items: center;
+                    border-radius: .4rem;
+                    height: 30px;
+
+                    &:not(.feed-comment-count):hover {
+                        color: $color-accent-100;
+                    }
+
+                    &:hover path {
+                        fill: $color-accent-100;
+                    }
+
+                    @include mq(large) {
+                        background: $color-primary-900;
+                        height: 40px;
+                        padding: $size-3;
+                    }
+
+                    span {
+                        @include mq(large) {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &__groups-wrapper {
+        overflow: visible;
+
+        &__following {
+        display: none;
+        
+        @include mq(large) {
+            top: calc(80px + 20px);
+            display: block;
+            color: $color-primary-300;
+            position: sticky;
+            position: -webkit-sticky;
+            z-index: 100;
+
+            .following-header {
+                width: 80%;
+                margin-inline: auto;
+            }
+
+            .group-card {
+                margin-block: $size-4;
+                padding: $size-4;
+                border-radius: .3rem;
+                background: $color-primary-900;
+                width: 80%;
+                margin-inline: auto;
+
+                &__group-name {
+                    padding-block-end: $size-2;
+                }
+
+                &__post-title {
+                    display: block;
+                    margin-block-end: $size-4;
+                    color: $color-primary-300;
+                    width: fit-content;
+
+                    &:hover {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+                }
+
+                &__interactions {
+                    display: flex;
+                    align-items: center;
+                    gap: $size-4;
+                    
+                    .group-uphail, .group-comment {
+                        display: flex;
+                        align-items: center;
+                    }
+                }
+                
+            }
+        }
+    }
+    }
+}

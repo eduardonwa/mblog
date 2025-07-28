@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Channel;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +39,13 @@ class PostFactory extends Factory
             'status' => 'published',
             'featured' => fake()->boolean(),
             'user_id' => User::inRandomOrder()->first()->id,
-            'category_id' => Category::inRandomOrder()->first()->id,
+            'category_id' => function (array $attributes) {
+                if (!isset($attributes['user_id'])) return null;
+                $user = User::find($attributes['user_id']);
+                return $user->hasRole('member') ? null : Category::inRandomOrder()->first()->id;
+            },
+            'channel_id' => Channel::inRandomOrder()->first()->id,
+            'published_at' => now()
         ];
     }
 }

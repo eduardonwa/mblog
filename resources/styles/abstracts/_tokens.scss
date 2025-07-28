@@ -8,8 +8,8 @@ $enable-media-query-dark-mode: false;
 // Contextual
 $color-text-default: $color-neutral-100;
 $color-background-default: $color-primary-800;
-$color-text-interactive-default: $color-extra-400;
-$color-text-interactive-hover: $color-extra-500;
+$color-text-interactive-default: $color-secondary-300;
+$color-text-interactive-hover: $color-secondary-200;
 $color-text-interactive-background: $color-neutral-900;
 
 // set to 0 to disable
@@ -58,6 +58,8 @@ $heading-2-font-size: $font-size-800;
 $heading-2-color: $heading-color-default;
 $heading-3-font-size: $font-size-700;
 $heading-3-color: $heading-color-default;
+$heading-4-font-size: $font-size-500;
+$heading-4-color: $heading-color-default;
 
 // layout
 $grid-gap: $size-6;
@@ -70,6 +72,7 @@ $container-min-margin-inline: $size-4;
 $container-max-width: 64rem;
 $container-max-width-narrow: 40rem;
 $container-max-width-wide: 75rem;
+$container-max-width-extra-wide: 100rem;
 
 // site header
 $site-header-background-color: $color-primary-300;
@@ -91,10 +94,10 @@ $navigation-font-family: $body-font-family;
 $navigation-font-weight: $body-font-weight;
 
 // site footer
-$footer-background-color: $color-primary-300;
-$footer-text-color: $color-primary-900;
+$footer-background-color: $color-primary-900;
+$footer-text-color: $color-primary-200;
 $footer-link-color: $color-neutral-100;
-$footer-link-color-hover: $color-primary-200;
+$footer-link-color-hover: $color-secondary-200;
 $footer-link-font-family: $font-family-base;
 $footer-link-text-decoration: none;
 
@@ -107,9 +110,9 @@ $button-padding: 0.75em 2em;
 $button-border: 0;
 $button-border-radius: $border-radius-1;
 
-$button-accent-color: $color-neutral-100;
+$button-accent-color: $color-neutral-900;
 $button-accent-background: $color-accent-400;
-$button-accent-color-hover: $color-neutral-100;
+$button-accent-color-hover: $color-neutral-900;
 $button-accent-background-hover: $color-accent-500;
 $button-primary-color: $color-neutral-100;
 $button-primary-background: $color-primary-700;
@@ -121,7 +124,7 @@ $card-flow-spacing: $size-2;
 $card-padding: $size-8;
 $card-shadow: $box-shadow-1;
 $card-border-radius: $border-radius-2;
-$card-background-default: $color-primary-100;
+$card-background-default: $color-primary-900;
 $card-color-default: $body-text-color;
 $card-font-family: $body-font-family;
 $card-line-height: 1.25;
@@ -151,5 +154,8 @@ $form-placeholder-color: $color-primary-400;
 $form-placeholder-font-family: $form-input-font-family;
 $form-placeholder-font-weight: $form-input-font-weight;
 $form-placeholder-font-size: $body-font-size;
-
 $form-group-spacing: 0.5rem;
+
+// sidebar
+$sidebar-width: 250px;
+$sidebar-width-collapsed: 60px;

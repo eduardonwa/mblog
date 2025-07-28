@@ -3,39 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\User;
 use Inertia\Inertia;
-use App\Models\Category;
+use App\Traits\HandlesLikes;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\HandlesComments;
+use App\Traits\HandlesBotPreview;
+use App\Traits\FetchesMentionableUsers;
 
 class PostController extends Controller
 {
+    use HandlesLikes, HandlesComments, FetchesMentionableUsers, HandlesBotPreview;
 
     public function show(Request $request, string $slug)
     {
         $post = Post::with([
             'category',
             'user',
-            'tags:id,name,slug',
             'likes',
             'media'
         ])
         ->where('slug', $slug)
         ->where('status', 'published')
         ->firstOrFail();
-    
-        $post->setAttribute('is_liked_by_user', $post->isLikedByUser());
-        $post->setAttribute('likes_count', $post->likesCount());
-    
+
+        // Cargar comentarios principales y sus descendientes
+        $comments = $this->getCommentTreeForPost($post);
+        
+        // Obtener usuarios mencionables
+        $mentionableUsers = $this->getMentionableUsersForPost($post);
+
+        // preparar metadatos
+        $meta = [
+            'title' => $post->meta_title ?? $post->title,
+            'description' => $post->meta_description ?? $post->extract,
+            'author' => $post->user?->name,
+            'url' => route('post.show', $post->slug),
+            'thumbnail' => $post->getFirstMediaUrl('thumbnails', 'lg_thumb'),
+        ];
+
+        // respuesta si es un bot
+        if ($this->isBot($request)) {
+            return $this->respondWithBotPreview($meta, [
+                'post' => $post,
+            ]);
+        }
+
         return Inertia::render('post/show', [
             'post' => $post->append('thumbnail_urls'),
-            'meta' => [
-                'title' => $post->meta_title ?? $post->title,
-                'description' => $post->meta_description ?? $post->description,
-                'author' => $post->user?->name,
-            ],
+            'comments' => $comments,
+            'mentionableUsers' => $mentionableUsers,
+            'meta' => $meta,
+            'url' => route('post.show', $post->slug)
         ]);
     }
 
@@ -60,77 +78,5 @@ class PostController extends Controller
         return Inertia::render('post/tags', [
             'posts' => $posts
         ]);
-    }
-
-    public function postByCategory($slug)
-    {
-        $category = Category::where('slug', $slug)->firstOrFail();
-        
-        $posts = Post::with('category')
-            ->where('category_id', $category->id)
-            ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        return Inertia::render('post/categories', [
-            'posts' => $posts,
-            'category' => $category
-        ]);
-    }
-
-    public function postByAuthor(User $user)
-    {
-        $posts = Post::with(['category', 'tags', 'user'])
-            ->where('user_id', $user->id)
-            ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return Inertia::render('post/author', [
-            'posts' => $posts,
-            'author' => $user,
-        ]);
-    }
-  
-    public function like($postId)
-    {
-        try {
-            $post = Post::findOrFail($postId);
-            $post->likes()->firstOrCreate(['user_id' => Auth::id()]);
-    
-            return response()->json([
-                'success' => true,
-                'likes_count' => $post->likes()->count(),
-                'is_liked_by_user' => true
-            ]);
-    
-        } catch (\Exception $e) {
-            Log::error('Error en like: '.$e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al procesar el like'
-            ], 500);
-        }
-    }
-    
-    public function unlike($postId)
-    {
-        try {
-            $post = Post::findOrFail($postId);
-            $post->likes()->where('user_id', Auth::id())->delete();
-    
-            return response()->json([
-                'success' => true,
-                'likes_count' => $post->likes()->count(),
-                'is_liked_by_user' => false
-            ]);
-    
-        } catch (\Exception $e) {
-            Log::error('Error en unlike: '.$e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al remover el like'
-            ], 500);
-        }
     }
 }

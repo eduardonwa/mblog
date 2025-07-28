@@ -11,17 +11,22 @@ use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CategoryResource\RelationManagers;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Filters\SelectFilter;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+
+    protected static ?string $navigationGroup = 'Sections';
 
     public static function form(Form $form): Form
     {
@@ -36,9 +41,21 @@ class CategoryResource extends Resource
                 TextInput::make('slug')
                     ->required()
                     ->unique(ignoreRecord: true),
-/*                 TextInput::make('icon')
-                    ->required()
-                    ->maxLength(255), */
+                Select::make('parent_id')
+                    ->label('Parent category')
+                    ->relationship('parent', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->nullable()
+                    ->helperText('Leave empty to create a main category')
+                    ->options(function () {
+                        return \App\Models\Category::whereNull('parent_id')
+                            ->pluck('name', 'id');
+                    }),
+                Textarea::make('description')
+                    ->nullable()
+                    ->maxLength(255)
+                    ->helperText('Optional description for the category'),
             ]);
     }
 
@@ -46,21 +63,34 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-/*                 Tables\Columns\TextColumn::make('icon')
-                    ->searchable(), */
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('parent.name')
+                    ->label('Main category')
+                    ->sortable(),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+SelectFilter::make('type')
+    ->label('Type')
+    ->options([
+        'main' => 'Main categories',
+        'sub' => 'Subcategories',
+    ])
+    ->query(function (Builder $query, array $data) {
+        if ($data['value'] === 'main') {
+            $query->whereNull('parent_id');
+        } elseif ($data['value'] === 'sub') {
+            $query->whereNotNull('parent_id');
+        }
+    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

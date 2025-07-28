@@ -9,16 +9,33 @@ const props = withDefaults(
         class?: HTMLAttributes['class'];
         size?: AvatarVariants['size'];
         shape?: AvatarVariants['shape'];
+        responsive?: boolean;
+        src?: string;
+        alt?: string;
     }>(),
     {
         size: 'sm',
         shape: 'circle',
+        responsive: false,
     },
 );
 </script>
 
 <template>
-    <AvatarRoot :class="cn(avatarVariant({ size, shape }), props.class)">
-        <slot />
+    <AvatarRoot
+        :class="cn(
+            avatarVariant({ size, shape }),
+            props.class,
+            'avatar'
+        )"
+        >
+        <slot>
+            <img
+                v-if="src"
+                :src="src"
+                class="avatar__image"
+                :alt="alt || 'Avatar'"
+            >
+        </slot>
     </AvatarRoot>
 </template>

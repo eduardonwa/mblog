@@ -13,8 +13,8 @@
     transition: all 0.2s ease;
 
     &.checked {
-        background-color: $color-extra-400;
-        border-color: $color-extra-200;
+        background-color: $color-secondary-400;
+        border-color: $color-secondary-200;
         color: $color-neutral-100;
     }
 
@@ -31,6 +31,6 @@
         font-size: $font-size-300;
         font-weight: bold;
         user-select: none;
-        color: $color-neutral-1000;
+        color: $color-neutral-100;
     }
 }

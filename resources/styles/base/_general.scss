@@ -7,6 +7,28 @@ body {
   color: $body-text-color;
   background-color: $body-background-color;
   line-height: $body-line-height;
+  // Webkit (Chrome, Edge, Safari)
+  &::-webkit-scrollbar {
+      height: 10px; // ancho de la barra horizontal
+      background: $color-primary-900; // color de fondo de la barra
+  }
+  &::-webkit-scrollbar-track {
+      background: $color-primary-900; // color del canal de la barra
+  }
+  &::-webkit-scrollbar-thumb {
+      background: $color-primary-500; // color del "pulgar" (la parte que se mueve)
+      border-radius: 8px;
+  }
+  // Firefox
+  scrollbar-color: $color-primary-500 $color-primary-900;
+  scrollbar-width: auto;
+}
+
+body.menu-open {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 a {
@@ -20,6 +42,36 @@ a:is(:hover, :focus) {
 hr {
   margin-block: $size-3;
   border: 0;
-  border-bottom: 1px dashed $color-accent-400;
-  background: $color-accent-900;
+  border-bottom: 1px dashed $color-secondary-400;
+  background: $color-primary-800;
+}
+
+.hr-straight-mobile {
+  border-bottom: 1px solid $color-primary-400;
+}
+
+.hr-straight-medium {
+    border-bottom: 1px solid $color-primary-400;
+    opacity: .4;
+    display: none;
+
+    @include mq(medium) {
+      display: block
+    }
+}
+
+.hr-straight-large {
+  border-bottom: 1px solid $color-primary-400;
+  opacity: .4;
+  display: none;
+
+  @include mq(large) {
+    display: block
+  }
+}
+
+.hr-leaderboard, .hr-secondary, .hr-straight-mobile {
+  @include mq(medium) {
+    display: none;
+  }
 }

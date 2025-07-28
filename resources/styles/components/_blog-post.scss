@@ -1,73 +1,603 @@
 @use '../abstracts/' as *;
 
+@mixin desktop-interactions {
+    .desktop-interactions-wrapper {
+        display: none;
+
+        @include mq(large) {
+            display: flex;
+            align-items: center;
+            padding-inline-start: $size-4;
+            gap: $size-4;
+
+            .share-wrapper {
+                @include mq(large) {
+                    display: flex;
+                    align-items: center;
+
+                    .share-icon {
+                        padding: $size-4;
+
+                        &:hover {
+                            background: $color-primary-900;
+                        }
+                    }
+                    
+                    .share-menu--desktop {
+                        @include share-menu-base;
+                        @include share-menu-desktop;
+                    }
+                }
+            }
+
+            .report-icon {
+                padding: $size-4;
+                svg {
+                    path {
+                        fill: $color-neutral-100;
+                    }
+                }
+
+                &:hover {
+                    background: $color-primary-900;
+                    svg {
+                        path {
+                            fill: $color-accent-100;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin post-styles {
+  // Estilos para el título
+  .title, &__meta-group .post-title {
+    margin-block-end: $size-6;
+    font-size: $font-size-800;
+    font-family: $font-family-medium;
+  }
+
+  // Estilos para meta-primary
+  .meta-primary {
+    display: flex;
+    flex-direction: column;
+    gap: $size-4;
+    font-size: $font-size-400;
+
+    .author, .category, .channel, .date {
+      text-decoration: none;
+      color: $color-primary-300;
+    }
+
+    @include mq(large) {
+      margin-block-end: $size-6;
+
+      .author, .category, .channel {
+        width: fit-content;
+        
+        &:hover {
+          color: $color-secondary-200;
+        }
+      }
+    }
+  }
+
+  // Estilos para el cuerpo del post
+  .post-body {
+    font-size: $font-size-500;
+    line-height: 33px;
+    color: $color-primary-200;
+  }
+}
+
+@mixin post-comments {
+    margin-block: $size-4;
+    display: flex;
+    flex-direction: column;
+
+    &__form {
+        margin-block: $size-8;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__thread {
+        padding-inline: $size-3;
+
+        @include mq(large) {
+            margin-block-start: $size-8;
+        }
+        
+        // contenedor principal de comentarios y replicas juntas
+        .comment-container {
+            display: flex;
+            flex-direction: column;
+            margin-block-end: $size-8;
+            position: relative;
+            background: transparent;
+            border-radius: $size-2;
+            border: 1px solid transparent;
+            transition: background 500ms ease, border-radius 500ms ease;
+
+            .highlighted-comment {
+                border: 1px solid $color-accent-200;
+                border-radius: $size-1;
+                padding: $size-2;
+                background: hsla(0, 0%, 7.5%, 0.85);
+                color: $color-neutral-100;
+            }
+
+            // contenedor de comentario
+            .comment-wrapper {
+                position: relative;
+
+                // selecciona comentario raíz
+                &.is-root > .comment-content {
+                    padding: $size-2;
+                }
+
+                // estructura general de comentario
+                .comment-content {
+                    scroll-margin-top: 100px; /* espacio para ver el comentario despues de venir de una notificacion */
+                    position: relative;
+
+                    .comment {
+                        display: flex;
+
+                        &__avatar {
+                            display: flex;
+                            align-items: center;
+                            margin-inline-end: 1rem;
+                        }
+
+                        &__body {
+                            display: flex;
+                            flex-direction: column;
+
+                            .user {
+                                display: flex;
+                                align-items: center;
+                                gap: $size-4;
+
+                                .post-author {
+                                    color: $color-error-100;
+                                
+                                    &:hover {
+                                        color: none;
+                                    }
+                                }
+
+                                &__author {
+                                    font-size: $font-size-300;
+                                    color: $color-primary-200;
+                                    
+                                    &:hover {
+                                        text-decoration: underline;
+                                    }
+                                }
+
+                                &__date {
+                                    font-size: $font-size-300;
+                                    color: $color-primary-400;
+                                }
+                            }
+
+                            .comment {
+                                font-size: $font-size-300;
+                                width: 100%;
+                            }
+                        }
+                    }
+
+                    &__actions {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: fit-content;
+
+                        .header {
+                            display: flex;
+                            justify-content: flex-end;
+                        }
+
+                        .submenu {
+                            z-index: 10;
+                            background: $color-primary-900;
+                            font-size: $font-size-300;
+                            width: 100px;
+                            border-radius: $border-radius-1;
+                            display: flex;
+                            flex-direction: column;
+                            padding-block: $size-2;
+
+                            // contenedor que tiene icono y string
+                            p {
+                                font-size: $font-size-300;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                gap: $size-3;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background: $color-primary-700;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // contenedor para respuestas a comentarios raíz
+                .comment-replies {
+                    position: relative;
+                    margin-left: 30px;
+                    padding: 0;
+
+                    .reply-form {
+                        margin-block: $size-2;
+                        display: flex;
+                        flex-direction: column;
+                        gap: $size-4;
+
+                        button {
+                            width: fit-content;
+                            border-radius: .5rem;
+                        }
+                    }
+
+                    .replies {
+                        margin-block-start: $size-6;
+                    }
+
+                    // lista de usuarios para responder
+                    .suggestions-wrapper {
+                        position: relative;
+
+                        .suggestions {
+                            position: absolute;
+                            bottom: 100%;
+                            left: 0;
+                            right: 0;
+                            background: $color-primary-700;
+                            border-radius: 4px;
+                            max-height: 150px;
+                            overflow-y: auto;
+                            z-index: 100;
+
+                            &__item {
+                                cursor: pointer;
+                                padding: $size-1 $size-2;
+                                font-size: $font-size-400;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background-color: $color-primary-600;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // evita efecto cascada
+                .comment-replies .comment-replies {
+                    margin-left: 0 !important;
+                }
+            }
+        }
+    }
+}
+
 .blog-post {
-    margin-block-start: $size-10;
+    margin-block: $size-13;
+    position: relative;
 
     @include mq(large) {
         margin-block-start: $size-13;
-    }
+        display: grid;
+        grid-template-columns: 1fr 2fr 0px;
+        grid-template-areas:
+            "info body media";
+        align-items: stretch;
 
-    .post-header {
-        &__meta-group {
-            .post-title-group {
-                h1 {
-                    font-size: $font-size-800;
-                    font-family: $font-family-medium;
-                }
+        &__header {
+            grid-area: info;
+            justify-content: end;
+            height: 100%;
+            position: static;
+            overflow: visible;
+        }
 
-                .extract {
-                    font-size: $font-size-500;
-                    margin-block-start: $size-3;
-                    line-height: 33px;
-                }
-            }
-            .meta-primary {
-                display: flex;
-                gap: $size-4;
-                margin-block: $size-4;
-                
-                a {
-                    text-decoration: none;
-                    color: $color-accent-300;
-                }
-            }
+        &__body {
+            grid-area: body;
+        }
+
+        &__media {
+            grid-area: media;
         }
     }
 
-    &__subheader {
-        margin-block: $size-8;
-
-        @include mq(medium) {
-            .image {
-                display: block;
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-                position: relative;
-                overflow: hidden;
-                cursor: zoom-in;
-
-                .post-thumbnail {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    display: block;
-                }
-            }
-
-            .extract {
-                margin: 0 auto;
-            }
-        }
+    &__header {
+        margin-block: $size-5;
 
         @include mq(large) {
+            margin-block: 0;
+        }
 
+        .post-header-sticky-wrapper {
+            @include mq(large) {
+                position: sticky;
+                top: calc(80px + 20px);
+                z-index: 10;
+                transform: translateX(0);
+                transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.4, 1);
+            }
+
+            .post-header {
+                position: relative;
+                @include post-styles;
+
+                .toggle-media-button {
+                    display: none;
+
+                    @include mq(large) {
+                        position: absolute;
+                        right: -21px;
+                        top: 3px;
+                        display: block;
+                        width: fit-content;
+                        pointer-events: all;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            @include desktop-interactions;
         }
     }
 
     &__body {
-        margin-block-start: 0;
         font-size: $font-size-500;
         line-height: 33px;
+        color: $color-primary-200;
+        
+        img {
+            width: fit-content;
+            margin: auto;
+            height: auto;
+            margin-block: $size-8;
+        }
+
+        iframe {
+            border: none;
+            margin-block: $size-8;
+        }
+
+        &__subheader {
+            .extract {
+                padding-block-end: $size-4;
+            }
+
+            .preview-img-wrapper {
+                margin-block: $size-5;
+                width: 100%;
+                max-width: 100%;
+                height: 240px;
+                overflow: hidden;
+
+                .preview-img {
+                    width: 100%;
+                    height: 100%;
+                    object-position: top;
+                    object-fit: cover;
+                    margin-block: 0;
+                }
+
+                @include mq(medium) {
+                    cursor: zoom-in;
+                    height: 500px;
+                }
+
+                @include mq(large) {
+                    width: 100%;
+                    margin-block: 0;
+                }
+            }
+        }
+    }
+
+    .media-sticky {
+        // Estilos por defecto para mobile
+        display: block;
+        position: relative;
+
+        // Estilos para desktop (sticky + scrolltrigger)
+        @include mq(large) {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 100px);
+        
+            .blog-post__media {
+                .media-container {
+                    position: sticky;
+                    top: 0;
+                    height: calc(100vh - 100px);
+                    overflow: hidden;
+
+                    .media-item {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        opacity: 0;
+                        transition: opacity 0.6s ease;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: flex-start;
+                        justify-content: center;
+                        padding: $size-10;
+
+                        iframe {
+                            width: 100%;
+                            aspect-ratio: 16 / 9;
+                            border: none;
+                        }
+
+                        &.visible {
+                            opacity: 1;
+                            z-index: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &__comments {
+        @include post-comments;
+    }
+}
+
+.mobile-interactions-wrapper {
+    position: fixed;
+    bottom: 70px;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: $color-primary-900;
+    border-top: 1px solid $color-primary-500;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .like-button-wrapper {
+        border: 1px transparent;
+        background: transparent;
+
+        .like-button--mobile {
+            height: 50px;
+            color: $color-neutral-100;
+            font-size: 14px;
+        }
+    }
+
+    .share-wrapper {
+        position: relative;
+        
+        .share-icon {
+            padding: $size-2;
+            display: flex;
+            align-items: center;
+            flex-direction: column-reverse;
+            text-transform: uppercase;
+            font-size: 14px;
+            gap: .5rem;
+
+            &:after {
+                content: 'share';
+                color: $color-neutral-100;
+            }
+        }
+
+        .share-menu--mobile {
+            @include share-menu-base;
+            @include share-menu-mobile;
+        }
+    }
+
+    .report-icon {
+        display: flex;
+        align-items: center;
+        flex-direction: column-reverse;
+        text-transform: uppercase;
+        font-size: 14px;
+        gap: .5rem;
+        padding: 1rem;
+
+        svg > path {
+            fill: $color-neutral-100;
+        }
+
+        &:after {
+            content: 'report';
+            color: $color-neutral-100;
+        }
+    }
+
+    &.is-visible {
+        transform: translateY(0);
+    }
+
+    @include mq(large) {
+        display: none;
+    }
+}
+
+// TRANSICIONES
+// "Expanded" y "Collapsed", se refieren a "Media"
+// Expanded Media -> Collapsed Header y Collapsed Media -> Expanded Header
+.blog-post {
+    transition: grid-template-columns 0.2s cubic-bezier(0.5, 0.8, 0.6, 1);
+    
+    @include mq(large) {
+        // header
+        &[data-state="expanded"] {
+            grid-template-columns: 20px 2fr 1.5fr;
+            // contenedor principal que se traslada horizontalmente
+            .post-header-sticky-wrapper {
+                transition: transform 0.4s cubic-bezier(0.5, 0.8, 0.6, 1);
+                
+                .desktop-interactions-wrapper {
+                    opacity: 0;
+                    pointer-events: none;
+                    // transition: opacity 0.3s cubic-bezier(0.5, 0.8, 0.6, 1);
+                }
+
+                .post-header {
+                    &__meta-group {
+                        opacity: 0;
+                        pointer-events: none;
+                        transition: opacity 0.2s cubic-bezier(0.5, 0.8, 0.6, 1) 0.1s;
+
+                        .post-title {
+                            opacity: 0;
+                            font-size: $font-size-400;
+                            height: fit-content;
+                            width: fit-content;
+                        }
+                        .meta-primary {
+                            opacity: 0;
+                        }
+                    }
+
+                    .toggle-media-button {
+                        left: -17px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// posts de un "member" asociados con un "channel"
+.post-member {
+    margin-block: $size-13;
+    @include post-styles;
+
+    .post-header {
+        @include desktop-interactions;
+        @include mq(large) {
+            .desktop-interactions-wrapper {
+                padding-inline-start: 0;
+            }
+        }
+    }
+
+    .post-body {
+        margin-block: $size-4;
     }
 }

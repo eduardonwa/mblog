@@ -2,28 +2,38 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 import { ref, onMounted, watch } from 'vue';
 import List from '@/components/ui/list/List.vue';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import AuthBase from '@/layouts/AuthLayout.vue';
-import axios, { AxiosError } from 'axios';
+import { useCaptcha } from '@/composables/useCaptcha';
+import { useRegisterForm } from '@/composables/useRegisterForm';
 
-// variables reactivas para el formulario de captcha
-const captchaImage = ref<string>('');
-const captchaAnswer = ref<string>('');
-const captchaError = ref<string>('');
-const isLoading = ref(false);
-const captchaSuccess = ref(false);
+// Usar composables
+const {
+    captchaImage,
+    captchaAnswer,
+    captchaError,
+    isLoading,
+    captchaSuccess,
+    generateNewCaptcha,
+    validateCaptcha,
+    handleImageLoad
+} = useCaptcha();
 
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-});
+const {
+    currentStep,
+    totalSteps,
+    form,
+    nextStep,
+    prevStep,
+    checkUsernameAvailability,
+    checkingUsername,
+    usernameError
+} = useRegisterForm();
 
 const submit = async () => {
     if (currentStep.value === 1) {
@@ -38,121 +48,6 @@ const submit = async () => {
         nextStep();
     }
 };
-
-// generar nuevo captcha
-const generateNewCaptcha = async () => {
-    isLoading.value = true;
-
-    try {
-        const cacheBuster = Date.now();
-        const { data } = await axios.get(`/captcha/generate?_=${cacheBuster}`, {
-            responseType: 'blob',
-            timeout: 3000 // Timeout de 3 segundos
-        });
-
-        // libera memoria de la imagen anterior
-        if (captchaImage.value) {
-            URL.revokeObjectURL(captchaImage.value);
-        }
-        // crea un nuevo objeto URL para la nueva imagen
-        captchaImage.value = URL.createObjectURL(data);
-        
-    } catch (error) {
-        captchaError.value = 'Error loading challenge';
-        console.error('CAPTCHA load failed:', error);
-    } finally {
-        isLoading.value = false;
-    }
-};
-
-/* multistep form */
-// estado para controlar el paso actual
-const currentStep = ref(1);
-const totalSteps = 4;
-
-// mostrar captcha en el primer paso
-onMounted(() => {
-    generateNewCaptcha();
-});
-
-// funcion para avanzar al siguiente paso
-const nextStep = () => {
-  if (currentStep.value === 2 && !form.name) {
-    alert('Need username');
-    return;
-  }
-  if (currentStep.value === 3 && !form.email) {
-    alert('Need email');
-    return;
-  }
-  if (currentStep.value < totalSteps) {
-    currentStep.value++;
-  }
-};
-
-const validateCaptcha = async (): Promise<boolean> => {
-    // Validación básica del frontend
-    // muestra mensjae si el campo fue enviado vacío
-    captchaError.value = '';
-    captchaSuccess.value = false;
-
-    if (!captchaAnswer.value?.trim()) {
-        captchaError.value = 'You must enter the band\'s name, unless you\'re a bot or a poser.';
-        return false;
-    }
-
-    try {
-        const { data } = await axios.post('/captcha/validate', {
-            captcha_answer: captchaAnswer.value.trim()
-        });
-
-        if (data.success) {
-            captchaSuccess.value = true;
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            return true;
-        } else {
-            captchaError.value = data.error;
-            await generateNewCaptcha();
-            return false;
-        }
-    } catch (error) {
-        captchaError.value = axios.isAxiosError(error) 
-            ? error.response?.data?.error || 'Server error'
-            : 'Verification failed';
-        
-        await generateNewCaptcha();
-        return false;
-    }
-};
-
-// Helper para errores
-const getErrorMessage = (error: unknown): string => {
-    if (axios.isAxiosError(error)) {
-        const data = error.response?.data;
-        return data?.error 
-            || data?.message
-            || 'Server error. Please try again.';
-    }
-    return 'Verification failed. Please reload and try again.';
-};
-
-// validación para enviar el captcha
-watch(captchaError, (newVal) => {
-    if (newVal) {
-        console.warn('CAPTCHA ERROR:', newVal);
-    }
-});
-
-// función para retroceder al paso anterior
-const prevStep = () => {
-    if (currentStep.value > 1) {
-        currentStep.value--;
-    }
-};
-
-const handleImageLoad = () => {
-    console.log('CAPTCHA image loaded successfully');
-};
 </script>
 
 <template>
@@ -163,26 +58,26 @@ const handleImageLoad = () => {
             <div>
                 <List class="flow">
                     <div class="margin-block-end-6">
-                        <h2 class="ff-accent clr-extra-300">Write rants that draw blood</h2>
+                        <h2 class="ff-accent clr-accent-300">Write rants that draw blood</h2>
                         <ul>
                             <li style="list-style-type: none;">Publish unfiltered reviews, rants and manifestos.</li>
                         </ul>
                     </div>
     
                     <div class="margin-block-end-6">
-                        <h2 class="ff-accent clr-extra-300">Ride with the Doom Cult</h2>
+                        <h2 class="ff-accent clr-accent-300">Forget algorithms, follow your gut</h2>
                         <ul>
-                            <li style="list-style-type: none;">Join a group: <em>"Thrash Purists", </em> <em>"Doom Cultists"</em>, etc. </li>
+                            <li style="list-style-type: none;">Keep up with the topics that interest you by following groups.</li>
                         </ul>
                     </div>
     
                     <div class="margin-block-end-6">
-                        <h2 class="ff-accent clr-extra-300">Smash the "Hail" button</h2>
+                        <h2 class="ff-accent clr-accent-300">Smash the "Hail" button</h2>
                         <ul>
                             <li style="list-style-type: none;">Approve posts with a 🤘 instead of a lame "like."</li>
                         </ul>
                     </div>
-                    <h2>...and MORE!</h2>
+                    <h2>...and <span class="italic">MORE!</span></h2>
                 </List>
                 <div class="fs-300 text-center padding-4 margin-block-2">
                     <span>Already have an account?</span>
@@ -240,7 +135,7 @@ const handleImageLoad = () => {
                                 type="button"
                                 @click="submit"
                                 class="fw-base button mx-auto"
-                                data-type="verify-captcha"
+                                data-type="accent"
                                 :disabled="!captchaAnswer.valueOf()"
                                 :class="{ 'disabled': !captchaAnswer.valueOf() }"
                             >
@@ -258,9 +153,29 @@ const handleImageLoad = () => {
                 <!-- usuario  -->
                 <section v-show="currentStep === 2">
                     <div class="form-group flow">
-                        <Label for="name">User name</Label>
-                        <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name" placeholder="kill_the_kardashians_69" />
-                        <InputError :message="form.errors.name" />
+                        <Label for="username">User name</Label>
+                        <!-- Mostrar estado de verificación -->
+                        <div v-if="checkingUsername" class="clr-neutral-300 fs-300 flex-group">
+                            <LoaderCircle class="" />
+                            Checking username...
+                        </div>
+
+                        <div v-if="usernameError" class="clr-error-100 fs-300">
+                            {{ usernameError }}
+                        </div>
+
+                        <InputError :message="form.errors.username" />
+                        <Input
+                            id="username"
+                            type="text"
+                            required autofocus
+                            :tabindex="1"
+                            autocomplete="username"
+                            v-model="form.username"
+                            placeholder="kill_the_kardashians_69"
+                            @blur="checkUsernameAvailability"
+                        />
+
                     </div>
                 </section>
     
@@ -332,20 +247,13 @@ const handleImageLoad = () => {
                         type="submit"
                         class="fw-base button mx-auto"
                         :disabled="form.processing"
-                        data-type="form-login"
+                        data-type="accent"
                         tabindex="5"
                     >
                         <LoaderCircle v-if="form.processing" class="spinning-loader" />
                         Create account
                     </Button>
                 </section>
-
-<!--                 <div style="font-size: 14px;" class="text-center padding-4 margin-block-10">
-                    Already have an account? <br>
-                    <TextLink class="clr-extra-400" :href="route('login')" :tabindex="6">
-                        Log in
-                    </TextLink>
-                </div> -->
             </form>
         </section>
 

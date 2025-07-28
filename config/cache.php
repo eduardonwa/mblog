@@ -90,6 +90,11 @@ return [
             'driver' => 'octane',
         ],
 
+        'metal-scraper' => [
+            'driver' => 'file',
+            'path' => storage_path('framework/cache/scraping'),
+        ],
+
     ],
 
     /*

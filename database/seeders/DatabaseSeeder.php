@@ -5,74 +5,103 @@ namespace Database\Seeders;
 use App\Models\Post;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
-use App\Models\Category;
+use App\Models\Channel;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
-use Spatie\Permission\Models\Role;
-use Database\Seeders\InterestSeeder;
+use Database\Seeders\ChannelSeeder;
+use Database\Seeders\CategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
-    // En tu DatabaseSeeder
     public function run(): void
     {
         $this->call([
-            RoleSeeder::class
+            RoleSeeder::class,
+            CategorySeeder::class,
+            ChannelSeeder::class,
         ]);
-        
-        // Crear categorías primero
-        Category::factory()->count(3)->create();
 
         // Crear 1 admin
         $adminUser = User::factory()->create([
-            'name' => 'eduardo',
+            'username' => 'eduardo',
             'email' => 'admin@sickofmetal.net',
             'password' => bcrypt('password'),
+            'social_links' => [
+                'instagram' => 'https://instagram.com/sickofmetalnet',
+                'youtube' => 'https://youtube.com/@sickofmetalnet',
+            ],
+            'bio' => 'I wanted to redesign my old blog but created this community project instead. Hope you like it!',
         ])->assignRole('admin');
 
-        // Crear 2 staff (como mencionaste)
+        // Crear 2 usuarios staff
         $staffUsers = User::factory()
             ->count(2)
             ->create()
             ->each(fn($user) => $user->assignRole('staff'));
 
-        // Crear miembros con el rol member
-        $kreators = User::factory()
+        // Crear 5 miembros con el rol member
+        $member = User::factory()
             ->count(5)
             ->create()
             ->each(fn($user) => $user->assignRole('member'));
-
-        // Crear posts para admin (5 normales + 3 destacados)
-        Post::factory()
-            ->count(5)
-            ->create(['user_id' => $adminUser->id, 'featured' => false]);
         
-        Post::factory()
-            ->count(2)
-            ->create(['user_id' => $adminUser->id, 'featured' => true, 'status' => 'published']);
+        // Crear cuenta tipo "member" con un slug repetido 
+        $eduardoUser = User::factory()
+            ->create([
+                'username' => User::generateUniqueUsername('eduardo'),
+                'email' => 'eduardo@mail.com',
+                'password' => bcrypt('pass123456'),
+                'social_links' => [
+                    'instagram' => 'https://instagram.com/eduardo1',
+                    'youtube' => 'https://youtube.com/@eduardo1',
+                ],
+            ])->assignRole('member');
 
-        // Crear posts para cada staff (3 normales + 2 destacados por staff)
+        // Crear 1 post featured para el admin        
+        Post::factory()
+            ->count(1)
+            ->create([
+                'user_id' => $adminUser->id,
+                'featured' => true,
+                'status' => 'published',
+                'channel_id' => null,
+            ]);
+
+        // Crear 1 post por staff
         $staffUsers->each(function($staff) {
             Post::factory()
-                ->count(3)
-                ->create(['user_id' => $staff->id, 'featured' => false]);
-            
-            Post::factory()
                 ->count(2)
-                ->create(['user_id' => $staff->id, 'featured' => true, 'status' => 'published']);
+                ->create([
+                    'user_id' => $staff->id,
+                    'featured' => false,
+                    'channel_id' => null,
+                ]);
         });
 
-        // Crear posts asignados a kreators aleatorios
+        $channels = Channel::all();
+
+        // Crear posts asignados a "members" aleatorios
         Post::factory()
             ->count(20)
             ->state([
-                'user_id' => fn() => $kreators->random()->id,
+                'user_id' => fn() => $member->random()->id,
+                'channel_id' => fn() => $channels->random()->id,
                 'featured' => false,
                 'status' => 'published'
             ])
             ->create();
+            
+        // post para "eduardo"
+        Post::factory()
+            ->count(1)
+            ->create([
+                'user_id' => $eduardoUser->id,
+                'channel_id' => fn() => $channels->random()->id,
+                'featured' => false,
+                'status' => 'published'
+            ]);
     }
 }

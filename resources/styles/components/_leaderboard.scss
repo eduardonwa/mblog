@@ -1,0 +1,93 @@
+@use '../abstracts/' as *;
+
+.leaderboard {
+    margin: $size-8 $size-3;
+    padding-inline: $size-2;
+
+    @include mq(large) {
+        padding-inline: 0;
+    }
+
+    &__container {
+        display: flex;
+        margin-block: $size-8;
+        align-items: center;
+        transition: all 0.1s ease;
+        border-radius: .3rem;
+        border: 1px solid $color-primary-500;
+        padding: $size-2;
+
+        @include mq(large) {
+            padding-inline: .4rem;
+            margin: 0;
+
+            &:hover {
+                background-color: $color-primary-700;
+                cursor: pointer;
+            }
+        }
+
+        &__left-column {
+            display: flex;
+            flex: 1;
+            gap: $size-1;
+            flex-direction: column;
+            padding: $size-1;
+
+            &__user {
+                display: flex;
+                align-items: center;
+                gap: $size-2;
+                color: $color-primary-300;
+
+                @include mq(medium) {
+                    font-size: 15px;
+                }
+
+                @include mq(large) {
+                    font-size: $font-size-300;
+                }
+            }
+
+            &__post-title {
+                color: $color-neutral-100;
+                
+                @include mq(large) {
+                    font-size: $font-size-300;
+                }
+            }
+        }
+
+        &__uphail {
+            padding-inline: $size-2;
+            padding-block: $size-7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            flex: 0 0 auto;
+            color: $color-primary-300;
+            height: 50px;
+            transition: all 0.3s ease;
+
+            @include mq(large) {
+                border: 1px solid $color-primary-500;
+                border-radius: .3rem;
+
+                &:hover {
+                    background: $color-primary-900;
+                    cursor: pointer;
+                    color: $color-accent-100;
+
+                    span {
+                        color: $color-accent-100;
+                    }
+
+                    path {
+                        fill: $color-accent-100;
+                    }
+                }
+            }
+        }
+    }
+}

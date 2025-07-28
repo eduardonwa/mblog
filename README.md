@@ -1,9 +1,15 @@
 ## mblog
 
 # por hacer:
-- Breadcrumbs para navegación (ej: Inicio > Categoría > Nombre categoría).
-- trabajar en los perfiles de usuarios
-- crear un placeholder como perfil de foto para cada perfil creado
+- lists channel
+    . una manera dinamica y facil para crear listas en filament
+    . campo para un recurso (img, video) campo para descripcion
+    . que tenga tambien campo de texto, al principio y al final 
+
+DESPUES:
 - agregar vistas a los posts
-- idea para categoria de staff: shameless plug
-- poder ocultar/mostrar la bio de un author en su post desde el dashboard
+    . agregar un atributo para ver cuantas vistas tiene un post
+
+- otros canales que estoy contemplando son "shameless plug" y "buying & selling"
+
+- hacer mas "amigables" las urls para los perfiles de usuarios tipo instagram: "sickofmetal.net/@username"

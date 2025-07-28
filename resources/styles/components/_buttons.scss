@@ -13,15 +13,10 @@
   border: $button-border;
   border-radius: $button-border-radius;
   transition: 275ms ease;
+  width: 100%;
 
-  &[data-type="accent"] {
-    background-color: $button-accent-background;
-    color: $button-accent-color;
-
-    &:is(:hover, :focus) {
-      background-color: $button-accent-background-hover;
-      color: $button-accent-color-hover;
-    }
+  @include mq(medium) {
+    width: fit-content;
   }
 
   &[data-type="primary"] {
@@ -34,31 +29,55 @@
     }
   }
 
-  &[data-type="form-login"],
-  &[data-type="form-register"],
-  &[data-type="verify-captcha"],
-  &[data-type="reset-password"]  {
-    margin: auto;
+  &[data-type="secondary"] {
     color: $color-neutral-100;
-    background: linear-gradient(to right, $color-accent-400, $color-extra-400);
-    background-size: 200% 100%;
-    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
+    background: $color-neutral-900;
+    padding-block: $size-4;
 
-    &:hover {
-        background-position: 100% 0%;
-        color: $color-neutral-800;
+    @include mq(medium) {
+      background: $color-primary-900;
+    }
+
+    &:is(:hover, :focus) {
+      background: $color-neutral-900;
     }
   }
 
-  &[data-type="form-register"] {
-    background: linear-gradient(to right, $color-extra-300, $color-extra-100);
-    width: 100%;
+  &[data-type="accent"] {
+    background-color: $button-accent-background;
+    color: $button-accent-color;
+    border-radius: $size-1;
+    display: flex;
+    align-items: center;
 
-    @include mq(medium) {
+    @include mq(large) {
       width: fit-content;
+    }
+
+    &:is(:hover, :focus) {
+      background-color: $button-accent-background-hover;
+      color: $button-accent-color-hover;
+    }
+  }
+
+  &[data-type="ghost"] {
+    width: fit-content;
+    text-transform: none;
+    padding: $size-2;
+    background: transparent;
+
+    svg {
+      stroke: $color-neutral-200;
+    }
+  }
+
+  &[data-type="destructive"] {
+    background-color: $color-error-200;
+    color: $color-neutral-100;
+
+    &:is(:hover, :focus) {
+      background-color: $color-error-100;
+      color: $button-primary-color-hover;
     }
   }
 
@@ -115,11 +134,58 @@
 
     &.like-button--active {
       svg {
-        fill: $color-extra-300;
+        fill: $color-accent-300;
       }
       .like-count {
-        color: $color-extra-300;
+        color: $color-accent-300;
       }
     }
+  }
+
+  &[data-type="pagination"] {
+    border: 1px solid;
+  }
+
+  &[data-type="comment"] {
+    color: $color-neutral-900;
+    background: linear-gradient(to right, $color-accent-400, $color-secondary-400);
+    background-size: 200% 100%;
+    transition: color 0.3s ease-in-out, background-position 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    gap: .5rem;
+    border-radius: $size-1;
+
+    &:hover {
+        background-position: 100% 0%;
+    }
+  }
+
+  &[data-type="reply-btn"] {
+    border-radius: $size-1;
+    // padding: 0;
+    font-size: $font-size-300;
+    color: $color-neutral-100;
+    background: $color-primary-600;
+    border: 2px solid $color-primary-700;
+    padding: 0.5em 1em;
+  }
+
+  &[data-type="login-btn"] {
+    color: $color-primary-200;
+    background: transparent;
+    margin-block-start: $size-5;
+  }
+
+  &[data-type="close-btn"] {
+    padding: $size-1;
+    height: 30px;
+    width: 30px;
+  }
+
+  &[data-type="toggle"] {
+    padding: $size-1 $size-4;
+    border-radius: 0;
   }
 }

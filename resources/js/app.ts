@@ -1,20 +1,19 @@
 import '../styles/main.scss';
 
+import type { DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';
-import AppNavigation from './components/AppNavigation.vue';
+import gsap from 'gsap';
+import directives from './directives'
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import AppNavigation from './components/Navigation/AppNavigation.vue';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /// <reference types="vite/client" />
-
-// Extiende solo lo que necesites adicionalmente
-interface ImportMetaEnv {
-    readonly VITE_APP_NAME: string;
-    // Agrega aquí otras variables de entorno personalizadas si las tienes
-}
 
 declare global {
     interface Window {
@@ -25,7 +24,7 @@ declare global {
     }
 }
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'sickofmetal';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -38,27 +37,15 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .component('AppNavigation', AppNavigation);
-
-        app.config.globalProperties.$preserveScroll = (callback: () => void) => {
-            const scrollPosition = window.scrollY;
-            document.documentElement.style.overflow = 'hidden';
-            
-            const restoreScroll = () => {
-                window.scrollTo({ top: scrollPosition, behavior: 'instant' });
-                document.documentElement.style.overflow = '';
-            };
-
-            try {
-                return callback();
-            } finally {
-                requestAnimationFrame(restoreScroll);
-            }
-        };
+            // directives
+            Object.entries(directives).forEach(([name, def]) => {
+                app.directive(name, def);
+            });
 
         app.mount(el);
     },
     progress: {
-        color: '#4B5563',
+        color: '#BFF625',
         showSpinner: false
     },
 });

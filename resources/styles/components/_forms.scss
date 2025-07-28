@@ -42,6 +42,10 @@ input:not(.button) {
   font-family: $form-placeholder-font-family;
 }
 
+.hidden-input {
+  display: none;
+}
+
 .register-form {
   .form-group {
     display: grid;
@@ -69,6 +73,64 @@ input:not(.button) {
   }
 }
 
+.profile-form {
+  .form-group {
+    display: grid;
+    @include form-input-styles($margin-block-end: $size-8);
+  }
+  
+  @include button-spinner();
+
+  .avatar-upload-label {
+    display: inline-block;
+    cursor: pointer;
+    width: fit-content;
+    margin-block-end: $size-7;
+
+    .hidden-input {
+      display: none;
+    }
+
+    .avatar-container {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      display: inline-block;
+    }
+  
+    .avatar-container:hover .avatar-overlay {
+      opacity: 1;
+    }
+  
+    .avatar-image {
+      display: block;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  
+    .avatar-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      font-size: 12px;
+    }
+  }
+
+
+}
+
 .forgot-pw-form {
   .form-group {
     display: grid;
@@ -80,4 +142,44 @@ input:not(.button) {
   }
   
   @include button-spinner();
+}
+
+.new-password-form {
+  .form-group {
+    display: grid;
+    padding-block: $size-6;
+    @include form-input-styles($margin-block-end: $size-8);
+  }
+  
+  @include button-spinner();
+
+  .checkbox > label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: $size-3;
+  }
+}
+
+.textarea {
+    border: 2px solid $color-primary-700;
+    border-radius: $size-1;
+    background: $color-primary-900;
+    padding: $size-2;
+    color: $color-primary-100;
+    font-size: $font-size-400;
+    width: 100%;
+
+    &:focus-visible {
+        outline: 2px solid $color-primary-600;
+    }
+
+    &::placeholder {
+        font-size: $font-size-300;
+    }
+
+    &[data-type="reply-box"] {
+      margin-block-end: $size-1;
+    }
 }

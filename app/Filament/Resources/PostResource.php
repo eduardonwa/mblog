@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Models\Post;
 use Filament\Tables;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -23,20 +24,19 @@ use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PostResource\Pages;
-use Filament\Forms\Components\SpatieTagsInput;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\PostResource\RelationManagers;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     
     public static function form(Form $form): Form
     {
@@ -53,6 +53,7 @@ class PostResource extends Resource
                                     ->columnStart(1)
                                     ->required(),
                                 TipTapEditor::make('body')
+                                    ->profile('simple')
                                     ->extraInputAttributes(['style' => 'min-height: 50vh;'])
                                     ->required(),
                             ]),
@@ -79,12 +80,11 @@ class PostResource extends Resource
                                         Toggle::make('featured'),
                                         TextArea::make('extract')
                                             ->helperText('Limited to 255 characters')
+                                            ->extraInputAttributes(['style' => 'min-height: 10vh;'])
                                             ->maxLength(255),
                                         Select::make('language')
                                             ->options(config('languages'))
                                             ->searchable(),
-                                        SpatieTagsInput::make('tags')
-                                            ->separator(','),
                                         Hidden::make('user_id')
                                             ->default(Auth::id()),
                                     ]),
@@ -104,28 +104,49 @@ class PostResource extends Resource
                                         TextInput::make('meta_title')
                                             ->required(),
                                         TextArea::make('meta_description')
+                                            ->extraInputAttributes(['style' => 'min-height: 10vh;'])
                                             ->required(), 
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        DateTimePicker::make('created_at')
-                                            ->label('Publish date'),
                                         Radio::make('status')
                                             ->options([
                                                 'draft' => 'Draft',
+                                                'scheduled' => 'Scheduled',
                                                 'published' => 'Published',
-                                                //->disableOptionWhen(fn (string $value): bool => $value === 'published')
-                                            ]),
+                                            ])
+                                            ->descriptions([
+                                                'draft' => 'Is not visible.',
+                                                'published' => 'Is visible.',
+                                                'scheduled' => 'Will be visible.',
+                                            ])
+                                            ->default('draft')
+                                            ->reactive()
+                                            ->required()
+                                            ->afterStateUpdated(function (Set $set, $state) {
+                                                if ($state === 'published') {
+                                                    $set('published_at', now());
+                                                } elseif ($state === 'draft') {
+                                                    $set('published_at', null);
+                                                } elseif ($state === 'scheduled') {
+                                                    $set('published_at', null);
+                                                }
+                                            }),
+                                        DateTimePicker::make('published_at')
+                                            ->label('Schedule for later')
+                                            ->visible(fn (Get $get) => $get('status') === 'scheduled')
+                                            ->required(fn (Get $get) => $get('status') === 'scheduled')
+                                            ->minDate(now()->addMinutes(5))
+                                            ->helperText('Select the date and time to publish this post.'),
                                     ]),
                             ]),
                         ])->columnSpan([
-                        'default' => 1,
-                        'sm' => 12,
-                        'md' => 8,
-                        'lg' => 4,
+                            'default' => 1,
+                            'sm' => 12,
+                            'md' => 8,
+                            'lg' => 4,
                     ])
-            ])
-            ->columns(12);
+            ])->columns(12);
     }
 
     public static function table(Table $table): Table
@@ -138,26 +159,46 @@ class PostResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('status')
+                TextColumn::make('user.username')
+                    ->label('User')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('category.name')
-                    ->numeric()
+                IconColumn::make('status')
+                    ->boolean()
+                    ->searchable()
                     ->sortable(),
                 IconColumn::make('featured')
                     ->boolean()
                     ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('published_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('user_role')
+                    ->options([
+                        'admin' => 'Admin',
+                        'staff' => 'Staff',
+                        'member' => 'Member',
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if (!empty($data['value'])) {
+                            $query->whereHas('user', function($q) use ($data) {
+                                $q->role($data['value']);
+                            });
+                        }
+                    }),
+                SelectFilter::make('featured')
+                    ->options([
+                        '1' => 'Featured',
+                        '0' => 'Non-featured',
+                    ]),
+                SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -174,7 +215,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class,
         ];
     }
 
@@ -191,5 +232,14 @@ class PostResource extends Resource
     {
         $data['user_id'] = Auth::id();
         return $data;
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->where(function($query) {
+                $query->whereNotNull('user_id')
+                    ->orWhereNotNull('original_user_id');
+            });
     }
 }
