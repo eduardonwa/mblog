@@ -1,4 +1,5 @@
 import '../styles/main.scss';
+import './tiptap/extensions.js';
 
 import type { DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
