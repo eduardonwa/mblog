@@ -37,6 +37,9 @@ jobs:
       - name: Create SQLite Database
         run: touch database/database.sqlite
 
+      - name: Create empty Vite manifest (workaround)
+        run: mkdir -p public/build && echo '{}' > public/build/manifest.json
+
       - name: Install PHP Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
