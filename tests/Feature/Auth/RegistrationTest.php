@@ -26,6 +26,6 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('home', absolute: false).'/verify-email');
+        $response->assertRedirect(route('home', absolute: false).'verify-email');
     }
 }
