@@ -35,7 +35,7 @@ Route::middleware('guest')->group(function () {
 // Grupo para usuarios autenticados y verificados
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard    
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     // Logout
     Route::post('/logout', function () {

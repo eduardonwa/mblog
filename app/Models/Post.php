@@ -255,7 +255,7 @@ class Post extends Model implements HasMedia
         $query = $query->published()
             ->whereUserHasRole(['member'])
             ->withCount('likes')
-            ->having('likes_count', '>', 0)
+            ->where('likes_count', '>', 0)
             ->orderByDesc('likes_count');
 
         return $limit ? $query->take($limit) : $query;
