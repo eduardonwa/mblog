@@ -102,7 +102,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'extensions_script' => 'resources/js/tiptap/extensions.js',
+    // 'extensions_script' => 'resources/js/tiptap/extensions.js',
     'extensions_styles' => null,
     'extensions' => [
         [

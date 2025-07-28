@@ -6,11 +6,14 @@ use App\Models\Post;
 use App\Models\User;
 use App\Observers\PostObserver;
 use App\Observers\UserObserver;
+use Filament\Support\Assets\Js;
 use BeyondCode\Comments\Comment;
 use App\Filament\MyLoginResponse;
 use App\Filament\MyLogoutResponse;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
@@ -54,5 +57,11 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(LoginResponse::class, MyLoginResponse::class);
         $this->app->singleton(LogoutResponse::class, MyLogoutResponse::class);
+
+        FilamentAsset::register([
+            Js::make('tiptap-custom-extension-scripts',
+            Vite::asset('resources/js/tiptap/extensions.js'))
+            ->module()
+        ], 'awcodes/tiptap-editor');
     }
 }
