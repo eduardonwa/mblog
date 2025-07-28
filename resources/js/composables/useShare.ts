@@ -36,7 +36,7 @@ export function useShare(url: string, title = '', text = '') {
   function shareOnFacebook() {
     const encodedUrl = encodeURIComponent(url);
 
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    // const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     // Por ahora, misma lógica para ambos: abrir en nueva pestaña
     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
