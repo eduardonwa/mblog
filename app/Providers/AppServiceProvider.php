@@ -57,11 +57,5 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(LoginResponse::class, MyLoginResponse::class);
         $this->app->singleton(LogoutResponse::class, MyLogoutResponse::class);
-
-        FilamentAsset::register([
-            Js::make('tiptap-custom-extension-scripts',
-            Vite::asset('resources/js/tiptap/extensions.js'))
-            ->module()
-        ], 'awcodes/tiptap-editor');
     }
 }
