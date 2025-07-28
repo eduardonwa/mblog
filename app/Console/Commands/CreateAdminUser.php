@@ -17,7 +17,7 @@ class CreateAdminUser extends Command
      */
     protected $signature = 'app:create-admin
                             {email? : Admin email}
-                            {--name= : Admin name (default: "Admin")}
+                            {--username= : Admin name (default: "Admin")}
                             {--password= : Optional password (random if not provided)}';
 
     /**
@@ -39,7 +39,7 @@ class CreateAdminUser extends Command
         } 
 
         // obtener o solicitar nombre
-        $name = $this->option('name') ?? $this->ask('Username for the admin', 'Admin');
+        $username = $this->option('username') ?? $this->ask('Username for the admin', 'Admin');
 
         // obtener o solicitar email 
         $email = $this->argument('email') ?? $this->ask('Enter a valid email address');
@@ -61,7 +61,7 @@ class CreateAdminUser extends Command
         $this->table(
             ['Field', 'Value'],
             [
-                ['Name', $name],
+                ['Userame', $username],
                 ['Email', $email],
                 ['Password', $password ? '*****' : 'Randomly generated']
             ]
@@ -73,7 +73,7 @@ class CreateAdminUser extends Command
         }
 
         $user = User::create([
-            'name' => $name,
+            'username' => $username,
             'email' => $email,
             'password' => bcrypt($password),
             'email_verified_at' => now()
@@ -83,7 +83,7 @@ class CreateAdminUser extends Command
 
         $this->info("✅ Admin user succesfully created.");
         $this->info("🤘 Email already verified, no need to check your email.");
-        $this->line("Name: {$name}");
+        $this->line("Username: {$username}");
         $this->line("Email: {$email}");
         $this->line("Password: {$password}");
 
