@@ -29,7 +29,7 @@ return [
         ],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'list' => [
-            'link', 'oembed',
+            'link', 'oembed', 'bandcamp'
         ],
         'none' => [],
     ],
@@ -102,9 +102,16 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'extensions_script' => null,
+    'extensions_script' => 'resources/js/tiptap/extensions.js',
     'extensions_styles' => null,
-    'extensions' => [],
+    'extensions' => [
+        [
+            'id' => 'bandcamp',
+            'name' => 'Bandcamp',
+            'button' => 'buttons.bandcamp',
+            'parser' => \App\TiptapExtensions\Bandcamp::class,
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------

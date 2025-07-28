@@ -13,8 +13,7 @@ interface MainCommunityFeedProps {
         next_page_url: string | null;
     };
 }
-
-const props = defineProps<MainCommunityFeedProps>();
+defineProps<MainCommunityFeedProps>();
 </script>
 
 <template>

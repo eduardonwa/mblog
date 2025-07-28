@@ -5,7 +5,7 @@
     interface MainStaffPostsProps {
         staffPosts: Post[];
     }
-    const props = defineProps<MainStaffPostsProps>();
+    defineProps<MainStaffPostsProps>();
 </script>
 
 <template>

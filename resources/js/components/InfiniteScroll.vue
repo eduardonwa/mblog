@@ -1,12 +1,11 @@
-<!-- components/InfiniteScroll.vue -->
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, nextTick, onUnmounted } from 'vue';
 import axios from 'axios';
 
 const props = defineProps({
   endpoint: { type: String, required: true },
   dataKey: { type: String, default: 'data' },
-  extractNextPage: { type: Function, default: (res) => res.next_page_url },
+  extractNextPage: { type: Function, default: (res: any) => res.next_page_url },
   initialItems: { type: Array, default: () => [] },
   initialNextPage: { type: String, default: null },
 });

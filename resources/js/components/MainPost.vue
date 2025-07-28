@@ -9,7 +9,7 @@ import AuthorIcon from './ui/icons/AuthorIcon.vue';
 interface MainPostProps {
     featuredPost: Post[];
 }
-const props = defineProps<MainPostProps>();
+defineProps<MainPostProps>();
 </script>
 
 <template>

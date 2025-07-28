@@ -9,7 +9,7 @@ interface MARelease {
   releaseDate: string;
 }
 
-const props = defineProps<{
+defineProps<{
   albums: MARelease[];
 }>();
 </script>

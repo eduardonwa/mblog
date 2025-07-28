@@ -1,12 +1,12 @@
 <script setup lang="ts">
-    import type { Post } from '@/types';
-    import LeaderboardCard from './LeaderboardCard.vue';
+import type { Post } from '@/types';
+import LeaderboardCard from './LeaderboardCard.vue';
 
-    interface MainLeaderboardProps {
-        leaderboard: Post[];
-    }
+interface MainLeaderboardProps {
+    leaderboard: Post[];
+}
 
-    const props = defineProps<MainLeaderboardProps>();
+defineProps<MainLeaderboardProps>();
 </script>
 
 <template>

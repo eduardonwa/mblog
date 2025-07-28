@@ -1,7 +1,7 @@
 import { ref, nextTick } from 'vue';
 import { useForm, router } from '@inertiajs/vue3';
 
-export function useCommentActions(comment: any, users: any[]) {
+export function useCommentActions(comment: any) {
   const showReplyForm = ref(false);
   const commentMentionRef = ref();
 

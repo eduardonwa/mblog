@@ -43,7 +43,7 @@ export function useRegisterForm() {
 
     // Debounce para evitar muchas llamadas mientras el usuario escribe
     let debounceTimer: number;
-    watch(() => form.username, (newVal) => {
+    watch(() => form.username, () => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             checkUsernameAvailability();

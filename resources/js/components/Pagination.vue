@@ -1,7 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 
-const props = defineProps({
+defineProps({
     prev: String,
     next: String,
     from: Number,
@@ -15,7 +15,7 @@ const props = defineProps({
         <!-- Información de rango -->
         <div>
             <p>
-                Mostrando {{ from }} a {{ to }} de {{ total }} resultados
+                Showing {{ from }} {{ to }} from {{ total }} results
             </p>
         </div>
         
@@ -27,10 +27,10 @@ const props = defineProps({
                 class="pagination-link"
                 preserve-state
             >
-                &laquo; Anterior
+                &laquo; Previous
             </Link>
             <span v-else class="pagination-link disabled">
-                &laquo; Anterior
+                &laquo; Previous
             </span>
             
             <Link
@@ -39,10 +39,10 @@ const props = defineProps({
                 class="pagination-link"
                 preserve-state
             >
-                Siguiente &raquo;
+                Next &raquo;
             </Link>
             <span v-else class="pagination-link disabled">
-                Siguiente &raquo;
+                Next &raquo;
             </span>
         </div>
     </div>

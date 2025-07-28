@@ -14,7 +14,7 @@ const logout = () => {
   router.post(route('logout'))
 }
 
-const currentRoute = computed(() => usePage().url);
+computed(() => usePage().url);
 
 const isMenuOpen = ref(false);
 // importamos las categories tipadas desde el middleware de inertia

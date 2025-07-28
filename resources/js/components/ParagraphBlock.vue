@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   html: {
@@ -18,10 +18,6 @@ const props = defineProps({
 })
 
 const el = ref<HTMLElement | null>(null)
-
-const textBlocks = computed(() => {
-  return
-});
 </script>
 
 <template>

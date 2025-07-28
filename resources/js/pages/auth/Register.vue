@@ -30,7 +30,6 @@ const {
     form,
     nextStep,
     prevStep,
-    usernameAvailable,
     checkUsernameAvailability,
     checkingUsername,
     usernameError

@@ -50,7 +50,7 @@ function submit() {
             success.value = true;
         },
         onError: (errors) => {
-            //
+            console.warn('An error ocurred while creating a report.', errors);
         }
     });
 }

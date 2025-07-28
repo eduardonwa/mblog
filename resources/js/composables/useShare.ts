@@ -9,6 +9,7 @@ export function useShare(url: string, title = '', text = '') {
       alert("Copied to clipboard");
     } catch (e) {
       if (import.meta.env.DEV) {
+        console.error(e);
         alert("Couldn't copy link. Are you in development? Try in production or use HTTPS.");
       } else {
         alert("Failed to copy link.");
@@ -46,8 +47,7 @@ export function useShare(url: string, title = '', text = '') {
       'noopener,noreferrer'
     );
 
-    // Puedes hacer logs o analytics si quieres diferenciar
-    console.log(`Compartiendo ${shareUrl} en Facebook desde ${isMobile ? 'móvil' : 'escritorio'}`);
+    // console.log(`Sharing ${shareUrl} on Facebook from ${isMobile ? 'móvil' : 'escritorio'}`);
   }
 
   return {
