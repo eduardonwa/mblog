@@ -2,6 +2,8 @@
 
 # por hacer:
 
+- al crear un comentario el comentario no se actualiza en la pagina (se requiere una recarga)
+
 - al compartir un enlace en facebook la meta data no llega al formulario de facebook
 
 DESPUES:

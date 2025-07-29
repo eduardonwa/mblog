@@ -29,7 +29,10 @@ class CommentController extends Controller
             $post->user->notify(new PostComment($comment));
         }
 
-        return back()->with('success', 'Comment added.');
+        return redirect()
+            ->back()
+            ->with('success', 'Comment added.')
+            ->with('newReply', $comment->toArray());
     }
 
     public function destroy($comment)

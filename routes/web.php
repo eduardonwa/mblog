@@ -4,13 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserPublicProfileController;
 
 // Grupo para rutas públicas
@@ -33,10 +32,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // Grupo para usuarios autenticados y verificados
-Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard    
-    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
+Route::middleware(['auth', 'verified', 'throttle:10,1'])->group(function () {
     // Logout
     Route::post('/logout', function () {
         Auth::logout();

@@ -28,13 +28,25 @@ export function useCommentActions(comment: any) {
     replyForm.reset();
   };
 
+  /*
+  * Manda el nuevo comentario al servidor y lo agrega a la lista de respuestas
+  * del comentario padre. Utiliza la prop `comment` para acceder al comentario padre.
+  * El nuevo comentario se agrega a `comment.children` si existe, o se crea un
+  * nuevo array si no existe.
+  */
   const submitReply = () => {
     replyForm.post(route('comments.replies.store', { comment: comment.id }), {
       preserveScroll: true,
-      onSuccess: () => {
+      onSuccess: (page) => {
         showReplyForm.value = false;
         replyForm.reset();
-        router.reload({only: ['comments']});
+        // obtiene el nuevo comentario
+        const newReply = page.props?.newReply;
+        if (newReply) {
+          // que comment.children exista
+          if (!comment.children) comment.children = [];
+          comment.children.push(newReply);
+        }
       }
     });
   };
@@ -44,7 +56,7 @@ export function useCommentActions(comment: any) {
       router.delete(route('comments.destroy', { comment: commentId }), {
         preserveScroll: true,
       });
-      console.log(`Comentario con ID ${commentId} eliminado`);
+      console.log(`ID comment ${commentId} was deleted`);
     }
   };
 
