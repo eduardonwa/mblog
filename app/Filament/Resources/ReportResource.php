@@ -8,6 +8,7 @@ use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -103,7 +104,7 @@ class ReportResource extends Resource
     {
         return $table
             ->query(
-                static::getEloquentQuery()->with(['user', 'reportable']) // 👈 aquí cargas la relación
+                static::getEloquentQuery()->with(['user', 'reportable'])
             )
             ->columns([
                 TextColumn::make('reportable_type')
@@ -164,5 +165,15 @@ class ReportResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->with('reportable');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
     }
 }

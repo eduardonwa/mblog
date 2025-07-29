@@ -23,7 +23,7 @@ class CommentController extends Controller
         $comment = $post->commentAsUser(Auth::user(), $request->comment);
         $comment->approve();
 
-        // disparar notificacion
+        // si el usuario que comenta, NO es el autor del post, enviar notificación
         if ($post->user->id !== Auth::id()) {
             $comment->load('commentable');
             $post->user->notify(new PostComment($comment));

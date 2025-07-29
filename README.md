@@ -2,7 +2,7 @@
 
 # por hacer:
 
-- al compartir un enlace en facebook la meta data no llega al formulario de facebook (en facebook esto sale como "server error")
+- un autor no deberia de recibir una notificacion tras haber comentado en su propio post. la notificacion que recibe es de reinstitucion de comentario.
 
 DESPUES:
 - mejorar la vista de notificaciones
