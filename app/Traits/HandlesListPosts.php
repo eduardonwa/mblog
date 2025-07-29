@@ -13,12 +13,16 @@ trait HandlesListPosts
         $data['meta_title'] = Str::limit($data['title'], 60, '');
 
         if ($data['post_template'] === 'post') {
+            $data['extract'] = mb_substr(strip_tags($data['body']), 0, 300) . '...';
             $data['meta_description'] = Str::words(strip_tags($data['body']), 25, '...');
         }
         
         if ($data['post_template'] === 'list') {
             $data['body'] = ''; // aseguramos que no intente usar body
-            $data['meta_description'] = Str::words(strip_tags($data['list_data']['intro'] ?? ''), 25, '...');
+            // autoasignar excerpt y meta_description con el intro
+            $intro = $data['list_data_json']['intro'] ?? '';
+            $data['extract'] = Str::words(strip_tags($intro), 30, '...');
+            $data['meta_description'] = Str::words(strip_tags($intro), 25, '...');
             $data['list_data_html'] = GeneratesListPostHtml::renderListDataHtml($data['list_data_json']);
         }
 

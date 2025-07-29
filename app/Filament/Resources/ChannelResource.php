@@ -80,6 +80,7 @@ class ChannelResource extends Resource
             ->columns([
                 SpatieMediaLibraryImageColumn::make('channel_sticker')
                     ->collection('channel_sticker')
+                    ->label('Sticker')
                     ->size(60),
                 TextColumn::make('name'),
                 IconColumn::make('is_active')

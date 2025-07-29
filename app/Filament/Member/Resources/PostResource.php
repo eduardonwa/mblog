@@ -59,7 +59,26 @@ class PostResource extends Resource
                                                     ->required(),
                                                 Select::make('channel_id')
                                                     ->relationship('channel', 'name')
-                                                    ->columnStart(2),
+                                                    ->columnStart(2)
+                                                    ->required()
+                                                    ->reactive()
+                                                    ->options(function (Get $get) {
+                                                        if ($get('post_template') === 'list') {
+                                                            $listChannel = \App\Models\Channel::where('name', 'list')->first();
+                                                            return $listChannel ? [$listChannel->id => $listChannel->name] : []; // busca "list" y su ID y lo asigna a "channel_id"
+                                                        }
+                                                        return \App\Models\Channel::where('name', '!=', 'list')->pluck('name', 'id')->toArray(); // todos los canales menos "list"
+                                                    })
+                                                    ->disabled(fn (Get $get) => $get('post_template') === 'list')
+                                                    ->dehydrated(fn (Get $get) => $get('post_template') === 'list') // forzar el valor de list porque lo deshabilitamos
+                                                    ->default(function (Get $get) {
+                                                        // asigna el id de "list" como valor preterminado si el template es "list"
+                                                        if ($get('post_template') === 'list') {
+                                                            $listChannel = \App\Models\Channel::where('name', 'list')->first();
+                                                            return $listChannel?->id;
+                                                        }
+                                                        return null;
+                                                    }),
                                                 TextInput::make('slug')
                                                     ->label('Link')
                                                     ->maxLength(255)
@@ -118,9 +137,15 @@ class PostResource extends Resource
                     ])
                     ->default('post')
                     ->reactive()
-                    ->afterStateHydrated(function (Set $set, $state) {
+                    ->afterStateHydrated(function (callable $set, $state) {
                         if (blank($state)) {
                             $set('post_template', 'post');
+                        }
+                        if ($state === 'list') {
+                            $listChannel = \App\Models\Channel::where('name', 'list')->first();
+                            $set('channel_id', $listChannel?->id); // Usa el id si existe, si no null
+                        } else {
+                            $set('channel_id', null);
                         }
                     }),
                     Grid::make(1)
