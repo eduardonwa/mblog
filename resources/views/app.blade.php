@@ -14,7 +14,6 @@
     </head>
     <body>
         @routes
-        <script src="{{ asset('js/tiptap/extensions.js') }}"></script>
         @filamentScripts
         @inertia
     </body>

@@ -2,11 +2,11 @@
 
 # por hacer:
 
-- al crear un comentario el comentario no se actualiza en la pagina (se requiere una recarga)
-
-- al compartir un enlace en facebook la meta data no llega al formulario de facebook
+- al compartir un enlace en facebook la meta data no llega al formulario de facebook (en facebook esto sale como "server error")
 
 DESPUES:
+- mejorar la vista de notificaciones
+
 - agregar vistas a los posts
     . agregar un atributo para ver cuantas vistas tiene un post
 
