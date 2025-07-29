@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Post;
 use App\Models\User;
 use Kalnoy\Nestedset\NodeTrait;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\CommentModeration;
 use BeyondCode\Comments\Comment as BaseComment;
 
@@ -42,9 +43,12 @@ class CustomComment extends BaseComment
 
     public function approve()
     {
+        $wasApproved = $this->is_approved;
+
         parent::approve();
 
-        if ($this->commentator) {
+        // Solo notificar si el comentario NO estaba aprobado antes
+        if (!$wasApproved && $this->is_approved && $this->commentator && $this->commentator->id !== Auth::id()) {
             $this->commentator->notify(new CommentModeration($this, status: 'approved'));
         }
 

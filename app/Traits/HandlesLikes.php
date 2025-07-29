@@ -16,12 +16,6 @@ trait HandlesLikes
             $post->likes()->firstOrCreate(['user_id' => Auth::id()]);
 
             if ($post->user_id !== Auth::id()) {
-                /* Log::info('Notificando al autor del post por like.', [
-                    'autor_id' => $post->user_id,
-                    'liker_id' => Auth::id(),
-                    'post_id' => $post->id,
-                ]); */
-
                 $post->user->notify(new PostLiked(Auth::user(), $post));
             }
     
