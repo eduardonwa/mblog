@@ -10,6 +10,7 @@ const props = defineProps<{
     users: MentionableUser[];
 }>();
 
+// Scroll automático a comentarios específicos al cargar la página
 onMounted(() => {
   const hash = window.location.hash;
   if (!hash.startsWith('#comment-')) return;

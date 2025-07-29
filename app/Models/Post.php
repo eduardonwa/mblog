@@ -10,7 +10,6 @@ use Spatie\Tags\HasTags;
 use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
-use App\Traits\PurifiesAttributes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use BeyondCode\Comments\Traits\HasComments;
@@ -188,11 +187,7 @@ class Post extends Model implements HasMedia
     // crear extracto corto
     public function getExcerptAttribute(): string
     {
-        $words = 30;
-        $stripped = strip_tags($this->body);
-        $excerpt = Str::words($stripped, $words);
-        
-        return $excerpt;
+        return $this->extract ?? '';
     }
 
     // SCOPES
