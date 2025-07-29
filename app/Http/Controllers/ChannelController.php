@@ -77,6 +77,7 @@ class ChannelController extends Controller
             'author' => $post->user?->name,
             'url' => route('post.show', $post->slug),
             'thumbnail' => $post->getFirstMediaUrl('thumbnails', 'lg_thumb'),
+            'type' => 'article'
         ];
 
         // detecta si es un bot
