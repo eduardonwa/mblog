@@ -39,6 +39,7 @@ class PostController extends Controller
             'author' => $post->user?->name,
             'url' => route('post.show', $post->slug),
             'thumbnail' => $post->getFirstMediaUrl('thumbnails', 'lg_thumb'),
+            'type' => 'article'
         ];
 
         // respuesta si es un bot

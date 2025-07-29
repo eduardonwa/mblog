@@ -67,10 +67,14 @@ class MemberPanelProvider extends PanelProvider
             ->profile(EditProfile::class)
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('Edit profile'),
+                'panel' => MenuItem::make()
+                    ->label('Member panel')
+                    ->url('/member')
+                    ->icon('heroicon-o-arrow-left'),
                 'redirect' => MenuItem::make()
                     ->label('Back to site')
                     ->url('/')
-                    ->icon('heroicon-o-arrow-left')
+                    ->icon('heroicon-o-globe-alt')
             ])
             ->brandLogo(fn () => view('filament.member.logo'));
     }
