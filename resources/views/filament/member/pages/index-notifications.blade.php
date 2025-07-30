@@ -1,8 +1,3 @@
-@php
-    $channelSlug = $notification->data['channel_slug'] ?? null;
-    $postSlug = $notification->data['post_slug'] ?? null;
-@endphp
-
 <x-filament::page>
     @foreach ($notifications as $notification)
         <div class="p-2">
