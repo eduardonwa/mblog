@@ -51,6 +51,11 @@ Route::middleware(['auth', 'verified', 'throttle:10,1'])->group(function () {
         return back();
     })->name('member.notifications.destroy');
 
+    Route::post('/member/notifications/mark-all-as-read', function () {
+        Auth::user()->unreadNotifications->markAsRead();
+        return back();
+    })->name('member.notifications.markAllAsRead');
+
     // Interacciones con posts (versión única)
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
     Route::delete('/posts/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');

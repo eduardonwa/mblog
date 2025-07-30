@@ -1,4 +1,14 @@
 <x-filament::page>
+    
+    @if($notifications->whereNull('read_at')->count())
+        <form action="{{ route('member.notifications.markAllAsRead') }}" method="POST" class="flex justify-end">
+            @csrf
+            <button type="submit" class="px-3 py-1 rounded bg-morado-600 clr-morado-100 hover:text-white transition-colors text-sm font-medium">
+                Mark all as read
+            </button>
+        </form>
+    @endif
+
     @foreach ($notifications as $notification)
         <div class="p-2 hover:bg-black/40 transition duration-200">
             @if (!empty($notification->data['url']))
