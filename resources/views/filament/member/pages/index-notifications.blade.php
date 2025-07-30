@@ -1,6 +1,6 @@
 <x-filament::page>
     @foreach ($notifications as $notification)
-        <div class="p-2">
+        <div class="p-2 hover:bg-black/40 transition duration-200">
             @if (!empty($notification->data['url']))
                 <a
                     target="_blank"
@@ -29,7 +29,6 @@
                     <button type="submit" class="text-sm clr-error-100 hover:underline">Delete</button>
                 </form>
             </div>
-
         </div>
     @endforeach
 </x-filament::page>
