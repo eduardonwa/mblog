@@ -1,25 +1,35 @@
 @use '../abstracts' as *;
 
-// indice de channel
-.channel-cards-wrapper {
+.channels-header {
+    text-align: center;
     margin-block-start: $size-13;
     margin-block-end: $size-10;
+    font-size: $font-size-500;
+    font-weight: $font-weight-bold;
+    color: $color-primary-200;
+}
 
-    h2 {
-        text-align: center;
-        padding-block-end: $size-10;
-        color: $color-primary-200;
-        font-weight: $font-weight-bold;
+// indice de channel
+.channel-cards-wrapper {
+    margin-block: $size-10;
+
+    @include mq(medium) {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        place-items: center;
+        gap: $size-6;
     }
 
     .card {
-        width: fit-content;
+        width: 200px;
+        height: 200px;
         margin: auto;
         display: flex;
         align-items: center;
         flex-direction: column;
         outline: 2px solid transparent;
         transition: all 275ms ease;
+        margin-block: $size-6;
 
         @include mq(medium) {
             margin: 0;
@@ -31,7 +41,8 @@
         } 
 
         &__sticker {
-            width: 120px;
+            width: 100px;
+            height: 100px;
 
             img {
                 width: 100%;
@@ -40,9 +51,8 @@
         }
 
         &__name {
-            margin-block-start: $size-4;
-            font-size: $font-size-500;
             color: $color-primary-100;
+            text-align: center;
         }
     }
 }

@@ -13,6 +13,15 @@ class ListNotifications extends ListRecords
 
     protected static string $resource = NotificationResource::class;
 
+    protected static string $view = 'filament.member.pages.index-notifications';
+
+    public function getViewData(): array
+    {
+        return [
+            'notifications' => Auth::user()->notifications()->latest()->limit(10)->get(),
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         return [

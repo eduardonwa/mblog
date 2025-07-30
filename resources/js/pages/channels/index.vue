@@ -8,11 +8,11 @@ const props = defineProps<ChannelListProps>()
 
 <template>
     <SiteLayout>
-        <section class="container margin-block-start-10">
+        <h2 class="channels-header">Channels</h2>
+        <section class="container">
             <article class="channel-cards-wrapper">
-                <h2>Channels</h2>
                 <ChannelCard v-for="channel in props.channels" :key="channel.slug" :channel="channel" />
             </article>
         </section>
     </SiteLayout>
-</template>
+</template> 

@@ -14,10 +14,16 @@ class ChannelSeeder extends Seeder
     public function run(): void
     {
         $channel = Channel::firstOrCreate(
-            ['slug' => 'lists'],
+            ['slug' => 'list'],
             [
-                'name' => 'Lists',
+                'name' => 'List',
                 'description' => "Top 10's of your favorite bangers and such.",
+                'is_active' => true,
+            ],
+            ['slug' => 'metal-discussion'],
+            [
+                'name' => 'Metal discussion',
+                'description' => "Anything metal related.",
                 'is_active' => true,
             ]
         );

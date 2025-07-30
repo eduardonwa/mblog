@@ -179,6 +179,13 @@
     }
 }
 
+.select-locked {
+    pointer-events: none;
+    background: hsl(0 0% 7.5%) !important;
+    color: #b0b0b0 !important;
+    opacity: 0.7;
+}
+
 /* colores */
 .bg-black {
     background: hsl(0 0% 7.5%);;
@@ -186,6 +193,14 @@
 
 .clr-morado-100 {
     color: hsla(226.15, 35.14%, 92.75%, 1);
+}
+
+.clr-error-100 {
+    color: hsl(0, 93.1%, 60.2%);
+}
+
+.clr-turkesa-200 {
+    color: hsla(191.43, 68.04%, 83.14%, 1);
 }
 
 .bg-morado-600 {
@@ -202,8 +217,4 @@
 
 .bg-morado-950 {
     background: hsla(240, 20.69%, 14.71%, 1);
-}
-
-.clr-error-100 {
-    color: hsl(0, 93.1%, 60.2%);
 }

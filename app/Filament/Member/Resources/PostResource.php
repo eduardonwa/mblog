@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
+use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
@@ -63,18 +64,20 @@ class PostResource extends Resource
                                                     ->required()
                                                     ->reactive()
                                                     ->options(function (Get $get) {
-                                                        if ($get('post_template') === 'list') {
-                                                            $listChannel = \App\Models\Channel::where('name', 'list')->first();
-                                                            return $listChannel ? [$listChannel->id => $listChannel->name] : []; // busca "list" y su ID y lo asigna a "channel_id"
+                                                        if ($get('post_template') === 'lists') {
+                                                            $listChannel = \App\Models\Channel::where('name', 'lists')->first();
+                                                            return $listChannel ? [$listChannel->id => $listChannel->name] : [];
                                                         }
-                                                        return \App\Models\Channel::where('name', '!=', 'list')->pluck('name', 'id')->toArray(); // todos los canales menos "list"
+                                                        return \App\Models\Channel::where('name', '!=', 'lists')->pluck('name', 'id')->toArray();
                                                     })
-                                                    ->disabled(fn (Get $get) => $get('post_template') === 'list')
-                                                    ->dehydrated(fn (Get $get) => $get('post_template') === 'list') // forzar el valor de list porque lo deshabilitamos
+                                                    ->extraAttributes(fn (Get $get) =>
+                                                        $get('post_template') === 'lists'
+                                                            ? ['class' => 'select-locked']
+                                                            : []
+                                                    )
                                                     ->default(function (Get $get) {
-                                                        // asigna el id de "list" como valor preterminado si el template es "list"
-                                                        if ($get('post_template') === 'list') {
-                                                            $listChannel = \App\Models\Channel::where('name', 'list')->first();
+                                                        if ($get('post_template') === 'lists') {
+                                                            $listChannel = \App\Models\Channel::where('name', 'lists')->first();
                                                             return $listChannel?->id;
                                                         }
                                                         return null;
@@ -133,7 +136,7 @@ class PostResource extends Resource
                     ->label('Template')
                     ->options([
                         'post' => 'Post',
-                        'list' => 'List',
+                        'lists' => 'Lists',
                     ])
                     ->default('post')
                     ->reactive()
@@ -141,9 +144,17 @@ class PostResource extends Resource
                         if (blank($state)) {
                             $set('post_template', 'post');
                         }
-                        if ($state === 'list') {
-                            $listChannel = \App\Models\Channel::where('name', 'list')->first();
-                            $set('channel_id', $listChannel?->id); // Usa el id si existe, si no null
+                        if ($state === 'lists') {
+                            $listChannel = \App\Models\Channel::where('name', 'lists')->first();
+                            $set('channel_id', $listChannel?->id);
+                        } else {
+                            $set('channel_id', null);
+                        }
+                    })
+                    ->afterStateUpdated(function (callable $set, $state) {
+                        if ($state === 'lists') {
+                            $listChannel = \App\Models\Channel::where('name', 'lists')->first();
+                            $set('channel_id', $listChannel?->id);
                         } else {
                             $set('channel_id', null);
                         }
@@ -154,7 +165,7 @@ class PostResource extends Resource
                                 ->label('Introduction')
                                 ->statePath('list_data_json.intro')
                                 ->rows(4)
-                                ->visible(fn (Get $get) => $get('post_template') === 'list'),
+                                ->visible(fn (Get $get) => $get('post_template') === 'lists'),
 
                             Repeater::make('items')
                                 ->label('Songs')
@@ -167,7 +178,7 @@ class PostResource extends Resource
                                             TiptapEditor::make('resource')
                                                 ->label('Resource (URL)')
                                                 ->hint('One resource per slot')
-                                                ->profile('list')
+                                                ->profile('lists')
                                                 ->output(TiptapOutput::Json)
                                                 ->columnSpan(1)
                                                 ->floatingMenuTools([
@@ -190,13 +201,13 @@ class PostResource extends Resource
                                 ->minItems(3)
                                 ->maxItems(20)
                                 ->addActionLabel('Add song')
-                                ->visible(fn (Get $get) => $get('post_template') === 'list'),
+                                ->visible(fn (Get $get) => $get('post_template') === 'lists'),
 
                             Textarea::make('outro')
                                 ->label('Outro')
                                 ->statePath('list_data_json.outro')
                                 ->rows(4)
-                                ->visible(fn (Get $get) => $get('post_template') === 'list'),
+                                ->visible(fn (Get $get) => $get('post_template') === 'lists'),
                         ]),
                 Grid::make(1)
                     ->schema([
@@ -204,7 +215,7 @@ class PostResource extends Resource
                             ->profile('simple')
                             ->extraInputAttributes(['style' => 'min-height: 50vh;'])
                             ->columnSpan(1)
-                            ->required()
+                            ->required(fn (Get $get) => $get('post_template') === 'post')
                             ->visible(fn (Get $get) => $get('post_template') === 'post'),
                     ]),
             ]);
