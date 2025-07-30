@@ -2,8 +2,6 @@
 
 # por hacer:
 
-- el diseño en channels "esta mal" los canales no estan proporcionados ni nada
-
 - mejorar la vista de notificaciones
 
 - agregar vistas a los posts

@@ -10,6 +10,7 @@ use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Notifications\DatabaseNotification;
 use App\Http\Controllers\UserPublicProfileController;
 
 // Grupo para rutas públicas
@@ -38,6 +39,17 @@ Route::middleware(['auth', 'verified', 'throttle:10,1'])->group(function () {
         Auth::logout();
         return redirect('/');
     })->name('logout');
+
+    // rutas para notificaciones de usuarios
+    Route::post('/member/notifications/{notification}/mark-as-read', function (DatabaseNotification $notification) {
+        $notification->markAsRead();
+        return back();
+    })->name('member.notifications.markAsRead');
+
+    Route::delete('/member/notifications/{notification}', function (DatabaseNotification $notification) {
+        $notification->delete();
+        return back();
+    })->name('member.notifications.destroy');
 
     // Interacciones con posts (versión única)
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');

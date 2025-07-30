@@ -195,6 +195,14 @@
     color: hsla(226.15, 35.14%, 92.75%, 1);
 }
 
+.clr-error-100 {
+    color: hsl(0, 93.1%, 60.2%);
+}
+
+.clr-turkesa-200 {
+    color: hsla(191.43, 68.04%, 83.14%, 1);
+}
+
 .bg-morado-600 {
     background: hsla(239.15, 28.98%, 48.04%, 1);
 }
@@ -209,8 +217,4 @@
 
 .bg-morado-950 {
     background: hsla(240, 20.69%, 14.71%, 1);
-}
-
-.clr-error-100 {
-    color: hsl(0, 93.1%, 60.2%);
 }
