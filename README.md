@@ -2,9 +2,8 @@
 
 # por hacer:
 
-- un autor no deberia de recibir una notificacion tras haber comentado en su propio post. la notificacion que recibe es de reinstitucion de comentario.
+- el diseño en channels "esta mal" los canales no estan proporcionados ni nada
 
-DESPUES:
 - mejorar la vista de notificaciones
 
 - agregar vistas a los posts
@@ -12,6 +11,10 @@ DESPUES:
 
 - extension bandcmap
 
-- otros canales que estoy contemplando son "shameless plug" y "buying & selling"
+¿DEBERIA DE REPLANTEAR LA IDEA DE CHANNELS Y MANEJARLO COMO MESSAGE BOARD?
+
+- otros canales que estoy contemplando hacer son:
+    - "shameless plug": promocionar una banda o proyecto.
+    - "buying & selling": vender o comprar. 
 
 - hacer mas "amigables" las urls para los perfiles de usuarios tipo instagram: "sickofmetal.net/@username"

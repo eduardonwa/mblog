@@ -17,7 +17,7 @@ trait HandlesListPosts
             $data['meta_description'] = Str::words(strip_tags($data['body']), 25, '...');
         }
         
-        if ($data['post_template'] === 'list') {
+        if ($data['post_template'] === 'lists') {
             $data['body'] = ''; // aseguramos que no intente usar body
             // autoasignar excerpt y meta_description con el intro
             $intro = $data['list_data_json']['intro'] ?? '';
