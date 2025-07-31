@@ -20,7 +20,7 @@
 .container[data-type="blog-post"] {
   display: grid;
   justify-content: center;
-  grid-template-columns: minmax(auto, 64ch);
+  grid-template-columns: minmax(auto, 69ch);
 
   @include mq(large) {
     &[data-align="start"] {
