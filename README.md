@@ -1,9 +1,6 @@
 ## mblog
 
 # por hacer:
-
-- mejorar la vista de notificaciones
-
 - agregar vistas a los posts
     . agregar un atributo para ver cuantas vistas tiene un post
 
