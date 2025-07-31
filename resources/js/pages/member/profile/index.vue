@@ -36,15 +36,15 @@ const { posts: initialPosts, author } = defineProps<{
 
                     <div class="content">
                         <p class="bio">{{ author?.bio }}</p>
-                        <a
-                            v-if="author?.link"
-                            :href="author?.link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="link"
-                        >
-                            {{ author?.link }}
-                        </a>
+                        <div v-if="author?.social_links">
+                            <div v-for="(url, key) in author.social_links" :key="key">
+                                <span v-if="url">
+                                    <a class="link" :href="url" target="_blank" rel="noopener noreferrer">
+                                        {{ url.replace(/^https?:\/\//, '') }}
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </article>

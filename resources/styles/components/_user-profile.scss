@@ -20,14 +20,17 @@
         margin-block-start: $size-4;
         width: 80%;
 
-        .bio, .link {
+        .bio {
             font-size: $font-size-400;
+            margin-block-end: $size-3;
+            color: $color-primary-100;
         }
 
         .link {
-            padding-block: $size-2;
+            font-size: $font-size-300;
             display: block;
-            color: $color-accent-300;
+            width: fit-content;
+            padding-block-end: $size-2;
             text-decoration: none;
             transition: all 275ms ease;
         }
