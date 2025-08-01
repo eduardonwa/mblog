@@ -7,7 +7,6 @@ use App\Models\Report;
 use App\Models\Channel;
 use App\Models\Category;
 use Spatie\Tags\HasTags;
-use Illuminate\Support\Str;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Facades\Auth;

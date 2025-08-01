@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use App\Models\Post;
 use Filament\Tables;
 use Filament\Forms\Get;
@@ -13,10 +12,8 @@ use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
-use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use FilamentTiptapEditor\TiptapEditor;
 use Filament\Forms\Components\Repeater;
@@ -29,6 +26,7 @@ use Illuminate\Database\Eloquent\Builder;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\MemberPostResource\Pages;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 
 class MemberPostResource extends Resource
 {
@@ -63,18 +61,7 @@ class MemberPostResource extends Resource
                                                     ->columnStart(2)
                                                     ->required()
                                                     ->reactive()
-                                                    ->options(function (Get $get) {
-                                                        if ($get('post_template') === 'lists') {
-                                                            $listChannel = \App\Models\Channel::where('name', 'lists')->first();
-                                                            return $listChannel ? [$listChannel->id => $listChannel->name] : [];
-                                                        }
-                                                        return \App\Models\Channel::where('name', '!=', 'lists')->pluck('name', 'id')->toArray();
-                                                    })
-                                                    ->extraAttributes(fn (Get $get) =>
-                                                        $get('post_template') === 'lists'
-                                                            ? ['class' => 'select-locked']
-                                                            : []
-                                                    )
+                                                    ->options(fn() => \App\Models\Channel::pluck('name', 'id'))
                                                     ->default(function (Get $get) {
                                                         if ($get('post_template') === 'lists') {
                                                             $listChannel = \App\Models\Channel::where('name', 'lists')->first();
@@ -91,43 +78,66 @@ class MemberPostResource extends Resource
                                                     ->options(config('languages'))
                                                     ->searchable()
                                                     ->helperText('Optional field'),
-                                                Hidden::make('user_id')
-                                                    ->default(Auth::id()),
                                             ])
                                         ]),
                                 Tab::make('Publish')
                                     ->schema([
-                                        Radio::make('status')
-                                            ->options([
-                                                'draft' => 'Draft',
-                                                'scheduled' => 'Scheduled',
-                                                'published' => 'Published',
-                                            ])
-                                            ->descriptions([
-                                                'draft' => 'Is not visible.',
-                                                'published' => 'Is visible.',
-                                                'scheduled' => 'Will be visible.',
-                                            ])
-                                            ->default('draft')
-                                            ->reactive()
-                                            ->required()
-                                            ->afterStateUpdated(function (Set $set, $state) {
-                                                if ($state === 'published') {
-                                                    $set('published_at', now());
-                                                } elseif ($state === 'draft') {
-                                                    $set('published_at', null);
-                                                } elseif ($state === 'scheduled') {
-                                                    $set('published_at', null);
-                                                }
-                                            }),
-                                        DateTimePicker::make('published_at')
-                                            ->label('Schedule for later')
-                                            ->visible(fn (Get $get) => $get('status') === 'scheduled')
-                                            ->required(fn (Get $get) => $get('status') === 'scheduled')
-                                            ->minDate(now()->addMinutes(5))
-                                            ->helperText('Select the date and time to publish this post.'),
-                                    ])
-
+                                        Grid::make(2)
+                                            ->schema([
+                                                Grid::make(1)
+                                                    ->schema([
+                                                        Radio::make('status')
+                                                            ->options([
+                                                                'draft' => 'Draft',
+                                                                'scheduled' => 'Scheduled',
+                                                                'published' => 'Published',
+                                                            ])
+                                                            ->descriptions([
+                                                                'draft' => 'Is not visible.',
+                                                                'published' => 'Is visible.',
+                                                                'scheduled' => 'Will be visible.',
+                                                            ])
+                                                            ->default('draft')
+                                                            ->reactive()
+                                                            ->required()
+                                                            ->afterStateUpdated(function (Set $set, $state) {
+                                                                if ($state === 'published') {
+                                                                    $set('published_at', now());
+                                                                } elseif ($state === 'draft') {
+                                                                    $set('published_at', null);
+                                                                } elseif ($state === 'scheduled') {
+                                                                    $set('published_at', null);
+                                                                }
+                                                            }),
+                                                        DateTimePicker::make('published_at')
+                                                            ->label('Schedule for later')
+                                                            ->visible(fn (Get $get) => $get('status') === 'scheduled')
+                                                            ->required(fn (Get $get) => $get('status') === 'scheduled')
+                                                            ->minDate(now()->addMinutes(5))
+                                                            ->helperText('Select the date and time to publish this post.'),
+                                                    ])
+                                                    ->columnStart(1)
+                                                    ->columnSpan(1),
+                                                Grid::make(1)
+                                                    ->schema([
+                                                        TextInput::make('user_id')
+                                                            ->default(Auth::id()),
+                                                        TextInput::make('meta_title'),
+                                                        TextArea::make('meta_description'),
+                                                    ])->columnStart(2),
+                                            ]),
+                                    ]),
+                                Tab::make('Metrics')
+                                    ->schema([
+                                        TextInput::make('views')
+                                            ->disabled(),
+                                        TextInput::make('likes_count')
+                                            ->label('Uphails')
+                                            ->disabled(),
+                                        TextInput::make('comments_count')
+                                            ->label('Comments')
+                                            ->disabled(),
+                                    ]),
                                 ]),
                             Radio::make('post_template')
                                 ->label('Template')
@@ -151,14 +161,6 @@ class MemberPostResource extends Resource
                                     if ($state === 'lists') {
                                         $listChannel = \App\Models\Channel::where('name', 'lists')->first();
                                         $set('channel_id', $listChannel?->id);
-                                        $set('body', null); // limpia el contenido de "body"
-                                    } else {
-                                        // si se elige "post", desde "lists", se limpia el contenido de "lists"
-                                        $set('list_data_json', [
-                                            'intro' => null,
-                                            'items' => [],
-                                            'outro' => null,
-                                        ]);
                                     }
                                 }),
                             Grid::make(1)
@@ -258,7 +260,7 @@ class MemberPostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class,
         ];
     }
 
@@ -284,6 +286,7 @@ class MemberPostResource extends Resource
                 $q->whereHas('roles', function($r) { 
                     $r->where('name', 'member');
                 });
-            });
+            })
+            ->withCount(['comments']);
     }
 }
