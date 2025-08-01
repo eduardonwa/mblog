@@ -50,6 +50,11 @@ class PostResource extends Resource
                     ->schema([
                         Section::make("Content")
                             ->schema([
+                                Radio::make('post_template')
+                                    ->options([
+                                        'story' => 'Story',
+                                        'standard' => 'Standard',
+                                    ])->default('standard'),
                                 TextInput::make('title')
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
@@ -262,6 +267,6 @@ class PostResource extends Resource
                     $r->where('name', 'admin')
                         ->orWhere('name', 'staff');
                 });
-            });
+            })->withCount('comments');
     }
 }

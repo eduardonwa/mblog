@@ -65,7 +65,7 @@ onUnmounted(() => window.removeEventListener('resize', onResize));
               class="category"
               :href="route('category.index', { slug: post.category?.slug })"
             >
-            {{ post.category?.name }}
+              {{ post.category?.name }}
             </Link>
           </div>
         </article>

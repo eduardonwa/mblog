@@ -89,11 +89,21 @@ const sanitizedHtml = computed(() => {
                         {{ post?.user?.username || 'Rattlehead' }}
                     </Link>
                     <span class="date">{{ post.smart_date }}</span>
+
                     <Link
-                        :href="route('channel.show', {slug: channel.slug})"
+                        v-if="post.channel"
+                        :href="route('channel.show', { slug: post.channel.slug })"
                         class="channel"
                     >
                         {{ post.channel?.name }}
+                    </Link>
+
+                    <Link
+                        v-else-if="post.category"
+                        class="category"
+                        :href="route('category.index', { slug: post.category.slug })"
+                    >
+                        {{ post.category?.name }}
                     </Link>
                 </div>
 

@@ -1,8 +1,6 @@
 ## mblog
 
 # por hacer:
-- agregar vistas a los posts
-    . agregar un atributo para ver cuantas vistas tiene un post
 
 - extension bandcmap
 
