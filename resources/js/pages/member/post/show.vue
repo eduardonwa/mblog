@@ -35,19 +35,19 @@ onUnmounted(() => window.removeEventListener('resize', onResize));
 
 DOMPurify.addHook('uponSanitizeElement', (node, data) => {
   if (data.tagName === 'iframe') {
-    const src = node.getAttribute('src') || ''
+    const src = (node as Element).getAttribute('src') || '';
     if (
       src.includes('bandcamp.com/EmbeddedPlayer') ||
       src.includes('youtube.com/embed')
     ) {
-      node.setAttribute('allow', 'autoplay; encrypted-media')
-      node.setAttribute('allowfullscreen', 'true')
-      node.setAttribute('loading', 'lazy')
+      (node as Element).setAttribute('allow', 'autoplay; encrypted-media');
+      (node as Element).setAttribute('allowfullscreen', 'true');
+      (node as Element).setAttribute('loading', 'lazy');
     } else {
-      node.parentNode?.removeChild(node)
+      node.parentNode?.removeChild(node);
     }
   }
-})
+});
 
 DOMPurify.setConfig({
   ADD_TAGS: ['iframe'],
@@ -63,14 +63,17 @@ DOMPurify.setConfig({
     'seamless',
     'loading'
   ],
-})
+});
 
 const sanitizedHtml = computed(() => {
-  return props.post.list_data_html
-    ? DOMPurify.sanitize(props.post.list_data_html)
-    : ''
-})
-
+  if (typeof props.post.list_data_html === 'string' && props.post.list_data_html) {
+    return DOMPurify.sanitize(props.post.list_data_html);
+  }
+  if (typeof props.post.body === 'string' && props.post.body) {
+    return DOMPurify.sanitize(props.post.body);
+  }
+  return '';
+});
 </script>
 
 <template>
@@ -98,7 +101,7 @@ const sanitizedHtml = computed(() => {
                     <LikeButton
                         :post="localPost"
                         class="stick-this"
-                        @update:post="updatedPost => localPost = updatedPost"
+                        @update:post="(updatedPost: Post) => localPost = updatedPost"
                     />
                     <ShareMenu class="share-menu share-menu--desktop" :url="props.url" variant="desktop" />
                     <ReportModal
@@ -128,7 +131,7 @@ const sanitizedHtml = computed(() => {
             <footer class="mobile-interactions-wrapper">
                 <LikeButton
                     :post="localPost"
-                    @update:post="(newPost) => localPost = newPost"
+                    @update:post="(newPost: Post) => localPost = newPost"
                 />
                 <ShareMenu class="share-menu share-menu--mobile" :url="props.url" variant="mobile"/>
                 <ReportModal
