@@ -28,6 +28,7 @@ use Filament\Forms\Components\Placeholder;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Member\Resources\PostResource\Pages;
+use Filament\Notifications\Notification;
 
 class PostResource extends Resource
 {
@@ -155,6 +156,12 @@ class PostResource extends Resource
                             $listChannel = \App\Models\Channel::where('name', 'lists')->first();
                             $set('channel_id', $listChannel?->id);
                             $set('body', null); // limpia el contenido de "body"
+                            Notification::make()
+                                ->title('Template changed to "Lists"')
+                                ->body('The post text will be cleared and you\'ll only be able to edit the list fields. If this was a mistake and the post was already created, you can reload the page before saving to recover your original text.')
+                                ->warning()
+                                ->persistent()
+                                ->send();
                         } else {
                             // si se elige "post", desde "lists", se limpia el contenido de "lists"
                             $set('list_data_json', [
@@ -162,6 +169,12 @@ class PostResource extends Resource
                                 'items' => [],
                                 'outro' => null,
                             ]);
+                            Notification::make()
+                                ->title('Template changed to "Post"')
+                                ->body('All list items will be removed. If this was a mistake and the post was already created, you can reload the page before saving to recover your list progress.')
+                                ->warning()
+                                ->persistent()
+                                ->send();
                         }
                     }),
                     Grid::make(1)
