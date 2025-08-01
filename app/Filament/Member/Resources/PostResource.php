@@ -228,12 +228,13 @@ class PostResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('channel.name')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('likes_count')
                     ->label('Uphails')
                     ->sortable(),
+                TextColumn::make('hotness')
+                    ->sortable()
+                    ->toggleable()
+                    ->getStateUsing(fn ($record) => $record->hotness),
                 TextColumn::make('comments_count')
                     ->label('Comments')
                     ->sortable(),

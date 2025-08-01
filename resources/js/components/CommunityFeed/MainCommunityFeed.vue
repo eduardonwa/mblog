@@ -19,7 +19,7 @@ defineProps<MainCommunityFeedProps>();
 <template>
     <div class="community-layout">
         <h2 class="community-layout__header | uppercase clr-secondary-200 fw-semibold">community</h2>
-        
+
         <main class="community-layout__post-wrapper">
             <InfiniteScroll
                 endpoint="/?json=true"
@@ -51,6 +51,7 @@ defineProps<MainCommunityFeedProps>();
                                         <span class="padding-inline-start-1">{{ post.channel?.name }}</span>
                                     </p>
                                 </div>
+                                <div>hotness score:{{ post.hotness_score }}</div>
                             </template>
             
                             <template #middle="{post}">

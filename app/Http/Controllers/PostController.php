@@ -7,15 +7,21 @@ use Inertia\Inertia;
 use App\Traits\HandlesLikes;
 use Illuminate\Http\Request;
 use App\Traits\HandlesComments;
+use App\Traits\HandlesPostViews;
 use App\Traits\HandlesBotPreview;
 use App\Traits\FetchesMentionableUsers;
 
 class PostController extends Controller
 {
-    use HandlesLikes, HandlesComments, FetchesMentionableUsers, HandlesBotPreview;
+    use
+        HandlesLikes,
+        HandlesComments,
+        FetchesMentionableUsers,
+        HandlesBotPreview,
+        HandlesPostViews;
 
     public function show(Request $request, string $slug)
-    {
+    {        
         $post = Post::with([
             'category',
             'user',
@@ -41,6 +47,9 @@ class PostController extends Controller
             'thumbnail' => $post->getFirstMediaUrl('thumbnails', 'lg_thumb'),
             'type' => 'article'
         ];
+
+        // obtener la vista del post
+        $this->incrementPostViewCount($post);
 
         // respuesta si es un bot
         if ($this->isBot($request)) {

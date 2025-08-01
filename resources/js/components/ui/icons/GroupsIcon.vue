@@ -7,38 +7,34 @@ interface Props {
     size?: string | number;
 }
 const props = withDefaults(defineProps<Props>(), {
-    color: 'var(--icon-color, #d9d9de)',
-    hoverColor: 'var(--icon-hover, #1e90ff)',
-    size: '24px'
+  color: '#d9d9de',
+  hoverColor: '#F4FFC7',
+  size: '24px',
 });
 const isHovered = ref(false);
 </script>
 
 <template>
     <button
-        class="groups-icon"
+        class="channels-icon"
+        @mouseenter="isHovered = true"
+        @mouseleave="isHovered = false"
+        :aria-pressed="isHovered"
     >
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             :width="size"
             :height="size"
-            viewBox="0 0 24 24"
+            :fill="isHovered ? props.hoverColor : props.color"
+            xmlns="http://www.w3.org/2000/svg"
         >
-            <g id="people" transform="translate(-620 -252)">
-                <g id="Group">
-                    <path id="Vector" d="M2.67,5.16a.605.605,0,0,0-.19,0,2.585,2.585,0,1,1,.19,0Z" transform="translate(635.33 254)" fill="none" stroke="#e6e9f3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-                    <path id="Vector-2" data-name="Vector" d="M.03,4.94a5.635,5.635,0,0,0,3.94-.72A1.911,1.911,0,0,0,3.97.8,5.67,5.67,0,0,0,0,.09" transform="translate(636.94 261.5)" fill="none" stroke="#e6e9f3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-                </g>
-                <g id="Group-2" data-name="Group">
-                    <path id="Vector-3" data-name="Vector" d="M2.49,5.16a.605.605,0,0,1,.19,0,2.585,2.585,0,1,0-.19,0Z" transform="translate(623.48 254)" fill="none" stroke="#e6e9f3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-                    <path id="Vector-4" data-name="Vector" d="M5,4.94a5.635,5.635,0,0,1-3.94-.72,1.911,1.911,0,0,1,0-3.42A5.67,5.67,0,0,1,5.027.09" transform="translate(622.003 261.5)" fill="none" stroke="#e6e9f3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-                </g>
-                <g id="Group-3" data-name="Group">
-                    <path id="Vector-5" data-name="Vector" d="M2.67,5.16a.605.605,0,0,0-.19,0,2.585,2.585,0,1,1,.19,0Z" transform="translate(629.33 261.47)" fill="none" stroke="#e6e9f3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-                    <path id="Vector-6" data-name="Vector" d="M1.058.795a1.911,1.911,0,0,0,0,3.42,5.677,5.677,0,0,0,5.82,0,1.911,1.911,0,0,0,0-3.42A5.723,5.723,0,0,0,1.058.795Z" transform="translate(628.032 268.985)" fill="none" stroke="#e6e9f3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-                </g>
-                <path id="Vector-7" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(620 252)" fill="none" opacity="0"/>
+            <g clip-path="url(#clip0_4418_8191)">
+                <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM18.28 12.91C18.28 13.11 18.27 13.31 18.25 13.5C18.07 15.62 16.82 16.68 14.52 16.68H14.2C14 16.68 13.81 16.77 13.7 16.93L12.76 18.19C12.34 18.75 11.67 18.75 11.25 18.19L10.31 16.93C10.21 16.8 9.98 16.68 9.81 16.68H9.49C6.98 16.68 5.73 16.06 5.73 12.92V9.76C5.73 7.46 6.79 6.21 8.91 6.03C9.08 6.01 9.28 6 9.49 6H14.52C17.03 6 18.28 7.26 18.28 9.76V12.91Z" :fill="isHovered ? props.hoverColor : props.color"/>
             </g>
+            <defs>
+                <clipPath id="clip0_4418_8191">
+                    <rect width="24" height="24" :fill="isHovered ? props.hoverColor : props.color"/>
+                </clipPath>
+            </defs>
         </svg>
     </button>
 </template>

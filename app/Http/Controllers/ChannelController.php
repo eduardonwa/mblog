@@ -10,10 +10,16 @@ use App\Traits\HandlesLikes;
 use Illuminate\Http\Request;
 use App\Traits\HandlesComments;
 use App\Traits\FetchesMentionableUsers;
+use App\Traits\HandlesPostViews;
 
 class ChannelController extends Controller
 {
-    use HandlesLikes, HandlesComments, FetchesMentionableUsers, HandlesBotPreview;
+    use
+        HandlesLikes,
+        HandlesComments,
+        FetchesMentionableUsers,
+        HandlesBotPreview,
+        HandlesPostViews;
 
     // listado de canales disponibles
     public function index()
@@ -86,6 +92,9 @@ class ChannelController extends Controller
                 'post' => $post
             ]);
         }
+
+        // incrementar vistas del post
+        $this->incrementPostViewCount($post);
 
         return Inertia::render('member/post/show', [
             'post' => $post,

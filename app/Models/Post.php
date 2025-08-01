@@ -159,6 +159,12 @@ class Post extends Model implements HasMedia
             : '-';
     }
 
+    // crear extracto corto
+    public function getExcerptAttribute(): string
+    {
+        return $this->extract ?? '';
+    }
+
     // interpretacion de "STATUS"
     protected static function boot()
     {
@@ -184,13 +190,28 @@ class Post extends Model implements HasMedia
         });
     }
 
-    // crear extracto corto
-    public function getExcerptAttribute(): string
+    /*
+    * SCOPES
+    */
+    public function scopeWithCommonRelations($query)
     {
-        return $this->extract ?? '';
+        return $query->with(['user', 'category', 'media'])
+            ->withCount('likes');
     }
 
-    // SCOPES
+    // posts publicados
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published')
+            ->withCommonRelations();
+    }
+
+    // posts mejores rankeados por vistas, likes y comentarios
+    public function scopeWithCrushingScore($query)
+    {
+        return $query->selectRaw('posts.*, ' . static::crushingScoreRaw() . ' AS crushing_score');
+    }
+
     // obtiene posts de usuarios activos y eliminados segun el rol
     protected function scopeWhereUserHasRole($query, array $roles)
     {
@@ -207,19 +228,6 @@ class Post extends Model implements HasMedia
                 $q->whereHas('roles', fn($q) => $q->whereIn('name', $roles));
             });
         });
-    }
-
-    public function scopeWithCommonRelations($query)
-    {
-        return $query->with(['user', 'category', 'media'])
-            ->withCount('likes');
-    }
-
-    // posts publicados
-    public function scopePublished($query)
-    {
-        return $query->where('status', 'published')
-            ->withCommonRelations();
     }
 
     // 1. Featured posts (solo staff/admin)
@@ -270,13 +278,19 @@ class Post extends Model implements HasMedia
     {
         return $query->published()
             ->where(function ($q) {
-                $q->whereHas('user', function ($userQ) {
+                $q->whereHas('user', function ($userQ) { // filtar por roles y channel
                     $userQ->role('member')
                         ->orWhere(fn($q) => $q->onlyTrashed()
                             ->whereHas('roles', fn($q) => $q->where('name', 'member')));
                 })->whereHas('channel');
             })
-            ->orderBy('published_at', 'DESC')
+            ->with([ // carga las relaciones
+                'user' => fn($q) => $q->withTrashed(),
+                'channel',
+            ])
+            ->selectRaw('posts.*, ' . crushingScoreRaw() . ' AS crushing_score')
+            ->withCount('comments')
+            ->whereNotNull('published_at')
             ->when($limit, fn($q) => $q->take($limit));
     }
 

@@ -38,6 +38,11 @@ export interface User {
     link?: string;
     avatar?: string;
     avatar_url?: string;
+    social_links?: {
+      youtube?: string;
+      instagram?: string;
+      bandcamp?: string;
+    }
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
@@ -82,6 +87,7 @@ export interface Post {
     extract: string;
     excerpt: string;
     body: string;
+    hotness_score?: number;
     thumbnail_urls?: ThumbnailUrls
     category?: {
         slug: string;

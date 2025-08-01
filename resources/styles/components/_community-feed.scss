@@ -1,5 +1,28 @@
 @use '../abstracts/' as *;
 
+.order-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $size-6;
+  padding: $size-2;
+  margin-block: $size-10;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $size-1;
+  }
+  
+  .active {
+    font-weight: bold;
+    color: $color-accent-200;
+    text-decoration: none;
+  }
+}
+
+
 .community-layout {
     @include mq(large) {
         margin: $size-8 $size-3;
