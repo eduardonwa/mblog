@@ -37,6 +37,10 @@ class PostResource extends Resource
     protected static ?string $model = Post::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+
+    protected static ?string $navigationGroup = 'Posts';
+
+    protected static ?string $navigationLabel = 'S.O.M.';
     
     public static function form(Form $form): Form
     {
@@ -139,6 +143,17 @@ class PostResource extends Resource
                                             ->minDate(now()->addMinutes(5))
                                             ->helperText('Select the date and time to publish this post.'),
                                     ]),
+                                Tab::make('Metrics')
+                                    ->schema([
+                                    TextInput::make('views')
+                                        ->disabled(),
+                                    TextInput::make('likes_count')
+                                        ->label('Uphails')
+                                        ->disabled(),
+                                    TextInput::make('comments_count')
+                                        ->label('Comments')
+                                        ->disabled(),
+                                    ]),
                             ]),
                         ])->columnSpan([
                             'default' => 1,
@@ -180,7 +195,6 @@ class PostResource extends Resource
                     ->options([
                         'admin' => 'Admin',
                         'staff' => 'Staff',
-                        'member' => 'Member',
                     ])
                     ->query(function (Builder $query, array $data) {
                         if (!empty($data['value'])) {
@@ -237,9 +251,17 @@ class PostResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            // obtener posts por usuario autenticado
             ->where(function($query) {
                 $query->whereNotNull('user_id')
                     ->orWhereNotNull('original_user_id');
+            })
+            // obtener posts por rol (admin y staff)
+            ->whereHas('user', function($q) {
+                $q->whereHas('roles', function($r) { 
+                    $r->where('name', 'admin')
+                        ->orWhere('name', 'staff');
+                });
             });
     }
 }

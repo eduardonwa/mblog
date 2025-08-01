@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Filament\Member\Resources;
+namespace App\Filament\Resources;
 
+use Filament\Forms;
 use App\Models\Post;
 use Filament\Tables;
 use Filament\Forms\Get;
@@ -23,19 +24,21 @@ use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Placeholder;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use Filament\Forms\Components\DateTimePicker;
-use App\Filament\Member\Resources\PostResource\Pages;
+use App\Filament\Resources\MemberPostResource\Pages;
 
-class PostResource extends Resource
+class MemberPostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationLabel = 'Library';
+    protected static ?string $modelLabel = 'Members';
+
+    protected static ?string $navigationGroup = 'Posts';
 
     public static function form(Form $form): Form
     {
@@ -43,9 +46,6 @@ class PostResource extends Resource
             ->schema([
                 Grid::make(1)
                     ->schema([
-                        Placeholder::make('')
-                            ->content('Create a draft or publish it today. To preview a post, you first need to save it to your library.')
-                            ->columnSpanFull(),
                         Tabs::make('Tabs')
                             ->tabs([
                                 Tab::make('Info')
@@ -93,8 +93,8 @@ class PostResource extends Resource
                                                     ->helperText('Optional field'),
                                                 Hidden::make('user_id')
                                                     ->default(Auth::id()),
-                                            ]),
-                                    ]),
+                                            ])
+                                        ]),
                                 Tab::make('Publish')
                                     ->schema([
                                         Radio::make('status')
@@ -126,103 +126,101 @@ class PostResource extends Resource
                                             ->required(fn (Get $get) => $get('status') === 'scheduled')
                                             ->minDate(now()->addMinutes(5))
                                             ->helperText('Select the date and time to publish this post.'),
-                                    ]),
-                            ]),
-                        ]),
-                Placeholder::make('body_description')
-                    ->view('filament.member.guidelines')
-                    ->columnSpanFull(),  
-                Radio::make('post_template')
-                    ->label('Template')
-                    ->options([
-                        'post' => 'Post',
-                        'lists' => 'Lists',
-                    ])
-                    ->default('post')
-                    ->reactive()
-                    ->afterStateHydrated(function (callable $set, $state) {
-                        if (blank($state)) { // opcion default
-                            $set('post_template', 'post');
-                        }
-                        if ($state === 'lists') { // busca el channel "lists" si se elige como opción
-                            $listChannel = \App\Models\Channel::where('name', 'lists')->first();
-                            $set('channel_id', $listChannel?->id);
-                        }
-                    })
-                    ->afterStateUpdated(function (callable $set, $state) {
-                        // se busca y se asigna "lists" a channel
-                        if ($state === 'lists') {
-                            $listChannel = \App\Models\Channel::where('name', 'lists')->first();
-                            $set('channel_id', $listChannel?->id);
-                            $set('body', null); // limpia el contenido de "body"
-                        } else {
-                            // si se elige "post", desde "lists", se limpia el contenido de "lists"
-                            $set('list_data_json', [
-                                'intro' => null,
-                                'items' => [],
-                                'outro' => null,
-                            ]);
-                        }
-                    }),
-                    Grid::make(1)
-                        ->schema([
-                            Textarea::make('intro')
-                                ->label('Introduction')
-                                ->statePath('list_data_json.intro')
-                                ->rows(4)
-                                ->visible(fn (Get $get) => $get('post_template') === 'lists'),
-
-                            Repeater::make('items')
-                                ->label('Songs')
-                                ->hint('You may post up to 20 songs, with a minimum of 3.')
-                                ->hintColor('primary')
-                                ->statePath('list_data_json.items')
-                                ->schema([
-                                    Grid::make(2)
-                                        ->schema([
-                                            TiptapEditor::make('resource')
-                                                ->label('Resource (URL)')
-                                                ->hint('One resource per slot')
-                                                ->profile('lists')
-                                                ->output(TiptapOutput::Json)
-                                                ->columnSpan(1)
-                                                ->floatingMenuTools([
-                                                    'link', 'oembed',
-                                                ])
-                                                ->bubbleMenuTools(['link', 'oembed'])
-                                                ->required(),
-                                            Grid::make(1)
-                                                ->columnStart(2)
-                                                ->schema([
-                                                    TextInput::make('title')
-                                                        ->required(),
-                                                    Textarea::make('description')
-                                                        ->rows(5)
-                                                        ->required(),
-                                                ]),
-                                        ]),
                                     ])
-                                ->required()
-                                ->minItems(3)
-                                ->maxItems(20)
-                                ->addActionLabel('Add song')
-                                ->visible(fn (Get $get) => $get('post_template') === 'lists'),
 
-                            Textarea::make('outro')
-                                ->label('Outro')
-                                ->statePath('list_data_json.outro')
-                                ->rows(4)
-                                ->visible(fn (Get $get) => $get('post_template') === 'lists'),
-                        ]),
-                Grid::make(1)
-                    ->schema([
-                        TipTapEditor::make('body')
-                            ->profile('simple')
-                            ->extraInputAttributes(['style' => 'min-height: 50vh;'])
-                            ->columnSpan(1)
-                            ->required(fn (Get $get) => $get('post_template') === 'post')
-                            ->visible(fn (Get $get) => $get('post_template') === 'post'),
-                    ]),
+                                ]),
+                            Radio::make('post_template')
+                                ->label('Template')
+                                ->options([
+                                    'post' => 'Post',
+                                    'lists' => 'Lists',
+                                ])
+                                ->default('post')
+                                ->reactive()
+                                ->afterStateHydrated(function (callable $set, $state) {
+                                    if (blank($state)) { // opcion default
+                                        $set('post_template', 'post');
+                                    }
+                                    if ($state === 'lists') { // busca el channel "lists" si se elige como opción
+                                        $listChannel = \App\Models\Channel::where('name', 'lists')->first();
+                                        $set('channel_id', $listChannel?->id);
+                                    }
+                                })
+                                ->afterStateUpdated(function (callable $set, $state) {
+                                    // se busca y se asigna "lists" a channel
+                                    if ($state === 'lists') {
+                                        $listChannel = \App\Models\Channel::where('name', 'lists')->first();
+                                        $set('channel_id', $listChannel?->id);
+                                        $set('body', null); // limpia el contenido de "body"
+                                    } else {
+                                        // si se elige "post", desde "lists", se limpia el contenido de "lists"
+                                        $set('list_data_json', [
+                                            'intro' => null,
+                                            'items' => [],
+                                            'outro' => null,
+                                        ]);
+                                    }
+                                }),
+                            Grid::make(1)
+                                ->schema([
+                                    Textarea::make('intro')
+                                        ->label('Introduction')
+                                        ->statePath('list_data_json.intro')
+                                        ->rows(4)
+                                        ->visible(fn (Get $get) => $get('post_template') === 'lists'),
+
+                                    Repeater::make('items')
+                                        ->label('Songs')
+                                        ->hint('You may post up to 20 songs, with a minimum of 3.')
+                                        ->hintColor('primary')
+                                        ->statePath('list_data_json.items')
+                                        ->schema([
+                                            Grid::make(2)
+                                                ->schema([
+                                                    TiptapEditor::make('resource')
+                                                        ->label('Resource (URL)')
+                                                        ->hint('One resource per slot')
+                                                        ->profile('lists')
+                                                        ->output(TiptapOutput::Json)
+                                                        ->columnSpan(1)
+                                                        ->floatingMenuTools([
+                                                            'link', 'oembed',
+                                                        ])
+                                                        ->bubbleMenuTools(['link', 'oembed'])
+                                                        ->required(),
+                                                    Grid::make(1)
+                                                        ->columnStart(2)
+                                                        ->schema([
+                                                            TextInput::make('title')
+                                                                ->required(),
+                                                            Textarea::make('description')
+                                                                ->rows(5)
+                                                                ->required(),
+                                                        ]),
+                                                ]),
+                                            ])
+                                            ->required()
+                                            ->minItems(3)
+                                            ->maxItems(20)
+                                            ->addActionLabel('Add song')
+                                            ->visible(fn (Get $get) => $get('post_template') === 'lists'),
+
+                                    Textarea::make('outro')
+                                        ->label('Outro')
+                                        ->statePath('list_data_json.outro')
+                                        ->rows(4)
+                                        ->visible(fn (Get $get) => $get('post_template') === 'lists'),
+                                ]),
+                            Grid::make(1)
+                                ->schema([
+                                    TipTapEditor::make('body')
+                                        ->profile('simple')
+                                        ->extraInputAttributes(['style' => 'min-height: 50vh;'])
+                                        ->columnSpan(1)
+                                        ->required(fn (Get $get) => $get('post_template') === 'post')
+                                        ->visible(fn (Get $get) => $get('post_template') === 'post'),
+                                ]),
+                    ])
             ]);
     }
 
@@ -233,18 +231,17 @@ class PostResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('likes_count')
-                    ->label('Uphails')
-                    ->sortable(),
-                TextColumn::make('views')
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('comments_count')
-                    ->label('Comments')
+                TextColumn::make('user.username')
+                    ->label('User')
+                    ->searchable()
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -268,16 +265,25 @@ class PostResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPosts::route('/'),
-            'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
+            'index' => Pages\ListMemberPosts::route('/'),
+            'create' => Pages\CreateMemberPost::route('/create'),
+            'edit' => Pages\EditMemberPost::route('/{record}/edit'),
         ];
     }
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('user_id', Auth::id())
-            ->withCount(['likes', 'comments']);
+            // obtener posts por usuario autenticado
+            ->where(function($query) {
+                $query->whereNotNull('user_id')
+                    ->orWhereNotNull('original_user_id');
+            })
+            // obtener posts por rol (admin y staff)
+            ->whereHas('user', function($q) {
+                $q->whereHas('roles', function($r) { 
+                    $r->where('name', 'member');
+                });
+            });
     }
 }

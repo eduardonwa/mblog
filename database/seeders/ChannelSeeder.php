@@ -14,6 +14,12 @@ class ChannelSeeder extends Seeder
     {
         $channels = [
             [
+                'slug' => 'lists',
+                'name' => 'Lists',
+                'description' => "Top 10's and your favorite bangers/albums whatever.",
+                'is_active' => true,
+            ],
+            [
                 'slug' => 'off-topic',
                 'name' => 'Off-topic',
                 'description' => "Off topic talk.",
