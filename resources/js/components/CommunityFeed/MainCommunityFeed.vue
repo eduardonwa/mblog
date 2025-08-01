@@ -51,7 +51,6 @@ defineProps<MainCommunityFeedProps>();
                                         <span class="padding-inline-start-1">{{ post.channel?.name }}</span>
                                     </p>
                                 </div>
-                                <div>hotness score:{{ post.hotness_score }}</div>
                             </template>
             
                             <template #middle="{post}">
