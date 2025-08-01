@@ -7,6 +7,7 @@ import MainLeaderboard from '@/components/Leaderboard/MainLeaderboard.vue';
 import MainStaffPosts from '@/components/MainStaffPosts.vue';
 import MainCommunityFeed from '@/components/CommunityFeed/MainCommunityFeed.vue';
 import NewAlbums from '@/components/NewAlbums/NewAlbums.vue';
+import FilterCommunityPosts from '@/components/CommunityFeed/FilterCommunityPosts.vue';
 
 interface WelcomePageProps {
     featuredPost: Post[];
@@ -17,6 +18,7 @@ interface WelcomePageProps {
         next_page_url: string | null;
     };
     albums: MAReleases[];
+    order: string;
 }
 
 const props = defineProps<WelcomePageProps>();
@@ -52,8 +54,10 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
 
         <!-- below the fold -->
         <section class="community-grid" v-if="communityFeed?.data?.length">
+            <FilterCommunityPosts :order="props.order" />
             <MainCommunityFeed
                 :communityFeed="communityFeed"
+                :order="order"
             />
         </section>
 

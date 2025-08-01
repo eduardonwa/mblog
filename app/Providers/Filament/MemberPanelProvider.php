@@ -70,7 +70,6 @@ class MemberPanelProvider extends PanelProvider
                     ->label('Back to site')
                     ->url('/')
                     ->icon('heroicon-o-globe-alt')
-            ])
-            ->brandLogo(fn () => view('filament.member.logo'));
+            ]);
     }
 }

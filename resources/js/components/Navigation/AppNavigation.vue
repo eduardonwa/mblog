@@ -80,7 +80,7 @@ onUnmounted(() => {
                             href="/"
                             class="clr-primary-100"
                         >
-                            <HomeIcon />
+                            <HomeIcon color="#e6e9f3" hoverColor="#fff" />
                             Home
                         </Link>
 
@@ -88,7 +88,7 @@ onUnmounted(() => {
                             :href="route('channel.index')"
                             class="clr-primary-100"
                         >
-                            <GroupsIcon />
+                            <GroupsIcon color="#e6e9f3" hoverColor="#fff"/>
                             Channels
                         </Link>
                     </div>
@@ -102,14 +102,6 @@ onUnmounted(() => {
                             />
                         </template>
                     </div>
-
-                    <!-- <div class="nav__hidden__menu__groups">
-                        <h2 class="uppercase clr-secondary-300">following</h2>
-                        <Link class="no-decor" href="#">metall</Link>
-                        <Link class="no-decor" href="#">metall</Link>
-                        <Link class="no-decor" href="#">metall</Link>
-                        <Link class="no-decor" href="#">metall</Link>
-                    </div> -->
 
                     <div class="nav__hidden__menu__settings">
                         <h2 class="uppercase clr-secondary-300">settings</h2>

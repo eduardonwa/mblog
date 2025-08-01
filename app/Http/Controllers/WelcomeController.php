@@ -4,26 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class WelcomeController extends Controller
 {
     protected $spotify;
 
-    public function index()
+    public function index(Request $request)
     {   
-        $communityFeed = Post::communityFeed()
-            ->with([
-                'user' => function($q) {
-                $q->withTrashed();
-            },
-                'channel',
-            ])
-            ->withCount('comments')
-            ->paginate(12);
-            
+        // crea filtros y obtener posts mejor rankeados
+        $order = $request->get('order', 'hot');
+        $query = Post::communityFeed();
+        switch ($order) {
+            case 'newest':
+                $query->orderByDesc('published_at');
+                break;
+            case 'channel':
+                $query->orderBy('channel_id');
+                break;
+            default: // hot
+                $query->orderByDesc('crushing_score')->orderByDesc('published_at');
+                break;
+        }
+        // obtener posts y regresar json
+        $communityFeed = $query->paginate(12);
         $communityFeed->appends(['json' => 'true']);
-
         if (request()->wantsJson()) {
             return response()->json($communityFeed);
         }
@@ -37,6 +43,7 @@ class WelcomeController extends Controller
             'leaderboard' => Post::topMemberPosts(5)->with('channel')->get(),
             'communityFeed' => $communityFeed,
             'albums' => $albums,
+            'order' => $order,
         ]);
     }
 }

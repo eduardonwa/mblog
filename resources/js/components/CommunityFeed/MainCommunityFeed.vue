@@ -19,7 +19,7 @@ defineProps<MainCommunityFeedProps>();
 <template>
     <div class="community-layout">
         <h2 class="community-layout__header | uppercase clr-secondary-200 fw-semibold">community</h2>
-        
+
         <main class="community-layout__post-wrapper">
             <InfiniteScroll
                 endpoint="/?json=true"

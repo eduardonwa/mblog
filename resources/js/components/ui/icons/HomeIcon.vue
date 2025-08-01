@@ -7,8 +7,8 @@ interface Props {
     size?: string | number;
 }
 const props = withDefaults(defineProps<Props>(), {
-    color: '#d9d9de',
-    hoverColor: '#ffffff',
+    color: '#e6e9f3',
+    hoverColor: '#fff',
     size: '24px'
 });
 const isHovered = ref(false);

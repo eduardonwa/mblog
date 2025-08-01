@@ -40,7 +40,7 @@ const { posts: initialPosts, author } = defineProps<{
                             <div v-for="(url, key) in author.social_links" :key="key">
                                 <span v-if="url">
                                     <a class="link" :href="url" target="_blank" rel="noopener noreferrer">
-                                        {{ url.replace(/^https?:\/\//, '') }}
+                                        {{ url.replace(/^https?:\/\/(www\.)?/, '') }}
                                     </a>
                                 </span>
                             </div>
