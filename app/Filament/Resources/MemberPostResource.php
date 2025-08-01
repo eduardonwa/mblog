@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Builder;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\MemberPostResource\Pages;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager;
 
 class MemberPostResource extends Resource
 {
@@ -259,7 +260,7 @@ class MemberPostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class,
         ];
     }
 

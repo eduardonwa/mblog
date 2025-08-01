@@ -30,7 +30,7 @@
                 @if(!$notification->read_at)
                     <form action="{{ route('member.notifications.markAsRead', $notification) }}" method="POST">
                         @csrf
-                        <button type="submit" class="text-sm clr-turkesa-200 hover:underline">Mark as read</button>
+                        <button type="submit" class="text-sm clr-morado-100 hover:underline">Mark as read</button>
                     </form>
                 @endif
                 <form action="{{ route('member.notifications.destroy', $notification) }}" method="POST">
