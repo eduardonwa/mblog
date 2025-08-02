@@ -2,7 +2,7 @@
 
 # por hacer:
 
-- extension bandcmap
+- extension bandcmap y embedImg
 
 ¿DEBERIA DE REPLANTEAR LA IDEA DE CHANNELS Y MANEJARLO COMO MESSAGE BOARD?
 

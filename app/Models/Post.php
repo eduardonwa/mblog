@@ -176,7 +176,10 @@ class Post extends Model implements HasMedia
             }
 
             if ($post->status === 'published') {
-                $post->published_at = now();
+                // solo asignar "published" si published_at es NULL
+                if (is_null($post->published_at)) {
+                    $post->published_at = now();
+                }
             } elseif ($post->status === 'scheduled') {
                 // si no hay published_at, asignar fecha futura
                 if (is_null($post->published_at)) {

@@ -22,7 +22,6 @@ trait HandlesPostViews
         // revisa si el usuario ya vio el post en la ultima hora
         if (!Cache::has($key)) {
             $post->increment('views');
-            Log::info("Incrementando views para post {$post->id}. Ahora: " . $post->fresh()->views);
             Cache::put($key, true, now()->addMinutes(30));
         } else {
             Log::info("No se incrementa, IP ya registrada en caché para post {$post->id}.");
