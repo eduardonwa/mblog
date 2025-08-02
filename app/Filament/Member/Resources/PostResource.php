@@ -231,6 +231,7 @@ class PostResource extends Resource
                     ->schema([
                         TipTapEditor::make('body')
                             ->profile('simple')
+                            ->floatingMenuTools(['link', 'oembed'])
                             ->extraInputAttributes(['style' => 'min-height: 50vh;'])
                             ->columnSpan(1)
                             ->required(fn (Get $get) => $get('post_template') === 'post')
