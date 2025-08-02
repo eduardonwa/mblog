@@ -102,8 +102,8 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'extensions_script' => 'resources/js/tiptap/extensions.js',
-    'extensions_styles' => 'resources/css/tiptap/extensions.css',
+    'extensions_script' => null,
+    'extensions_styles' => null,
     'extensions' => [
         [
             'id' => 'bandcamp',
