@@ -48,7 +48,7 @@ class PostController extends Controller
             'type' => 'article'
         ];
 
-        // obtener la vista del post
+        // agregar una "vista" al post
         $this->incrementPostViewCount($post);
 
         // respuesta si es un bot
@@ -58,13 +58,21 @@ class PostController extends Controller
             ]);
         }
 
-        return Inertia::render('post/show', [
+        // preparar las propiedades para Inertia
+        $props = [
             'post' => $post->append('thumbnail_urls'),
             'comments' => $comments,
             'mentionableUsers' => $mentionableUsers,
             'meta' => $meta,
             'url' => route('post.show', $post->slug)
-        ]);
+        ];
+
+        if($post->post_template === 'story') {
+            return Inertia::render('post/show', $props);
+        }
+
+        // posts plantilla "standard"
+        return Inertia::render('member/post/show', $props);
     }
 
     public function index()

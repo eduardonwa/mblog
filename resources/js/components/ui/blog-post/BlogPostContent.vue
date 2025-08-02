@@ -32,8 +32,6 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
     data-align="start"
     grid-area="content"
   >
-    <!-- <BlogPostMeta :meta="props.meta" /> -->
-
     <article class="blog-post__body__subheader | flow">
       <Lightbox :post="post"/>
       <p class="extract" v-html="post?.extract"></p>

@@ -23,13 +23,13 @@ return [
             'link', 'media', 'oembed', 'table', 'grid-builder', 'details', '|', 'code', 'code-block', 'source', 'blocks',
         ],
         'simple' => [
-            'heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|',
-            'bold', 'italic', 'underline', 'lead', 'small', '|',
-            'link', 'media',
+            'heading', 'bullet-list', 'ordered-list', '|',
+            'bold', 'italic', 'underline', '|',
+            'link', 'oembed'
         ],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
         'lists' => [
-            'link', 'oembed', 'bandcamp'
+            'link', 'oembed'
         ],
         'none' => [],
     ],
@@ -102,7 +102,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    // 'extensions_script' => 'resources/js/tiptap/extensions.js',
+    'extensions_script' => null,
     'extensions_styles' => null,
     'extensions' => [
         [
@@ -111,6 +111,12 @@ return [
             'button' => 'buttons.bandcamp',
             'parser' => \App\TiptapExtensions\Bandcamp::class,
         ],
+        [
+            'id' => 'embedImg',
+            'name' => 'EmbedImg',
+            'button' => 'buttons.embed-img',
+            'parser' => \App\TiptapExtensions\EmbedImg::class,
+        ]
     ],
 
     /*

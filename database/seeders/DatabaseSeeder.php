@@ -68,6 +68,7 @@ class DatabaseSeeder extends Seeder
                 'featured' => true,
                 'status' => 'published',
                 'channel_id' => null,
+                'post_template' => 'story'
             ]);
 
         // Crear 1 post por staff

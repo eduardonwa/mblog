@@ -70,7 +70,7 @@ export interface ReportableEntity {
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
-interface ThumbnailUrls {
+export interface ThumbnailUrls {
   max: string
   lg: string
   md?: string
@@ -98,6 +98,7 @@ export interface Post {
       slug: string;
       name: string;
     };
+    post_template?: string;
     created_at: string;
     updated_at: string;
     published_at: string;
