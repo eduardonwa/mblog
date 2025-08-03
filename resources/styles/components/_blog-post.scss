@@ -607,6 +607,12 @@
     .post-body {
         margin-block: $size-4;
 
+        [data-youtube-video="true"] {
+            iframe {
+                border: none;
+            }
+        }
+
         @include desktop-interactions;
     }
 }

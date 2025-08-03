@@ -111,10 +111,13 @@ class PostResource extends Resource
                                             ])
                                             ->required(),
                                         TextInput::make('meta_title')
+                                            ->maxLength('255')
                                             ->required(),
                                         TextArea::make('meta_description')
                                             ->extraInputAttributes(['style' => 'min-height: 10vh;'])
-                                            ->required(), 
+                                            ->maxLength('255')
+                                            ->helperText('255 characters allowed')
+                                            ->required(),
                                     ]),
                                 Tab::make('Publish')
                                     ->schema([
