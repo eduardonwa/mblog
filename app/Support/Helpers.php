@@ -1,5 +1,6 @@
 <?php
 
+// Genera un "score" tomando en cuenta el numero de likes, comments y vistas 
 function crushingScoreRaw()
 {
     $postClass = addslashes(\App\Models\Post::class);

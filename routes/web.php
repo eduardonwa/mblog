@@ -19,7 +19,7 @@ Route::get('/captcha/generate', [CaptchaController::class, 'generateMetalCaptcha
 Route::post('/captcha/validate', [CaptchaController::class, 'validateCaptcha']);
 Route::get('posts', [PostController::class, 'index'])->name('post.index');
 Route::get('post/{post:slug}', [PostController::class, 'show'])->name('post.show');
-Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');
+// Route::get('tag/{slug}', [PostController::class, 'postByTag'])->name('tag.show');
 Route::get('category/{slug}', [CategoryController::class, 'index'])->name('category.index');
 Route::get('members/{user:username}/posts', [UserPublicProfileController::class, 'index'])->name('author.posts');
 Route::get('channels', [ChannelController::class, 'index'])->name('channel.index');
