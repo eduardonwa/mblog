@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /member/
+Disallow: /login
+Disallow: /register
+Disallow: /logout
+Disallow: /captcha/
+Disallow: /report/
+Disallow: /email/
+
+Sitemap: https://sickofmetal.net/sitemap.xml
