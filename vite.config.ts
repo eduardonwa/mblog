@@ -14,7 +14,6 @@ export default defineConfig({
                 'resources/css/filament/admin/theme.css',
                 'resources/css/filament/member/theme.css',
                 'resources/styles/components/filament-dashboard.scss',
-                'resources/js/tiptap/extensions.js'
             ],
             refresh: true,
         }),
