@@ -102,8 +102,8 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'extensions_script' => null,
-    'extensions_styles' => null,
+    'extensions_script' => 'resources/js/tiptap/extensions.js',
+    'extensions_styles' => 'resource/css/tiptap/extensions.css',
     'extensions' => [
         [
             'id' => 'bandcamp',
@@ -116,7 +116,7 @@ return [
             'name' => 'EmbedImg',
             'button' => 'buttons.embed-img',
             'parser' => \App\TiptapExtensions\EmbedImg::class,
-        ]
+        ],
     ],
 
     /*

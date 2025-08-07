@@ -4,11 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Models\Post;
 use Filament\Tables;
+use Filament\Forms;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
@@ -82,11 +84,6 @@ class PostResource extends Resource
                                             ->maxLength(255)
                                             ->columnStart(1)
                                             ->required(),
-                                        Select::make('category_id')
-                                            ->relationship('category', 'name')
-                                            ->columnStart(1)
-                                            ->required(),
-                                        Toggle::make('featured'),
                                         TextArea::make('extract')
                                             ->helperText('Limited to 255 characters')
                                             ->extraInputAttributes(['style' => 'min-height: 10vh;'])
@@ -96,6 +93,44 @@ class PostResource extends Resource
                                             ->searchable(),
                                         Hidden::make('user_id')
                                             ->default(Auth::id()),
+                                    ]),
+                                Tab::make('Classify')
+                                    ->schema([
+                                        Toggle::make('featured'),
+                                        Select::make('category_id')
+                                            ->relationship('category', 'name')
+                                            ->columnStart(1)
+                                            ->required(),
+                                        Select::make('post_series_id')
+                                            ->relationship('series', 'title')
+                                            ->nullable()
+                                            ->live()
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('title')->required(),
+                                            ])
+                                            ->afterStateUpdated(function (Get $get, Set $set, $state) {
+                                                if (blank($state)) {
+                                                    // Si quitan la serie, limpia el orden
+                                                    $set('series_order', null);
+                                                    return;
+                                                }
+
+                                                $max = Post::where('post_series_id', $state)->max('series_order');
+                                                $set('series_order', ($max ?? 0) + 1);
+                                            }),
+                                        TextInput::make('series_order')
+                                            ->label('Series order')
+                                            ->numeric()
+                                            ->minValue(1)
+                                            ->helperText('Won\'t repeat')
+                                            ->visible(fn ($get) => filled($get('post_series_id')))
+                                            ->rules([
+                                                function ($get, $record) {
+                                                    return Rule::unique('posts', 'series_order')
+                                                        ->ignore($record?->id)
+                                                        ->where(fn ($q) => $q->where('post_series_id', $get('post_series_id')));
+                                                }
+                                            ])
                                     ]),
                                 Tab::make('Meta')
                                     ->schema([

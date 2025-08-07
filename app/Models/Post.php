@@ -7,6 +7,7 @@ use App\Models\Report;
 use App\Models\Channel;
 use App\Models\Category;
 use Spatie\Tags\HasTags;
+use App\Models\PostSeries;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Facades\Auth;
@@ -79,6 +80,11 @@ class Post extends Model implements HasMedia
     public function reports()
     {
         return $this->morphMany(Report::class, 'reportable');
+    }
+
+    public function series()
+    {
+        return $this->belongsTo(PostSeries::class, 'post_series_id');
     }
     
     /**

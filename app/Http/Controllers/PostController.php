@@ -86,7 +86,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function postByTag($slug)
+/*     public function postByTag($slug)
     {
         $posts = Post::withAnyTags([$slug])
             ->with('tags:id,name,slug')
@@ -96,5 +96,5 @@ class PostController extends Controller
         return Inertia::render('post/tags', [
             'posts' => $posts
         ]);
-    }
+    } */
 }
