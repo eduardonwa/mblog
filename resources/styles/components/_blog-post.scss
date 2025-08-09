@@ -415,19 +415,7 @@
 
         @include badge;
         
-        .related-posts {
-            overflow-x: auto;
-            overflow-y: hidden;
-            align-items: stretch;
-            scroll-behavior: smooth;
-            scroll-snap-type: x mandatory;
-            scroll-padding-inline: 50%;
-            width: 100%;
-            gap: $size-4;
-            display: grid;
-            grid-auto-flow: column;
-            grid-auto-columns: clamp(220px, 30vw, 280px);
-        }
+        @include related-posts;
     }
 
     .media-sticky {
