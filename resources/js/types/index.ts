@@ -78,6 +78,7 @@ export interface ThumbnailUrls {
 }
 
 export interface Post {
+    value: any;
     id: number;
     user_id: number | null;
     user?: User | null;
@@ -120,6 +121,27 @@ export interface Post {
         slug: { en: string };
         name: { en: string };
     }>;
+    post_series_id: number | null;
+    series?: PostSeries | null;
+}
+
+export interface PostSeries {
+  id: number;
+  title: string;
+  posts: PostInSeries[];
+}
+
+export interface PostInSeries {
+  id: number;
+  title: string;
+  slug: string;
+  series_order: number;
+  thumbnail_urls: {
+    sm: string;
+    md: string;
+    lg: string;
+    max: string;
+  };
 }
 
 export interface Category {

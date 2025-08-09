@@ -65,7 +65,11 @@ class ChannelController extends Controller
             abort(404);
         }
 
-        $post->load(['channel', 'user', 'comments', 'likes']);
+        $post->load(['channel', 'user', 'comments', 'likes', 'series']);
+
+        $post->series?->load([
+            'posts' => fn ($q) => $q->where('id', '!=', $post->id),
+        ]);
         
         if ($post->post_template === 'list') {
             $post->rendered_body = $post->list_data_html;

@@ -9,6 +9,7 @@ use App\Models\Category;
 use Spatie\Tags\HasTags;
 use App\Models\PostSeries;
 use Spatie\Image\Enums\Fit;
+use App\Observers\PostObserver;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -168,34 +169,6 @@ class Post extends Model implements HasMedia
     public function getExcerptAttribute(): string
     {
         return $this->extract ?? '';
-    }
-
-    // interpretacion de "STATUS"
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($post) {
-            // created_at siempre debe tener valor
-            if (is_null($post->created_at)) {
-                $post->created_at = now();
-            }
-
-            if ($post->status === 'published') {
-                // solo asignar "published" si published_at es NULL
-                if (is_null($post->published_at)) {
-                    $post->published_at = now();
-                }
-            } elseif ($post->status === 'scheduled') {
-                // si no hay published_at, asignar fecha futura
-                if (is_null($post->published_at)) {
-                    $post->published_at = now()->addHour();
-                }
-            } elseif ($post->status === 'draft') {
-                // no debería tener fecha de publicación
-                $post->published_at = null;
-            }
-        });
     }
 
     /*

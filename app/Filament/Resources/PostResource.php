@@ -109,8 +109,7 @@ class PostResource extends Resource
                                                 Forms\Components\TextInput::make('title')->required(),
                                             ])
                                             ->afterStateUpdated(function (Get $get, Set $set, $state) {
-                                                if (blank($state)) {
-                                                    // Si quitan la serie, limpia el orden
+                                                if ($state === null || $state === '' || $state === 0) {
                                                     $set('series_order', null);
                                                     return;
                                                 }
@@ -125,11 +124,10 @@ class PostResource extends Resource
                                             ->helperText('Won\'t repeat')
                                             ->visible(fn ($get) => filled($get('post_series_id')))
                                             ->rules([
-                                                function ($get, $record) {
-                                                    return Rule::unique('posts', 'series_order')
+                                                fn ($get, $record) =>
+                                                    Rule::unique('posts', 'series_order')
                                                         ->ignore($record?->id)
-                                                        ->where(fn ($q) => $q->where('post_series_id', $get('post_series_id')));
-                                                }
+                                                        ->where(fn ($q) => $q->where('post_series_id', $get('post_series_id')))
                                             ])
                                     ]),
                                 Tab::make('Meta')

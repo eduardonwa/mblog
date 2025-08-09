@@ -26,11 +26,16 @@ class PostController extends Controller
             'category',
             'user',
             'likes',
-            'media'
+            'media',
+            'series'
         ])
         ->where('slug', $slug)
         ->where('status', 'published')
         ->firstOrFail();
+
+        $post->series?->load([
+            'posts' => fn ($q) => $q->where('id', '!=', $post->id),
+        ]);
 
         // Cargar comentarios principales y sus descendientes
         $comments = $this->getCommentTreeForPost($post);

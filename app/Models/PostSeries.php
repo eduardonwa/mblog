@@ -11,6 +11,8 @@ class PostSeries extends Model
     
     public function posts()
     {
-        return $this->hasMany(Post::class, 'post_series_id')->orderBy('series_order');
+        return $this->hasMany(Post::class, 'post_series_id')
+            ->orderBy('series_order')
+            ->with('media');
     }
 }

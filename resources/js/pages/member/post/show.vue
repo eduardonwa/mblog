@@ -10,6 +10,7 @@ import LikeButton from '@/components/LikeButton.vue';
 import ShareMenu from '@/components/ui/share-menu/ShareMenu.vue';
 import ReportModal from '@/components/ReportModal.vue';
 import Lightbox from '@/components/Lightbox.vue';
+import RelatedPosts from '@/components/RelatedPosts.vue';
 import {
   useThumbnail,
   useSanitizedHtml,
@@ -33,52 +34,55 @@ const localPost = ref<Post>(props.post);
 const { sanitizedHtml } = useSanitizedHtml(props.post);
 const { hasThumbnail } = useThumbnail();
 const { isMobile } = useResponsive();
+
+const relatedPosts = computed(() => props.post?.series?.posts ?? [])
+
 </script>
 
 <template>
     <SiteLayout>
         <section class="post-member container" data-type="blog-post">
             <header class="post-header">
-              <h2 class="title">{{ post.title }}</h2>
-              <p class="extract" v-if="post.post_template === 'standard'" v-html="post?.extract"></p>
-              
-              <div class="meta-primary">
-                  <Link
-                      :href="route('author.posts', {user: post.user?.username})"
-                      class="author"
-                  >
-                      {{ post?.user?.username || 'Rattlehead' }}
-                  </Link>
-                  <span class="date">{{ post.smart_date }}</span>
+                <h2 class="title">{{ post.title }}</h2>
+                <p class="extract" v-if="post.post_template === 'standard'" v-html="post?.extract"></p>
+                
+                <div class="meta-primary">
+                    <Link
+                        :href="route('author.posts', {user: post.user?.username})"
+                        class="author"
+                    >
+                        {{ post?.user?.username || 'Rattlehead' }}
+                    </Link>
+                    <span class="date">{{ post.smart_date }}</span>
 
-                  <Link
-                      v-if="post.channel"
-                      :href="route('channel.show', { slug: post.channel.slug })"
-                      class="channel"
-                  >
-                      {{ post.channel?.name }}
-                  </Link>
+                    <Link
+                        v-if="post.channel"
+                        :href="route('channel.show', { slug: post.channel.slug })"
+                        class="channel"
+                    >
+                        {{ post.channel?.name }}
+                    </Link>
 
-                  <Link
-                      v-else-if="post.category"
-                      class="category"
-                      :href="route('category.index', { slug: post.category.slug })"
-                  >
-                      {{ post.category?.name }}
-                  </Link>
-              </div>
+                    <Link
+                        v-else-if="post.category"
+                        class="category"
+                        :href="route('category.index', { slug: post.category.slug })"
+                    >
+                        {{ post.category?.name }}
+                    </Link>
+                </div>
 
-              <article class="blog-post__body__subheader img-standard-template | flow">
-                <Lightbox v-if="hasThumbnail(post.thumbnail_urls)" :post="post"/>
-              </article>
+                <article class="blog-post__body__subheader img-standard-template | flow">
+                    <Lightbox v-if="hasThumbnail(post.thumbnail_urls)" :post="post"/>
+                </article>
             </header>
             
             <!-- body -->
             <article class="post-body">
-              <div v-if="sanitizedHtml" v-html="sanitizedHtml"></div>
-              <div v-else v-html="post.body"></div>
+                <div v-if="sanitizedHtml" v-html="sanitizedHtml"></div>
+                <div v-else v-html="post.body"></div>
 
-              <div class="desktop-interactions-wrapper">
+                <div class="desktop-interactions-wrapper">
                 <LikeButton
                     :post="localPost"
                     class="stick-this"
@@ -91,15 +95,19 @@ const { isMobile } = useResponsive();
                     :reportable="{id: post.id, type: 'post'}"
                     :popoverId="`reportPopover-desktop-${post.id}`"
                 />
-              </div>
+                </div>
 
-              <CommentForm :post="post" />
-              <CommentBox
-                  :post="post"
-                  :comments="comments"
-                  :users="mentionableUsersArr"
-                  :depth="0"
-              />
+                <hr class="straight-large">
+
+                <RelatedPosts :related-posts="relatedPosts" />
+
+                <CommentForm :post="post" />
+                <CommentBox
+                    :post="post"
+                    :comments="comments"
+                    :users="mentionableUsersArr"
+                    :depth="0"
+                />
             </article>
 
             <!-- interacciones -->

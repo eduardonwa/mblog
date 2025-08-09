@@ -5,7 +5,8 @@ import CommentBox from '@/components/ui/comments/CommentBox.vue';
 import Lightbox from '@/components/Lightbox.vue';
 import ParagraphBlock from '@/components/ParagraphBlock.vue';
 import type { BlogPostProps } from './index';
-import { MentionableUser } from '@/types';
+import { MentionableUser, PostInSeries } from '@/types';
+import RelatedPosts from '@/components/RelatedPosts.vue';
 
 // Obtener datos mediante inyección
 const props = defineProps<{
@@ -23,6 +24,8 @@ const post = inject('postData') as BlogPostProps['post'];
 const mentionableUsersArr = computed<MentionableUser[]>(() =>
   Array.isArray(props.mentionableUsers) ? props.mentionableUsers : []
 );
+
+const relatedPosts = computed<PostInSeries[]>(() => post?.series?.posts ?? [])
 </script>
 
 <template>
@@ -48,7 +51,10 @@ const mentionableUsersArr = computed<MentionableUser[]>(() =>
     </div>
     
     <div v-else v-html="props.rawBody" />
+    
     <hr class="straight-large">
+
+    <RelatedPosts :related-posts="relatedPosts" />
     
     <article class="blog-post__comments">
       <CommentForm :post="post" />
