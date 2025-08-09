@@ -412,6 +412,10 @@
                 }
             }
         }
+
+        @include badge;
+        
+        @include related-posts;
     }
 
     .media-sticky {
@@ -606,6 +610,9 @@
 
     .post-body {
         margin-block: $size-4;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
 
         [data-youtube-video="true"] {
             iframe {
@@ -614,5 +621,9 @@
         }
 
         @include desktop-interactions;
+
+        @include badge;
+
+        @include related-posts;
     }
 }

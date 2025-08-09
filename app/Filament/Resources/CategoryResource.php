@@ -78,19 +78,19 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-SelectFilter::make('type')
-    ->label('Type')
-    ->options([
-        'main' => 'Main categories',
-        'sub' => 'Subcategories',
-    ])
-    ->query(function (Builder $query, array $data) {
-        if ($data['value'] === 'main') {
-            $query->whereNull('parent_id');
-        } elseif ($data['value'] === 'sub') {
-            $query->whereNotNull('parent_id');
-        }
-    }),
+                SelectFilter::make('type')
+                    ->label('Type')
+                    ->options([
+                        'main' => 'Main categories',
+                        'sub' => 'Subcategories',
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['value'] === 'main') {
+                            $query->whereNull('parent_id');
+                        } elseif ($data['value'] === 'sub') {
+                            $query->whereNotNull('parent_id');
+                        }
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

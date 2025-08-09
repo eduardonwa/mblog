@@ -26,11 +26,16 @@ class PostController extends Controller
             'category',
             'user',
             'likes',
-            'media'
+            'media',
+            'series'
         ])
         ->where('slug', $slug)
         ->where('status', 'published')
         ->firstOrFail();
+
+        $post->series?->load([
+            'posts' => fn ($q) => $q->where('id', '!=', $post->id),
+        ]);
 
         // Cargar comentarios principales y sus descendientes
         $comments = $this->getCommentTreeForPost($post);
@@ -86,7 +91,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function postByTag($slug)
+/*     public function postByTag($slug)
     {
         $posts = Post::withAnyTags([$slug])
             ->with('tags:id,name,slug')
@@ -96,5 +101,5 @@ class PostController extends Controller
         return Inertia::render('post/tags', [
             'posts' => $posts
         ]);
-    }
+    } */
 }

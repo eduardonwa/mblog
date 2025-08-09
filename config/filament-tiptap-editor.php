@@ -105,18 +105,7 @@ return [
     'extensions_script' => null,
     'extensions_styles' => null,
     'extensions' => [
-        [
-            'id' => 'bandcamp',
-            'name' => 'Bandcamp',
-            'button' => 'buttons.bandcamp',
-            'parser' => \App\TiptapExtensions\Bandcamp::class,
-        ],
-        [
-            'id' => 'embedImg',
-            'name' => 'EmbedImg',
-            'button' => 'buttons.embed-img',
-            'parser' => \App\TiptapExtensions\EmbedImg::class,
-        ]
+        //
     ],
 
     /*
