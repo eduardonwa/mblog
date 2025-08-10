@@ -610,7 +610,12 @@
     @include post-styles;
 
     .post-header {
+        .title {
+            font-size: $font-size-800;
+        }
+
         @include desktop-interactions;
+        
         @include mq(large) {
             .desktop-interactions-wrapper {
                 padding-inline-start: 0;
