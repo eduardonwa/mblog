@@ -132,10 +132,9 @@
       scroll-padding-inline: 50%;
       width: 100%;
       gap: $related-posts-gap;
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: clamp(220px, 30vw, 280px);
-
+      min-width: 0;
+      display: flex;
+      
       .series-item {
           display: grid;
           grid-template-rows: auto 1fr;
@@ -145,6 +144,8 @@
           gap: 0;
           min-height: 0;
           padding: $series-item-padding;
+          flex: 0 0 clamp(220px, 30vw, 280px);
+          min-width: 0;
 
           @include mq(large) {
               background: transparent;
