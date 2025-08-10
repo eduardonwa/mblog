@@ -52,51 +52,57 @@
 }
 
 @mixin post-styles {
-  // Estilos para el título
-  .title, &__meta-group .post-title {
-    margin-block-end: $size-6;
-    font-size: $font-size-800;
-    font-family: $font-family-medium;
-  }
+    // Estilos para el título
+    .post-title {
+        font-size: $font-size-800;
+        font-family: $font-family-medium;
 
-  .extract {
+        @include mq(large) {
+            font-size: 34px;
+            margin-block-end: $size-6;
+        }
+
+        @include mq(extraLarge) {
+            font-size: 44px;
+        }
+    }
+
+    .extract {
     color: $color-primary-100;
     margin-block-end: $size-6;
     line-height: 1.7;
     font-size: $font-size-500;    
-  }
-
-  // Estilos para meta-primary
-  .meta-primary {
-    display: flex;
-    flex-direction: column;
-    gap: $size-4;
-    font-size: $font-size-400;
-
-    .author, .category, .channel, .date {
-      text-decoration: none;
-      color: $color-primary-300;
     }
 
-    @include mq(large) {
-      margin-block-end: $size-6;
+    // Estilos para meta-primary
+    .meta-primary {
+        display: flex;
+        flex-direction: column;
+        gap: $size-4;
+        font-size: $font-size-400;
 
-      .author, .category, .channel {
-        width: fit-content;
-        
-        &:hover {
-          color: $color-secondary-200;
+        .author, .category, .channel, .date {
+            text-decoration: none;
+            color: $color-primary-300;
         }
-      }
-    }
-  }
 
-  // Estilos para el cuerpo del post
-  .post-body {
-    font-size: $font-size-500;
-    line-height: 33px;
-    color: $color-primary-200;
-  }
+        @include mq(large) {
+            .author, .category, .channel {
+                width: fit-content;
+                    
+                &:hover {
+                    color: $color-secondary-200;
+                }
+            }
+        }
+    }
+
+    // Estilos para el cuerpo del post
+    .post-body {
+        font-size: $font-size-500;
+        line-height: 33px;
+        color: $color-primary-200;
+    }
 }
 
 @mixin post-comments {
@@ -345,12 +351,16 @@
                 position: relative;
                 @include post-styles;
 
+                @include mq(large) {
+                    margin-inline-start: 0;
+                }
+
                 .toggle-media-button {
                     display: none;
 
                     @include mq(large) {
                         position: absolute;
-                        right: -21px;
+                        right: -40px;
                         top: 3px;
                         display: block;
                         width: fit-content;
