@@ -1,5 +1,47 @@
 @use '../abstracts/' as *;
 
+@mixin list-styles {
+  ul {
+    list-style: none;
+    padding-left: 1em;
+  }
+
+  ul li {
+    position: relative;
+  }
+
+  ul li::before {
+    content: "•";
+    position: absolute;
+    left: -16px;
+    top: 5px;
+    color: $color-primary-300;
+    font-size: 1.2em;
+    line-height: 1;
+  }
+
+  ol {
+    list-style: none;
+    counter-reset: item;
+    padding-left: 1.5em;
+  }
+
+  ol li {
+    counter-increment: item;
+    position: relative;
+  }
+
+  ol li::before {
+    content: counter(item) ". ";
+    position: absolute;
+    left: -24px;
+    color: $color-primary-300;
+    font-size: 16px;
+    font-family: $font-family-medium;
+  }
+}
+
+/* posts editoriales, plantilla story */
 .blog-post {
   &__body {
     em {
@@ -16,5 +58,14 @@
         font-weight: bold;
         margin-block-end: .8rem;
     }
+
+    @include list-styles;
+  }
+}
+
+/* posts de miembros, plantilla "standard" o "post" */
+.post-member {
+  .post-body {
+    @include list-styles;
   }
 }
