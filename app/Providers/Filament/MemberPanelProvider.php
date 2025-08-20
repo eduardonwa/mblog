@@ -56,6 +56,7 @@ class MemberPanelProvider extends PanelProvider
             ->plugins([
                 FilamentPeekPlugin::make()
             ])
+            ->favicon(asset('favicon/favicon-32x32.png'))
             ->viteTheme('resources/css/filament/member/theme.css')
             ->spa()
             ->topNavigation()

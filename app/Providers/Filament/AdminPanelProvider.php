@@ -59,6 +59,7 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentPeekPlugin::make(),
             ])
+            ->favicon(asset('favicon/favicon-32x32.png'))
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->profile(EditProfile::class)
             ->userMenuItems([
