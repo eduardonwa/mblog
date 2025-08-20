@@ -81,6 +81,7 @@
         gap: $size-4;
         font-size: $font-size-400;
         margin-block-start: $size-4;
+        
         .author, .category, .channel, .date {
             text-decoration: none;
             color: $color-primary-300;
