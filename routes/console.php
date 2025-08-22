@@ -8,14 +8,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('scrape:metal-archives --offset=0')
+Schedule::command('mbz:label-latest-albums "Century Media" --take=20 --covers')
     ->dailyAt('07:00')
-    ->timezone('America/Mazatlan');
-
-Schedule::command('scrape:metal-archives --offset=20')
-    ->dailyAt('14:00')
-    ->timezone('America/Mazatlan');
-
-Schedule::command('scrape:metal-archives --offset=40')
-    ->dailyAt('22:00')
     ->timezone('America/Mazatlan');
