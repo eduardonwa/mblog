@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
@@ -15,8 +16,7 @@ class LabelLatestAlbums extends Command
         {label : Nombre del sello, ej. "Century Media"} 
         {--take=20 : Cuántos albums traer} 
         {--covers : Intentar portada (Cover Art Archive)} 
-        {--cache-key= : (SIN USO en modo legacy) Clave de cache personalizada} 
-        {--ttl=30 : TTL de cache en minutos}';
+        {--offset=0 : Bloque activo a escribir (0|20|40...)}';
 
     protected $description = 'Trae los últimos N álbumes de un label desde MusicBrainz, opcionalmente agrega portada y cachea el resultado';
     
@@ -33,7 +33,6 @@ class LabelLatestAlbums extends Command
         $label       = (string) $this->argument('label');
         $take        = (int) $this->option('take');
         $withCovers  = (bool) $this->option('covers');
-        $ttlMinutes  = (int) $this->option('ttl');
 
         // 1) Resolver MBID del label
         $this->info("🔎 Buscando MBID para: {$label}");
@@ -114,17 +113,15 @@ class LabelLatestAlbums extends Command
             unset($r);
         }
 
-        // 6) Guardar en caché
+        // 6) Guardar en caché (mismo bloque siempre)
         $store = Cache::store('metal-scraper');
-        $ttl   = now()->addMinutes($ttlMinutes);
+        
+        $expiresAt = $this->nextSlotExpiresAt()->addMinutes(5); // buffer de 5 min
+        
+        $store->put('metal.new_releases.block_0', $albums, $expiresAt);
+        $store->put('metal.new_releases.active_block', 0, $expiresAt);
 
-        // Por ahora un solo bloque activo (0)
-        $store->put('metal.new_releases.active_block', 0, $ttl);
-        $store->put('metal.new_releases.block_0', $albums, $ttl);
-
-        $this->info("🗄  Guardados en cache (store: metal-scraper): metal.new_releases.block_0 (TTL {$ttlMinutes} min)");
-
-        // 6) Resumen en consola
+        // 7) Resumen en consola
         $this->line('');
         $headers = ['Fecha','Banda','Géneros','Álbum','País','Tipo'];
         if ($withCovers) {
@@ -170,5 +167,17 @@ class LabelLatestAlbums extends Command
         } catch (\Throwable $e) {
             return '—';
         }
+    }
+
+    protected function nextSlotExpiresAt(): Carbon
+    {
+        $tz   = 'America/Mazatlan';
+        $now  = Carbon::now($tz);
+        $slots = [[7,0],[14,0],[21,0]];
+        foreach ($slots as [$h,$m]) {
+            $t = $now->copy()->setTime($h,$m,0);
+            if ($t->greaterThan($now)) return $t;
+        }
+        return $now->copy()->addDay()->setTime(7,0,0);
     }
 }
