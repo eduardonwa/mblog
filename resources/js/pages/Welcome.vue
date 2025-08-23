@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { NewsFeed, Post } from '@/types';
+import type { NewsItem, Paginated, Post, VideoItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import MainPost from '@/components/MainPost.vue';
 import MainLeaderboard from '@/components/Leaderboard/MainLeaderboard.vue';
 import MainStaffPosts from '@/components/MainStaffPosts.vue';
 import MainCommunityFeed from '@/components/CommunityFeed/MainCommunityFeed.vue';
-import NewsFeedList from '@/components/NewsFeed/NewsFeedList.vue';
 import FilterCommunityPosts from '@/components/CommunityFeed/FilterCommunityPosts.vue';
+import ContentFeed from '@/components/ContentFeed/ContentFeed.vue';
 
 interface WelcomePageProps {
     featuredPost: Post[];
@@ -17,7 +17,8 @@ interface WelcomePageProps {
         data: Post[];
         next_page_url: string | null;
     };
-    newsFeed: NewsFeed;
+    readFeed:   Paginated<NewsItem>;
+    listenFeed: Paginated<VideoItem>;
     order: string;
 }
 
@@ -47,7 +48,10 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
                 :staffPosts="staffPosts"
             />
 
-            <NewsFeedList :news="newsFeed.data" />
+            <ContentFeed
+                :read-feed="props.readFeed"
+                :listen-feed="props.listenFeed"
+            />
         </section>
 
         <!-- below the fold -->

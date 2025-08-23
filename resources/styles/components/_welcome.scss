@@ -12,13 +12,13 @@
         grid-template-areas:
             "leaderboard     main-post"
             "secondary-posts secondary-posts"
-            "albums          albums";
+            "content-feed          content-feed";
 
         .main-post { grid-area: main-post; }
         .leaderboard { grid-area: leaderboard; }
         .secondary-posts { grid-area: secondary-posts; }
         .community-feed { grid-area: community-feed; }
-        .new-albums { grid-area: albums; }
+        .content-feed { grid-area: content-feed; }
     }
 
     @include mq(large) {
@@ -26,7 +26,7 @@
         grid-template-areas:
             "main-post       leaderboard"
             "secondary-posts leaderboard"
-            "albums          albums";
+            "content-feed          content-feed";
         margin-inline: $size-6;
         margin-block-start: $size-11;
     }

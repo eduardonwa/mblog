@@ -229,16 +229,20 @@ export interface SingleChannelProps {
   posts: Post[];
 }
 
-export type NewsItem = {
+export type BaseItem = {
   id: string;
   sourceLabel: string;
   title: string;
   url: string;
   date?: string | null;
+  thumb?: string | null;
 };
 
-export interface NewsFeed {
-  data: NewsItem[];
+export type NewsItem  = BaseItem;
+export type VideoItem = BaseItem;
+
+export interface Paginated<T> {
+  data: T[];
   next_page_url: string | null;
 }
 
