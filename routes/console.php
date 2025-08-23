@@ -15,3 +15,7 @@ Schedule::command('mbz:label-latest-albums "Century Media" --take=20 --covers')
 Schedule::command('mbz:label-latest-albums "Nuclear Blast" --take=20 --covers')
     ->dailyAt('14:00')
     ->timezone('America/Mazatlan');
+
+Schedule::command('mbz:label-latest-albums "Season of Mist" --take=20 --covers')
+    ->dailyAt('20:00')
+    ->timezone('America/Mazatlan');
