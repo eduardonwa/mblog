@@ -229,20 +229,21 @@ export interface SingleChannelProps {
   posts: Post[];
 }
 
-export interface MAReleases {
+export interface MbzAlbum {
   band: string;
-  releaseTitle: string;
+  title: string;
+  date: string; // ISO (YYYY-MM-DD)
+  date_text?: string | null;
+  country?: string | null;
   type: string;
-  genre: string;
-  releaseDate: string;
-  addedDate: string;
-  cover: string;
-  albumUrl: string;
-  bandUrl: string;
+  rgid: string;
+  rid?: string | null;
+  cover_url?: string | null;
+  genre?: string[];
 }
 
-export interface MAAlbumsResponse {
-  albums: MAReleases[];
+export interface MbzAlbumsResponse {
+  albums: MbzAlbum[];
 }
 
 export type SidebarState = 'expanded' | 'collapsed' | undefined;
