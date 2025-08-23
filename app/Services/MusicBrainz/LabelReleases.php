@@ -14,7 +14,7 @@ class LabelReleases
     protected function http()
     {
         return Http::retry(3, 800)->withHeaders([
-            'User-Agent' => 'mblog/1.0 (+https://tu-dominio; contacto@tu-dominio)',
+            'User-Agent' => 'sickofmetal/1.0 (+https://sickofmetal.net; admin@sickofmetal.net)',
             'Accept'     => 'application/json',
         ]);
     }

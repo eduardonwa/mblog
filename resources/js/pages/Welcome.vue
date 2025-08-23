@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Post, MAReleases } from '@/types';
+import type { Post, MbzAlbum } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import MainPost from '@/components/MainPost.vue';
@@ -17,7 +17,7 @@ interface WelcomePageProps {
         data: Post[];
         next_page_url: string | null;
     };
-    albums: MAReleases[];
+    albums: MbzAlbum[];
     order: string;
 }
 
@@ -47,9 +47,7 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
                 :staffPosts="staffPosts"
             />
 
-            <NewAlbums
-                :albums="albums"
-            />
+            <NewAlbums :albums="albums" />
         </section>
 
         <!-- below the fold -->

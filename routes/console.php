@@ -11,3 +11,7 @@ Artisan::command('inspire', function () {
 Schedule::command('mbz:label-latest-albums "Century Media" --take=20 --covers')
     ->dailyAt('07:00')
     ->timezone('America/Mazatlan');
+
+Schedule::command('mbz:label-latest-albums "Nuclear Blast" --take=20 --covers')
+    ->dailyAt('14:00')
+    ->timezone('America/Mazatlan');
