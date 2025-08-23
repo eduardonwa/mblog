@@ -229,21 +229,17 @@ export interface SingleChannelProps {
   posts: Post[];
 }
 
-export interface MbzAlbum {
-  band: string;
+export type NewsItem = {
+  id: string;
+  sourceLabel: string;
   title: string;
-  date: string; // ISO (YYYY-MM-DD)
-  date_text?: string | null;
-  country?: string | null;
-  type: string;
-  rgid: string;
-  rid?: string | null;
-  cover_url?: string | null;
-  genre?: string[];
-}
+  url: string;
+  date?: string | null;
+};
 
-export interface MbzAlbumsResponse {
-  albums: MbzAlbum[];
+export interface NewsFeed {
+  data: NewsItem[];
+  next_page_url: string | null;
 }
 
 export type SidebarState = 'expanded' | 'collapsed' | undefined;

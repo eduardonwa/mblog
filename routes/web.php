@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Services\Feeds\FeedParser;
+use App\Services\Feeds\FeedFetcher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Services\Feeds\TitleHeuristics;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CaptchaController;
@@ -10,11 +13,13 @@ use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NuclearFeedController;
 use Illuminate\Notifications\DatabaseNotification;
 use App\Http\Controllers\UserPublicProfileController;
 
 // Grupo para rutas públicas
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
+// Route::get('/', [NuclearFeedController::class, 'index'])->name('releases.index');
 Route::get('/captcha/generate', [CaptchaController::class, 'generateMetalCaptcha']);
 Route::post('/captcha/validate', [CaptchaController::class, 'validateCaptcha']);
 Route::get('posts', [PostController::class, 'index'])->name('post.index');

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Post, MbzAlbum } from '@/types';
+import type { NewsFeed, Post } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import MainPost from '@/components/MainPost.vue';
 import MainLeaderboard from '@/components/Leaderboard/MainLeaderboard.vue';
 import MainStaffPosts from '@/components/MainStaffPosts.vue';
 import MainCommunityFeed from '@/components/CommunityFeed/MainCommunityFeed.vue';
-import NewAlbums from '@/components/NewAlbums/NewAlbums.vue';
+import NewsFeedList from '@/components/NewsFeed/NewsFeedList.vue';
 import FilterCommunityPosts from '@/components/CommunityFeed/FilterCommunityPosts.vue';
 
 interface WelcomePageProps {
@@ -17,7 +17,7 @@ interface WelcomePageProps {
         data: Post[];
         next_page_url: string | null;
     };
-    albums: MbzAlbum[];
+    newsFeed: NewsFeed;
     order: string;
 }
 
@@ -47,7 +47,7 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
                 :staffPosts="staffPosts"
             />
 
-            <NewAlbums :albums="albums" />
+            <NewsFeedList :news="newsFeed.data" />
         </section>
 
         <!-- below the fold -->
