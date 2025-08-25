@@ -5,6 +5,7 @@
 /public/storage
 /public/css/filament
 /public/js/filament
+/public/info.php
 /storage/*.key
 /storage/pail
 /vendor
