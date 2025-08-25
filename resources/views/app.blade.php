@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        <link rel="canonical" href="{{ request()->url() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="facebook-domain-verification" content="ya9dx7u6o4lf2mne0n9tkk8yau8jph" />
         <title inertia>{{ config('app.name', 'sickofmetal') }}</title>
