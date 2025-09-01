@@ -18,28 +18,24 @@ class NewsFeed
      */
     public function collect(array $feeds, array $opts = []): array
     {
-        $perSource   = $opts['per_source']   ?? 10;   // cuántos por sello
-        $interleave  = $opts['interleave']   ?? true; // mezclar 1–1–1
-        $ttlMinutes  = $opts['ttl_minutes']  ?? 60;   // cache del XML
+        $defaults = config('feeds.read');
+        $opts = array_replace($defaults, $opts);
+
+        $perSource  = (int)  ($opts['per_source']  ?? 5);
+        $interleave = (bool) ($opts['interleave']  ?? true);
+        $ttlMinutes = (int)  ($opts['ttl_minutes'] ?? 60);
 
         $bySource = [];
-
         foreach ($feeds as $label => $url) {
             $xml = $this->fetch($url, $ttlMinutes);
-            if ($xml === null) {
-                $bySource[$label] = [];
-                continue;
-            }
-            $items = $this->parse($xml);
+            if ($xml === null) { $bySource[$label] = []; continue; }
 
-            // Ordena por fecha desc y corta por sello
+            $items = $this->parse($xml);
             usort($items, fn($a,$b) =>
                 strtotime($b['date'] ?? '1970-01-01') <=> strtotime($a['date'] ?? '1970-01-01')
             );
+            $items = array_slice($items, 0, max(0, $perSource));
 
-            $items = array_slice($items, 0, max(0, (int)$perSource));
-
-            // Normaliza shape final
             $bySource[$label] = array_map(function ($it) use ($label) {
                 return [
                     'id'          => substr(sha1($it['url']), 0, 16),
@@ -51,7 +47,6 @@ class NewsFeed
             }, $items);
         }
 
-        // Mezcla o concatena
         if (!$interleave) {
             $all = [];
             foreach ($feeds as $label => $_) {
@@ -60,18 +55,14 @@ class NewsFeed
             return $all;
         }
 
-        // Interleaving round-robin
+        // interleave round-robin
         $queues = $bySource;
         $order  = array_keys($queues);
         $out    = [];
         while (!empty($order)) {
             foreach ($order as $i => $label) {
-                if (!empty($queues[$label])) {
-                    $out[] = array_shift($queues[$label]);
-                }
-                if (empty($queues[$label])) {
-                    unset($order[$i]);
-                }
+                if (!empty($queues[$label])) $out[] = array_shift($queues[$label]);
+                if (empty($queues[$label]))  unset($order[$i]);
             }
             $order = array_values($order);
         }
