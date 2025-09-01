@@ -19,6 +19,7 @@ class FeedCatalogue
     {
         return [
             'Nuclear Blast' => VideoFeed::ytFeed('UCoxg3Kml41wE3IPq-PC-LQw'),
+            'Metal Blade' => VideoFeed::ytFeed('UCSldglor1t-5E-Gy2eBdMrA'),
         ];
     }
 }

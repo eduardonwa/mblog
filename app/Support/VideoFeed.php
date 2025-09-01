@@ -4,7 +4,7 @@ namespace App\Support;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 class VideoFeed
 {
@@ -27,20 +27,66 @@ class VideoFeed
      */
     public function collect(array $feeds, array $opts = []): array
     {
-        $perSource    = $opts['per_source']     ?? 15;   // YT ~15 ítems
-        $interleave   = $opts['interleave']     ?? true;
-        $strictDaily  = $opts['strict_daily']   ?? true; // después de la gracia, ¿mostrar stale?
-        $graceMinutes = $opts['grace_minutes']  ?? 5;
+        $defaults = config('feeds.listen');
+
+        $opts = array_replace($defaults, $opts);
+
+        $perSource    = (int)  ($opts['per_source']    ?? 5);
+        $interleave   = (bool) ($opts['interleave']    ?? true);
+        $strictDaily  = (bool) ($opts['strict_daily']  ?? true);
+        $graceMinutes = (int)  ($opts['grace_minutes'] ?? 5);
+
+        $filters = $opts['filters'] ?? [];
 
         $bySource = [];
-
         foreach ($feeds as $label => $url) {
             $xml = $this->fetchDaily($url, $strictDaily, $graceMinutes);
-            if ($xml === null) { $bySource[$label] = []; continue; }
+            if ($xml === null) { 
+                $bySource[$label] = []; 
+                continue; 
+            }
 
             $items = $this->parse($xml); // title, url, thumb, date
 
-            // Precompute ts para ordenar por fecha (robusto con Carbon)
+            // === BLOQUE DE FILTRO ===
+            $incGlobal = $filters['include_regex_global'] ?? [];
+            $incByLbl  = $filters['include_regex_by_label'][$label] ?? null;
+
+            $excGlobal = $filters['exclude_regex_global'] ?? [];
+            $excByLbl  = $filters['exclude_regex_by_label'][$label] ?? [];
+
+            $include   = is_array($incByLbl) ? $incByLbl : $incGlobal;
+            $exclude   = array_merge($excGlobal, $excByLbl);
+            $hasAllow  = !empty($include);
+
+            $items = array_filter($items, function ($it) use ($include, $exclude, $hasAllow) {
+                $title = $it['title'] ?? '';
+
+                // 1) excluir si matchea algún patrón de blacklist
+                foreach ($exclude as $rx) {
+                    if (@preg_match($rx, '') !== false && preg_match($rx, $title)) {
+                        return false;
+                    }
+                }
+
+                // 2) si hay allowlist, debe cumplir al menos una regex
+                if ($hasAllow) {
+                    foreach ($include as $rx) {
+                        if (@preg_match($rx, '') !== false && preg_match($rx, $title)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // 3) sin allowlist -> aceptar (ya pasó exclude)
+                return true;
+            });
+
+            $items = array_values($items); // reindexar
+            // === FIN FILTRO ===
+
+            // Precompute ts para ordenar por fecha
             $items = array_map(function ($it) {
                 $it['ts'] = 0;
                 if (!empty($it['date'])) {
@@ -49,11 +95,9 @@ class VideoFeed
                 return $it;
             }, $items);
 
-            // Ordenar por ts desc y cortar
             usort($items, fn($a,$b) => $b['ts'] <=> $a['ts']);
             $items = array_slice($items, 0, max(0, (int)$perSource));
 
-            // Map a UI (sin acumular, con thumb)
             $bySource[$label] = array_map(function ($it) use ($label) {
                 unset($it['ts']);
                 return [
@@ -67,7 +111,6 @@ class VideoFeed
             }, $items);
         }
 
-        // Agrupado sin mezclar
         if (!$interleave) {
             $all = [];
             foreach ($feeds as $label => $_) {
@@ -76,7 +119,7 @@ class VideoFeed
             return $all;
         }
 
-        // Round-robin 1–1–1 (interleave)
+        // interleave round-robin
         $queues = $bySource;
         $order  = array_keys($queues);
         $out    = [];
