@@ -28,15 +28,12 @@ class VideoFeed
     public function collect(array $feeds, array $opts = []): array
     {
         $defaults = config('feeds.listen');
-
         $opts = array_replace($defaults, $opts);
 
         $perSource    = (int)  ($opts['per_source']    ?? 5);
         $interleave   = (bool) ($opts['interleave']    ?? true);
         $strictDaily  = (bool) ($opts['strict_daily']  ?? true);
         $graceMinutes = (int)  ($opts['grace_minutes'] ?? 5);
-
-        $filters = $opts['filters'] ?? [];
 
         $bySource = [];
         foreach ($feeds as $label => $url) {
@@ -47,44 +44,6 @@ class VideoFeed
             }
 
             $items = $this->parse($xml); // title, url, thumb, date
-
-            // === BLOQUE DE FILTRO ===
-            $incGlobal = $filters['include_regex_global'] ?? [];
-            $incByLbl  = $filters['include_regex_by_label'][$label] ?? null;
-
-            $excGlobal = $filters['exclude_regex_global'] ?? [];
-            $excByLbl  = $filters['exclude_regex_by_label'][$label] ?? [];
-
-            $include   = is_array($incByLbl) ? $incByLbl : $incGlobal;
-            $exclude   = array_merge($excGlobal, $excByLbl);
-            $hasAllow  = !empty($include);
-
-            $items = array_filter($items, function ($it) use ($include, $exclude, $hasAllow) {
-                $title = $it['title'] ?? '';
-
-                // 1) excluir si matchea algún patrón de blacklist
-                foreach ($exclude as $rx) {
-                    if (@preg_match($rx, '') !== false && preg_match($rx, $title)) {
-                        return false;
-                    }
-                }
-
-                // 2) si hay allowlist, debe cumplir al menos una regex
-                if ($hasAllow) {
-                    foreach ($include as $rx) {
-                        if (@preg_match($rx, '') !== false && preg_match($rx, $title)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-
-                // 3) sin allowlist -> aceptar (ya pasó exclude)
-                return true;
-            });
-
-            $items = array_values($items); // reindexar
-            // === FIN FILTRO ===
 
             // Precompute ts para ordenar por fecha
             $items = array_map(function ($it) {
