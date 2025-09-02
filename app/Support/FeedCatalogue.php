@@ -18,8 +18,10 @@ class FeedCatalogue
     public static function youtube(): array
     {
         return [
-            'Nuclear Blast' => VideoFeed::ytFeed('UCoxg3Kml41wE3IPq-PC-LQw'),
+            'Relapse' => VideoFeed::ytFeed('UC_E54fzF2BPsy7Ig4aDygWA'),
             'Metal Blade' => VideoFeed::ytFeed('UCSldglor1t-5E-Gy2eBdMrA'),
+            'Black Metal Promotion' => VideoFeed::ytFeed('UCzCWehBejA23yEz3zp7jlcg'),
+            'Rob Doom Hammer' => VideoFeed::ytFeed('UCwfonT2RaN3ovsu1Qa22Xbw'),
         ];
     }
 }
