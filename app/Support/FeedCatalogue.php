@@ -19,7 +19,6 @@ class FeedCatalogue
     {
         return [
             'Relapse' => VideoFeed::ytFeed('UC_E54fzF2BPsy7Ig4aDygWA'),
-            'Metal Blade' => VideoFeed::ytFeed('UCSldglor1t-5E-Gy2eBdMrA'),
             'Black Metal Promotion' => VideoFeed::ytFeed('UCzCWehBejA23yEz3zp7jlcg'),
             'Rob Doom Hammer' => VideoFeed::ytFeed('UCwfonT2RaN3ovsu1Qa22Xbw'),
         ];
