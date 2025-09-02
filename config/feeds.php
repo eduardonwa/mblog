@@ -7,16 +7,12 @@ return [
         'ttl_minutes' => 60,
     ],
     'listen' => [
-        'per_source'    => 10,
+        'per_source'    => 6,
         'interleave'    => true,
         'strict_daily'  => true,
         'grace_minutes' => 5,
         'filters' => [
             'include_regex_by_label' => [
-                'Nuclear Blast' => [
-                    '/\bofficial\s+(music\s+)?video\b/i',
-                    '/\bofficial\s+visualizer\b/i',
-                ],
                 'Metal Blade' => [
                     '/\bofficial\s+video\b/i',
                     '/\bofficial\b/i',
