@@ -18,6 +18,11 @@
   --max-width: 100%;
 }
 .container[data-type="blog-post"] {
+  display: block;
+  width: min(100% - var(--padding), var(--max-width));
+  margin-inline: auto;
+  max-width: 100%;
+
   @include mq(large) {
     display: grid;
     justify-content: center;
