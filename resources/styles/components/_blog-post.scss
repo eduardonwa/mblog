@@ -381,24 +381,18 @@
         font-size: $font-size-500;
         line-height: 33px;
         color: $color-primary-200;
+        margin-inline: $size-5;
+        
+        img {
+            width: fit-content;
+            margin: auto;
+            height: auto;
+            margin-block: $size-8;
+        }
 
-        div {
-            outline: 1px solid;
-            p > img {
-                display: block;
-                max-width: 100%;
-                width: 100%;
-                height: auto;
-                margin: $size-8 auto;
-            }
-    
-            iframe {
-                display: block;
-                width: 100%;
-                aspect-ratio: 16 / 9;
-                border: none;
-                margin: $size-8 auto;
-            }
+        iframe {
+            border: none;
+            margin-block: $size-8;
         }
 
         &__subheader {
