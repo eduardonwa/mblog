@@ -22,7 +22,7 @@ const { setMediaEl } = useMediaAnimation(props.items, () => props.activeIndex)
 </script>
 
 <template>
-  <section 
+  <section
     class="blog-post__media" 
     grid-area="media"
     :class="{ 'collapsed': layoutState.state.value === 'collapsed' }"
@@ -40,10 +40,5 @@ const { setMediaEl } = useMediaAnimation(props.items, () => props.activeIndex)
         />
       </div>  
     </div>
-
-    <!-- <div class="debug">
-      activeIdx={{ activeIndex }} — current={{ current?.src || 'null' }}
-    </div>
-    <pre class="debug">activeIndex: {{ activeIndex }}</pre> -->
   </section>
 </template>
