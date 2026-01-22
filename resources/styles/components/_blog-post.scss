@@ -382,20 +382,22 @@
         line-height: 33px;
         color: $color-primary-200;
 
-        p > img {
-            display: block;
-            max-width: 100%;
-            width: 100%;
-            height: auto;
-            margin: $size-8 auto;
-        }
-
-        iframe {
-            display: block;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border: none;
-            margin: $size-8 auto;
+        div {
+            p > img {
+                display: block;
+                max-width: 100%;
+                width: 100%;
+                height: auto;
+                margin: $size-8 auto;
+            }
+    
+            iframe {
+                display: block;
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                border: none;
+                margin: $size-8 auto;
+            }
         }
 
         &__subheader {
