@@ -18,16 +18,23 @@
   --max-width: 100%;
 }
 .container[data-type="blog-post"] {
-  display: grid;
-  justify-content: center;
-  grid-template-columns: minmax(auto, 69ch);
+  display: block;
+  width: min(100% - var(--padding), var(--max-width));
+  margin-inline: auto;
+  max-width: 100%;
+  overflow-x: clip;
 
   @include mq(large) {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: minmax(0, 69ch);
+    
     &[data-align="start"] {
       justify-content: start;
     }
   }
 }
+
 .container[data-type="extra-wide"]{
   --max-width: #{$container-max-width-extra-wide};
   --padding: 0;

@@ -30,7 +30,8 @@ const relatedPosts = computed<PostInSeries[]>(() => post?.series?.posts ?? [])
 
 <template>
   <section
-    class="blog-post__body"
+    class="blog-post__body | container"
+    data-type="blog-post"
     data-align="start"
     grid-area="content"
   >
