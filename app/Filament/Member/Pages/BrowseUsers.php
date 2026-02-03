@@ -12,6 +12,8 @@ class BrowseUsers extends Page
     protected static string $view = 'filament.member.pages.browse-users';
 
     protected static ?string $title = 'Members';
+
+    protected static ?int $navigationSort = 30;
     
     protected ?string $heading = 'Members';
     

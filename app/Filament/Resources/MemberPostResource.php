@@ -32,7 +32,6 @@ class MemberPostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?string $modelLabel = 'Members';

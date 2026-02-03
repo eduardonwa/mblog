@@ -1,6 +1,6 @@
 <x-filament::page>
-    
-    @if($notifications->whereNull('read_at')->count())
+
+    @if ($notifications->whereNull('read_at')->count())
         <form action="{{ route('member.notifications.markAllAsRead') }}" method="POST" class="flex justify-end">
             @csrf
             <button type="submit" class="px-3 py-1 rounded bg-morado-600 clr-morado-100 hover:text-white transition-colors text-sm font-medium">
@@ -9,30 +9,35 @@
         </form>
     @endif
 
-    @foreach ($notifications as $notification)
+    @forelse ($notifications as $notification)
         <div class="p-2 hover:bg-black/40 transition duration-200">
             @if (!empty($notification->data['url']))
                 <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     class="font-semibold clr-morado-100"
-                    href="{{ $notification->data['url']}}"
+                    href="{{ $notification->data['url'] }}"
                 >
-                    {{ $notification->data['message'] ?? 'N\A' }}
+                    {{ $notification->data['message'] ?? 'N/A' }}
                 </a>
             @else
                 <span class="font-semibold clr-morado-100">
-                    {{ $notification->data['message'] ?? 'N\A' }}
+                    {{ $notification->data['message'] ?? 'N/A' }}
                 </span>
             @endif
-            <div class="text-sm text-gray-400">{{ $notification->created_at->diffForHumans() }}</div>
-            
+
+            <div class="text-sm text-gray-400">
+                {{ $notification->created_at->diffForHumans() }}
+            </div>
+
             <div class="flex gap-2 mt-2">
-                @if(!$notification->read_at)
+                @if (!$notification->read_at)
                     <form action="{{ route('member.notifications.markAsRead', $notification) }}" method="POST">
                         @csrf
                         <button type="submit" class="text-sm clr-morado-100 hover:underline">Mark as read</button>
                     </form>
                 @endif
+
                 <form action="{{ route('member.notifications.destroy', $notification) }}" method="POST">
                     @csrf
                     @method('DELETE')
@@ -40,5 +45,11 @@
                 </form>
             </div>
         </div>
-    @endforeach
+    @empty
+        <div class="p-6 text-center rounded-lg bg-black/20 border border-white/10">
+            <p class="text-lg font-semibold clr-morado-100">You have no notifications</p>
+            <p class="text-sm text-gray-400 mt-1">When there's something new, it will appear here</p>
+        </div>
+    @endforelse
+
 </x-filament::page>
