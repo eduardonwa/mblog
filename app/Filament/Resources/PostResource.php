@@ -142,6 +142,7 @@ class PostResource extends Resource
                                                 'mimes:png,jpg,jpeg,webp',
                                                 'max:5000'
                                             ])
+                                            ->acceptedFileTypes(['image/jpeg','image/png','image/webp'])
                                             ->required(),
                                         TextInput::make('meta_title')
                                             ->maxLength('255')

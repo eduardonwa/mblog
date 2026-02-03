@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Post, Comment, MentionableUser, Channel } from '@/types';
 import { BlogPostProps } from '@/components/ui/blog-post';
-import { computed, ref } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import CommentBox from '@/components/ui/comments/CommentBox.vue';
@@ -17,7 +17,6 @@ import {
   useResponsive,
 } from '@/composables/memberPostShow'
 
-
 const props = defineProps<{
     post: Post;
     comments: Comment[];
@@ -25,6 +24,8 @@ const props = defineProps<{
     mentionableUsers?: BlogPostProps['mentionableUsers'];
     url: string;
 }>();
+
+const { post } = toRefs(props);
 
 const mentionableUsersArr = computed<MentionableUser[]>(() => 
   Array.isArray(props.mentionableUsers) ? props.mentionableUsers : []
@@ -44,7 +45,9 @@ const relatedPosts = computed(() => props.post?.series?.posts ?? [])
         <section class="post-member container" data-type="blog-post">
             <header class="post-header">
                 <h2 class="title">{{ post.title }}</h2>
-                <p class="extract" v-if="post.post_template === 'standard'" v-html="post?.extract"></p>
+                <p class="extract" v-if="post.post_template === 'post' && post.extract">
+                    {{ post.extract }}
+                </p>
                 
                 <div class="meta-primary">
                     <Link

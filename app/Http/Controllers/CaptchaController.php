@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Drivers\Gd\Driver;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 
 class CaptchaController extends Controller
 {
