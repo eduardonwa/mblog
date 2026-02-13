@@ -9,9 +9,7 @@
 }
 
 @mixin link-hover {
-  & {
-    font-size: $font-size-500;
-  } 
+  & { color: $color-primary-100; } 
   
   &:hover {
     background-color: $color-primary-900;
@@ -25,33 +23,15 @@
   justify-content: space-between;
 }
 
-@mixin site-links {
-  margin-block: $size-3;
-  padding: $size-5;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: $size-4;
-
-  @include mq(large) {
-    font-size: $font-size-500;
-    padding-block: $size-5;
-  }
-}
-
 @mixin auth-links {
-  width: fit-content;
-  margin-block-start: $size-4;
-  margin-inline-start: $size-3;
-  color: $color-primary-200;
-  font-size: $font-size-500;
-  padding: $size-3;
   color: $color-primary-100;
-  font-size: $font-size-400;
-  margin-block: $size-6;
-  margin-inline-start: $size-5;
-  text-transform: uppercase;
-  
+  padding: $size-3 0;
+  border-radius: 0;
+  padding-inline: $size-2;
+  display: block;
+  text-align: left;
+  width: 100%;
+
   &:hover {
     background: $color-primary-900;
   }
@@ -64,10 +44,10 @@
   left: 0;
   top: 0;
 
-    &__visible {
-      @include flex-between;
-      background-color: $color-primary-900;
-      padding: $size-4;
+  &__visible {
+    @include flex-between;
+    background-color: $color-primary-900;
+    padding: $size-4;
 
     &__toggle {
       width: 50px;
@@ -124,7 +104,6 @@
   }
 
   &__hidden {
-    /* posicion inicial */
     position: fixed;
     z-index: 1000;
     top: 0;
@@ -133,7 +112,6 @@
     height: 100dvh;
     overflow-y: auto;
     transition: left 0.3s ease;
-    /* visuales */
     background: linear-gradient(
       to bottom right,
       rgba(64, 64, 104, .8) 0%,
@@ -143,10 +121,7 @@
     -webkit-backdrop-filter: blur(10px);
     transition: left 0.3s ease;
 
-    /* posición abierta */
-    &.active {
-      left: 0;
-    }
+    &.active { left: 0; }
 
     &__top {
       display: flex;
@@ -164,25 +139,16 @@
       display: flex;
       flex-direction: column;
       gap: $size-8;
-      height: auto;
+      padding: $size-8 $size-4;
 
       &__links {
-        & {
-          margin-top: $size-5;
-        }
-
+        h2 { font-family: $font-family-semi-bold; }
+        
         a {
-          @include site-links;
-          @include link-hover;
-
-          & {
-            padding-block: $size-4;
-          }
-
-          &:hover {
-            background-color: $color-primary-900;
-            transition: background-color 0.3s ease;
-          }
+          display: block;
+          padding-block: $size-3;
+          @include link-hover();
+          padding-inline-start: $size-2;
         }
       }
 
@@ -191,38 +157,21 @@
         display: flex;
         flex-direction: column;
 
-        a {
-          padding-block: $size-2;
-          padding: $size-5;
-          color: $color-primary-200;
-          font-size: $font-size-500;
-          @include link-hover;
-        }
-
-        h2 {
-          padding-block-end: 4px;
-          padding-left: $size-5;
-          font-family: $font-family-semi-bold;
-        }
+        a { @include link-hover; }
+        h2 { font-family: $font-family-semi-bold; }
       }
 
       &__settings {
-        h2 {
-          padding-inline-start: $size-5;
-          font-family: $font-family-semi-bold;
-        }
+        h2 { font-family: $font-family-semi-bold; }
 
-        .login-btn {
-          @include auth-links();
-        }
+        .login-btn { @include auth-links(); }
 
-        form {          
+        form {
           .logout-btn {
             @include auth-links();
           }
         }
       }
-
     }
   }
 }

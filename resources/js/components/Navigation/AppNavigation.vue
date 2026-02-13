@@ -17,6 +17,7 @@ const logout = () => {
 computed(() => usePage().url);
 
 const isMenuOpen = ref(false);
+
 // importamos las categories tipadas desde el middleware de inertia
 const categories = computed<Category[]>(() => usePage().props.categories as Category[]);
 
@@ -60,8 +61,8 @@ onUnmounted(() => {
                 <NavigationTopBarVisible
                     :auth="page.props.auth"
                     :isMenuOpen="isMenuOpen"
-                    @open-menu="openMenu"
                     :categories="categories"
+                    @open-menu="openMenu"
                 />
             </div>
 
@@ -75,20 +76,10 @@ onUnmounted(() => {
 
                 <!-- menu -->
                  <div class="nav__hidden__menu">
-                    <div class="nav__hidden__menu__links">
-                        <Link
-                            href="/"
-                            class="clr-primary-100"
-                        >
-                            <HomeIcon color="#e6e9f3" hoverColor="#fff" />
-                            Home
-                        </Link>
 
-                        <Link
-                            :href="route('channel.index')"
-                            class="clr-primary-100"
-                        >
-                            <GroupsIcon color="#e6e9f3" hoverColor="#fff"/>
+                    <div class="nav__hidden__menu__links">
+                        <h2 class="uppercase clr-secondary-300">site</h2>
+                        <Link class="no-decor" :href="route('channel.index')">
                             Channels
                         </Link>
                     </div>

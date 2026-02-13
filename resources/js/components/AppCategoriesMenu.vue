@@ -38,7 +38,10 @@ watch(
             v-click-away="() => (openStates[category.id] = false)"
         >
             <template #header="{ isOpen, toggle }">
-                <Link :href="route('category.index', { slug: category.slug })">
+                <Link class="label"
+                    :class="{ 'has-submenu': !category.children?.length }"
+                    :href="route('category.index', { slug: category.slug })"
+                >
                     {{ category.name }}
                 </Link>
                 <span @click.stop="toggle" v-if="category.children && category.children.length > 0">
@@ -57,3 +60,11 @@ watch(
         </SimpleDropdown>
     </div>
 </template>
+
+<style>
+    .label { position: relative; }
+    .has-submenu {
+        display: block;
+        width: 100%;
+    }
+</style>
