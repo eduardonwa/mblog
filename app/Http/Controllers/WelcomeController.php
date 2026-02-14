@@ -4,20 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Support\HomeFeedBuilder;
-use App\Support\NewsFeed;
-use App\Support\VideoFeed;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class WelcomeController extends Controller
 {
     public function index(Request $request, HomeFeedBuilder $homeFeeds)
     {   
         // crea filtros y obtener posts mejor rankeados
-        $order = $request->get('order', 'hot');
+        $order = $request->get('order');
+        $orderForQuery = $ordr ?? 'hot'; // default solo para ordenar en backend
         $query = Post::communityFeed();
-        switch ($order) {
+
+        switch ($orderForQuery) {
             case 'newest':
                 $query->orderByDesc('published_at');
                 break;
@@ -31,6 +30,7 @@ class WelcomeController extends Controller
         // obtener posts y regresar json
         $communityFeed = $query->paginate(12);
         $communityFeed->appends(['json' => 'true']);
+
         if (request()->wantsJson()) {
             return response()->json($communityFeed);
         }

@@ -1,8 +1,6 @@
 @use '../abstracts/' as *;
 
 .main-editorial-grid {
-    margin-block-start: $size-13;
-    
     @include mq(medium) {
         margin-block-start: $size-11;
         display: grid;
@@ -61,5 +59,16 @@
         &__groups-wrapper {
             grid-area: groups;
         }
+    }
+}
+
+.main-editorial-grid,
+.community-grid { display: none; }
+.active-layout { display: block; }
+
+@include mq(large) {
+    .main-editorial-grid,
+    .community-grid {
+        display: grid !important;
     }
 }

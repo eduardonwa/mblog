@@ -181,3 +181,27 @@
     left: 0;
   }
 }
+
+.layout-selector {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-block-start: $size-12;
+  
+  .button[data-type="ghost"] {
+    color: $color-primary-200;
+    padding: $size-5;
+    font-size: $font-size-500;
+    border-bottom: 1px solid $color-primary-300;
+    width: 100%;
+    border-radius: 0;
+
+    &.active {
+      border-bottom: 2px solid $color-primary-100;
+    }
+  }
+
+  @include mq(large) {
+    display: none;
+  }
+}

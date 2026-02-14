@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-const props = defineProps<{ order: string }>()
 import CrushingIcon from '@/components/ui/icons/CrushingIcon.vue';
 import NewestIcon from '@/components/ui/icons/NewestIcon.vue';
 import GroupsIcon from '../ui/icons/GroupsIcon.vue';
+
+const props = defineProps<{ order?: string }>()
 </script>
 
 <template>
     <div class="order-filters">
         <Link
             preserve-scroll
+            preserve-state
+            replace
             :href="route('home', { order: 'crushing' })"
             :class="{ active: props.order === 'crushing' }"
         >
@@ -19,6 +22,8 @@ import GroupsIcon from '../ui/icons/GroupsIcon.vue';
         
         <Link
             preserve-scroll
+            preserve-state
+            replace
             :href="route('home', { order: 'newest' })"
             :class="{ active: props.order === 'newest' }"
         >
@@ -28,6 +33,8 @@ import GroupsIcon from '../ui/icons/GroupsIcon.vue';
     
         <Link
             preserve-scroll
+            preserve-state
+            replace
             :href="route('home', { order: 'channel' })"
             :class="{ active: props.order === 'channel' }"
         >

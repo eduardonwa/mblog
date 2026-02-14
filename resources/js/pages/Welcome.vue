@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { NewsItem, Paginated, Post, VideoItem } from '@/types';
+import { ref, watch } from "vue";
+import { router } from "@inertiajs/vue3";
 import { Head } from '@inertiajs/vue3';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 import MainPost from '@/components/MainPost.vue';
@@ -24,13 +26,49 @@ interface WelcomePageProps {
 
 const props = defineProps<WelcomePageProps>();
 const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
+
+const activeTab = ref<"blog" | "feed">("blog");
+
+watch(
+  () => props.order,
+  (order) => {
+    if (order) activeTab.value = "feed"
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
     <SiteLayout>
+        <section class="layout-selector">
+            <button
+                class="button"
+                data-type="ghost"
+                type="button"
+                :class="{ active: activeTab === 'blog' }"
+                @click="
+                    activeTab = 'blog';
+                    router.get(route('home'), {}, { preserveScroll: true, replace: true, preserveState: true });
+                "
+            >
+                blog
+            </button>
+            <button
+                class="button"
+                data-type="ghost"
+                type="button"
+                :class="{ active: activeTab === 'feed' }"
+                @click="activeTab = 'feed'"
+            >
+                feed
+            </button>
+        </section>
+        
         <Head title="Welcome" />
-        <!-- above the fold -->
-        <section class="main-editorial-grid">
+
+        <section class="main-editorial-grid"
+            :class="{ 'active-layout': activeTab === 'blog' }"
+        >
             <MainPost
                 v-if="featuredPost?.length"
                 :featuredPost="featuredPost"
@@ -54,14 +92,16 @@ const { featuredPost, staffPosts, leaderboard, communityFeed } = props;
             />
         </section>
 
-        <!-- below the fold -->
-        <section class="community-grid" v-if="communityFeed?.data?.length">
+        <section
+            class="community-grid"
+            :class="{ 'active-layout': activeTab === 'feed' }"
+            v-if="communityFeed?.data?.length"
+        >
             <FilterCommunityPosts :order="props.order" />
             <MainCommunityFeed
                 :communityFeed="communityFeed"
                 :order="order"
             />
         </section>
-
     </SiteLayout>
 </template>
